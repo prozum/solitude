@@ -2,7 +2,7 @@
  * Uses a modified version of the guide found at http://www.codeproject.com/Articles/43438/Connect-C-to-MySQL
  * The database contains the fields Username, Password, Age
  * Database username is root with no password
- * /
+ */
 
 using System;
 using System.Collections.Generic;
