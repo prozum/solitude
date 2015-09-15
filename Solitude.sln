@@ -11,17 +11,24 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{A5CC0370-754F-4754-BB63-6234A0F1736F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "REST.Server", "Samples\REST.Server\REST.Server.csproj", "{7C7529CA-EFE8-4C0F-854C-44D9979EACCC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7C7529CA-EFE8-4C0F-854C-44D9979EACCC}.Debug|x86.ActiveCfg = Debug|x86
+		{7C7529CA-EFE8-4C0F-854C-44D9979EACCC}.Debug|x86.Build.0 = Debug|x86
+		{7C7529CA-EFE8-4C0F-854C-44D9979EACCC}.Release|x86.ActiveCfg = Release|x86
+		{7C7529CA-EFE8-4C0F-854C-44D9979EACCC}.Release|x86.Build.0 = Release|x86
 		{FA2C7C80-4F2B-42B1-BDB9-4E5924E63AC2}.Debug|x86.ActiveCfg = Debug|x86
 		{FA2C7C80-4F2B-42B1-BDB9-4E5924E63AC2}.Debug|x86.Build.0 = Debug|x86
 		{FA2C7C80-4F2B-42B1-BDB9-4E5924E63AC2}.Release|x86.ActiveCfg = Release|x86
 		{FA2C7C80-4F2B-42B1-BDB9-4E5924E63AC2}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{7C7529CA-EFE8-4C0F-854C-44D9979EACCC} = {A5CC0370-754F-4754-BB63-6234A0F1736F}
 	EndGlobalSection
 EndGlobal
