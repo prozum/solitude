@@ -3,6 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Solitude.Server", "Solitude.Server\Solitude.Server.csproj", "{FA2C7C80-4F2B-42B1-BDB9-4E5924E63AC2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{CEA99D0B-6C79-4884-8707-06DD53F32FF2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{03BB9345-4350-464E-A525-B26931F65BAF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{124D7D49-FAD7-45BA-9F84-8302D55E6C90}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{A5CC0370-754F-4754-BB63-6234A0F1736F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,5 +21,7 @@ Global
 		{FA2C7C80-4F2B-42B1-BDB9-4E5924E63AC2}.Debug|x86.Build.0 = Debug|x86
 		{FA2C7C80-4F2B-42B1-BDB9-4E5924E63AC2}.Release|x86.ActiveCfg = Release|x86
 		{FA2C7C80-4F2B-42B1-BDB9-4E5924E63AC2}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
 EndGlobal
