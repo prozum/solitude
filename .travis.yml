@@ -1,0 +1,11 @@
+language: csharp
+solution: Solitude.sln
+
+install:
+  - nuget restore Solitude.sln
+
+script:
+  - xbuild /p:Configuration=Release Solitude.sln
+
+notifications:
+  email: false
