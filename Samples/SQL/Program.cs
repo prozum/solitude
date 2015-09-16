@@ -14,14 +14,14 @@ namespace SQL
 {
 	class Program
 	{
-		static void Main (string[] args)
+		static void Main(string[] args)
 		{
-			DBConnect db = new DBConnect ();
-			db.Insert ("user1", "passwd1", 1);
-			db.Insert ("user2", "passwd2", 2);
-			db.Insert ("user3", "passwd3", 3);
-			db.Update ("user2", "passwd4");
-			db.Delete ("user3");
+			DBConnect db = new DBConnect();
+			db.Insert("user1", "passwd1", 1);
+			db.Insert("user2", "passwd2", 2);
+			db.Insert("user3", "passwd3", 3);
+			db.Update("user2", "passwd4");
+			db.Delete("user3");
 		}
 	}
 }
