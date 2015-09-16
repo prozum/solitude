@@ -4,7 +4,16 @@
 
 An application to help people
 
-CodingStyle
+
+Commit Style
+--------------------
+sln: force unix line endings
+readme: add coding style example
+samples/sql: added a sql sample
+tests/gui.test: fix test
+lib/gui: add new widget
+
+Coding Style
 --------------------
 Indentation: tab
 
