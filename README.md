@@ -17,6 +17,13 @@ Coding Style
 --------------------
 Indentation: tab
 
+### Case
+- camelCase: private, arguments
+- PascalCase: public,protected,internal
+
+### Arguments
+For method definitions longer that 80 characters the arguments should be divided to more lines.
+
 ### Example
 ```C#
 
@@ -24,13 +31,14 @@ namespace Example
 {
     public class ExampleClass
     {
-        private ExampleProperty
-        {
-            set;
-            get;
-        }
+        Public int ExamplePublic { set; get; }
+        private int examplePrivate { set; get; }
 
-        public ExampleClass(int argOne)
+        public ExampleClass(int argOne,
+                            int argTwo,
+                            int argThree,
+                            int argFour,
+                            int argFive)
         {
             var localVar = argOne;
         }
