@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-VisualStudioVersion = 12.0.30501.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Solitude.Server", "Solitude.Server\Solitude.Server.csproj", "{FA2C7C80-4F2B-42B1-BDB9-4E5924E63AC2}"
 EndProject
@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "REST.Server", "Samples\REST
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQL", "Samples\SQL\SQL.csproj", "{18FAF93B-30BA-4967-8989-FD9310C9E549}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloNiclas", "ConsoleApplication1\HelloNiclas.csproj", "{AF3C0171-DF25-4B38-B443-852633D95A4B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,26 +29,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{18FAF93B-30BA-4967-8989-FD9310C9E549}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{18FAF93B-30BA-4967-8989-FD9310C9E549}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{18FAF93B-30BA-4967-8989-FD9310C9E549}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{18FAF93B-30BA-4967-8989-FD9310C9E549}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{18FAF93B-30BA-4967-8989-FD9310C9E549}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{18FAF93B-30BA-4967-8989-FD9310C9E549}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{18FAF93B-30BA-4967-8989-FD9310C9E549}.Release|Any CPU.Build.0 = Release|Any CPU
-		{18FAF93B-30BA-4967-8989-FD9310C9E549}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{18FAF93B-30BA-4967-8989-FD9310C9E549}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{18FAF93B-30BA-4967-8989-FD9310C9E549}.Release|x86.ActiveCfg = Release|Any CPU
-		{7C7529CA-EFE8-4C0F-854C-44D9979EACCC}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{7C7529CA-EFE8-4C0F-854C-44D9979EACCC}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{7C7529CA-EFE8-4C0F-854C-44D9979EACCC}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{7C7529CA-EFE8-4C0F-854C-44D9979EACCC}.Debug|x86.ActiveCfg = Debug|x86
-		{7C7529CA-EFE8-4C0F-854C-44D9979EACCC}.Debug|x86.Build.0 = Debug|x86
-		{7C7529CA-EFE8-4C0F-854C-44D9979EACCC}.Release|Any CPU.ActiveCfg = Release|x86
-		{7C7529CA-EFE8-4C0F-854C-44D9979EACCC}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{7C7529CA-EFE8-4C0F-854C-44D9979EACCC}.Release|Mixed Platforms.Build.0 = Release|x86
-		{7C7529CA-EFE8-4C0F-854C-44D9979EACCC}.Release|x86.ActiveCfg = Release|x86
-		{7C7529CA-EFE8-4C0F-854C-44D9979EACCC}.Release|x86.Build.0 = Release|x86
 		{FA2C7C80-4F2B-42B1-BDB9-4E5924E63AC2}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{FA2C7C80-4F2B-42B1-BDB9-4E5924E63AC2}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{FA2C7C80-4F2B-42B1-BDB9-4E5924E63AC2}.Debug|Mixed Platforms.Build.0 = Debug|x86
@@ -57,14 +39,50 @@ Global
 		{FA2C7C80-4F2B-42B1-BDB9-4E5924E63AC2}.Release|Mixed Platforms.Build.0 = Release|x86
 		{FA2C7C80-4F2B-42B1-BDB9-4E5924E63AC2}.Release|x86.ActiveCfg = Release|x86
 		{FA2C7C80-4F2B-42B1-BDB9-4E5924E63AC2}.Release|x86.Build.0 = Release|x86
+		{7C7529CA-EFE8-4C0F-854C-44D9979EACCC}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{7C7529CA-EFE8-4C0F-854C-44D9979EACCC}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{7C7529CA-EFE8-4C0F-854C-44D9979EACCC}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{7C7529CA-EFE8-4C0F-854C-44D9979EACCC}.Debug|x86.ActiveCfg = Debug|x86
+		{7C7529CA-EFE8-4C0F-854C-44D9979EACCC}.Debug|x86.Build.0 = Debug|x86
+		{7C7529CA-EFE8-4C0F-854C-44D9979EACCC}.Release|Any CPU.ActiveCfg = Release|x86
+		{7C7529CA-EFE8-4C0F-854C-44D9979EACCC}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{7C7529CA-EFE8-4C0F-854C-44D9979EACCC}.Release|Mixed Platforms.Build.0 = Release|x86
+		{7C7529CA-EFE8-4C0F-854C-44D9979EACCC}.Release|x86.ActiveCfg = Release|x86
+		{7C7529CA-EFE8-4C0F-854C-44D9979EACCC}.Release|x86.Build.0 = Release|x86
+		{18FAF93B-30BA-4967-8989-FD9310C9E549}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18FAF93B-30BA-4967-8989-FD9310C9E549}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18FAF93B-30BA-4967-8989-FD9310C9E549}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{18FAF93B-30BA-4967-8989-FD9310C9E549}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{18FAF93B-30BA-4967-8989-FD9310C9E549}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{18FAF93B-30BA-4967-8989-FD9310C9E549}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18FAF93B-30BA-4967-8989-FD9310C9E549}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18FAF93B-30BA-4967-8989-FD9310C9E549}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{18FAF93B-30BA-4967-8989-FD9310C9E549}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{18FAF93B-30BA-4967-8989-FD9310C9E549}.Release|x86.ActiveCfg = Release|Any CPU
+		{AF3C0171-DF25-4B38-B443-852633D95A4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF3C0171-DF25-4B38-B443-852633D95A4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF3C0171-DF25-4B38-B443-852633D95A4B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{AF3C0171-DF25-4B38-B443-852633D95A4B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{AF3C0171-DF25-4B38-B443-852633D95A4B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AF3C0171-DF25-4B38-B443-852633D95A4B}.Debug|x86.Build.0 = Debug|Any CPU
+		{AF3C0171-DF25-4B38-B443-852633D95A4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF3C0171-DF25-4B38-B443-852633D95A4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF3C0171-DF25-4B38-B443-852633D95A4B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{AF3C0171-DF25-4B38-B443-852633D95A4B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{AF3C0171-DF25-4B38-B443-852633D95A4B}.Release|x86.ActiveCfg = Release|Any CPU
+		{AF3C0171-DF25-4B38-B443-852633D95A4B}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{7C7529CA-EFE8-4C0F-854C-44D9979EACCC} = {A5CC0370-754F-4754-BB63-6234A0F1736F}
 		{18FAF93B-30BA-4967-8989-FD9310C9E549} = {A5CC0370-754F-4754-BB63-6234A0F1736F}
+		{AF3C0171-DF25-4B38-B443-852633D95A4B} = {A5CC0370-754F-4754-BB63-6234A0F1736F}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0
-		$0.TextStylePolicy = $1
+		$0.TextStylePolicy = $6
 		$1.TabsToSpaces = False
 		$1.EolMarker = Unix
 		$1.inheritsSet = VisualStudio
@@ -98,30 +116,23 @@ Global
 		$2.inheritsSet = Mono
 		$2.inheritsScope = text/x-csharp
 		$2.scope = text/x-csharp
-		$0.TextStylePolicy = $3
 		$3.FileWidth = 120
 		$3.TabsToSpaces = False
 		$3.inheritsSet = VisualStudio
 		$3.inheritsScope = text/plain
 		$3.scope = text/plain
-		$0.TextStylePolicy = $4
 		$4.inheritsSet = null
 		$4.scope = application/config+xml
-		$0.XmlFormattingPolicy = $5
+		$0.XmlFormattingPolicy = $7
 		$5.inheritsSet = null
 		$5.scope = application/config+xml
-		$0.TextStylePolicy = $6
 		$6.inheritsSet = null
 		$6.scope = application/xml
-		$0.XmlFormattingPolicy = $7
 		$7.inheritsSet = Mono
 		$7.inheritsScope = application/xml
 		$7.scope = application/xml
 		$0.StandardHeader = $8
 		$8.Text = 
 		$8.IncludeInNewFiles = True
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal
