@@ -3,3 +3,28 @@
 # solitude
 
 An application to help people
+
+CodingStyle
+--------------------
+Indentation: tab
+
+### Example
+```C#
+
+namespace Example
+{
+    public class ExampleClass
+    {
+        private ExampleProperty
+        {
+            set;
+            get;
+        }
+
+        public ExampleClass(int argOne)
+        {
+            var localVar = argOne;
+        }
+    }
+}
+```
