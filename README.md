@@ -18,7 +18,7 @@ Coding Style
 Indentation: tab
 
 ### Case
-- camelCase: private, arguments
+- camelCase: private,local
 - PascalCase: public,protected,internal
 
 ### Arguments
