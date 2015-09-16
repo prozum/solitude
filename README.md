@@ -31,7 +31,7 @@ namespace Example
 {
     public class ExampleClass
     {
-        Public int ExamplePublic { set; get; }
+        public int ExamplePublic { set; get; }
         private int examplePrivate { set; get; }
 
         public ExampleClass(int argOne,
