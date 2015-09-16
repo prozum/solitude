@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Solitude.Server", "Solitude.Server\Solitude.Server.csproj", "{FA2C7C80-4F2B-42B1-BDB9-4E5924E63AC2}"
 EndProject
@@ -16,8 +16,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "REST.Server", "Samples\REST.Server\REST.Server.csproj", "{7C7529CA-EFE8-4C0F-854C-44D9979EACCC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQL", "Samples\SQL\SQL.csproj", "{18FAF93B-30BA-4967-8989-FD9310C9E549}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloNiclas", "ConsoleApplication1\HelloNiclas.csproj", "{AF3C0171-DF25-4B38-B443-852633D95A4B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,18 +57,6 @@ Global
 		{18FAF93B-30BA-4967-8989-FD9310C9E549}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{18FAF93B-30BA-4967-8989-FD9310C9E549}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{18FAF93B-30BA-4967-8989-FD9310C9E549}.Release|x86.ActiveCfg = Release|Any CPU
-		{AF3C0171-DF25-4B38-B443-852633D95A4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AF3C0171-DF25-4B38-B443-852633D95A4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AF3C0171-DF25-4B38-B443-852633D95A4B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{AF3C0171-DF25-4B38-B443-852633D95A4B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{AF3C0171-DF25-4B38-B443-852633D95A4B}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{AF3C0171-DF25-4B38-B443-852633D95A4B}.Debug|x86.Build.0 = Debug|Any CPU
-		{AF3C0171-DF25-4B38-B443-852633D95A4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AF3C0171-DF25-4B38-B443-852633D95A4B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AF3C0171-DF25-4B38-B443-852633D95A4B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{AF3C0171-DF25-4B38-B443-852633D95A4B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{AF3C0171-DF25-4B38-B443-852633D95A4B}.Release|x86.ActiveCfg = Release|Any CPU
-		{AF3C0171-DF25-4B38-B443-852633D95A4B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -78,7 +64,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{7C7529CA-EFE8-4C0F-854C-44D9979EACCC} = {A5CC0370-754F-4754-BB63-6234A0F1736F}
 		{18FAF93B-30BA-4967-8989-FD9310C9E549} = {A5CC0370-754F-4754-BB63-6234A0F1736F}
-		{AF3C0171-DF25-4B38-B443-852633D95A4B} = {A5CC0370-754F-4754-BB63-6234A0F1736F}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0
