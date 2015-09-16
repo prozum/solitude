@@ -22,7 +22,7 @@ Indentation: tab
 - PascalCase: public,protected,internal
 
 ### Arguments
-For method definitions longer that 80 characters the arguments should be divided to more lines.
+For method definitions longer than 80 characters the arguments should be divided to one argument per line.
 
 ### Example
 ```C#
