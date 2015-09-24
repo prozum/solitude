@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Product App</title>
+</head>
+<body>
+
+    <div>
+        <h2>All Products</h2>
+        <ul id="products" />
+        <table id="prodTable">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Hygiene</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <h2>Search by Name</h2>
+        <input type="text" id="prodName" size="5" />
+        <input type="button" value="Search" onclick="find();" />
+        <p id="product" />
+    </div>
+
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+    <script>
+    var uri = 'api/products';
+
+    $(document).ready(function () {
+      // Send an AJAX request
+      $.getJSON(uri)
+          .done(function (data) {
+            // On success, 'data' contains a list of products.
+            $.each(data, function (key, item) {
+                // Add a list item for the product.
+                $("#prodTable").find('tbody')
+                    .append($('<tr>')
+                        .append($('<td>', { text: item.Id }))
+                        .append($('<td>', { text: item.Name }))
+                        .append($('<td>', { text: item.Category }))
+                        .append($('<td>', { text: item.Price }))
+                        .append($('<td>', { text: item.Hygiene }))
+                    );
+            });
+          });
+    });
+
+    function formatItem(item) {
+      return item.Name + ': $' + item.Price;
+    }
+
+    function find() {
+      var name = $('#prodName').val();
+      $.getJSON(uri + '/' + name)
+          .done(function (data) {
+            $('#product').text(formatItem(data));
+          })
+          .fail(function (jqXHR, textStatus, err) {
+            $('#product').text('Error: ' + err);
+          });
+    }
+    </script>
+</body>
+</html>
