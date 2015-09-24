@@ -17,8 +17,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQL", "Samples\SQL\SQL.cspr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OwinWebApi", "Samples\OwinWebApi\OwinWebApi.csproj", "{D07DEB52-9E3E-4571-9414-CF9C52E97BCC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "Samples\WebApi\WebApi.csproj", "{90AECD02-06AB-4619-830B-74059D2AE0FF}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,18 +37,6 @@ Global
 		{18FAF93B-30BA-4967-8989-FD9310C9E549}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{18FAF93B-30BA-4967-8989-FD9310C9E549}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{18FAF93B-30BA-4967-8989-FD9310C9E549}.Release|x86.ActiveCfg = Release|Any CPU
-		{90AECD02-06AB-4619-830B-74059D2AE0FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{90AECD02-06AB-4619-830B-74059D2AE0FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{90AECD02-06AB-4619-830B-74059D2AE0FF}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{90AECD02-06AB-4619-830B-74059D2AE0FF}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{90AECD02-06AB-4619-830B-74059D2AE0FF}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{90AECD02-06AB-4619-830B-74059D2AE0FF}.Debug|x86.Build.0 = Debug|Any CPU
-		{90AECD02-06AB-4619-830B-74059D2AE0FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{90AECD02-06AB-4619-830B-74059D2AE0FF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{90AECD02-06AB-4619-830B-74059D2AE0FF}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{90AECD02-06AB-4619-830B-74059D2AE0FF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{90AECD02-06AB-4619-830B-74059D2AE0FF}.Release|x86.ActiveCfg = Release|Any CPU
-		{90AECD02-06AB-4619-830B-74059D2AE0FF}.Release|x86.Build.0 = Release|Any CPU
 		{D07DEB52-9E3E-4571-9414-CF9C52E97BCC}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{D07DEB52-9E3E-4571-9414-CF9C52E97BCC}.Debug|Any CPU.Build.0 = Debug|x86
 		{D07DEB52-9E3E-4571-9414-CF9C52E97BCC}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
@@ -77,7 +63,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{18FAF93B-30BA-4967-8989-FD9310C9E549} = {A5CC0370-754F-4754-BB63-6234A0F1736F}
 		{D07DEB52-9E3E-4571-9414-CF9C52E97BCC} = {A5CC0370-754F-4754-BB63-6234A0F1736F}
-		{90AECD02-06AB-4619-830B-74059D2AE0FF} = {A5CC0370-754F-4754-BB63-6234A0F1736F}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0
