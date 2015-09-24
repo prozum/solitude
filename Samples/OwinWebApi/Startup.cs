@@ -25,8 +25,8 @@ namespace OwinWebApi
 				"DefaultApi",
 				"api/{controller}/{id}",
 				new { id = RouteParameter.Optional });
-			config.Formatters.Clear ();
-			config.Formatters.Add (new JsonMediaTypeFormatter ());
+		//	config.Formatters.Clear ();
+		//	config.Formatters.Add (new JsonMediaTypeFormatter ());
 			return config;
 		}
 	}
