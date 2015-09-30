@@ -15,7 +15,8 @@ Commit Style
 
 Coding Style
 --------------------
-Indentation: tab
+### Indentation
+- tab
 
 ### Case
 - camelCase: private,local
