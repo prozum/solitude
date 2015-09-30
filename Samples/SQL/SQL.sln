@@ -1,0 +1,17 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQL", "SQL.csproj", "{18FAF93B-30BA-4967-8989-FD9310C9E549}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{18FAF93B-30BA-4967-8989-FD9310C9E549}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18FAF93B-30BA-4967-8989-FD9310C9E549}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18FAF93B-30BA-4967-8989-FD9310C9E549}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18FAF93B-30BA-4967-8989-FD9310C9E549}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
