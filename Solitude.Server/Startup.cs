@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Owin;
+using Microsoft.Owin.Security.Facebook;
 using System.Web.Http;
 using System.Net.Http.Formatting;
 
@@ -15,6 +16,7 @@ namespace Solitude.Server
 		{
 			var webApiConfiguration = ConfigureWebApi ();
 			app.UseWebApi (webApiConfiguration);
+			app.UseFacebookAuthentication ("1654758468126707", "App Secret");
 		}
 
 		private HttpConfiguration ConfigureWebApi ()

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Owin.Hosting;
 using System;
 using System.Collections.Generic;
+using Microsoft.Owin.Security.Facebook;
 
 using System.Data.Entity;
 using System.Linq;
