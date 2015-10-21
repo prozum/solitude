@@ -9,7 +9,7 @@ namespace Solitude.Server
 		{
 			
 		}
-			
+
 		public List<Offer> FindMatch ()
 		{
 			throw new NotImplementedException ();
