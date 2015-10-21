@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Solitude.Server
 {
-	public class MatchingSystem : IMatch
+	public class MatchingSystem : IMatchingSystem
 	{
 		public MatchingSystem ()
 		{
