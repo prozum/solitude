@@ -8,8 +8,6 @@
     <RootNamespace>Solitude.Server</RootNamespace>
     <AssemblyName>Solitude.Server</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -50,6 +48,7 @@
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Package>monodevelop</Package>
     </Reference>
     <Reference Include="EntityFramework">
       <HintPath>packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
@@ -80,6 +79,13 @@
     <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\Event.cs" />
+    <Compile Include="Models\Host.cs" />
+    <Compile Include="Models\Guest.cs" />
+    <Compile Include="Models\Offer.cs" />
+    <Compile Include="Models\Match.cs" />
+    <Compile Include="Models\Review.cs" />
+    <Compile Include="Models\Registration.cs" />
+    <Compile Include="Models\Info.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
