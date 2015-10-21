@@ -23,7 +23,20 @@ namespace libgraph
 		public Vertex ()
 		{
 			id = _id++;
+		}
 
+		public int Degree
+		{
+			get
+			{
+				return Edges.Count;
+			}
+		}
+
+		public void Connect (Vertex n, string a)
+		{
+			Edges.Add (new Edge (this, n, a));
+			n.Edges.Add (new Edge (n, this, a));
 		}
 	}
 }
