@@ -86,6 +86,8 @@
     <Compile Include="Models\Review.cs" />
     <Compile Include="Models\Registration.cs" />
     <Compile Include="Models\Info.cs" />
+    <Compile Include="MatchingSystem\MatchingSystem.cs" />
+    <Compile Include="MatchingSystem\IMatch.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -95,5 +97,6 @@
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="Controllers\" />
+    <Folder Include="MatchingSystem\" />
   </ItemGroup>
 </Project>
