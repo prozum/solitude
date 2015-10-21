@@ -5,8 +5,8 @@ namespace Solitude.Server
 {
 	public interface IServerCommunication : IClientCommunication
 	{
-		List<Offer> SendMatch ();
-		List<Event> SendOwnEvents ();
+		void SendMatch (List<Offer> m);
+		void SendOwnEvents (List<Event> e);
 	}
 }
 
