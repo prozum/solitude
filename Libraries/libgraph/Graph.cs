@@ -7,6 +7,7 @@ namespace libgraph
 	{
 		List<CategoryVertex> categories = new List<CategoryVertex>();
 
+		/*
 		public List<CategoryVertex> Categories
 		{
 			get
@@ -14,6 +15,7 @@ namespace libgraph
 				return categories.AsReadOnly ();
 			}
 		}
+		*/
 
 		public Graph ()
 		{
