@@ -16,8 +16,18 @@ namespace DineWithaDane.Android
 		{
 			base.OnCreate (bundle);
 
+			int count = 0;
+
 			// Set our view from the "main" layout resource
 			SetContentView (Resource.Layout.Main);
+
+			var menuButton = FindViewById (Resource.Id.buttonMenu);
+			var dispText = FindViewById <TextView> (Resource.Id.textView1);
+			dispText.Text = count.ToString ();
+			menuButton.Click += (sender, e) => {
+				count++;
+				dispText.Text = count.ToString();
+			};
 		}
 	}
 }
