@@ -35,6 +35,10 @@
     <Compile Include="Vertex.cs" />
     <Compile Include="Edge.cs" />
     <Compile Include="Graph.cs" />
+    <Compile Include="EdgeAttribute.cs" />
+    <Compile Include="CategoryVertex.cs" />
+    <Compile Include="ContentVertex.cs" />
+    <Compile Include="DirectedEdge.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -5,7 +5,7 @@ namespace libgraph
 {
 	public class Vertex
 	{
-		// global id counter
+		// global id counter to make sure every vertex is a special little snowflake
 		static int _id = 0;
 
 		int id;
@@ -29,15 +29,14 @@ namespace libgraph
 		{
 			get
 			{
+				// the degree of a vertex is the number of edges
 				return Edges.Count;
 			}
 		}
 
-		public void Connect (Vertex n, string a)
+		public override bool Equals (object obj)
 		{
-			Edges.Add (new Edge (this, n, a));
-			n.Edges.Add (new Edge (n, this, a));
+			return ID == ((Vertex)obj).ID;
 		}
 	}
 }
-

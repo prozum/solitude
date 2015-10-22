@@ -4,16 +4,17 @@ namespace libgraph
 {
 	public class Edge
 	{
-		Vertex node1;
-		Vertex node2;
+		public readonly Vertex Node1;
+		public readonly Vertex Node2;
+		public readonly EdgeAttribute Attribute;
+		public readonly int Weight;
 
-		public readonly string Attribute;
-
-		public Edge (Vertex node1, Vertex node2, string a)
+		public Edge (Vertex node1, Vertex node2, EdgeAttribute a, int weight)
 		{
-			this.node1 = node1;
-			this.node2 = node2;
 			Attribute = a;
+			Weight = weight;
+			Node1 = node1;
+			Node2 = node2;
 		}
 	}
 }
