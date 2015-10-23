@@ -16,7 +16,7 @@ namespace Solitude.Server
 		{
 			var webApiConfiguration = ConfigureWebApi ();
 			app.UseWebApi (webApiConfiguration);
-			app.UseFacebookAuthentication ("1654758468126707", "App Secret");
+			app.UseFacebookAuthentication ("1654758468126707", "APP SECRET");
 		}
 
 		private HttpConfiguration ConfigureWebApi ()

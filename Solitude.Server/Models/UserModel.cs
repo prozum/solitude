@@ -2,13 +2,16 @@
 
 namespace Solitude.Server
 {
-	public class User
+	public class UserModel
 	{
+		public string UserName;
+		public string Password;
+
 		public Host H;
 		public Guest G;
 		public Info I;
 
-		public User ()
+		public UserModel ()
 		{
 		}
 	}

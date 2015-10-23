@@ -1,7 +1,6 @@
 ﻿using Microsoft.Owin.Hosting;
 using System;
 using System.Collections.Generic;
-using Microsoft.Owin.Security.Facebook;
 
 using System.Data.Entity;
 using System.Linq;
@@ -14,7 +13,7 @@ namespace Solitude.Server
 	{
 		static void Main (string[] args)
 		{
-			string baseUri = "http://localhost:8080";
+			string baseUri = "http://*:8080";
 
 			Console.WriteLine ("Starting web Server...");
 			WebApp.Start<Startup> (baseUri);

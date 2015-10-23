@@ -9,7 +9,7 @@ using System.Data.Entity;
 
 namespace Solitude.Server
 {
-	public class CustomerController : ApiController
+	public class EventController : ApiController
 	{
 
 		public IEnumerable<Event> Get ()
@@ -19,7 +19,7 @@ namespace Solitude.Server
 
 		public Event Get (int id)
 		{
-			return null;
+            return new Event() { Name = "FLAN", Description = "Lan party in Cassiopeia"};
 		}
 	}
 }

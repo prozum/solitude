@@ -1,22 +1,37 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
+using Microsoft.Owin.Security.OAuth;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Http;
+using System.Net;
 using System.Net.Http;
-using System.Data.Entity;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Http;
+
 namespace Solitude.Server
 {
 	public class UserController
 	{
-		public IEnumerable<User> Get ()
+
+		private AuthRepository _repo = null;
+
+		public UserController()
 		{
-			return null;
+			_repo = new AuthRepository();
 		}
 
-		public User Get (int id)
+		[AllowAnonymous]
+		[Route("register")]
+		public async Task<IHttpActionResult> Register(UserModel userModel)
 		{
+			IdentityResult result = await _repo.RegisterUser(userModel);
+
 			return null;
 		}
 	}
