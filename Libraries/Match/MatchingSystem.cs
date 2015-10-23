@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using GraphDB;
 
 namespace Match
 {
@@ -8,7 +10,7 @@ namespace Match
 		{
 		}
 
-		public List<Offer> FindMatch ()
+		public List<Offer> FindMatch (Guest g)
 		{
 			throw new NotImplementedException ();
 		}
