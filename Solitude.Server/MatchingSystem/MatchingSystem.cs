@@ -8,8 +8,8 @@ namespace Solitude.Server
 		public MatchingSystem ()
 		{
 		}
-			
-		public List<Offer> FindMatch (Guest g)
+
+		public List<Offer> FindMatch ()
 		{
 			throw new NotImplementedException ();
 		}

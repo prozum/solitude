@@ -3,11 +3,14 @@ using System.Collections.Generic;
 
 namespace Solitude.Server
 {
-	public interface IClientCommunication
+	public interface IServerCommunication
 	{
-		List<Offer> RequestMatch(User u);
-		//n is how many events
-		List<Event> GetOwnEvents(int n, bool NEWEST=true);
+		// sends offers to the user
+		void RequestMatch(User u);
+
+		//sends n events at max back to the user
+		void GetOwnEvents(int n, bool NEWEST=true);
+
 		void CreateUser (User u);
 		void UpdateUser (User u);
 		void DeleteUser (User u);
@@ -15,6 +18,8 @@ namespace Solitude.Server
 		void DeleteEvent (Event e);
 		void ReplyOffer (Offer o, bool a);
 		void CancelRegistration (Registration r);
+		void SendMatch (List<Offer> m);
+		void SendOwnEvents (List<Event> e);
 	}
 }
 
