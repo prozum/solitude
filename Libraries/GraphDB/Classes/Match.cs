@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Solitude.Server
+namespace GraphDB
 {
 	public class Match
 	{

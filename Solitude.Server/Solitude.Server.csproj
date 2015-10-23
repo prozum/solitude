@@ -8,8 +8,6 @@
     <RootNamespace>Solitude.Server</RootNamespace>
     <AssemblyName>Solitude.Server</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -97,11 +95,11 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\EventController.cs" />
-    <Compile Include="Controllers\IClientCommunication.cs" />
     <Compile Include="AuthContext.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="AuthRepository.cs" />
     <Compile Include="Models\EventModel.cs" />
+    <Compile Include="IClientCommunication.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -122,4 +120,10 @@
       </Properties>
     </MonoDevelop>
   </ProjectExtensions>
+  <ItemGroup>
+    <ProjectReference Include="..\Libraries\GraphDB\GraphDB.csproj">
+      <Project>{E096144E-C6A0-488A-A971-CFEA722CE86A}</Project>
+      <Name>GraphDB</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

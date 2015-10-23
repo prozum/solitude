@@ -1,12 +1,11 @@
 ﻿using System;
 
-namespace Solitude.Server
+namespace GraphDB
 {
 	public class Event
 	{
-        	public string Name;
-        	public string Description;
-
+        public string Name;
+        public string Description;
 	}
 }
 

@@ -5,9 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Solitude.Server", "Solitude
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{17813E89-6089-46C1-B0B9-0701DEF247CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libgraph", "Libraries\libgraph\libgraph.csproj", "{E096144E-C6A0-488A-A971-CFEA722CE86A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProblemArea", "Libraries\ProblemArea\ProblemArea.csproj", "{762F2EE5-32AB-4FE0-9444-4E4296D4432A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphDB", "Libraries\GraphDB\GraphDB.csproj", "{E096144E-C6A0-488A-A971-CFEA722CE86A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DineWithaDane.Android", "DineWithaDane.Android\DineWithaDane.Android.csproj", "{478310BE-22D3-4A3E-84EC-9716C50834D2}"
 EndProject
@@ -27,10 +25,6 @@ Global
 		{478310BE-22D3-4A3E-84EC-9716C50834D2}.Debug|x86.Build.0 = Debug|Any CPU
 		{478310BE-22D3-4A3E-84EC-9716C50834D2}.Release|x86.ActiveCfg = Release|Any CPU
 		{478310BE-22D3-4A3E-84EC-9716C50834D2}.Release|x86.Build.0 = Release|Any CPU
-		{762F2EE5-32AB-4FE0-9444-4E4296D4432A}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{762F2EE5-32AB-4FE0-9444-4E4296D4432A}.Debug|x86.Build.0 = Debug|Any CPU
-		{762F2EE5-32AB-4FE0-9444-4E4296D4432A}.Release|x86.ActiveCfg = Release|Any CPU
-		{762F2EE5-32AB-4FE0-9444-4E4296D4432A}.Release|x86.Build.0 = Release|Any CPU
 		{E096144E-C6A0-488A-A971-CFEA722CE86A}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{E096144E-C6A0-488A-A971-CFEA722CE86A}.Debug|x86.Build.0 = Debug|Any CPU
 		{E096144E-C6A0-488A-A971-CFEA722CE86A}.Release|x86.ActiveCfg = Release|Any CPU
@@ -42,6 +36,5 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E096144E-C6A0-488A-A971-CFEA722CE86A} = {17813E89-6089-46C1-B0B9-0701DEF247CD}
-		{762F2EE5-32AB-4FE0-9444-4E4296D4432A} = {17813E89-6089-46C1-B0B9-0701DEF247CD}
 	EndGlobalSection
 EndGlobal
