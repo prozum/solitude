@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 
-namespace Solitude.Server
+namespace Match
 {
 	public class MatchingSystem : IMatchingSystem
 	{

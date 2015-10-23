@@ -97,20 +97,11 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\EventController.cs" />
-    <Compile Include="Models\Event.cs" />
-    <Compile Include="Models\Host.cs" />
-    <Compile Include="Models\Guest.cs" />
-    <Compile Include="Models\Offer.cs" />
-    <Compile Include="Models\Match.cs" />
-    <Compile Include="Models\Review.cs" />
-    <Compile Include="Models\Registration.cs" />
-    <Compile Include="Models\Info.cs" />
-    <Compile Include="MatchingSystem\MatchingSystem.cs" />
     <Compile Include="Controllers\IClientCommunication.cs" />
-    <Compile Include="MatchingSystem\IMatchingSystem.cs" />
     <Compile Include="AuthContext.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="AuthRepository.cs" />
+    <Compile Include="Models\EventModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -120,7 +111,6 @@
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="Controllers\" />
-    <Folder Include="MatchingSystem\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

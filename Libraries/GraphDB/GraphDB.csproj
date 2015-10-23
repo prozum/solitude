@@ -8,6 +8,8 @@
     <RootNamespace>libgraph</RootNamespace>
     <AssemblyName>libgraph</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -39,6 +41,18 @@
     <Compile Include="CategoryVertex.cs" />
     <Compile Include="ContentVertex.cs" />
     <Compile Include="DirectedEdge.cs" />
+    <Compile Include="Classes\Event.cs" />
+    <Compile Include="Classes\Guest.cs" />
+    <Compile Include="Classes\Host.cs" />
+    <Compile Include="Classes\Info.cs" />
+    <Compile Include="Classes\Match.cs" />
+    <Compile Include="Classes\Offer.cs" />
+    <Compile Include="Classes\Registration.cs" />
+    <Compile Include="Classes\Review.cs" />
+    <Compile Include="Classes\User.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Classes\" />
+  </ItemGroup>
 </Project>
