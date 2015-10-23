@@ -7,9 +7,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphDB", "Libraries\GraphDB\GraphDB.csproj", "{E096144E-C6A0-488A-A971-CFEA722CE86A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DineWithaDane.Android", "DineWithaDane.Android\DineWithaDane.Android.csproj", "{478310BE-22D3-4A3E-84EC-9716C50834D2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Solitude.Android", "Solitude.Android\Solitude.Android.csproj", "{478310BE-22D3-4A3E-84EC-9716C50834D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DineWithaDane.Android.UITests", "DineWithaDane.Android.UITests\DineWithaDane.Android.UITests.csproj", "{07883476-DB05-43D1-B136-45D956242800}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Solitude.Android.UITests", "Solitude.Android.UITests\Solitude.Android.UITests.csproj", "{07883476-DB05-43D1-B136-45D956242800}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

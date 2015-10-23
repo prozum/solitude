@@ -6,7 +6,7 @@ using Xamarin.UITest;
 using Xamarin.UITest.Android;
 using Xamarin.UITest.Queries;
 
-namespace DineWithaDane.Android.UITests
+namespace Solitude.Android.UITests
 {
 	[TestFixture]
 	public class Tests

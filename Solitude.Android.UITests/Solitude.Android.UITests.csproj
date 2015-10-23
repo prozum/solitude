@@ -41,14 +41,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\DineWithaDane.Android\DineWithaDane.Android.csproj">
-      <Project>{478310BE-22D3-4A3E-84EC-9716C50834D2}</Project>
-      <Name>DineWithaDane.Android</Name>
-      <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
-      <Private>False</Private>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
 </Project>

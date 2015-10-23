@@ -7,9 +7,9 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 
-namespace DineWithaDane.Android
+namespace Solitude.Android
 {
-	[Activity (Label = "DineWithaDane.Android", MainLauncher = true, Theme = "@android:style/Theme.DeviceDefault.NoActionBar")]
+	[Activity (Label = "Solitude.Android", MainLauncher = true, Theme = "@android:style/Theme.DeviceDefault.NoActionBar")]
 	public class MainActivity : Activity
 	{
 		protected override void OnCreate (Bundle bundle)
