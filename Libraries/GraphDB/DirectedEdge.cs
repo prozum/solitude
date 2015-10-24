@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace libgraph
+namespace GraphDB
 {
 	public class DirectedEdge : Edge
 	{
@@ -10,4 +10,3 @@ namespace libgraph
 		}
 	}
 }
-

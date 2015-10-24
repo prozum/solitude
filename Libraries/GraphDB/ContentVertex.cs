@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace libgraph
+namespace GraphDB
 {
 	public class ContentVertex : Vertex
 	{

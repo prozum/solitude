@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 
-namespace libgraph
+namespace GraphDB
 {
 	public class CategoryVertex : Vertex
 	{
-		public CategoryVertex () : base()
+		public readonly Category CategoryName; 
+
+		public CategoryVertex (Category c) : base()
 		{
+			CategoryName = c;
 		}
 	}
 }
-

@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{E096144E-C6A0-488A-A971-CFEA722CE86A}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>libgraph</RootNamespace>
+    <RootNamespace>GraphDB</RootNamespace>
     <AssemblyName>libgraph</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
@@ -48,6 +48,7 @@
     <Compile Include="Classes\Registration.cs" />
     <Compile Include="Classes\Review.cs" />
     <Compile Include="Classes\User.cs" />
+    <Compile Include="Category.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

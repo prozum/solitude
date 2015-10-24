@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace libgraph
+namespace GraphDB
 {
 	public class Graph
 	{
@@ -27,7 +27,7 @@ namespace libgraph
 			categories.Add (c);
 		}
 
-		public void AddVertexToCategory(ContentVertex v, CategoryVertex c, EdgeAttribute a, int weight)
+		public void AddVertexToCategory(Vertex v, CategoryVertex c, EdgeAttribute a, int weight)
 		{
 			v.Edges.Add (new Edge(v, c, a, weight));
 			c.Edges.Add (new Edge(c, v, a, weight));

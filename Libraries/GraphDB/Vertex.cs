@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace libgraph
+namespace GraphDB
 {
 	public class Vertex
 	{
