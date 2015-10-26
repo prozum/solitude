@@ -1,28 +1,54 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace GraphDB
 {
-	public class DAL : IDAL
+	public class UserEnum : IEnumerator
 	{
-		public DAL () 
+		public UserEnum()
 		{
 			
+		}
+	}
+
+	public class DAL : IDAL
+	{
+		Graph graph;
+
+		public DAL (Graph g) 
+		{
+			graph = g;
 		}
 
 		public IEnumerable<User> GetUsers ()
 		{
-			throw new NotImplementedException ();
+			List<Edge> e = graph.SearchCategory (Category.USERS).Edges;
+			List<User> u = new List<User> ();
+
+			foreach (var edge in e)
+			{
+				u.Add(edge.Node2);
+			}
+
+			return u.GetEnumerator ();
 		}
 
 		public IEnumerable<Event> GetEvents ()
 		{
-			throw new NotImplementedException ();
+			List<Edge> e = graph.SearchCategory (Category.EVENT).Edges;
+			List<Event> u = new List<Event> ();
+
+			foreach (var edge in e)
+			{
+				u.Add (edge.Node2);
+			}
+
 		}
 	
 		public IEnumerable<CategoryVertex> GetCategories ()
 		{
-			throw new NotImplementedException ();
+			return graph.Categories.GetEnumerator ();
 		}
 
 		public bool AddUser (User u)
@@ -55,17 +81,22 @@ namespace GraphDB
 			throw new NotImplementedException ();
 		}
 
-		public bool AddCategory (Graph g, Category c)
+		public bool AddCategory (Category c)
 		{
 			throw new NotImplementedException ();
 		}
 
-		public bool AddCategory (Graph g, Category c, Category sc)
+		public bool AddCategory (Category c, Category sc)
 		{
 			throw new NotImplementedException ();
 		}
 
-		public bool DeleteCategory (Graph g, Category c)
+		public bool DeleteCategory (Category c)
+		{
+			throw new NotImplementedException ();
+		}
+
+		public bool DeleteCategory (Category c, Category sc)
 		{
 			throw new NotImplementedException ();
 		}
@@ -81,4 +112,4 @@ namespace GraphDB
 		}
 	}
 }
-
+	

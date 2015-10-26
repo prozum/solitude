@@ -39,7 +39,6 @@ namespace GraphDB
 		{
 			List<Edge> ce = cv.Edges.FindAll (e => e.Node2.GetType() == typeof(CategoryVertex));
 			return (CategoryVertex)ce.Find (e => ((CategoryVertex)(e.Node2)).CategoryName == c).Node2;
-			//return ce.Find (v => ((CategoryVertex)(v.Node2)).CategoryName == c);
 		}
 
 		public void AddEdge(ContentVertex v, ContentVertex w, EdgeAttribute a, int weight)

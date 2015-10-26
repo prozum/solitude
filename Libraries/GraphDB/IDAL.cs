@@ -17,9 +17,10 @@ namespace GraphDB
 		bool DeleteEvent (Event e);
 		bool UpdateEvent (Event e);
 
-		bool AddCategory (Graph g, Category c);
-		bool AddCategory (Graph g, Category c, Category sc);
-		bool DeleteCategory (Graph g, Category c);
+		bool AddCategory (Category c);
+		bool AddCategory (Category c, Category sc);
+		bool DeleteCategory (Category c);
+		bool DeleteCategory (Category c, Category sc);
 
 		bool AddMatch (User u, Match m);
 		bool DeleteMatch (Match m);
