@@ -38,5 +38,10 @@ namespace GraphDB
 		{
 			return ID == ((Vertex)obj).ID;
 		}
+
+		public override int GetHashCode ()
+		{
+			return ID.GetHashCode ();
+		}
 	}
 }
