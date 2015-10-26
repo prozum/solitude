@@ -7,16 +7,6 @@ namespace GraphDB
 	{
 		List<CategoryVertex> categories = new List<CategoryVertex>();
 
-		/*
-		public List<CategoryVertex> Categories
-		{
-			get
-			{
-				return categories.AsReadOnly ();
-			}
-		}
-		*/
-
 		public Graph ()
 		{
 			
@@ -38,6 +28,18 @@ namespace GraphDB
 			v.Edges.RemoveAll (e => e.Node2 == c);
 			c.Edges.RemoveAll (e => e.Node2 == v);
 		}
+			
+		public CategoryVertex SearchCategory(Category c)
+		{
+			return categories.Find (cc => c == cc);
+		}
+
+		//find a category from a given CategoryVertex cv
+		public CategoryVertex SearchCategory(CategoryVertex cv, Category c)
+		{
+			List<CategoryVertex> ce = cv.Edges.FindAll (v => v.Node2.GetType() == typeof(CategoryVertex));
+			return ce.Find (v => v.CategoryName == c);
+		}
 
 		public void AddEdge(ContentVertex v, ContentVertex w, EdgeAttribute a, int weight)
 		{
@@ -50,8 +52,6 @@ namespace GraphDB
 			v.Edges.RemoveAll (e => e.Node2 == w);
 			w.Edges.RemoveAll (e => e.Node2 == v);
 		}
-
-		//public List<ContentVertex> 
 
 		public bool TestEdge(Vertex v, Vertex w)
 		{

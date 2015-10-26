@@ -49,6 +49,8 @@
     <Compile Include="Classes\Review.cs" />
     <Compile Include="Classes\User.cs" />
     <Compile Include="Category.cs" />
+    <Compile Include="DAL.cs" />
+    <Compile Include="IDAL.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
