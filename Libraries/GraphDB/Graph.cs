@@ -5,7 +5,7 @@ namespace GraphDB
 {
 	public class Graph
 	{
-		List<CategoryVertex> categories = new List<CategoryVertex>();
+		public List<CategoryVertex> Categories = new List<CategoryVertex>();
 
 		public Graph ()
 		{
@@ -14,7 +14,7 @@ namespace GraphDB
 
 		public void AddCategory(CategoryVertex c)
 		{
-			categories.Add (c);
+			Categories.Add (c);
 		}
 
 		public void AddVertexToCategory(Vertex v, CategoryVertex c, EdgeAttribute a, int weight)
@@ -31,7 +31,7 @@ namespace GraphDB
 
 		public CategoryVertex SearchCategory(Category c)
 		{
-			return categories.Find (cc => c == cc.CategoryName);
+			return Categories.Find (cc => c == cc.CategoryName);
 		}
 
 		//find a category from a given CategoryVertex cv
@@ -60,6 +60,34 @@ namespace GraphDB
 				return true;
 			} else {
 				return false;
+			}
+		}
+
+		//returns distance of two neighbors
+		public int CalcDist(Vertex v, Vertex w)
+		{
+			if (!TestEdge(v, w))
+			{
+				throw new Exception ();
+			} else {
+				return v.Edges.Find (e => e.Node2 == w).Weight;
+			}
+		}
+
+		//tests if two vertices are in same category
+		public bool TestBridge(CategoryVertex c, Vertex v, Vertex w)
+		{
+			return this.TestEdge (c, v) && this.TestEdge (cv, w);
+		}
+
+		//only calculates distance for a single category vertex
+		public int CalcBridgeDist(CategoryVertex c, Vertex v, Vertex w)
+		{
+			if (TestBridge(c, v, w))
+			{
+				return this.CalcDist(c, v) + this.CalcDist(c, w);
+			} else {
+				throw new Exception ();
 			}
 		}
 	}
