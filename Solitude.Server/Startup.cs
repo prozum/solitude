@@ -7,6 +7,7 @@ using Owin;
 using Microsoft.Owin.Security.Facebook;
 using System.Web.Http;
 using System.Net.Http.Formatting;
+using Owin.Security.AesDataProtectorProvider;
 
 namespace Solitude.Server
 {
@@ -16,7 +17,9 @@ namespace Solitude.Server
 		{
 			var webApiConfiguration = ConfigureWebApi ();
 			app.UseWebApi (webApiConfiguration);
+            app.UseExternalSignInCookie();
 			app.UseFacebookAuthentication ("1654758468126707", "APP SECRET");
+            app.UseAesDataProtectorProvider();
 		}
 
 		private HttpConfiguration ConfigureWebApi ()
