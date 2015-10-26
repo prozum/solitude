@@ -28,17 +28,18 @@ namespace GraphDB
 			v.Edges.RemoveAll (e => e.Node2 == c);
 			c.Edges.RemoveAll (e => e.Node2 == v);
 		}
-			
+
 		public CategoryVertex SearchCategory(Category c)
 		{
-			return categories.Find (cc => c == cc);
+			return categories.Find (cc => c == cc.CategoryName);
 		}
 
 		//find a category from a given CategoryVertex cv
 		public CategoryVertex SearchCategory(CategoryVertex cv, Category c)
 		{
-			List<CategoryVertex> ce = cv.Edges.FindAll (v => v.Node2.GetType() == typeof(CategoryVertex));
-			return ce.Find (v => v.CategoryName == c);
+			List<Edge> ce = cv.Edges.FindAll (e => e.Node2.GetType() == typeof(CategoryVertex));
+			return (CategoryVertex)ce.Find (e => ((CategoryVertex)(e.Node2)).CategoryName == c).Node2;
+			//return ce.Find (v => ((CategoryVertex)(v.Node2)).CategoryName == c);
 		}
 
 		public void AddEdge(ContentVertex v, ContentVertex w, EdgeAttribute a, int weight)
