@@ -13,18 +13,45 @@ namespace GraphDB
 			graph = g;
 		}
 
+
 		public IEnumerable<User> GetUsers ()
 		{
+			/*
+			var e = graph.Categories[Category.USERS].Edges;
+			var u = new Dictionary<Vertex, Edge> ();
+
+			foreach (var edge in e.Values)
+			{
+				u.Add(edge.Node2, edge);
+			}
+
+			return u.GetEnumerator ();
+			*/
+
 			throw new NotImplementedException ();
 		}
 
 		public IEnumerable<Event> GetEvents ()
 		{
+			/*
+			var e = graph.Categories[Category.EVENT].Edges;
+			var u = new Dictionary<Vertex, Edge> ();
+
+			foreach (var edge in e.Values)
+			{
+				u.Add (edge.Node2, edge);
+			}
+
+			return u.GetEnumerator ();
+			*/
+
 			throw new NotImplementedException ();
 		}
 	
 		public IEnumerable<CategoryVertex> GetCategories ()
 		{
+			//return graph.Categories.GetEnumerator ();
+
 			throw new NotImplementedException ();
 		}
 
