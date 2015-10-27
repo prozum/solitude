@@ -9,7 +9,6 @@ namespace GraphDB
 
 		public Graph ()
 		{
-			
 		}
 
 		public Graph (Dictionary<Category, CategoryVertex> c)
@@ -76,8 +75,6 @@ namespace GraphDB
 				return null;
 			}
 		}
-
-
 	}
 }
 

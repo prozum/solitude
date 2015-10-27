@@ -4,11 +4,16 @@ namespace GraphDB
 {
 	public class ContentVertex : Vertex
 	{
-		public readonly Object Content;
+		readonly Object _content;
 
 		public ContentVertex (Object content) : base()
 		{
-			Content = content;
+			_content = content;
+		}
+
+		public T GetContent<T> ()
+		{
+			return (T)_content;
 		}
 	}
 }

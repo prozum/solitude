@@ -41,7 +41,6 @@ namespace Solitude.Server
 		{
 			_ctx.Dispose();
 			_userManager.Dispose();
-
 		}
 	}
 }

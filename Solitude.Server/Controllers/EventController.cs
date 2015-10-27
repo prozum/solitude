@@ -11,15 +11,14 @@ namespace Solitude.Server
 {
 	public class EventController : ApiController
 	{
-
-		public IEnumerable<Event> Get ()
+		public IEnumerable<EventModel> Get ()
 		{
 			return null;
 		}
 
-		public Event Get (int id)
+		public EventModel Get (int id)
 		{
-            return new Event() { Name = "FLAN", Description = "Lan party in Cassiopeia"};
+            return new EventModel() { ID = id, Name = "FLAN", Description = "Lan party in Cassiopeia"};
 		}
 	}
 }
