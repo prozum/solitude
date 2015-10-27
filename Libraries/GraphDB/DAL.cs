@@ -21,7 +21,8 @@ namespace GraphDB
 
 		public IEnumerator<Vertex> GetHostNodes ()
 		{
-			return graph.Categories[Category.USERS].Edges.Where(x => x.Value.Attribute == EdgeAttribute.HOSTS_EVENT).GetEnumerator ();
+			return graph.Categories[Category.USERS].Edges.Where(x => x.Value.Attribute == EdgeAttribute.HOSTS_EVENT)
+														.ToDictionary(i => i.Key, i => i.Value).Keys.GetEnumerator();
 		}
 
 		public IEnumerator<Vertex> GetEventNodes ()
