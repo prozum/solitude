@@ -8,12 +8,12 @@ namespace Solitude.Server
 	{
 		List<Offer> RequestMatch(User u);
 		//n is how many events
-		List<Event> GetOwnEvents(int n, bool NEWEST=true);
+		List<EventModel> GetOwnEvents(int n, bool NEWEST=true);
 		void CreateUser (User u);
 		void UpdateUser (User u);
 		void DeleteUser (User u);
-		void UpdateEvent (Event e);
-		void DeleteEvent (Event e);
+		void UpdateEvent (EventModel e);
+		void DeleteEvent (EventModel e);
 		void ReplyOffer (Offer o, bool a);
 		void CancelRegistration (Registration r);
 	}

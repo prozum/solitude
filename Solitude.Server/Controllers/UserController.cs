@@ -16,9 +16,8 @@ using System.Web.Http;
 
 namespace Solitude.Server
 {
-	public class UserController
+    public class UserController : ApiController
 	{
-
 		private AuthRepository _repo = null;
 
 		public UserController()
@@ -34,6 +33,14 @@ namespace Solitude.Server
 
 			return null;
 		}
+
+        [Route("login")]
+        public async Task<IHttpActionResult> Get (UserModel user)
+        {
+            var result = await _repo.FindUser(user.UserName, user.Password);
+
+            return null;
+        }
 	}
 }
 

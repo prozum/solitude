@@ -5,16 +5,15 @@ namespace GraphDB
 {
 	public class Graph
 	{
-		List<CategoryVertex> categories = new List<CategoryVertex>();
+		public List<CategoryVertex> Categories = new List<CategoryVertex>();
 
 		public Graph ()
 		{
-			
 		}
 
 		public void AddCategory(CategoryVertex c)
 		{
-			categories.Add (c);
+			Categories.Add (c);
 		}
 
 		public void AddVertexToCategory(Vertex v, CategoryVertex c, EdgeAttribute a, int weight)
@@ -31,7 +30,7 @@ namespace GraphDB
 
 		public CategoryVertex SearchCategory(Category c)
 		{
-			return categories.Find (cc => c == cc.CategoryName);
+			return Categories.Find (cc => c == cc.CategoryName);
 		}
 
 		//find a category from a given CategoryVertex cv

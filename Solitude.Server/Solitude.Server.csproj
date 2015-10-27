@@ -100,6 +100,8 @@
     <Compile Include="AuthRepository.cs" />
     <Compile Include="Models\EventModel.cs" />
     <Compile Include="IClientCommunication.cs" />
+    <Compile Include="Controllers\ReviewController.cs" />
+    <Compile Include="Controllers\MatchController.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

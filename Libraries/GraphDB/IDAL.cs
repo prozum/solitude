@@ -5,9 +5,10 @@ namespace GraphDB
 {
 	public interface IDAL
 	{
-		IEnumerable<User> GetUsers ();
-		IEnumerable<Event> GetEvents ();
-		IEnumerable<CategoryVertex> GetCategories ();
+        IEnumerable<User> GetUsers ();
+        IEnumerable<Event> GetEvents ();
+        IEnumerable<CategoryVertex> GetCategories ();
+
 
 		bool AddUser (User u);
 		bool DeleteUser (User u);
