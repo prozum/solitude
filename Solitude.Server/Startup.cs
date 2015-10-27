@@ -4,35 +4,50 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Owin;
+using Owin.Security.AesDataProtectorProvider;
+using Microsoft.Owin;
+using Microsoft.AspNet.Identity;
+using Microsoft.Owin.Security.OAuth;
 using Microsoft.Owin.Security.Facebook;
+using Microsoft.Owin.Security.Cookies;
 using System.Web.Http;
 using System.Net.Http.Formatting;
-using Owin.Security.AesDataProtectorProvider;
 
 namespace Solitude.Server
 {
-	public class Startup
-	{
-		public void Configuration (IAppBuilder app)
-		{
-			var webApiConfiguration = ConfigureWebApi ();
-			app.UseWebApi (webApiConfiguration);
-            app.UseExternalSignInCookie();
-			app.UseFacebookAuthentication ("1654758468126707", "APP SECRET");
-            app.UseAesDataProtectorProvider();
-		}
+    public class Startup
+    {
+        public void Configuration (IAppBuilder app)
+        {
+            ConfigureWebApi(app);
+            ConfigureOAuth(app);
+        }
 
-		private HttpConfiguration ConfigureWebApi ()
-		{
-			var config = new HttpConfiguration ();
-			config.MapHttpAttributeRoutes ();
-			config.Routes.MapHttpRoute (
-				"DefaultApi",
-				"api/{controller}/{id}",
-				new { id = RouteParameter.Optional });
-			config.Formatters.Clear ();
-			config.Formatters.Add (new JsonMediaTypeFormatter ());
-			return config;
-		}
-	}
+        private void ConfigureWebApi (IAppBuilder app)
+        {
+            var config = new HttpConfiguration ();
+            config.MapHttpAttributeRoutes ();
+            config.Routes.MapHttpRoute (
+                "DefaultApi",
+                "api/{controller}/{id}",
+                new { id = RouteParameter.Optional });
+
+            // User json
+            config.Formatters.Clear ();
+            config.Formatters.Add (new JsonMediaTypeFormatter ());
+
+            app.UseWebApi(config);
+        }
+
+        public void ConfigureOAuth(IAppBuilder app)
+        {
+            // DpapiDataProtector is not supported on Linux/OSX
+            app.UseAesDataProtectorProvider();
+
+            app.UseCookieAuthentication(new CookieAuthenticationOptions());
+            app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
+
+            app.UseFacebookAuthentication ("1654758468126707", "APP SECRET");
+        }
+    }
 }
