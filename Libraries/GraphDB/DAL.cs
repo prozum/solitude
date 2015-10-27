@@ -13,6 +13,15 @@ namespace GraphDB
 			graph = g;
 		}
 
+		public IEnumerator<Vertex> GetUserNodes ()
+		{
+			return graph.Categories [Category.USERS].Edges.Keys.GetEnumerator ();
+		}
+
+		public IEnumerator<Vertex> GetEventNodes ()
+		{
+			return graph.Categories [Category.EVENT].Edges.Keys.GetEnumerator ();
+		}
 
 		public IEnumerable<User> GetUsers ()
 		{
