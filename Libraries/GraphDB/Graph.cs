@@ -5,91 +5,79 @@ namespace GraphDB
 {
 	public class Graph
 	{
-		public List<CategoryVertex> Categories = new List<CategoryVertex>();
+		public Dictionary<Category, CategoryVertex> Categories = new Dictionary<Category, CategoryVertex>();
 
 		public Graph ()
 		{
 			
 		}
 
-		public void AddCategory(CategoryVertex c)
+		public Graph (Dictionary<Category, CategoryVertex> c)
 		{
-			Categories.Add (c);
+			Categories = c;
+		}
+
+		public void AddCategory(Category cn, CategoryVertex c)
+		{
+			Categories.Add (cn, c);
 		}
 
 		public void AddVertexToCategory(Vertex v, CategoryVertex c, EdgeAttribute a, int weight)
 		{
-			v.Edges.Add (new Edge(v, c, a, weight));
-			c.Edges.Add (new Edge(c, v, a, weight));
+			Edge e = new Edge (c, v, a, weight);
+
+			c.Edges.Add (v, e);
+			v.Edges.Add (c, e);
 		}
 
-		public void RemoveVertexFromCategory(Vertex v, CategoryVertex c)
+		public void AddEdge(Vertex v, Vertex w, EdgeAttribute a, int weight)
 		{
-			v.Edges.RemoveAll (e => e.Node2 == c);
-			c.Edges.RemoveAll (e => e.Node2 == v);
-		}
+			Edge e = new Edge (w, v, a, weight);
 
-		public CategoryVertex SearchCategory(Category c)
-		{
-			return Categories.Find (cc => c == cc.CategoryName);
-		}
-
-		//find a category from a given CategoryVertex cv
-		public CategoryVertex SearchCategory(CategoryVertex cv, Category c)
-		{
-			List<Edge> ce = cv.Edges.FindAll (e => e.Node2.GetType() == typeof(CategoryVertex));
-			return (CategoryVertex)ce.Find (e => ((CategoryVertex)(e.Node2)).CategoryName == c).Node2;
-		}
-
-		public void AddEdge(ContentVertex v, ContentVertex w, EdgeAttribute a, int weight)
-		{
-			v.Edges.Add (new Edge(v, w, a, weight));
-			w.Edges.Add (new Edge(w, v, a, weight));
+			v.Edges.Add (w, e);
+			w.Edges.Add (v, e);
 		}
 
 		public void RemoveEdge(Vertex v, Vertex w)
 		{
-			v.Edges.RemoveAll (e => e.Node2 == w);
-			w.Edges.RemoveAll (e => e.Node2 == v);
+			v.Edges.Remove (w);
+			w.Edges.Remove (v);
 		}
 
 		public bool TestEdge(Vertex v, Vertex w)
 		{
-			if (v.Edges.Find (e => e.Node2 == w) != null)
-			{
-				return true;
-			} else {
-				return false;
-			}
+			return v.Edges.ContainsKey (w);
 		}
 
 		//returns distance of two neighbors
-		public int CalcDist(Vertex v, Vertex w)
+		public int? CalcDist(Vertex v, Vertex w)
 		{
-			if (!TestEdge(v, w))
+			if (this.TestEdge(v, w))
 			{
-				throw new Exception ();
+				return v.Edges [w].Weight;
 			} else {
-				return v.Edges.Find (e => e.Node2 == w).Weight;
+				return null;
 			}
 		}
 
 		//tests if two vertices are in same category
-		public bool TestBridge(CategoryVertex c, Vertex v, Vertex w)
+		public bool TestBridge(Vertex c, Vertex v, Vertex w)
 		{
-			return this.TestEdge (c, v) && this.TestEdge (cv, w);
+			return c.Edges.ContainsKey(v) && c.Edges.ContainsKey(w);
 		}
 
 		//only calculates distance for a single category vertex
-		public int CalcBridgeDist(CategoryVertex c, Vertex v, Vertex w)
+		public int? CalcBridgeDist(Vertex c, Vertex v, Vertex w)
 		{
-			if (TestBridge(c, v, w))
+			if (this.TestEdge(c, v) && this.TestEdge(c, w))
 			{
-				return this.CalcDist(c, v) + this.CalcDist(c, w);
+				return this.CalcDist (c, v) + this.CalcDist (c, w);
 			} else {
-				throw new Exception ();
+				return null;
 			}
 		}
+
+
 	}
 }
 

@@ -19,7 +19,9 @@ namespace GraphDB
 			}
 		}
 
-		public List<Edge> Edges = new List<Edge>();
+		//public List<Edge> Edges = new List<Edge>();
+
+		public Dictionary<Vertex, Edge> Edges = new Dictionary<Vertex, Edge>();
 
 		public Vertex ()
 		{

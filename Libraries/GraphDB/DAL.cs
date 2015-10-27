@@ -4,14 +4,6 @@ using System.Collections.Generic;
 
 namespace GraphDB
 {
-	public class UserEnum : IEnumerator
-	{
-		public UserEnum()
-		{
-			
-		}
-	}
-
 	public class DAL : IDAL
 	{
 		Graph graph;
@@ -21,34 +13,46 @@ namespace GraphDB
 			graph = g;
 		}
 
+
 		public IEnumerable<User> GetUsers ()
 		{
-			List<Edge> e = graph.SearchCategory (Category.USERS).Edges;
-			List<User> u = new List<User> ();
+			/*
+			var e = graph.Categories[Category.USERS].Edges;
+			var u = new Dictionary<Vertex, Edge> ();
 
-			foreach (var edge in e)
+			foreach (var edge in e.Values)
 			{
-				u.Add(edge.Node2);
+				u.Add(edge.Node2, edge);
 			}
 
 			return u.GetEnumerator ();
+			*/
+
+			throw new NotImplementedException ();
 		}
 
 		public IEnumerable<Event> GetEvents ()
 		{
-			List<Edge> e = graph.SearchCategory (Category.EVENT).Edges;
-			List<Event> u = new List<Event> ();
+			/*
+			var e = graph.Categories[Category.EVENT].Edges;
+			var u = new Dictionary<Vertex, Edge> ();
 
-			foreach (var edge in e)
+			foreach (var edge in e.Values)
 			{
-				u.Add (edge.Node2);
+				u.Add (edge.Node2, edge);
 			}
 
+			return u.GetEnumerator ();
+			*/
+
+			throw new NotImplementedException ();
 		}
 	
 		public IEnumerable<CategoryVertex> GetCategories ()
 		{
-			return graph.Categories.GetEnumerator ();
+			//return graph.Categories.GetEnumerator ();
+
+			throw new NotImplementedException ();
 		}
 
 		public bool AddUser (User u)
