@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GraphDB
 {
@@ -16,6 +17,11 @@ namespace GraphDB
 		public IEnumerator<Vertex> GetUserNodes ()
 		{
 			return graph.Categories [Category.USERS].Edges.Keys.GetEnumerator ();
+		}
+
+		public IEnumerator<Vertex> GetHostNodes ()
+		{
+			return graph.Categories[Category.USERS].Edges.Where(x => x.Value.Attribute == EdgeAttribute.HOSTS_EVENT).GetEnumerator ();
 		}
 
 		public IEnumerator<Vertex> GetEventNodes ()
