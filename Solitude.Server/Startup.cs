@@ -12,6 +12,8 @@ using Microsoft.Owin.Security.Facebook;
 using Microsoft.Owin.Security.Cookies;
 using System.Web.Http;
 using System.Net.Http.Formatting;
+using Neo4jClient;
+using Neo4j.AspNet.Identity;
 
 namespace Solitude.Server
 {
@@ -20,6 +22,7 @@ namespace Solitude.Server
         public void Configuration (IAppBuilder app)
         {
             ConfigureWebApi(app);
+            ConfigureNeo4j(app);
             ConfigureOAuth(app);
         }
 
@@ -37,6 +40,16 @@ namespace Solitude.Server
             config.Formatters.Add (new JsonMediaTypeFormatter ());
 
             app.UseWebApi(config);
+        }
+
+        private void ConfigureNeo4j(IAppBuilder app)
+        {
+            app.CreatePerOwinContext(() => {
+                var gc = new GraphClient(new Uri("http://prozum.dk:7474/db/data"),"neo4j","password");
+                gc.Connect();
+                var gcw = new GraphClientWrapper(gc);
+                return gcw;
+            });
         }
 
         public void ConfigureOAuth(IAppBuilder app)
