@@ -32,7 +32,7 @@ namespace Solitude.Server
                 "api/{controller}/{id}",
                 new { id = RouteParameter.Optional });
 
-            // User json
+            // Use json
             config.Formatters.Clear ();
             config.Formatters.Add (new JsonMediaTypeFormatter ());
 
@@ -42,6 +42,7 @@ namespace Solitude.Server
         public void ConfigureOAuth(IAppBuilder app)
         {
             // DpapiDataProtector is not supported on Linux/OSX
+            // Use UseAesDataProtector instead
             app.UseAesDataProtectorProvider();
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions());
