@@ -61,6 +61,11 @@
     <Compile Include="Offer.cs" />
     <Compile Include="CommunicationAPI\HttpStrings.cs" />
     <Compile Include="CommunicationAPI\ErrorCodes.cs" />
+    <Compile Include="Notification.cs" />
+    <Compile Include="OfferNotification.cs" />
+    <Compile Include="EventUpdateNotification.cs" />
+    <Compile Include="ReviewNotification.cs" />
+    <Compile Include="ReminderNotification.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
