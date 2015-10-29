@@ -6,16 +6,16 @@ using Android.Views;
 
 namespace DineWithaDane.Android
 {
-	public class ReviewNotification : Notification
+	public class EventReminderNotification : Notification
 	{
-		public ReviewNotification (User user, string title, string text, string time, Activity activity) : base(user, title, text, time, Color.IndianRed, Color.Red, activity)
+		public EventReminderNotification (User user, string title, string text, string time, Activity activity) : base(user, title, text, time, Color.BlueViolet, Color.Blue, activity)
 		{
 			LinearLayout buttonKeeper = new LinearLayout (activity);
 			buttonKeeper.Orientation = Orientation.Horizontal;
-			buttonKeeper.SetBackgroundColor (Color.Red);
+			buttonKeeper.SetBackgroundColor (Color.Blue);
 
 			Button buttonLeft = new Button (activity);
-			buttonLeft.Text = "Review";
+			buttonLeft.Text = "View";
 			buttonLeft.Gravity = GravityFlags.Center;
 			buttonLeft.SetWidth (displaySize.X / 3);
 

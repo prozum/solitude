@@ -65,7 +65,7 @@
     <Compile Include="OfferNotification.cs" />
     <Compile Include="EventUpdateNotification.cs" />
     <Compile Include="ReviewNotification.cs" />
-    <Compile Include="ReminderNotification.cs" />
+    <Compile Include="EventReminderNotification.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
