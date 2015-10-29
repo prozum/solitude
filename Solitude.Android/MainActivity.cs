@@ -19,6 +19,8 @@ namespace DineWithaDane.Android
 		{
 			base.OnCreate (bundle);
 
+			StartService (new Intent(this, typeof(BackgroundService)));
+
 			CIF = new ClientCommunication.CommunicationInterface ();
 			List<Offer> offers;
 
@@ -33,6 +35,12 @@ namespace DineWithaDane.Android
 				nameView.Text = offers [0].offeredEvent.name;
 				descView.Text = offers [0].offeredEvent.description;
 			};
+		}
+
+		protected override void OnDestroy ()
+		{
+			base.OnDestroy ();
+			StopService (new Intent (this, typeof(BackgroundService)));
 		}
 	}
 }
