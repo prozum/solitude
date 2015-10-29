@@ -11,7 +11,7 @@ namespace Solitude.Server
 	public class EventController : ApiController
 	{
 		public IEnumerable<EventModel> Get ()
-		{
+        {
 			return null;
 		}
 

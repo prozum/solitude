@@ -10,33 +10,91 @@ using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
+using System.Web.Http.Owin;
+using Neo4j.AspNet.Identity;
+using System.Web;
+using Microsoft.Owin.Host.SystemWeb;
 
 namespace Solitude.Server
 {
+    [RoutePrefix("api/user")]
     public class UserController : ApiController
 	{
-		private AuthRepository _repo = null;
+        private Neo4jUserManager manager;
 
-		public UserController()
+
+        public UserController() {}
+        public UserController(Neo4jUserManager manager)
 		{
-			_repo = new AuthRepository();
+            this.Manager = manager;
 		}
+
+        public Neo4jUserManager Manager
+        {
+            get
+            {
+                //return manager ?? HttpContext.GetOwinContext().GetUserManager<Neo4jUserManager>();
+                return manager ?? Request.GetOwinContext().GetUserManager<Neo4jUserManager>();
+            }
+            private set
+            {
+                manager = value;
+            }
+        }
 
 		[AllowAnonymous]
 		[Route("register")]
 		public async Task<IHttpActionResult> Register(UserModel userModel)
 		{
-			IdentityResult result = await _repo.RegisterUser(userModel);
+            var user = new ApplicationUser() { UserName = userModel.UserName };
 
-			return null;
+            IdentityResult result = await Manager.CreateAsync(user, userModel.Password);
+			//IdentityResult result = await _repo.RegisterUser(userModel);
+
+            IHttpActionResult errorResult = GetErrorResult(result);
+
+            if (errorResult != null)
+            {
+                return errorResult;
+            }
+                
+            return Ok();
 		}
 
         [Route("login")]
         public async Task<IHttpActionResult> Get (UserModel user)
         {
-            var result = await _repo.FindUser(user.UserName, user.Password);
+            //var result = await _repo.FindUser(user.UserName, user.Password);
+
+            return null;
+        }
+
+        private IHttpActionResult GetErrorResult(IdentityResult result)
+        {
+            if (result == null)
+            {
+                return InternalServerError();
+            }
+
+            if (!result.Succeeded)
+            {
+                if (result.Errors != null)
+                {
+                    foreach (string error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error);
+                    }
+                }
+
+                if (ModelState.IsValid)
+                {
+                    // No ModelState errors are available to send, so just return an empty BadRequest.
+                    return BadRequest();
+                }
+
+                return BadRequest(ModelState);
+            }
 
             return null;
         }
