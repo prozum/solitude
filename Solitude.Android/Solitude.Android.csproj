@@ -44,16 +44,34 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Mono.Android" />
+    <Reference Include="System.Json" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>packages\Newtonsoft.Json.7.0.1\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CommunicationAPI\CommunicationInterface.cs" />
+    <Compile Include="CommunicationAPI\IClientCommunication.cs" />
+    <Compile Include="Event.cs" />
+    <Compile Include="User.cs" />
+    <Compile Include="InfoChange.cs" />
+    <Compile Include="Offer.cs" />
+    <Compile Include="CommunicationAPI\HttpStrings.cs" />
+    <Compile Include="CommunicationAPI\ErrorCodes.cs" />
+    <Compile Include="Notification.cs" />
+    <Compile Include="OfferNotification.cs" />
+    <Compile Include="EventUpdateNotification.cs" />
+    <Compile Include="ReviewNotification.cs" />
+    <Compile Include="EventReminderNotification.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />
@@ -66,4 +84,7 @@
     <AndroidResource Include="Resources\layout\HeaderLayout.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="CommunicationAPI\" />
+  </ItemGroup>
 </Project>

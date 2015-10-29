@@ -6,27 +6,32 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using System.Collections.Generic;
 
-namespace Solitude.Android
+namespace DineWithaDane.Android
 {
 	[Activity (Label = "Solitude.Android", MainLauncher = true, Theme = "@android:style/Theme.DeviceDefault.NoActionBar")]
 	public class MainActivity : Activity
 	{
+		private ClientCommunication.IClientCommunication CIF;
+
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
 
-			int count = 0;
+			CIF = new ClientCommunication.CommunicationInterface ();
+			List<Offer> offers;
 
 			// Set our view from the "main" layout resource
 			SetContentView (Resource.Layout.Main);
+			Button fetchButton = FindViewById<Button> (Resource.Id.fetchOffersButton);
+			TextView nameView = FindViewById<TextView> (Resource.Id.nameView);
+			TextView descView = FindViewById<TextView> (Resource.Id.desciptionView);
 
-			var menuButton = FindViewById (Resource.Id.buttonMenu);
-			var dispText = FindViewById <TextView> (Resource.Id.textView1);
-			dispText.Text = count.ToString ();
-			menuButton.Click += (sender, e) => {
-				count++;
-				dispText.Text = count.ToString();
+			fetchButton.Click += async (sender, e) => {
+				offers = await CIF.RequestOffers();
+				nameView.Text = offers [0].offeredEvent.name;
+				descView.Text = offers [0].offeredEvent.description;
 			};
 		}
 	}

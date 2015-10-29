@@ -12,16 +12,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/linearLayout1">
-        <include
-            layout="@layout/HeaderLayout"
-            android:id="@+id/include1"
-            android:layout_width="match_parent"
-            android:layout_height="52.5dp" />
         <TextView
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Click to fetch Offers"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textView1"
-            android:text="0" />
+            android:id="@+id/textHeader" />
     </LinearLayout>
+    <Button
+        android:text="Fetch Offers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/fetchOffersButton" />
+    <TextView
+        android:text="Name"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/nameView" />
+    <TextView
+        android:text="Description"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/desciptionView" />
 </LinearLayout>
