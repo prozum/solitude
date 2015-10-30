@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#000000"
+    android:padding="8dp"
+    android:minWidth="25px"
+    android:minHeight="25px"
+    android:id="@+id/ListGroup">
+    <TextView
+        android:text="Title: "
+        android:layout_width="159.9dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/Title" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/Title"
+        android:id="@+id/InfoLayout">
+        <TextView
+            android:text="Place: "
+            android:layout_width="159.9dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/Info1" />
+        <TextView
+            android:text="Date: "
+            android:layout_width="159.9dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/Info2" />
+    </LinearLayout>
+    <TextView
+        android:text="..."
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/InfoLayout"
+        android:id="@+id/Dots"
+        android:gravity="center" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/Dots"
+        android:id="@+id/GrayLine"
+        android:minHeight="1dp"
+        android:maxHeight="1dp"
+        android:background="#ff646464" />
+</RelativeLayout>

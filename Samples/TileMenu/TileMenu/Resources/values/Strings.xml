@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string-array name="SortSpinnerItems">
+        <item>Title (A-Z)</item>
+        <item>Title (Z-A)</item>
+        <item>Date (Soonest)</item>
+        <item>Date (Lastest)</item>
+        <item>Distance (Closest)</item>
+        <item>Distance (Farthest)</item>
+    </string-array>
+</resources>
