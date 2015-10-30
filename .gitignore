@@ -2,7 +2,7 @@ packages/
 bin/
 obj/
 
-Startup.cs
+Solitude.Server/App.config
 *~
 *.userprefs
 *.suo

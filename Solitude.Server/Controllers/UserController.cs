@@ -23,7 +23,6 @@ namespace Solitude.Server
 	{
         private Neo4jUserManager manager;
 
-
         public UserController() {}
         public UserController(Neo4jUserManager manager)
 		{
@@ -34,7 +33,6 @@ namespace Solitude.Server
         {
             get
             {
-                //return manager ?? HttpContext.GetOwinContext().GetUserManager<Neo4jUserManager>();
                 return manager ?? Request.GetOwinContext().GetUserManager<Neo4jUserManager>();
             }
             private set

@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <connectionStrings>
+    <add name="neo4j" connectionString="http://user:password@domain.com:7474/db/data"/>
+  </connectionStrings>
+</configuration>

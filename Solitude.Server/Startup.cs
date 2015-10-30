@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -45,7 +46,7 @@ namespace Solitude.Server
         private void ConfigureNeo4j(IAppBuilder app)
         {
             app.CreatePerOwinContext(() => {
-                var gc = new GraphClient(new Uri("http://prozum.dk:7474/db/data"),"neo4j","PASSWORD");
+                var gc = new GraphClient(new Uri(ConfigurationManager.ConnectionStrings["neo4j"].ConnectionString));
                 gc.Connect();
                 var gcw = new GraphClientWrapper(gc);
                 return gcw;

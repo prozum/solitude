@@ -18,7 +18,7 @@ namespace JsonTest
 			var jsonDoc = JsonConvert.SerializeObject (new { username = username, password = password, 
 				passwordConfirm = passwordConfirm });
 
-			string url = "http://prozum.dk:8080/api/user/register";
+			string url = "http://127.0.0.1:8080/api/user/register";
 			HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create (new Uri (url));
 			request.ContentType = "application/json";
 			request.Method = "POST";
