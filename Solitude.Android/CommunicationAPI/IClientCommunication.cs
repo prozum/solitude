@@ -10,7 +10,7 @@ namespace ClientCommunication
 	{
 		Task<List<Offer>> RequestOffers ();
 		Task<List<Event>> GetOwnEvents (int n, bool NEWEST = true);
-		void CreateUser (User u);
+		void CreateUser (string userName, string password, string passwordConfirmed);
 		void UpdateUser (InfoChange i);
 		void DeleteUser ();
 		void CreateEvent (Event e);

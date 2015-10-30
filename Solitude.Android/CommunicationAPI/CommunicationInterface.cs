@@ -21,6 +21,7 @@ namespace ClientCommunication
 		}
 		public CommunicationInterface () { }
 
+		#region HttpRequest builders
 		/// <summary>
 		/// Builds a get URL for the specified resource and id.
 		/// </summary>
@@ -82,6 +83,7 @@ namespace ClientCommunication
 
 			return request;
 		}
+		#endregion
 
 		/// <summary>
 		/// Converts a String to a byte array.
@@ -125,7 +127,7 @@ namespace ClientCommunication
 //			
 //		}
 			
-//		private List<Offer> parseOffers(JsonValue serverResponse)
+private List<Offer> parseOffers(JsonValue serverResponse)
 //		{
 //			
 //		}
@@ -192,13 +194,15 @@ namespace ClientCommunication
 		/// Creates a new user on the server.
 		/// </summary>
 		/// <param name="u">User to create.</param>
-		public void CreateUser (User u)
+		public void CreateUser (string username, string password, string confirmedPassword)
 		{
 			//Build request
-			var request = buildPostRequest ("User");
+			var request = buildPostRequest ("user/register");
 
 			//Serialize and add to request
-			string userJson = JsonConvert.SerializeObject (u);
+			string userJson = JsonConvert.SerializeObject (new {username = username, password = password, 
+				confirmedPassword = confirmedPassword});
+			
 			using (var streamWriter = new StreamWriter (request.GetRequestStream ())) 
 			{
 				streamWriter.Write (userJson);
