@@ -21,9 +21,9 @@ namespace Solitude.Server
     {
         public void Configuration (IAppBuilder app)
         {
-            ConfigureWebApi(app);
             ConfigureNeo4j(app);
             ConfigureOAuth(app);
+            ConfigureWebApi(app);
         }
 
         private void ConfigureWebApi (IAppBuilder app)
@@ -45,11 +45,14 @@ namespace Solitude.Server
         private void ConfigureNeo4j(IAppBuilder app)
         {
             app.CreatePerOwinContext(() => {
-                var gc = new GraphClient(new Uri("http://prozum.dk:7474/db/data"),"neo4j","password");
+                var gc = new GraphClient(new Uri("http://prozum.dk:7474/db/data"),"neo4j","PASSWORD");
                 gc.Connect();
                 var gcw = new GraphClientWrapper(gc);
                 return gcw;
             });
+
+            app.CreatePerOwinContext<Neo4jUserManager>(Neo4jUserManager.Create);
+            app.CreatePerOwinContext<Neo4jSignInManager>(Neo4jSignInManager.Create);
         }
 
         public void ConfigureOAuth(IAppBuilder app)
