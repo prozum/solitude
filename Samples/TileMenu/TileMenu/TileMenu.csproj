@@ -71,6 +71,7 @@
     <AndroidResource Include="Resources\layout\ListGroup.axml" />
     <AndroidResource Include="Resources\layout\ListItem.axml" />
     <AndroidResource Include="Resources\layout\ListActivity.axml" />
+    <AndroidResource Include="Resources\layout\Profile.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
