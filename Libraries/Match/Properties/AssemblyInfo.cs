@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyConfiguration ("")]
 [assembly: AssemblyCompany ("")]
 [assembly: AssemblyProduct ("")]
-[assembly: AssemblyCopyright ("nimoov")]
+[assembly: AssemblyCopyright ("reindeernix")]
 [assembly: AssemblyTrademark ("")]
 [assembly: AssemblyCulture ("")]
 

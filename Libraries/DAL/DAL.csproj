@@ -3,10 +3,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E096144E-C6A0-488A-A971-CFEA722CE86A}</ProjectGuid>
+    <ProjectGuid>{61A40B76-FFC7-4FD4-A393-54FFB7F8580C}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>GraphDB</RootNamespace>
-    <AssemblyName>libgraph</AssemblyName>
+    <RootNamespace>DAL</RootNamespace>
+    <AssemblyName>DAL</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -32,27 +32,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Vertex.cs" />
-    <Compile Include="Edge.cs" />
-    <Compile Include="Graph.cs" />
-    <Compile Include="EdgeAttribute.cs" />
-    <Compile Include="CategoryVertex.cs" />
-    <Compile Include="ContentVertex.cs" />
-    <Compile Include="Classes\Event.cs" />
-    <Compile Include="Classes\Guest.cs" />
-    <Compile Include="Classes\Host.cs" />
-    <Compile Include="Classes\Info.cs" />
-    <Compile Include="Classes\Match.cs" />
-    <Compile Include="Classes\Offer.cs" />
-    <Compile Include="Classes\Registration.cs" />
-    <Compile Include="Classes\Review.cs" />
-    <Compile Include="Classes\User.cs" />
-    <Compile Include="Category.cs" />
     <Compile Include="DAL.cs" />
-    <Compile Include="IDAL.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Folder Include="Classes\" />
+    <Folder Include="Models\" />
   </ItemGroup>
 </Project>
