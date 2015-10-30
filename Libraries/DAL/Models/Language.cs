@@ -22,6 +22,28 @@ namespace DAL
 		public static string Spanish = "Spanish";
 		public static string Chinese = "Chinese";
 		public static string Russian = "Russian";
+
+		public static string GetLanguage (LanguageCode ic)
+		{
+			switch (ic) {
+			case LanguageCode.DANISH:
+				return Danish;
+			case LanguageCode.ENGLISH:
+				return English;
+			case LanguageCode.GERMAN:
+				return German;
+			case LanguageCode.FRENCH:
+				return French;
+			case LanguageCode.SPANISH:
+				return Spanish;
+			case LanguageCode.CHINESE:
+				return Chinese;
+			case LanguageCode.RUSSIAN:
+				return Russian;
+			default:
+				return null;
+			}
+		}
 	}
 }
 
