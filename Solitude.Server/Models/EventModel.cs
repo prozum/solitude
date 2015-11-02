@@ -5,7 +5,8 @@ namespace Solitude.Server
     public class EventModel
     {
         public int ID;
-        public string Name;
+        public string Date;
+        public string Address;
         public string Description;
     }
 }

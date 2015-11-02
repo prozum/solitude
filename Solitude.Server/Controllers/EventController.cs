@@ -17,7 +17,7 @@ namespace Solitude.Server
 
 		public EventModel Get (int id)
 		{
-            return new EventModel() { ID = id, Name = "FLAN", Description = "Lan party in Cassiopeia"};
+            return new EventModel() { ID = id, Date = "already over", Address = "Cassiopeia", Description = "FLAN party in Cassiopeia"};
 		}
 	}
 }
