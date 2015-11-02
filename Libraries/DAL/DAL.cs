@@ -80,10 +80,10 @@ namespace DAL
 			return true;
 		}
 
-		static void AddEvent (string uid, Event e)
+		static void AddEvent (string uid, string date, string description, string address)
 		{
 			//get largest id for events owned by the user
-			var mid = client.Cypher
+			var id = client.Cypher
 				.Match ("(user:User)-[:HOSTING]->(event:Event)")
 				.Return (() => new {
 					id = Return.As<int> ("max(event.Id)")
@@ -91,15 +91,15 @@ namespace DAL
 				.ResultsAsync.Result;
 
 			//increment id by one
-			int eid = mid.GetEnumerator ().Current.id + 1;
+			int eid = id.GetEnumerator ().Current.id + 1;
 
 			client.Cypher
 				.Match ("(user:User)")
 				.Where ("user.Id = {uid}")
 				.WithParam ("uid", uid)
 				//creates a relation "HOSTING" between the created event 
-				.Create ("user-[:HOSTING]->(event:Event {Id, info})")
-				.WithParams (new Dictionary<string, Object> {{"Id", eid}, {"info", e}})
+				.Create ("user-[:HOSTING]->(event:Event {info})")
+				.WithParam ("info", new Event (date, address, description, uid, eid))
 				.ExecuteWithoutResultsAsync ();
 		}
 			
@@ -148,7 +148,7 @@ namespace DAL
 				.ExecuteWithoutResultsAsync ();
 		}
 
-		public static List<Offer> MatchUser (string uid, int limit)
+		public static List<Event> MatchUser (string uid, int limit)
 		{
 			var res = client.Cypher
 				//select all users in the system and all the users who hosts an event
@@ -170,31 +170,68 @@ namespace DAL
 					"\tsum(w5.weight) as weight5, sum(w6.weight) as weight6")
 				//return a collection of anonymouse types
 				.Return (() => new {
-					uid = Return.As<string> ("rest.Id"),
 					score = Return.As<int> (
 						"sum(weight1)+sum(weight2) +" +
 						"sum(weight3)+sum(weight4) +" +
 						"sum(weight5)+sum(weight6)"
 					),
-					eid = Return.As<IEnumerable<int>> ("event.Id"),
 					events = Return.As<IEnumerable<Event>> ("event"), 
 				})
 				//order by descending values
-				.OrderBy ("value DESC")
+				.OrderBy ("score DESC")
 				//limit the collection to the given limit
 				.Limit (limit)
 				.ResultsAsync.Result;
 
-			List<Offer> offers = new List<Offer> ();
+			List<Event> offers = new List<Event> ();
 
 			// zip events, event id's and their host's user id together in Enumerable<Offer>
 			// and add it to the offers List
 			foreach (var r in res)
 			{
-				offers.AddRange(r.events.Zip(r.eid, (x, y) => new Offer (y, r.uid, x)));
+				offers.AddRange (r.events);
 			}
 
 			return offers;
+		}
+
+		public static IEnumerable<Event> GetEvents (string uid, bool ATTENDING = true, int LIMIT = 10)
+		{
+			if (ATTENDING)
+			{
+				var res = client.Cypher
+					.Match ("(user:User)-[:ATTENDING]->(event:Event)")
+					.Where ("user.Id = {uid}")
+					.WithParam ("uid", uid)
+					.Return (() => new {
+						attending = Return.As<IEnumerable<Event>> ("collect(event)")
+					})
+					.Union ()
+					.Match ("user-[:HOSTING]->(event:Event)")
+					.Where ("user.Id = {uid}")
+					.WithParam ("uid", uid)
+					.Return (() => new {
+						events = Return.As<IEnumerable<Event>> ("collect(event)")
+					})
+					.Limit (LIMIT)
+					.ResultsAsync.Result;
+
+				return res.First ().events;
+			}
+			else
+			{
+				var res = client.Cypher
+					.Match ("user-[:HOSTING]->(event:Event)")
+					.Where ("user.Id = {uid}")
+					.WithParam ("uid", uid)
+					.Return (() => new {
+						hosting = Return.As<IEnumerable<Event>> ("collect(event)")
+					})
+					.Limit (LIMIT)
+					.ResultsAsync.Result;
+
+				return res.First ().hosting;
+			}
 		}
 	}
 }
