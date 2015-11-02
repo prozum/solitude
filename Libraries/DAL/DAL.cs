@@ -177,7 +177,7 @@ namespace DAL
 						"sum(weight5)+sum(weight6)"
 					),
 					eid = Return.As<IEnumerable<int>> ("event.Id"),
-					events = Return.As<IEnumerable<Event>> ("event")
+					events = Return.As<IEnumerable<Event>> ("event"), 
 				})
 				//order by descending values
 				.OrderBy ("value DESC")
@@ -187,16 +187,11 @@ namespace DAL
 
 			List<Offer> offers = new List<Offer> ();
 
-			//wrap everything into offers, temp fix
+			// zip events, event id's and their host's user id together in Enumerable<Offer>
+			// and add it to the offers List
 			foreach (var r in res)
 			{
-				var ev = r.events.ToArray ();
-				var eid = r.eid.ToArray ();
-
-				for (int i = 0; i < ev.Length; i++)
-				{
-					offers.Add (new Offer(eid[i], r.uid, ev[i]));
-				}
+				offers.AddRange(r.events.Zip(r.eid, (x, y) => new Offer (y, r.uid, x)));
 			}
 
 			return offers;
