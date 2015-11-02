@@ -16,17 +16,18 @@ namespace DineWithaDane.Android
 			_currentActivity = currentActivity;
 		}
 
-		public override void OnDrawerOpened (Android.Views.View drawerView)
+		public override void OnDrawerOpened (View drawerView)
 		{
+
 			base.OnDrawerOpened (drawerView);
 		}
 
-		public override void OnDrawerClosed (Android.Views.View drawerView)
+		public override void OnDrawerClosed (View drawerView)
 		{
 			base.OnDrawerClosed (drawerView);
 		}
 
-		public override void OnDrawerSlide (Android.Views.View drawerView, float slideOffset)
+		public override void OnDrawerSlide (View drawerView, float slideOffset)
 		{
 			base.OnDrawerSlide (drawerView, slideOffset);
 		}

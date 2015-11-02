@@ -13,7 +13,7 @@ using Android.Widget;
 
 namespace DineWithaDane.Android
 {
-	[Activity (Label = "Notifications")]			
+	[Activity (Label = "Notifications", MainLauncher = true)]			
 	public class NotificationActivity : AbstractActivity
 	{
 		protected override void OnCreate (Bundle bundle)

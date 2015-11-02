@@ -19,7 +19,7 @@ namespace DineWithaDane.Android
 		protected string m_DrawerTitle, m_Title;
 		protected DrawerLayout m_Drawer;
 		protected ListView m_DrawerList;
-		protected const int drawerPosition;
+		protected int drawerPosition;
 		protected SetupDrawer drawerSetup;
 
 		protected override void OnCreate (Bundle bundle)
