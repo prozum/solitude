@@ -11,9 +11,9 @@ using Android.OS;
 namespace TileMenu
 {
 	[Activity (Label = "TileMenu", MainLauncher = true)]
-	public class EventActivity : TileListActivity<EventListAdapter, Event>
+	public class EventActivity : SortableTileListActivity<EventListAdapter, Event>
 	{
-		public EventActivity() : base(Resource.Layout.ListActivity, Resource.Id.spinner1, Resource.Id.expandableListView1)
+		public EventActivity() : base(Resource.Layout.ListActivity, Resource.Id.List1, Resource.Id.SortSpinner)
 		{
 
 		}
@@ -28,7 +28,7 @@ namespace TileMenu
 			// adapter for the spinner
 			ArrayAdapter adapter = ArrayAdapter.CreateFromResource(this, Resource.Array.SortSpinnerItems, Android.Resource.Layout.SimpleSpinnerItem);
 			adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
-			Spinner.Adapter = adapter;
+			SortSpinner.Adapter = adapter;
 
 			// adapter for listView
 			ListView.SetAdapter(new EventListAdapter (this, TestMaterial.Events, OnButton1));

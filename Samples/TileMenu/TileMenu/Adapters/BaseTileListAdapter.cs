@@ -63,12 +63,12 @@ namespace TileMenu
 			if (isExpanded)
 			{
 				view.FindViewById<TextView>(Resource.Id.Dots).Visibility = ViewStates.Gone;
-				view.FindViewById<TextView>(Resource.Id.GrayLine).Visibility = ViewStates.Gone;
+				view.FindViewById<TextView>(Resource.Id.GrayLine1).Visibility = ViewStates.Gone;
 			}
 			else
 			{
 				view.FindViewById<TextView>(Resource.Id.Dots).Visibility = ViewStates.Visible;
-				view.FindViewById<TextView>(Resource.Id.GrayLine).Visibility = ViewStates.Visible;
+				view.FindViewById<TextView>(Resource.Id.GrayLine1).Visibility = ViewStates.Visible;
 			}
 
 

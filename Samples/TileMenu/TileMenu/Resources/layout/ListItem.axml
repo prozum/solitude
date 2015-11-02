@@ -29,7 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/Button1"
-        android:id="@+id/Separator"
+        android:id="@+id/GrayLine2"
         android:minHeight="1dp"
         android:maxHeight="1dp"
         android:background="#ff646464" />

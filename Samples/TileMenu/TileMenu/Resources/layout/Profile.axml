@@ -3,15 +3,14 @@
     p1:minWidth="25px"
     p1:minHeight="25px"
     p1:layout_width="match_parent"
-    p1:layout_height="match_parent"
-    p1:id="@+id/relativeLayout1">
+    p1:layout_height="match_parent">
     <RelativeLayout
         p1:orientation="vertical"
         p1:minWidth="25px"
         p1:minHeight="25px"
         p1:layout_width="match_parent"
         p1:layout_height="wrap_content"
-        p1:id="@+id/linearLayout1">
+        p1:id="@+id/ProfileInfo">
         <ImageView
             p1:src="@android:drawable/ic_menu_gallery"
             p1:layout_width="wrap_content"
@@ -35,4 +34,23 @@
             p1:layout_toRightOf="@+id/ProfilePicture"
             p1:id="@+id/Age" />
     </RelativeLayout>
+    <Button
+        p1:text="Edit Profile"
+        p1:layout_width="wrap_content"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/EditButton"
+        p1:layout_alignParentTop="false"
+        p1:layout_alignParentBottom="true"
+        p1:layout_alignParentRight="false"
+        p1:layout_alignParentLeft="false" />
+    <ExpandableListView
+        p1:minWidth="25px"
+        p1:minHeight="25px"
+        p1:layout_width="match_parent"
+        p1:layout_height="match_parent"
+        p1:groupIndicator="@null"
+        p1:layout_below="@id/ProfileInfo"
+        p1:layout_above="@id/EditButton"
+        p1:divider="#00000000"
+        p1:id="@+id/List2" />
 </RelativeLayout>
