@@ -17,11 +17,6 @@ namespace TileMenu
 			get;
 			set;
 		}
-		protected Spinner Spinner
-		{
-			get;
-			set;
-		}
 			
 		protected int Focus
 		{
@@ -30,13 +25,11 @@ namespace TileMenu
 		}
 
 		int contentViewID;
-		int spinnerID;
 		int listViewID;
 
-		public TileListActivity(int contentViewID, int spinnerID, int listViewID)
+		public TileListActivity(int contentViewID, int listViewID)
 		{
 			this.contentViewID = contentViewID;
-			this.spinnerID = spinnerID;
 			this.listViewID = listViewID;
 		}
 
@@ -46,19 +39,9 @@ namespace TileMenu
 
 			SetContentView (contentViewID);
 
-			Spinner = FindViewById<Spinner>(spinnerID);
 			ListView = FindViewById<ExpandableListView>(listViewID);
 
-			#region Spinner Setup
-			// sort when new item is selected in spinner
-			Spinner.ItemSelected += (sender, e) => 
-				{
-					ListView.CollapseGroup(Focus);
-					(ListView.ExpandableListAdapter as T).Sort(((e as AdapterView.ItemSelectedEventArgs).View as TextView).Text);
-
-				};
-			#endregion
-
+			//test
 			#region ListView Setup
 			// focus selfcollapse, when another item expands
 			ListView.GroupExpand += (sender, e) => 
