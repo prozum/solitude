@@ -15,13 +15,13 @@ namespace DAL
 			RUSSIAN		= 6
 		}
 
-		public static string Danish = "Danish";
-		public static string English = "English";
-		public static string German = "German";
-		public static string French = "French";
-		public static string Spanish = "Spanish";
-		public static string Chinese = "Chinese";
-		public static string Russian = "Russian";
+		static string Danish = "Danish";
+		static string English = "English";
+		static string German = "German";
+		static string French = "French";
+		static string Spanish = "Spanish";
+		static string Chinese = "Chinese";
+		static string Russian = "Russian";
 
 		public static string GetLanguage (LanguageCode ic)
 		{

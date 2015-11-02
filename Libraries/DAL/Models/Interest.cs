@@ -15,13 +15,13 @@ namespace DAL
 			DRAWING		= 6
 		}
 
-		public static string Nature = "Nature";
-		public static string Fitness = "Fitness";
-		public static string Movies = "Movies";
-		public static string Gaming = "Gaming";
-		public static string Electronics = "Electronics";
-		public static string Food = "Food";
-		public static string Drawing = "Drawing";
+		static string Nature = "Nature";
+		static string Fitness = "Fitness";
+		static string Movies = "Movies";
+		static string Gaming = "Gaming";
+		static string Electronics = "Electronics";
+		static string Food = "Food";
+		static string Drawing = "Drawing";
 
 		public static string GetInterest (InterestCode ic)
 		{

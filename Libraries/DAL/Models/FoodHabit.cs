@@ -14,12 +14,12 @@ namespace DAL
 			NO_NUTS		= 5
 		}
 
-		public static string Halal = "Halal";
-		public static string Kosher = "Kosher";
-		public static string Vegan = "Vegan";
-		public static string LactoseIntolerant = "Lactose intolerance";
-		public static string GlutenIntolerance = "Gluten intolerance";
-		public static string NutAllergy = "Nut allergy";
+		static string Halal = "Halal";
+		static string Kosher = "Kosher";
+		static string Vegan = "Vegan";
+		static string LactoseIntolerant = "Lactose intolerance";
+		static string GlutenIntolerance = "Gluten intolerance";
+		static string NutAllergy = "Nut allergy";
 
 		public static string GetFoodHabit (FoodHabitCode fc)
 		{
