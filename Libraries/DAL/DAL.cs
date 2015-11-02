@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using Neo4jClient;
 using Neo4jClient.Cypher;
 
@@ -135,7 +136,7 @@ namespace DAL
 				.ExecuteWithoutResultsAsync ();
 		}
 
-		public static IEnumerable MatchUser (string uid, int limit)
+		public static List<Event> MatchUser (string uid, int limit)
 		{
 			var res = client.Cypher
 				//select all users in the system and all the users who hosts an event
@@ -163,7 +164,7 @@ namespace DAL
 						"sum(weight3)+sum(weight4) +" +
 						"sum(weight5)+sum(weight6)"
 					),
-					events = Return.As<Event> ("event")
+					events = Return.As<IEnumerable<Event>> ("event"),
 				})
 				//order by descending values
 				.OrderBy ("value DESC")
@@ -171,7 +172,14 @@ namespace DAL
 				.Limit (limit)
 				.ResultsAsync.Result;
 
-			return res;
+			List<Event> events = new List<Event> ();
+
+			foreach (var e in res)
+			{
+				events.AddRange (e.events);
+			}
+
+			return events;
 		}
 	}
 }
