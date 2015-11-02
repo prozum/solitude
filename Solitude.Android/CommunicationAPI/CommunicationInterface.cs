@@ -127,7 +127,7 @@ namespace ClientCommunication
 //			
 //		}
 			
-private List<Offer> parseOffers(JsonValue serverResponse)
+//private List<Offer> parseOffers(JsonValue serverResponse)
 //		{
 //			
 //		}
