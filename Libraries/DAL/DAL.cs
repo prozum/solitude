@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Neo4jClient;
 using Neo4jClient.Cypher;
 
@@ -81,13 +82,24 @@ namespace DAL
 
 		static void AddEvent (string uid, Event e)
 		{
+			//get largest id for events owned by the user
+			var mid = client.Cypher
+				.Match ("(user:User)-[:HOSTING]->(event:Event)")
+				.Return (() => new {
+					id = Return.As<int> ("max(event.Id)")
+				})
+				.ResultsAsync.Result;
+
+			//increment id by one
+			int eid = mid.GetEnumerator ().Current.id + 1;
+
 			client.Cypher
 				.Match ("(user:User)")
 				.Where ("user.Id = {uid}")
 				.WithParam ("uid", uid)
 				//creates a relation "HOSTING" between the created event 
-				.Create ("user-[:HOSTING]->(event:Event {info})")
-				.WithParam ("info", e)
+				.Create ("user-[:HOSTING]->(event:Event {Id, info})")
+				.WithParams (new Dictionary<string, Object> {{"Id", eid}, {"info", e}})
 				.ExecuteWithoutResultsAsync ();
 		}
 			
@@ -136,7 +148,7 @@ namespace DAL
 				.ExecuteWithoutResultsAsync ();
 		}
 
-		public static List<Event> MatchUser (string uid, int limit)
+		public static List<Offer> MatchUser (string uid, int limit)
 		{
 			var res = client.Cypher
 				//select all users in the system and all the users who hosts an event
@@ -158,13 +170,14 @@ namespace DAL
 					"\tsum(w5.weight) as weight5, sum(w6.weight) as weight6")
 				//return a collection of anonymouse types
 				.Return (() => new {
-					people = Return.As<string> ("rest.Id"),
+					uid = Return.As<string> ("rest.Id"),
 					score = Return.As<int> (
 						"sum(weight1)+sum(weight2) +" +
 						"sum(weight3)+sum(weight4) +" +
 						"sum(weight5)+sum(weight6)"
 					),
-					events = Return.As<IEnumerable<Event>> ("event"),
+					eid = Return.As<IEnumerable<int>> ("event.Id"),
+					events = Return.As<IEnumerable<Event>> ("event")
 				})
 				//order by descending values
 				.OrderBy ("value DESC")
@@ -172,14 +185,21 @@ namespace DAL
 				.Limit (limit)
 				.ResultsAsync.Result;
 
-			List<Event> events = new List<Event> ();
+			List<Offer> offers = new List<Offer> ();
 
-			foreach (var e in res)
+			//wrap everything into offers, temp fix
+			foreach (var r in res)
 			{
-				events.AddRange (e.events);
+				var ev = r.events.ToArray ();
+				var eid = r.eid.ToArray ();
+
+				for (int i = 0; i < ev.Length; i++)
+				{
+					offers.Add (new Offer(eid[i], r.uid, ev[i]));
+				}
 			}
 
-			return events;
+			return offers;
 		}
 	}
 }
