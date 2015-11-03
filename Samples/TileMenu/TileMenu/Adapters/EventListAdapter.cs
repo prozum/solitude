@@ -13,49 +13,44 @@ namespace TileMenu
 {
 	public class EventListAdapter : BaseTileListAdapter<Event>
 	{
-		#region Fields
-		EventHandler onCancel;
-		#endregion
-
 		#region Constructors
-		public EventListAdapter(Activity context, List<Event> items, EventHandler onCancel) : base(context, items)
+		public EventListAdapter(Activity context, List<Event> items) : base(context, items)
 		{
-			this.onCancel = onCancel;
+			
 		}
 		#endregion
 
 		#region Public Methods
 		public override View GetGroupView(int groupPosition, bool isExpanded, View convertView, ViewGroup parent)
 		{
-			View view = base.GetGroupView(groupPosition, isExpanded, convertView, parent);
+			EventGroup view = (convertView as EventGroup); // re-use an existing view, if one is available
 
-			// add new infomation to view
-			view.FindViewById<TextView>(Resource.Id.Title).Text = "Title: " + Items[groupPosition].Title; 
-			view.FindViewById<TextView>(Resource.Id.Info1).Text = "Place: " + Items[groupPosition].Place; 
-			view.FindViewById<TextView>(Resource.Id.Info2).Text = "Date: " + Items[groupPosition].Date.ToString(@"dd\/MM\/yyyy HH:mm"); 
+			if (view == null) // otherwise create a new one
+				view = new EventGroup(Context);
+
+			view.Title = Items[groupPosition].Title;
+			view.Place = Items[groupPosition].Place;
+			view.Date = Items[groupPosition].Date;
+
+			if (isExpanded)
+				view.SeperatorVisibility(ViewStates.Gone);
+			else
+				view.SeperatorVisibility(ViewStates.Visible);
 
 			return view;
 		}
 
 		public override View GetChildView(int groupPosition, int childPosition, bool isLastChild, View convertView, ViewGroup parent)
 		{
-			View view = convertView; // re-use an existing view, if one is available
+			EventItem view = (convertView as EventItem); // re-use an existing view, if one is available
 
 			if (view == null)// otherwise create a new one
-			{
-				view = Context.LayoutInflater.Inflate(Resource.Layout.ListItem, null);
+				view = new EventItem(Context, (s, e) => 
+					{
+						return;
+					});
 
-				var button1 = view.FindViewById<Button>(Resource.Id.Button1);
-
-				// adding accept and decline button functionality
-				button1.Click += onCancel;
-				button1.Text = "Cancel Event";
-
-				view.FindViewById<Button>(Resource.Id.Button2).Visibility = ViewStates.Gone;
-			}
-
-			// add new infomation to view
-			view.FindViewById<TextView>(Resource.Id.Info).Text = "Description: " + Items[groupPosition].Description; 
+			view.Descrition = Items[groupPosition].Description;
 
 			return view;
 		}

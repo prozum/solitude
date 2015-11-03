@@ -16,10 +16,12 @@ namespace TileMenu
 	[Activity(Label = "ProfileActivity")]			
 	public class ProfileActivity : TileListActivity<OfferListAdapter, Event>
 	{
+		/*
 		public ProfileActivity() : base(Resource.Layout.ListActivity, Resource.Id.List2)
 		{
 
 		}
+		*/
 
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
@@ -29,7 +31,7 @@ namespace TileMenu
 			#endregion
 
 			// adapter for listView
-			ListView.SetAdapter(new EventListAdapter (this, TestMaterial.Events, OnButton1));
+			//ListView.SetAdapter(new EventListAdapter (this, TestMaterial.Events, OnButton1));
 		}
 	}
 }

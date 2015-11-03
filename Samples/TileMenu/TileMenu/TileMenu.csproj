@@ -57,6 +57,13 @@
     <Compile Include="Activities\EventActivity.cs" />
     <Compile Include="Activities\ProfileActivity.cs" />
     <Compile Include="Activities\SortableTileListActivity.cs" />
+    <Compile Include="Views\EventList.cs" />
+    <Compile Include="Views\EventGroup.cs" />
+    <Compile Include="Views\Abstract\SortableTileList.cs" />
+    <Compile Include="Views\Abstract\TileList.cs" />
+    <Compile Include="Views\Abstract\TileListGroup.cs" />
+    <Compile Include="Views\Abstract\TileListItem.cs" />
+    <Compile Include="Views\EventItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -70,14 +77,13 @@
     <AndroidResource Include="Resources\drawable-xhdpi\Icon.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\Icon.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\Icon.png" />
-    <AndroidResource Include="Resources\layout\ListGroup.axml" />
-    <AndroidResource Include="Resources\layout\ListItem.axml" />
-    <AndroidResource Include="Resources\layout\ListActivity.axml" />
-    <AndroidResource Include="Resources\layout\Profile.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Adapters\" />
     <Folder Include="Activities\" />
+    <Folder Include="Views\" />
+    <Folder Include="Resources\layout\" />
+    <Folder Include="Views\Abstract\" />
   </ItemGroup>
 </Project>

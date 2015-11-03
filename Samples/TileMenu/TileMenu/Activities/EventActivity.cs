@@ -11,28 +11,25 @@ using Android.OS;
 namespace TileMenu
 {
 	[Activity (Label = "TileMenu", MainLauncher = true)]
-	public class EventActivity : SortableTileListActivity<EventListAdapter, Event>
+	public class EventActivity : Activity
 	{
-		public EventActivity() : base(Resource.Layout.ListActivity, Resource.Id.List1, Resource.Id.SortSpinner)
+		public SortableTileList<Event> EventList
 		{
-
+			get;
+			set;
 		}
 
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
 			base.OnCreate (savedInstanceState);
 
-			#region Finding listView item data
-			#endregion
+			var adapter = new EventListAdapter(this, TestMaterial.Events);
+			var tilelist = new EventList(this, adapter);
 
-			// adapter for the spinner
-			ArrayAdapter adapter = ArrayAdapter.CreateFromResource(this, Resource.Array.SortSpinnerItems, Android.Resource.Layout.SimpleSpinnerItem);
-			adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
-			SortSpinner.Adapter = adapter;
-
-			// adapter for listView
-			ListView.SetAdapter(new EventListAdapter (this, TestMaterial.Events, OnButton1));
+			SetContentView(tilelist, new ViewGroup.LayoutParams(-1,-1));
 		}
+
+
 	}
 }
 

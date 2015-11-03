@@ -29,12 +29,14 @@ namespace TileMenu
 		#region Public Methods
 		public override View GetGroupView(int groupPosition, bool isExpanded, View convertView, ViewGroup parent)
 		{
-			View view = base.GetGroupView(groupPosition, isExpanded, convertView, parent);
+			View view = convertView;
 
+			/*
 			// add new infomation to view
 			view.FindViewById<TextView>(Resource.Id.Title).Text = "Title: " + Items[groupPosition].Title; 
 			view.FindViewById<TextView>(Resource.Id.Info1).Text = "Place: " + Items[groupPosition].Place; 
 			view.FindViewById<TextView>(Resource.Id.Info2).Text = "Date: " + Items[groupPosition].Date.ToString(@"dd\/MM\/yyyy HH:mm"); 
+			*/
 
 			return view;
 		}
@@ -43,6 +45,7 @@ namespace TileMenu
 		{
 			View view = convertView; // re-use an existing view, if one is available
 
+			/*
 			if (view == null)// otherwise create a new one
 			{
 				view = Context.LayoutInflater.Inflate(Resource.Layout.ListItem, null);
@@ -59,6 +62,7 @@ namespace TileMenu
 
 			// add new infomation to view
 			view.FindViewById<TextView>(Resource.Id.Info).Text = "Description: " + Items[groupPosition].Description; 
+			*/
 
 			return view;
 		}
