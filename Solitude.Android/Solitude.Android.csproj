@@ -72,6 +72,13 @@
     <Compile Include="Notifications\OfferNotification.cs" />
     <Compile Include="Notifications\ReviewNotification.cs" />
     <Compile Include="Activities\SignUpActivity.cs" />
+    <Compile Include="Activities\AbstractActivity.cs" />
+    <Compile Include="Activities\EventsActivity.cs" />
+    <Compile Include="Activities\HostActivity.cs" />
+    <Compile Include="Activities\OfferActivity.cs" />
+    <Compile Include="Activities\ProfileActivity.cs" />
+    <Compile Include="Drawer\DrawerToggle.cs" />
+    <Compile Include="Drawer\SetupDrawer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -89,6 +96,8 @@
     <AndroidResource Include="Resources\drawable-xxxhdpi\Icon.png" />
     <AndroidResource Include="Resources\layout\HeaderLayout.axml" />
     <AndroidResource Include="Resources\layout\SignUp.axml" />
+    <AndroidResource Include="Resources\layout\ActivityLayout.axml" />
+    <AndroidResource Include="Resources\layout\item_menu.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
@@ -96,5 +105,6 @@
     <Folder Include="Activities\" />
     <Folder Include="Classes\" />
     <Folder Include="Notifications\" />
+    <Folder Include="Drawer\" />
   </ItemGroup>
 </Project>
