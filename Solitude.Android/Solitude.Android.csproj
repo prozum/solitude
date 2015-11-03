@@ -101,6 +101,7 @@
     <AndroidResource Include="Resources\layout\SignUp.axml" />
     <AndroidResource Include="Resources\layout\ActivityLayout.axml" />
     <AndroidResource Include="Resources\layout\item_menu.axml" />
+    <AndroidResource Include="Resources\drawable\ic_navigation_drawer.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
@@ -109,6 +110,7 @@
     <Folder Include="Classes\" />
     <Folder Include="Notifications\" />
     <Folder Include="Drawer\" />
+    <Folder Include="Resources\drawable\" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="xamandroidsupportv4-18">

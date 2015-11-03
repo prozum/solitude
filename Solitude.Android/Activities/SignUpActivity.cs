@@ -33,17 +33,17 @@ namespace DineWithaDane.Android
 				{
 					var CIF = new CommunicationInterface();
 					pb.Visibility = global::Android.Views.ViewStates.Visible;
-					bool succes = false;
+					bool success = false;
 
 					ThreadPool.QueueUserWorkItem( o => {
-						succes = CIF.CreateUser(username.Text, password.Text, confirm.Text);
+						success = CIF.CreateUser(username.Text, password.Text, confirm.Text);
 
 						RunOnUiThread(() => {
 							pb.Visibility = global::Android.Views.ViewStates.Invisible;
 						});
 					});
 
-					if(succes)
+					if(success)
 					{
 						var toLogin = new Intent(this, typeof(MainActivity));
 						StartActivity(toLogin);
