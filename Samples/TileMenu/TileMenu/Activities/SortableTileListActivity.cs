@@ -23,10 +23,12 @@ namespace TileMenu
 
 		int spinnerID;
 
+		/*
 		public SortableTileListActivity(int contentViewID, int listViewID, int spinnerID) : base(contentViewID, listViewID)
 		{
 			this.spinnerID = spinnerID;
 		}
+		*/
 
 		protected override void OnCreate (Bundle savedInstanceState)
 		{

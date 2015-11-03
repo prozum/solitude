@@ -12,10 +12,12 @@ namespace TileMenu
 {
 	public class OfferActivity : SortableTileListActivity<OfferListAdapter, Event>
 	{
+		/*
 		public OfferActivity() : base(Resource.Layout.ListActivity, Resource.Id.List1, Resource.Id.SortSpinner)
 		{
 			
 		}
+		*/
 
 		protected override void OnCreate (Bundle savedInstanceState)
 		{

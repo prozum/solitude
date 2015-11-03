@@ -27,11 +27,13 @@ namespace TileMenu
 		int contentViewID;
 		int listViewID;
 
+		/*
 		public TileListActivity(int contentViewID, int listViewID)
 		{
 			this.contentViewID = contentViewID;
 			this.listViewID = listViewID;
 		}
+		*/
 
 		protected override void OnCreate (Bundle savedInstanceState)
 		{

@@ -40,6 +40,12 @@ namespace TileMenu
 				return true;
 			}
 		}
+
+		public int Focus
+		{
+			get;
+			set;
+		}
 		#endregion
 
 		#region Constructors
@@ -52,28 +58,6 @@ namespace TileMenu
 
 		#region Public Methods
 		public abstract void Sort(string context);
-
-		public override View GetGroupView(int groupPosition, bool isExpanded, View convertView, ViewGroup parent)
-		{
-			View view = convertView; // re-use an existing view, if one is available
-
-			if (view == null) // otherwise create a new one
-				view = Context.LayoutInflater.Inflate(Resource.Layout.ListGroup, null);
-
-			if (isExpanded)
-			{
-				view.FindViewById<TextView>(Resource.Id.Dots).Visibility = ViewStates.Gone;
-				view.FindViewById<TextView>(Resource.Id.GrayLine1).Visibility = ViewStates.Gone;
-			}
-			else
-			{
-				view.FindViewById<TextView>(Resource.Id.Dots).Visibility = ViewStates.Visible;
-				view.FindViewById<TextView>(Resource.Id.GrayLine1).Visibility = ViewStates.Visible;
-			}
-
-
-			return view;
-		}
 
 		public void RemoveAt(int index)
 		{
