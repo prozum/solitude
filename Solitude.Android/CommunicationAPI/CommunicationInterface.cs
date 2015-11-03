@@ -10,12 +10,13 @@ using DineWithaDane.Android;
 
 using Newtonsoft.Json;
 using RestSharp;
+using RestSharp.Authenticators;
 
 namespace ClientCommunication
 {
 	public class CommunicationInterface //: IClientCommunication
 	{
-		private int userID;
+		private string userToken;
 		RestClient client = new RestClient (HttpStrings.SERVER_URL);
 		private string latestError;
 		/// <summary>
@@ -25,12 +26,6 @@ namespace ClientCommunication
 		public string LatestError {
 			get { return latestError; }
 		}
-
-		public CommunicationInterface (int userID)
-		{
-			this.userID = userID;
-		}
-		public CommunicationInterface () { }
 
 		#region HttpRequest builders
 		/// <summary>
@@ -143,7 +138,6 @@ namespace ClientCommunication
 		//          
 		//      }
 		#endregion
-		#region User-handling
 		#region Event fethcing
 		/// <summary>
 		/// Gets the users own events.
@@ -202,6 +196,8 @@ namespace ClientCommunication
 			return e;
 		}
 		#endregion
+		#region User-handling
+
 		/// <summary>
 		/// Creates a new user on the server.
 		/// </summary>
@@ -223,14 +219,14 @@ namespace ClientCommunication
 
 			//Execute and await response
 			IRestResponse response = client.Execute (request);
-			if (response.StatusDescription == "Bad Request") {
+			if (response.StatusCode != HttpStatusCode.OK) {
 				ParseErrorMessage (response);
 				return false;
 			}
-			else {
+			else
 				return true;
-			}
 		}
+
 		void ParseErrorMessage(IRestResponse Response)
 		{
 			string ErrorContent = Response.Content;
@@ -242,26 +238,9 @@ namespace ClientCommunication
 		/// </summary>
 		/// <param name="i">A reference to a <see cref="DineWithaDane.InfoChange"/> containing Key and Value of the change.</param>
 		/// <param name="id">Identifier of the user to change.</param>
-		public async void UpdateUser (InfoChange i)
+		public void UpdateUser (InfoChange i)
 		{
-			var request = buildPutRequest ("event", userID);
-
-			var jsonString = JsonConvert.SerializeObject (i);
-			using (var streamWriter = request.GetRequestStream())
-			{
-				//Convert to byte array
-				byte[] bytes = stringToByteArray (jsonString);
-
-				//Write the bytearray to stream asyncronized
-				await streamWriter.WriteAsync (stringToByteArray(jsonString), 0, bytes.Length);
-				await streamWriter.FlushAsync ();
-				streamWriter.Close ();
-			}
-
-			using (var response = request.GetResponse ())
-			{
-				//Again some code to notify GUI
-			}
+			
 		}
 
 		/// <summary>
@@ -270,18 +249,14 @@ namespace ClientCommunication
 		/// <param name="u">User to delete.</param>
 		public void DeleteUser ()
 		{
-			var request = buildDeleteRequest ("User", userID);
+			var deleteRequest = new RestRequest ("user", Method.DELETE);
 
-			try
-			{
-				var response = (HttpWebResponse) request.GetResponse();
+			deleteRequest.AddParameter ("Token", userToken);
 
-				//if (response.StatusCode == HttpStatusCode.OK)
-				//Went well i guess?
-			}
-			catch
-			{
-				//Code to notify GUI, that user wasn't deleted
+			var response = client.Execute (deleteRequest);
+
+			if (response.StatusCode != HttpStatusCode.OK) {
+				throw new Exception ("The user was not deleted" + response.Content);
 			}
 		}
 
@@ -292,9 +267,28 @@ namespace ClientCommunication
 		/// <param name="password">Password.</param>
 		public bool Login(string username, string password)
 		{
-			//Do something to login
-			Thread.Sleep(3000);
-			return true;
+			//Sets the client to authenticate with the users name and password
+			client.Authenticator = new HttpBasicAuthenticator (username, password);
+
+			//Generates the token-request
+			var tokenRequest = new RestRequest("user/token", Method.POST);
+			tokenRequest.AddParameter ("Content-Type", "application/x-www-form-urlencoded");
+			tokenRequest.AddParameter ("grant_type", "client_credidentials");
+
+			//Execute and await response
+			var tokenResponse = client.Execute (tokenRequest);
+
+			//Saves the user and return true, if the login was successful and false otherwise
+			if (tokenResponse.StatusCode == HttpStatusCode.OK)
+			{
+				userToken = tokenResponse.Content;
+				return true;
+			}
+			else
+			{
+				latestError = tokenResponse.Content;
+				return false;
+			}
 		}
 		#endregion
 
@@ -302,33 +296,26 @@ namespace ClientCommunication
 		/// Creates an event on the server.
 		/// </summary>
 		/// <param name="e">Event to create.</param>
-		public async void CreateEvent (Event e)
+		public void CreateEvent (Event e)
 		{
-			var request = buildPostRequest ("event");
+			var request = new RestRequest ("event", Method.POST);
 
-			var eventJson = JsonConvert.SerializeObject (e);
+			request.RequestFormat = DataFormat.Json;
+			request.AddObject (e);
 
-			using (var streamWriter = request.GetRequestStream ())
+			IRestResponse response;
+			response = client.Execute (request);
+
+			if (response.StatusCode != HttpStatusCode.OK) 
 			{
-				byte[] bytes = stringToByteArray (eventJson);
-
-				//Write and flush the stream in the background
-				await streamWriter.WriteAsync (bytes, 0, bytes.Length);
-				await streamWriter.FlushAsync ();
-				streamWriter.Close ();
-			}
-
-			using (var responseStream = new StreamReader (request.GetResponse ().GetResponseStream ()))
-			{
-				await responseStream.ReadToEndAsync ();
-
-				//Again code to notify incase of errors
+				//Something went wrong
 			}
 		}
 
 		public void UpdateEvent ()
 		{
-			throw new NotImplementedException ();
+			var request = new RestRequest ("event", Method.PUT);
+
 		}
 
 		/// <summary>
@@ -337,18 +324,15 @@ namespace ClientCommunication
 		/// <param name="e">Event to delete.</param>
 		public void DeleteEvent (Event e)
 		{
-			var request = buildDeleteRequest ("event", e.id);
+			var request = new RestRequest ("event", Method.DELETE);
 
-			try
-			{
-				var response = (HttpWebResponse) request.GetResponse();
+			request.AddParameter ("id", e.id);
 
-				//if (response.StatusCode == HttpStatusCode.OK)
-				//Went well i guess?
-			}
-			catch
+			var response = client.Execute (request);
+
+			if (response.StatusCode != HttpStatusCode.OK) 
 			{
-				//Code to notify GUI, that user wasn't deleted
+				//Something went wrong
 			}
 		}
 
