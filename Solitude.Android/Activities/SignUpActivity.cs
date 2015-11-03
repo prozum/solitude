@@ -41,19 +41,23 @@ namespace DineWithaDane.Android
 						RunOnUiThread(() => {
 							pb.Visibility = global::Android.Views.ViewStates.Invisible;
 						});
+
+						if(success)
+						{
+							var toLogin = new Intent(this, typeof(MainActivity));
+							StartActivity(toLogin);
+						}
+						else
+						{
+							var errorDialog = new AlertDialog.Builder(this);
+							errorDialog.SetMessage(CIF.LatestError);
+							RunOnUiThread(() => {
+								errorDialog.Show();
+							});
+						}
 					});
 
-					if(success)
-					{
-						var toLogin = new Intent(this, typeof(MainActivity));
-						StartActivity(toLogin);
-					}
-					else
-					{
-						var errorDialog = new AlertDialog.Builder(this);
-						errorDialog.SetMessage(CIF.LastestError);
-						errorDialog.Show();
-					}
+
 				}
 				else
 				{

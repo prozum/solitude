@@ -22,7 +22,7 @@ namespace ClientCommunication
 		/// Gets the lastest error.
 		/// </summary>
 		/// <value>The lastest error.</value>
-		public string LastestError {
+		public string LatestError {
 			get { return latestError; }
 		}
 
@@ -235,9 +235,7 @@ namespace ClientCommunication
 		{
 			string ErrorContent = Response.Content;
 			string[] SplitErrorContent = ErrorContent.Split(':');
-			string ErrorMessage = SplitErrorContent [SplitErrorContent.Length];
-			//ErrorMessage.Trim(
-			latestError = SplitErrorContent[SplitErrorContent.Length];
+			latestError = SplitErrorContent [SplitErrorContent.Length - 1].Trim('"', ':', '\\', '[', ']');
 		}
 		/// <summary>
 		/// Updates the user specified by id.
