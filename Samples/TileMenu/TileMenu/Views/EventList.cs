@@ -19,6 +19,12 @@ namespace TileMenu
 		public EventList(Context context, EventListAdapter adapter)
 			: base(context, adapter)
 		{
+			adapter.OnCancel = (s, e) =>
+				{
+					ExpListView.CollapseGroup(Focus);
+					RemoveFocus();
+				};
+
 			Initialize();
 		}
 

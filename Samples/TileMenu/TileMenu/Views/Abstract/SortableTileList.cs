@@ -27,12 +27,21 @@ namespace TileMenu
 		{
 			SortSpinnerView = new Spinner(context);
 
+			SortSpinnerView.SetBackgroundColor(new Android.Graphics.Color(255,255,255));
+			SortSpinnerView.Adapter = new ArrayAdapter<string>(context, Android.Resource.Layout.TestListItem, 
+															   new string[] { "Title (A-Z)", 
+																			  "Title (Z-A)", 
+																			  "Date (Soonest)", 
+																			  "Date (Lastest)", 
+																			  "Distance (Closest)", 
+																			  "Distance (Farthest)" });
+			
 			#region Spinner Setup
 			// sort when new item is selected in spinner
 			SortSpinnerView.ItemSelected += (sender, e) => 
 				{
 					ExpListView.CollapseGroup(Focus);
-					(ExpListView.ExpandableListAdapter as BaseTileListAdapter<T>).Sort(((e as AdapterView.ItemSelectedEventArgs).View as TextView).Text);
+					Adapter.Sort((e.View as TextView).Text);
 
 				};
 			#endregion
@@ -40,11 +49,19 @@ namespace TileMenu
 
 		protected override void Initialize()
 		{
-			AddView(ExpListView);
-			AddView(SortSpinnerView);
+			var sortspinnerlayout = new RelativeLayout.LayoutParams(-1, -2);
+			var explistlayout = new RelativeLayout.LayoutParams(-1, -2);
+			SortSpinnerView.Id = 10;
 
-			SortSpinnerView.LayoutParameters.Width = -1;
-			ExpListView.LayoutParameters.Width = -1;
+			AddView(SortSpinnerView);
+			AddView(ExpListView);
+
+			sortspinnerlayout.AddRule(LayoutRules.AlignParentBottom);
+			SortSpinnerView.LayoutParameters = sortspinnerlayout;
+
+			explistlayout.AddRule(LayoutRules.Above, SortSpinnerView.Id);
+			ExpListView.LayoutParameters = explistlayout;
+
 		}
 	}
 }

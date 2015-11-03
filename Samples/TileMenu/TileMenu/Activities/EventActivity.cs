@@ -13,12 +13,6 @@ namespace TileMenu
 	[Activity (Label = "TileMenu", MainLauncher = true)]
 	public class EventActivity : Activity
 	{
-		public SortableTileList<Event> EventList
-		{
-			get;
-			set;
-		}
-
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
 			base.OnCreate (savedInstanceState);
@@ -28,8 +22,6 @@ namespace TileMenu
 
 			SetContentView(tilelist, new ViewGroup.LayoutParams(-1,-1));
 		}
-
-
 	}
 }
 

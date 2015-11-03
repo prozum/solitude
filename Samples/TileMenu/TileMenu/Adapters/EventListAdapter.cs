@@ -13,6 +13,12 @@ namespace TileMenu
 {
 	public class EventListAdapter : BaseTileListAdapter<Event>
 	{
+		public EventHandler OnCancel
+		{
+			get;
+			set;
+		}
+
 		#region Constructors
 		public EventListAdapter(Activity context, List<Event> items) : base(context, items)
 		{
@@ -45,10 +51,7 @@ namespace TileMenu
 			EventItem view = (convertView as EventItem); // re-use an existing view, if one is available
 
 			if (view == null)// otherwise create a new one
-				view = new EventItem(Context, (s, e) => 
-					{
-						return;
-					});
+				view = new EventItem(Context, OnCancel);
 
 			view.Descrition = Items[groupPosition].Description;
 
@@ -60,28 +63,29 @@ namespace TileMenu
 			switch (context)
 			{
 				case"Title (A-Z)":
-					Items.Sort(new TitleComparer());
+					Items.Sort(CompareTitle);
 					break;
 				case"Title (Z-A)":
-					Items.Sort(new TitleComparer());
+					Items.Sort(CompareTitle);
 					Items.Reverse();
 					break;
 				case"Date (Soonest)":
-					Items.Sort(new DateComparer());
+					Items.Sort(CompareDate);
 					break;
 				case"Date (Lastest)":
-					Items.Sort(new DateComparer());
+					Items.Sort(CompareDate);
 					Items.Reverse();
 					break;
 				case"Distance (Closest)":
-					Items.Sort(new DistanceComparer());
+					Items.Sort(CompareDistance);
 					break;
 				case"Distance (Farthest)":
-					Items.Sort(new DistanceComparer());
+					Items.Sort(CompareDistance);
 					Items.Reverse();
 					break;
 				default:
 					throw new NotImplementedException();
+
 			}
 
 			NotifyDataSetChanged();
@@ -89,6 +93,20 @@ namespace TileMenu
 		#endregion
 
 		#region Private Methods
+		int CompareTitle(Event x, Event y)
+		{
+			return x.Title.CompareTo(y.Title);
+		}
+
+		int CompareDate(Event x, Event y)
+		{
+			return x.Date.CompareTo(y.Date);
+		}
+
+		int CompareDistance(Event x, Event y)
+		{
+			return x.Place.CompareTo(y.Place);
+		}
 		#endregion
 	}
 }

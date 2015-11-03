@@ -14,9 +14,15 @@ using Android.Widget;
 
 namespace TileMenu
 {
-	public abstract class TileList<T> : LinearLayout
+	public abstract class TileList<T> : RelativeLayout
 	{
 		protected ExpandableListView ExpListView
+		{
+			get;
+			set;
+		}
+
+		protected BaseTileListAdapter<T> Adapter
 		{
 			get;
 			set;
@@ -31,8 +37,10 @@ namespace TileMenu
 		public TileList(Context context, BaseTileListAdapter<T> adabter)
 			: base(context)
 		{
+			Adapter = adabter;
+
 			ExpListView = new ExpandableListView(Context);
-			ExpListView.SetAdapter(adabter);
+			ExpListView.SetAdapter(Adapter);
 			ExpListView.SetGroupIndicator(null);
 
 			// focus selfcollapse, when another item expands
@@ -45,23 +53,17 @@ namespace TileMenu
 				};
 		}
 
+		protected void RemoveFocus()
+		{
+			Adapter.RemoveAt(Focus);
+		}
+
+
 		protected virtual void Initialize()
 		{
 			AddView(ExpListView);
 
 			ExpListView.LayoutParameters.Width = -1;
-		}
-
-		protected virtual void OnButton1(object sender, EventArgs e)
-		{
-			(ExpListView.ExpandableListAdapter as BaseTileListAdapter<T>).RemoveAt(Focus);
-			ExpListView.CollapseGroup(Focus);
-		}
-
-		protected virtual void OnButton2(object sender, EventArgs e)
-		{
-			(ExpListView.ExpandableListAdapter as BaseTileListAdapter<T>).RemoveAt(Focus);
-			ExpListView.CollapseGroup(Focus);
 		}
 	}
 }
