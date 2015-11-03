@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 ﻿
 using System;
 using System.Collections.Generic;
@@ -40,3 +41,17 @@ namespace DineWithaDane.Android
 	}
 }
 
+=======
+﻿using System;
+
+namespace DineWithaDane.Android
+{
+	public class NotificationActivity
+	{
+		public NotificationActivity ()
+		{
+		}
+	}
+}
+
+>>>>>>> Stashed changes
