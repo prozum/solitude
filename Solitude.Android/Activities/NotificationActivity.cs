@@ -1,5 +1,3 @@
-<<<<<<< Updated upstream
-﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,18 +38,3 @@ namespace DineWithaDane.Android
 		}
 	}
 }
-
-=======
-﻿using System;
-
-namespace DineWithaDane.Android
-{
-	public class NotificationActivity
-	{
-		public NotificationActivity ()
-		{
-		}
-	}
-}
-
->>>>>>> Stashed changes
