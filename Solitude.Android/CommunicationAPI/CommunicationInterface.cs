@@ -27,82 +27,24 @@ namespace ClientCommunication
 			get { return latestError; }
 		}
 
-		#region HttpRequest builders
 		/// <summary>
-		/// Builds a get URL for the specified resource and id.
+		/// Parses the error message and asigns to the latestError string.
 		/// </summary>
-		/// <returns>The get URL.</returns>
-		/// <param name="resource">Resource.</param>
-		/// <param name="id">Identifier.</param>
-		private HttpWebRequest buildGetRequest(string resource, int id)
+		/// <param name="Response">Response from server.</param>
+		void parseErrorMessage(IRestResponse Response)
 		{
-			string url = HttpStrings.SERVER_URL + string.Format("{0}/{1}", resource, id);
-			HttpWebRequest request = (HttpWebRequest) HttpWebRequest.Create (new Uri(url));
-			request.ContentType = HttpStrings.JSON_REQUEST;
-			request.Method = HttpStrings.GET;
-
-			return request;
+			string ErrorContent = Response.Content;
+			string[] SplitErrorContent = ErrorContent.Split(':');
+			latestError = SplitErrorContent [SplitErrorContent.Length - 1].Trim('"', ':', '\\', '[', ']');
 		}
 
-		/// <summary>
-		/// Builds a post request of specified resource.
-		/// </summary>
-		/// <returns>The post request.</returns>
-		/// <param name="resource">Resource.</param>
-		private HttpWebRequest buildPostRequest(string resource)
+		void executeAndParseResponse(IRestRequest request)
 		{
-			string url = HttpStrings.SERVER_URL + resource;
-			HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create (new Uri (url));
-			request.ContentType = HttpStrings.JSON_REQUEST;
-			request.Method = HttpStrings.POST;
+			var response = client.Execute (request);
 
-			return request;
-		}
-
-		/// <summary>
-		/// Builds a delete request on specified resource and id.
-		/// </summary>
-		/// <returns>The delete request.</returns>
-		/// <param name="resource">Resource.</param>
-		/// <param name="id">Identifier.</param>
-		private HttpWebRequest buildDeleteRequest(string resource, int id)
-		{
-			string url = HttpStrings.SERVER_URL + string.Format("{0}/{1}", resource, id);
-			HttpWebRequest request = (HttpWebRequest) HttpWebRequest.Create (new Uri(url));
-			request.Method = HttpStrings.DELETE;
-
-			return request;
-		}
-
-		/// <summary>
-		/// Builds a put request on specified resource and id.
-		/// </summary>
-		/// <returns>The put request.</returns>
-		/// <param name="resource">Resource.</param>
-		/// <param name="id">Identifier.</param>
-		private HttpWebRequest buildPutRequest(string resource, int id)
-		{
-			string url = HttpStrings.SERVER_URL + string.Format("{0}/{1}", resource, id);
-			HttpWebRequest request = (HttpWebRequest) HttpWebRequest.Create (new Uri(url));
-			request.ContentType = HttpStrings.JSON_REQUEST;
-			request.Method = HttpStrings.PUT;
-
-			return request;
-		}
-		#endregion
-
-		/// <summary>
-		/// Converts a String to a byte array.
-		/// </summary>
-		/// <returns>A byte array containing bytes of the string.</returns>
-		/// <param name="str">String to convert.</param>
-		private byte[] stringToByteArray(string str)
-		{
-			//Convert the eventJson-string to a byte array
-			byte[] bytes = new byte[str.Length * sizeof(char)];
-			System.Buffer.BlockCopy (str.ToCharArray (), 0, bytes, 0, bytes.Length);
-
-			return bytes;
+			if (response.StatusCode != HttpStatusCode.OK) {
+				parseErrorMessage (response);
+			}
 		}
 
 		#region IClientCommunication implementation
@@ -111,32 +53,24 @@ namespace ClientCommunication
 		/// Request the list of matches found by the server.
 		/// </summary>
 		/// <returns>A list of all Offers.</returns>
-		public async Task<List<Offer>> RequestOffers ()
+		public List<Offer> RequestOffers ()
 		{
-			//JsonValue response = await fetchOffers ();
-			//List<Offer> allOffers = parseOffers (response);
+			var offerRequest = new RestRequest ("offer", Method.GET);
 
-			//foreach (var offer in allOffers) {
-			//  Console.WriteLine (offer);
-			//}
+			offerRequest.AddParameter ("userToken", userToken);
 
-			//return allOffers;
-			throw new NotImplementedException();
+			try
+			{
+				IRestResponse<List<Offer>> offerResponse = client.Execute<List<Offer>>(offerRequest);
+				return offerResponse.Data;
+
+			}
+			catch (Exception e)
+			{
+				latestError = "Could not fetch the events from the server" + e.Message;
+				return new List<Offer> ();
+			}
 		}
-
-		/// <summary>
-		/// Fetchs the events from the server.
-		/// </summary>
-		/// <returns>A Json-string containing the events.</returns>
-		//      private async Task<JsonValue> fetchOffers()
-		//      {
-		//          
-		//      }
-
-		//      private List<Offer> parseOffers(JsonValue serverResponse)
-		//      {
-		//          
-		//      }
 		#endregion
 		#region Event fethcing
 		/// <summary>
@@ -145,55 +79,21 @@ namespace ClientCommunication
 		/// <returns>A list of the users events.</returns>
 		/// <param name="n">Amount of events to find.</param>
 		/// <param name="NEWEST">If set to <c>true</c> returns the newest events.</param>
-		public async Task<List<Event>> GetOwnEvents (int n, bool NEWEST = true)
+		public List<Event> GetOwnEvents (int n, bool NEWEST = true)
 		{
-			var events = new List<Event> ();
+			var eventRequest = new RestRequest ("event", Method.GET);
+			eventRequest.AddParameter ("Token", userToken);
 
-			for (int i = 0; i < n; i++) {
-				var url = buildGetRequest ("event", 1);
-				JsonValue eventJson = await fetchEvent (url);
-				Event e = parseEvent (eventJson);
-				events.Add (e);
-			}
-
-			return events;
-		}
-
-		/// <summary>
-		/// Fetchs the event from the HttpRequest.
-		/// </summary>
-		/// <returns>The event.</returns>
-		/// <param name="request">Request to fetch event from.</param>
-		private async Task<JsonValue> fetchEvent(HttpWebRequest request)
-		{
-			//Send the request to the server and await response
-			using (WebResponse response = await request.GetResponseAsync ())
+			try 
 			{
-				using (Stream stream = response.GetResponseStream ())
-				{
-					//Build a Json document from the response
-					JsonValue jval = await Task.Run( () => System.Json.JsonObject.Load(stream));
-
-					return jval;
-				}
+				IRestResponse<List<Event>> eventResponse = client.Execute<List<Event>>(eventRequest);
+				return eventResponse.Data;
 			}
-		}
-
-		/// <summary>
-		/// Parses the event from a JsonValue.
-		/// </summary>
-		/// <returns>The parsed event.</returns>
-		/// <param name="eventJson">Json-string containing event.</param>
-		private Event parseEvent(JsonValue eventJson)
-		{
-			int id = eventJson ["ID"];
-			string name = eventJson ["Name"];
-			string description = eventJson ["Description"];
-			//Bitmap picture = serverResponse ["Picture"];
-
-			var e = new Event (name, id, description);
-
-			return e;
+			catch (Exception ex)
+			{
+				latestError = "Could not find events\n" + ex.Message;
+				return new List<Event> ();
+			}
 		}
 		#endregion
 		#region User-handling
@@ -220,19 +120,13 @@ namespace ClientCommunication
 			//Execute and await response
 			IRestResponse response = client.Execute (request);
 			if (response.StatusCode != HttpStatusCode.OK) {
-				ParseErrorMessage (response);
+				parseErrorMessage (response);
 				return false;
 			}
 			else
 				return true;
 		}
 
-		void ParseErrorMessage(IRestResponse Response)
-		{
-			string ErrorContent = Response.Content;
-			string[] SplitErrorContent = ErrorContent.Split(':');
-			latestError = SplitErrorContent [SplitErrorContent.Length - 1].Trim('"', ':', '\\', '[', ']');
-		}
 		/// <summary>
 		/// Updates the user specified by id.
 		/// </summary>
@@ -240,7 +134,10 @@ namespace ClientCommunication
 		/// <param name="id">Identifier of the user to change.</param>
 		public void UpdateUser (InfoChange i)
 		{
-			
+			var request = new RestRequest ("user", Method.PUT);
+			request.AddParameter (i.Key, i.Value);
+
+			executeAndParseResponse (request);
 		}
 
 		/// <summary>
@@ -253,11 +150,7 @@ namespace ClientCommunication
 
 			deleteRequest.AddParameter ("Token", userToken);
 
-			var response = client.Execute (deleteRequest);
-
-			if (response.StatusCode != HttpStatusCode.OK) {
-				throw new Exception ("The user was not deleted" + response.Content);
-			}
+			executeAndParseResponse (deleteRequest);
 		}
 
 		/// <summary>
@@ -291,7 +184,7 @@ namespace ClientCommunication
 			}
 		}
 		#endregion
-
+		#region Event-handling
 		/// <summary>
 		/// Creates an event on the server.
 		/// </summary>
@@ -303,19 +196,16 @@ namespace ClientCommunication
 			request.RequestFormat = DataFormat.Json;
 			request.AddObject (e);
 
-			IRestResponse response;
-			response = client.Execute (request);
-
-			if (response.StatusCode != HttpStatusCode.OK) 
-			{
-				//Something went wrong
-			}
+			executeAndParseResponse (request);
 		}
 
-		public void UpdateEvent ()
+		public void UpdateEvent (Event e)
 		{
 			var request = new RestRequest ("event", Method.PUT);
+			request.RequestFormat = DataFormat.Json;
+			request.AddBody (e);
 
+			executeAndParseResponse (request);
 		}
 
 		/// <summary>
@@ -328,13 +218,9 @@ namespace ClientCommunication
 
 			request.AddParameter ("id", e.id);
 
-			var response = client.Execute (request);
-
-			if (response.StatusCode != HttpStatusCode.OK) 
-			{
-				//Something went wrong
-			}
+			executeAndParseResponse (request);
 		}
+		#endregion
 
 		public void ReplyOffer (bool a)
 		{

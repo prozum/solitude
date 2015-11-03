@@ -23,7 +23,6 @@ namespace DineWithaDane.Android
 			StartService (new Intent(this, typeof(BackgroundService)));
 
 			CIF = new ClientCommunication.CommunicationInterface ();
-			List<Offer> offers;
 
 			// Set our view from the "main" layout resource
 			SetContentView (Resource.Layout.Main);

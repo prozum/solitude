@@ -18,19 +18,6 @@ namespace Solitude.Android.UITests
 		{
 			app = ConfigureApp.Android.StartApp ();
 		}
-
-		[Test]
-		public void ClickingButtonTwiceShouldChangeItsLabel ()
-		{
-			Func<AppQuery, AppQuery> MyButton = c => c.Button ("myButton");
-
-			app.Tap (MyButton);
-			app.Tap (MyButton);
-			AppResult[] results = app.Query (MyButton);
-			app.Screenshot ("Button clicked twice.");
-
-			Assert.AreEqual ("2 clicks!", results [0].Text);
-		}
 	}
 }
 
