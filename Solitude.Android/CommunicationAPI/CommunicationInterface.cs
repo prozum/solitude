@@ -13,7 +13,7 @@ using RestSharp;
 
 namespace ClientCommunication
 {
-	public class CommunicationInterface : IClientCommunication
+	public class CommunicationInterface //: IClientCommunication
 	{
 		private int userID;
 		RestClient client = new RestClient (HttpStrings.SERVER_URL);
