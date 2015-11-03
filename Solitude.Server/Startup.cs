@@ -74,6 +74,7 @@ namespace Solitude.Server
                 };
 
             app.UseOAuthAuthorizationServer(OAuthServerOptions);
+            app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
             app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
 
 
