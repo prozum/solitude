@@ -48,8 +48,8 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>packages\Newtonsoft.Json.7.0.1\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Xamarin.Android.Support.v4">
-      <HintPath>packages\Xamarin.Android.Support.v4.23.0.1.3\lib\MonoAndroid403\Xamarin.Android.Support.v4.dll</HintPath>
+    <Reference Include="RestSharp">
+      <HintPath>packages\RestSharp.105.2.3\lib\MonoAndroid10\RestSharp.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -57,26 +57,28 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CommunicationAPI\CommunicationInterface.cs" />
     <Compile Include="CommunicationAPI\IClientCommunication.cs" />
-    <Compile Include="User.cs" />
-    <Compile Include="InfoChange.cs" />
-    <Compile Include="Offer.cs" />
     <Compile Include="CommunicationAPI\HttpStrings.cs" />
     <Compile Include="CommunicationAPI\ErrorCodes.cs" />
-    <Compile Include="Notification.cs" />
-    <Compile Include="OfferNotification.cs" />
-    <Compile Include="EventUpdateNotification.cs" />
-    <Compile Include="ReviewNotification.cs" />
-    <Compile Include="EventReminderNotification.cs" />
     <Compile Include="BackgroundService.cs" />
-    <Compile Include="SetupDrawer.cs" />
-    <Compile Include="DrawerToggle.cs" />
+    <Compile Include="Activities\NotificationActivity.cs" />
+    <Compile Include="Activities\MainActivity.cs" />
+    <Compile Include="Classes\Event.cs" />
+    <Compile Include="Classes\InfoChange.cs" />
+    <Compile Include="Classes\Offer.cs" />
+    <Compile Include="Classes\User.cs" />
+    <Compile Include="Notifications\EventReminderNotification.cs" />
+    <Compile Include="Notifications\EventUpdateNotification.cs" />
+    <Compile Include="Notifications\Notification.cs" />
+    <Compile Include="Notifications\OfferNotification.cs" />
+    <Compile Include="Notifications\ReviewNotification.cs" />
+    <Compile Include="Activities\SignUpActivity.cs" />
     <Compile Include="Activities\AbstractActivity.cs" />
     <Compile Include="Activities\EventsActivity.cs" />
     <Compile Include="Activities\HostActivity.cs" />
-    <Compile Include="Activities\MainActivity.cs" />
     <Compile Include="Activities\OfferActivity.cs" />
     <Compile Include="Activities\ProfileActivity.cs" />
-    <Compile Include="Activities\NotificationActivity.cs" />
+    <Compile Include="Drawer\DrawerToggle.cs" />
+    <Compile Include="Drawer\SetupDrawer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -93,20 +95,16 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\Icon.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\Icon.png" />
     <AndroidResource Include="Resources\layout\HeaderLayout.axml" />
-    <AndroidResource Include="Resources\drawable\ic_navigation_drawer.png" />
-    <AndroidResource Include="Resources\layout\item_menu.axml" />
+    <AndroidResource Include="Resources\layout\SignUp.axml" />
     <AndroidResource Include="Resources\layout\ActivityLayout.axml" />
+    <AndroidResource Include="Resources\layout\item_menu.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
     <Folder Include="CommunicationAPI\" />
     <Folder Include="Activities\" />
-    <Folder Include="Resources\drawable\" />
-  </ItemGroup>
-  <ItemGroup>
-    <XamarinComponentReference Include="xamandroidsupportv4-18">
-      <Version>23.0.1.3</Version>
-      <Visible>False</Visible>
-    </XamarinComponentReference>
+    <Folder Include="Classes\" />
+    <Folder Include="Notifications\" />
+    <Folder Include="Drawer\" />
   </ItemGroup>
 </Project>
