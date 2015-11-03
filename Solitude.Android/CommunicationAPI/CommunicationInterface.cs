@@ -223,14 +223,22 @@ namespace ClientCommunication
 
 			//Execute and await response
 			IRestResponse response = client.Execute (request);
-			if (response.Equals (""))
-				return true;
-			else {
-				latestError = response.ErrorMessage;
+			if (response.StatusDescription == "Bad Request") {
+				ParseErrorMessage (response);
 				return false;
 			}
+			else {
+				return true;
+			}
 		}
-
+		void ParseErrorMessage(IRestResponse Response)
+		{
+			string ErrorContent = Response.Content;
+			string[] SplitErrorContent = ErrorContent.Split(':');
+			string ErrorMessage = SplitErrorContent [SplitErrorContent.Length];
+			//ErrorMessage.Trim(
+			latestError = SplitErrorContent[SplitErrorContent.Length];
+		}
 		/// <summary>
 		/// Updates the user specified by id.
 		/// </summary>
