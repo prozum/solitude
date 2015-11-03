@@ -8,6 +8,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
+using Microsoft.Owin.Security.OAuth;
+using Microsoft.Owin.Security;
 using Neo4j.AspNet.Identity;
 
 namespace Solitude.Server
@@ -102,6 +104,37 @@ namespace Solitude.Server
         public static Neo4jSignInManager Create(IdentityFactoryOptions<Neo4jSignInManager> options, IOwinContext context)
         {
             return new Neo4jSignInManager(context.GetUserManager<Neo4jUserManager>(), context.Authentication);
+        }
+    }
+
+    public class Neo4jAuthorizationServerProvider : OAuthAuthorizationServerProvider
+    {
+        public override async Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
+        {
+            context.Validated();
+        }
+
+        public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
+        {
+            var allowedOrigin = "*";
+
+            context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { allowedOrigin });
+
+            var userManager = context.OwinContext.GetUserManager<Neo4jUserManager>();
+
+            ApplicationUser user = await userManager.FindAsync(context.UserName, context.Password);
+
+            if (user == null)
+            {
+                context.SetError("invalid_grant", "The user name or password is incorrect.");
+                return;
+            }
+
+            ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(userManager);
+
+            var ticket = new AuthenticationTicket(oAuthIdentity, null);
+
+            context.Validated(ticket);
         }
     }
 }

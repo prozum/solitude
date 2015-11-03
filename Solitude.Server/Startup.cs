@@ -12,9 +12,12 @@ using Microsoft.Owin.Security.OAuth;
 using Microsoft.Owin.Security.Facebook;
 using Microsoft.Owin.Security.Cookies;
 using System.Web.Http;
+using System.Web.Configuration;
 using System.Net.Http.Formatting;
 using Neo4jClient;
 using Neo4j.AspNet.Identity;
+using System.IdentityModel.Tokens;
+using Microsoft.Owin.Security.Jwt;
 
 namespace Solitude.Server
 {
@@ -62,10 +65,19 @@ namespace Solitude.Server
             // Use UseAesDataProtector instead
             app.UseAesDataProtectorProvider();
 
-            app.UseCookieAuthentication(new CookieAuthenticationOptions());
-            app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
+            OAuthAuthorizationServerOptions OAuthServerOptions = new OAuthAuthorizationServerOptions()
+                {
+                    Provider = new Neo4jAuthorizationServerProvider(),
+                    AllowInsecureHttp = true,
+                    TokenEndpointPath = new PathString("/api/token"),
+                    AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
+                };
 
-            app.UseFacebookAuthentication ("1654758468126707", "APP SECRET");
+            app.UseOAuthAuthorizationServer(OAuthServerOptions);
+            app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
+
+
+            //app.UseFacebookAuthentication ("1654758468126707", "APP SECRET");
         }
     }
 }
