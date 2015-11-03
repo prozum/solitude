@@ -10,9 +10,9 @@ using Android.OS;
 
 namespace TileMenu
 {
-	public class OfferActivity : TileListActivity<OfferListAdapter, Event>
+	public class OfferActivity : SortableTileListActivity<OfferListAdapter, Event>
 	{
-		public OfferActivity() : base(Resource.Layout.ListActivity, Resource.Id.spinner1, Resource.Id.expandableListView1)
+		public OfferActivity() : base(Resource.Layout.ListActivity, Resource.Id.List1, Resource.Id.SortSpinner)
 		{
 			
 		}
@@ -27,7 +27,7 @@ namespace TileMenu
 			// adapter for the spinner
 			ArrayAdapter adapter = ArrayAdapter.CreateFromResource(this, Resource.Array.SortSpinnerItems, Android.Resource.Layout.SimpleSpinnerItem);
 			adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
-			Spinner.Adapter = adapter;
+			SortSpinner.Adapter = adapter;
 
 			// adapter for listView
 			ListView.SetAdapter(new OfferListAdapter (this, TestMaterial.Events, OnButton1, OnButton2));

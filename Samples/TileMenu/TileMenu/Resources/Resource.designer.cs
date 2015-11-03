@@ -88,8 +88,14 @@ namespace TileMenu
 			// aapt resource value: 0x7f050007
 			public const int Dots = 2131034119;
 			
+			// aapt resource value: 0x7f050012
+			public const int EditButton = 2131034130;
+			
 			// aapt resource value: 0x7f050008
-			public const int GrayLine = 2131034120;
+			public const int GrayLine1 = 2131034120;
+			
+			// aapt resource value: 0x7f05000d
+			public const int GrayLine2 = 2131034125;
 			
 			// aapt resource value: 0x7f05000a
 			public const int Info = 2131034122;
@@ -103,32 +109,32 @@ namespace TileMenu
 			// aapt resource value: 0x7f050004
 			public const int InfoLayout = 2131034116;
 			
+			// aapt resource value: 0x7f050001
+			public const int List1 = 2131034113;
+			
+			// aapt resource value: 0x7f050013
+			public const int List2 = 2131034131;
+			
 			// aapt resource value: 0x7f050002
 			public const int ListGroup = 2131034114;
 			
 			// aapt resource value: 0x7f050010
 			public const int Name = 2131034128;
 			
+			// aapt resource value: 0x7f05000e
+			public const int ProfileInfo = 2131034126;
+			
 			// aapt resource value: 0x7f05000f
 			public const int ProfilePicture = 2131034127;
 			
-			// aapt resource value: 0x7f05000d
-			public const int Separator = 2131034125;
+			// aapt resource value: 0x7f050000
+			public const int SortSpinner = 2131034112;
 			
 			// aapt resource value: 0x7f050003
 			public const int Title = 2131034115;
 			
-			// aapt resource value: 0x7f050001
-			public const int expandableListView1 = 2131034113;
-			
-			// aapt resource value: 0x7f05000e
-			public const int linearLayout1 = 2131034126;
-			
 			// aapt resource value: 0x7f050009
 			public const int relativeLayout1 = 2131034121;
-			
-			// aapt resource value: 0x7f050000
-			public const int spinner1 = 2131034112;
 			
 			static Id()
 			{

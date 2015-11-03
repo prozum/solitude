@@ -40,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/Dots"
-        android:id="@+id/GrayLine"
+        android:id="@+id/GrayLine1"
         android:minHeight="1dp"
         android:maxHeight="1dp"
         android:background="#ff646464" />

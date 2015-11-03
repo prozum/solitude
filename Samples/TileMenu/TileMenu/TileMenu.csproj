@@ -55,6 +55,8 @@
     <Compile Include="Adapters\BaseTileListAdapter.cs" />
     <Compile Include="Comparers.cs" />
     <Compile Include="Activities\EventActivity.cs" />
+    <Compile Include="Activities\ProfileActivity.cs" />
+    <Compile Include="Activities\SortableTileListActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

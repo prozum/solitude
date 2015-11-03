@@ -8,20 +8,19 @@
     <Spinner xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/spinner1"
+        android:id="@+id/SortSpinner"
         android:layout_alignParentTop="false"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="false"
         android:layout_alignParentLeft="false"
-        android:gravity="center"
         android:background="#ffff0000" />
     <ExpandableListView
         android:minWidth="25px"
         android:minHeight="25px"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:groupIndicator="@null"
-        android:id="@+id/expandableListView1"
+        android:id="@+id/List1"
         android:divider="#00000000"
-        android:layout_above="@id/spinner1" />
+        android:layout_above="@id/SortSpinner" />
 </RelativeLayout>
