@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Http;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
-using DAL;
 using Microsoft.AspNet.Identity;
 using System.Collections.Generic;
 
@@ -11,9 +13,9 @@ namespace Solitude.Server
     public class MatchController : ApiController
     {
         [Authorize]
-        public List<Event> Get(int limit)
+        public IHttpActionResult Get()
         {
-            return DAL.DAL.MatchUser(User.Identity.GetUserId(), limit);
+            return Ok(DAL.DAL.MatchUser(User.Identity.GetUserId()));
         }
     }
 }

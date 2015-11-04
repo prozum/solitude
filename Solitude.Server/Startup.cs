@@ -50,6 +50,7 @@ namespace Solitude.Server
         {
             app.CreatePerOwinContext(() => {
                 var gc = new GraphClient(new Uri(ConfigurationManager.ConnectionStrings["neo4j"].ConnectionString));
+                DAL.DAL.client = gc;
                 gc.Connect();
                 var gcw = new GraphClientWrapper(gc);
                 return gcw;
@@ -76,9 +77,6 @@ namespace Solitude.Server
             app.UseOAuthAuthorizationServer(OAuthServerOptions);
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
             app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
-
-
-            //app.UseFacebookAuthentication ("1654758468126707", "APP SECRET");
         }
     }
 }
