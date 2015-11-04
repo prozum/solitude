@@ -49,7 +49,6 @@ namespace TileMenu
 
 		protected virtual void Initialize()
 		{
-			AddView(DescritionView);
 			AddView(SeperatorView);
 
 			DescritionView.LayoutParameters.Width = -1;

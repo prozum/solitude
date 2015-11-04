@@ -22,19 +22,13 @@ namespace TileMenu
 			set;
 		}
 
-		public SortableTileList(Context context, BaseTileListAdapter<T> adabter)
+		public SortableTileList(Context context, BaseTileListAdapter<T> adabter, string[] spinneritems)
 			: base(context, adabter)
 		{
 			SortSpinnerView = new Spinner(context);
 
 			SortSpinnerView.SetBackgroundColor(new Android.Graphics.Color(255,255,255));
-			SortSpinnerView.Adapter = new ArrayAdapter<string>(context, Android.Resource.Layout.TestListItem, 
-															   new string[] { "Title (A-Z)", 
-																			  "Title (Z-A)", 
-																			  "Date (Soonest)", 
-																			  "Date (Lastest)", 
-																			  "Distance (Closest)", 
-																			  "Distance (Farthest)" });
+			SortSpinnerView.Adapter = new ArrayAdapter<string>(context, Android.Resource.Layout.TestListItem, spinneritems);
 			
 			#region Spinner Setup
 			// sort when new item is selected in spinner

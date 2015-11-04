@@ -14,9 +14,9 @@ using Android.Widget;
 
 namespace TileMenu
 {
-	public class EventList : SortableTileList<Event>
+	public class OfferList : SortableTileList<Event>
 	{
-		public EventList(Context context, EventListAdapter adapter)
+		public OfferList(Context context, OfferListAdapter adapter)
 			: base(context, adapter, new string[] 
 				{
 					"Title (A-Z)",
@@ -27,7 +27,13 @@ namespace TileMenu
 					"Distance (Farthest)"
 				})
 		{
-			adapter.OnCancel = (s, e) =>
+			adapter.OnAccept = (s, e) =>
+				{
+					ExpListView.CollapseGroup(Focus);
+					RemoveFocus();
+				};
+			
+			adapter.OnDecline = (s, e) =>
 				{
 					ExpListView.CollapseGroup(Focus);
 					RemoveFocus();

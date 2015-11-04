@@ -14,31 +14,17 @@ using Android.Widget;
 
 namespace TileMenu
 {
-	public class EventItem : TileListItem
+	public class InfoItem : TileListItem
 	{
-		protected Button CancelButton
-		{
-			get;
-			set;
-		}
-
-		public EventItem(Context context, EventHandler onCancel)
+		public InfoItem(Context context)
 			: base(context)
 		{
-			CancelButton = new Button(context);
-
-			CancelButton.Text = "Cancel";
-			CancelButton.Click += onCancel;
-
 			Initialize();
 		}
 
 		protected override void Initialize()
 		{
 			AddView(DescritionView);
-			AddView(CancelButton);
-
-			CancelButton.LayoutParameters.Width = -2;
 
 			base.Initialize();
 		}

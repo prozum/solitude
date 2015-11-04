@@ -10,7 +10,6 @@ using Android.OS;
 
 namespace TileMenu
 {
-	[Activity (Label = "TileMenu", MainLauncher = true)]
 	public class EventActivity : Activity
 	{
 		protected override void OnCreate (Bundle savedInstanceState)

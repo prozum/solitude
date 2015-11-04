@@ -19,6 +19,19 @@ namespace TileMenu
 				new Event("Ey Boy0", new DateTime(2015, 11, 10), "EyBoyStreet 5", "Ey boy. Wonna go for a wild ride <3"),
 				new Event("Ey Boy+", new DateTime(2015, 11, 11), "EyBoyStreet 5", "Ey boy. Wonna go for a wild ride <3")
 			};
+
+		public static List<Info> Infos = new List<Info>()
+			{
+				new Info("Football", "I've played football for many years!"),
+				new Info("Cute Anime Girls", "Gimmie that ass"),
+				new Info("Gayman", "Gaymen is the best thing to doing when im bored"),
+				new Info("Gayman", "Gaymen is the best thing to doing when im bored"),
+				new Info("Gayman", "Gaymen is the best thing to doing when im bored"),
+				new Info("Gayman", "Gaymen is the best thing to doing when im bored"),
+				new Info("Gayman", "Gaymen is the best thing to doing when im bored"),
+				new Info("Gayman", "Gaymen is the best thing to doing when im bored"),
+				new Info("Other Stuff", "Stuffing")
+			};
 	}
 }
 

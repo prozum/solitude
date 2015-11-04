@@ -19,6 +19,7 @@ namespace TileMenu
 			get;
 			private set;
 		}
+
 		protected List<T> Items
 		{
 			get;

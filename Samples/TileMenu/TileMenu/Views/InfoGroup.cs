@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,31 +13,35 @@ using Android.Widget;
 
 namespace TileMenu
 {
-	public class EventItem : TileListItem
+	public class InfoGroup : TileListGroup
 	{
-		protected Button CancelButton
+		public string InfoName
+		{
+			set
+			{
+				InfoNameView.Text = value;
+			}
+		}
+
+		protected TextView InfoNameView
 		{
 			get;
 			set;
 		}
 
-		public EventItem(Context context, EventHandler onCancel)
+		public InfoGroup(Context context)
 			: base(context)
 		{
-			CancelButton = new Button(context);
-
-			CancelButton.Text = "Cancel";
-			CancelButton.Click += onCancel;
+			InfoNameView = new TextView(context);
 
 			Initialize();
 		}
 
 		protected override void Initialize()
 		{
-			AddView(DescritionView);
-			AddView(CancelButton);
+			AddView(InfoNameView);
 
-			CancelButton.LayoutParameters.Width = -2;
+			InfoNameView.LayoutParameters.Width = -1;
 
 			base.Initialize();
 		}
