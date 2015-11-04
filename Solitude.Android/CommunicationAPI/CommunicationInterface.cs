@@ -174,6 +174,13 @@ namespace ClientCommunication
 
 			//Execute and await response, parse afterwards
 			var tokenResponse = client.Execute (request);
+
+			if (tokenResponse.StatusCode == 0)
+			{
+				latestError = "No internet connection, please connect before logging in.";
+				return false;
+			}
+
 			JsonValue o = System.Json.JsonObject.Parse(tokenResponse.Content);
 
 			//Saves the user and return true, if the login was successful and false otherwise
