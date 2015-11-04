@@ -82,6 +82,7 @@
     <Compile Include="Activities\ProfileActivity.cs" />
     <Compile Include="Drawer\DrawerToggle.cs" />
     <Compile Include="Drawer\SetupDrawer.cs" />
+    <Compile Include="Classes\Review.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

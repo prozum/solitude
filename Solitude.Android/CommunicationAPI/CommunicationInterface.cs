@@ -164,8 +164,12 @@ namespace ClientCommunication
 
 			//Generates the token-request
 			var tokenRequest = new RestRequest("user/token", Method.POST);
-			tokenRequest.AddParameter ("Content-Type", "application/x-www-form-urlencoded");
-			tokenRequest.AddParameter ("grant_type", "client_credidentials");
+//			tokenRequest.AddBody( new {
+//				Content_Type = "application/x-www-form-urlencoded",
+//				grant_type = "Password"
+//			});
+			tokenRequest.AddParameter ("Content-Type", "application/x-www-form-urlencoded", ParameterType.RequestBody);
+			tokenRequest.AddParameter ("grant_type", "Password", ParameterType.RequestBody);
 
 			//Execute and await response
 			var tokenResponse = client.Execute (tokenRequest);
