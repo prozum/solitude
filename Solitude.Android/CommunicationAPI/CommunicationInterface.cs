@@ -33,12 +33,12 @@ namespace ClientCommunication
 		/// Parses the error message and asigns to the latestError string.
 		/// </summary>
 		/// <param name="Response">Response from server.</param>
-		void parseErrorMessage(IRestResponse Response)
+		void parseErrorMessage(IRestResponse response)
 		{
-			string ErrorContent = Response.Content;
-			string[] SplitErrorContent = ErrorContent.Split(':');
-			string CleanErrorContent = SplitErrorContent [SplitErrorContent.Length - 1].Trim('"', ':', '\\', '[', ']', '{', '}');
-			latestError = CleanErrorContent.Replace (".", ".\n");
+			string errorContent = response.Content;
+			string[] splitErrorContent = errorContent.Split(':');
+			string cleanErrorContent = splitErrorContent [splitErrorContent.Length - 1].Trim('"', ':', '\\', '[', ']', '{', '}');
+			latestError = cleanErrorContent.Replace (".", ".\n");
 		}
 
 		bool executeAndParseResponse(IRestRequest request)
@@ -228,14 +228,27 @@ namespace ClientCommunication
 		}
 		#endregion
 
-		public void ReplyOffer (bool a)
+		public void ReplyOffer (bool a, Offer o)
 		{
-			throw new NotImplementedException ();
+			var request = new RestRequest ("offer", Method.PUT);
+			request.RequestFormat = DataFormat.Json;
+			if (a)
+				request.AddParameter ("accept", o);
+			else
+				request.AddParameter ("decline", o);
+			executeAndParseResponse (request);
 		}
 
 		public void CancelReg (Event e)
 		{
-			throw new NotImplementedException ();
+			var request = new RestRequest ("event", Method.DELETE);
+
+			request.RequestFormat = DataFormat.Json;
+
+			request.AddParameter ("event_id", e.id);
+			request.AddParameter ("user_token", userToken);
+
+			executeAndParseResponse (request);
 		}
 		#endregion
 	}
