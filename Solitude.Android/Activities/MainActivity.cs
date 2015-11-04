@@ -72,6 +72,14 @@ namespace DineWithaDane.Android
 						Intent toNotificationScreen = new Intent(this, typeof(NotificationActivity));
 						StartActivity(toNotificationScreen);
 					}
+					else
+					{
+						var loginFailedDialog = new AlertDialog.Builder(this);
+						loginFailedDialog.SetMessage(CIF.LatestError);
+						RunOnUiThread( () => {
+							loginFailedDialog.Show();
+						});
+					}
 				});
 			}
 			//Displays an errormessage, if no username or password is entered

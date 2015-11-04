@@ -172,20 +172,20 @@ namespace ClientCommunication
 			//Adds body including username and password and specify, that a grant_type as password is desired
 			request.AddParameter("application/x-www-form-urlencoded", String.Format("username={0}&password={1}&grant_type=password", username, password), ParameterType.RequestBody);
 
-			//Execute and await response
+			//Execute and await response, parse afterwards
 			var tokenResponse = client.Execute (request);
+			JsonValue o = System.Json.JsonObject.Parse(tokenResponse.Content);
 
 			//Saves the user and return true, if the login was successful and false otherwise
 			if (tokenResponse.StatusCode == HttpStatusCode.OK)
 			{
-				JsonValue o = System.Json.JsonObject.Parse(tokenResponse.Content);
 				userToken = o ["access_token"];
 				token_type = o ["token_type"];
 				return true;
 			}
 			else
 			{
-				latestError = tokenResponse.Content;
+				latestError = o ["error_description"];
 				return false;
 			}
 		}
