@@ -259,5 +259,48 @@ namespace DAL
 				.Delete ("a")
 				.ExecuteWithoutResultsAsync ();
 		}
+
+		public static bool ReplyOffer (string uid, bool a, Event e)
+		{
+			if (a)
+			{
+				var res = client.Cypher
+					.Match ("(user:User), (event:Event)")
+					.Where ("user.Id = {uid} AND event.eid = {eid} AND event.uid = {euid}")
+					.AndWhere ("event.spots > 0")
+					.WithParam ("uid", uid)
+					.WithParam ("eid", e.eid)
+					.WithParam ("euid", e.uid)
+					.Set ("event.spots = event.spots - 1")
+					.Create ("user-[:ATTENDS]->event")
+					.Delete ("user-[:MATCHED]->event")
+					.Return (() => new {
+						events = Return.As<int> ("count(event)")
+					})
+					.ResultsAsync.Result;
+
+				if (res.First ().events > 0)
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			else
+			{
+				client.Cypher
+					.Match ("(user:User), (event:Event)")
+					.Where ("user.Id = {uid} AND event.eid = {eid} AND event.uid = {euid}")
+					.WithParam ("uid", uid)
+					.WithParam ("eid", e.eid)
+					.WithParam ("euid", e.uid)
+					.Delete ("user-[:MATCHED]->event")
+					.ExecuteWithoutResultsAsync ();
+
+				return true;
+			}
+		}
 	}
 }
