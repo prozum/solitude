@@ -213,7 +213,7 @@ namespace DAL
 			else
 			{
 				var res = client.Cypher
-					.Match ("user-[:HOSTING]->(event:Event)")
+					.Match ("(user:User)-[:HOSTING]->(event:Event)")
 					.Where ("user.Id = {uid}")
 					.WithParam ("uid", uid)
 					.Return (() => new {
@@ -224,6 +224,40 @@ namespace DAL
 
 				return res.First ().hosting;
 			}
+		}
+
+		public static void UpdateEvent (string uid, Event e)
+		{
+			client.Cypher
+				.Match ("user-[:HOSTING]->(event:Event {info})")
+				.Where ("user.Id = {uid}")
+				.AndWhere ("event.Id = eid AND event.uid = uid")
+				.WithParam ("uid", uid)
+				.WithParam ("eid", e.eid)
+				.Set ("info = {newinfo}")
+				.WithParam ("newinfo", e)
+				.ExecuteWithoutResultsAsync ();
+		}
+
+		public static void DeleteEvent (string uid, int eid)
+		{
+			client.Cypher
+				.Match ("user-[:HOSTING]->(event:Event)<-[r]-()")
+				.WithParam ("user.Id", uid)
+				.Delete ("r, event")
+				.ExecuteWithoutResultsAsync ();
+		}
+
+		public static void CancelRegistration (string uid, Event e)
+		{
+			client.Cypher
+				.Match ("(user:User)-[a:ATTENDS]->(event:Event)")
+				.Where ("user.Id = {uid} AND event.uid = {euid} AND event.eid = {eid}")
+				.WithParam ("uid", uid)
+				.WithParam ("euid", e.uid)
+				.WithParam ("eid", e.eid)
+				.Delete ("a")
+				.ExecuteWithoutResultsAsync ();
 		}
 	}
 }
