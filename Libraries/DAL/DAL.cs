@@ -148,51 +148,43 @@ namespace DAL
 				.ExecuteWithoutResultsAsync ();
 		}
 
-		public static List<Event> MatchUser (string uid, int limit)
+		public static void MatchUser (string uid, int LIMIT = 5)
 		{
-			var res = client.Cypher
-				//select all users in the system and all the users who hosts an event
+			client.Cypher
+			    //select all users in the system and all the users who hosts an event
 				.Match ("(user:User), (rest:User)-[:HOSTING]->(event:Event)")
-				//filter out everyone except the user being matched
+			    //filter out everyone except the user being matched
 				.Where ("user.Id = {uid}")
-				//filter out the user in the rest of the users who hosts event
+			    //filter out the user in the rest of the users who hosts event
 				.AndWhere ("rest.Id <> {uid}")
 				.WithParam ("uid", uid)
-				//match on interests and make sure the data is available to the next clause
+			    //match on interests and make sure the data is available to the next clause
 				.Match ("user-[w1:WANTS]->(interest:Interest)<-[w2:WANTS]-rest")
-				.With ("user, rest, event, sum(w1.weight) as weight1, sum(w2.weight) as weight2")
-				//match on languages and make sure the data is available to the next clause
+				.With ("user, rest, event, sum(w1.weight) + sum(w2.weight) as wt1")
+			    //match on languages and make sure the data is available to the next clause
 				.Match ("user-[w3:WANTS]->(language:Language)<-[w4:WANTS]-rest")
-				.With ("user, rest, event, weight1, weight2, sum(w3.weight) as weight3, sum(w4.weight) as weight4")
-				//match on foodhabits and make sure the data is available to the next clause
+				.With ("user, rest, event, wt1, sum(w3.weight) + sum(w4.weight) as wt2")
+			    //match on foodhabits and make sure the data is available to the next clause
 				.Match ("user-[w5:WANTS]->(foodhabit:FoodHabit)<-[w6:WANTS]-rest")
-				.With ("user, rest, event, weight1, weight2, weight3, weight4," +
-					"\tsum(w5.weight) as weight5, sum(w6.weight) as weight6")
-				//return a collection of anonymouse types
+				.With ("user, event, wt1, wt2, sum(w5.weight) + sum(w6.weight) as wt3")
+				.OrderBy ("(wt1+wt2+wt3) DESC")
+				.Limit (LIMIT)
+				.Create ("user-[:MATCHED]->event")
+				.ExecuteWithoutResultsAsync ();
+		}
+
+		public static IEnumerable<Event> GetOffers (string uid)
+		{
+			var res = client.Cypher
+				.Match ("(user:User)-[:MATCHED]->(event:Event)")
+				.Where ("user.Id = {uid}")
+				.WithParam ("uid", uid)
 				.Return (() => new {
-					score = Return.As<int> (
-						"sum(weight1)+sum(weight2) +" +
-						"sum(weight3)+sum(weight4) +" +
-						"sum(weight5)+sum(weight6)"
-					),
-					events = Return.As<IEnumerable<Event>> ("event"), 
+					offers = Return.As<IEnumerable<Event>> ("collect(event)")
 				})
-				//order by descending values
-				.OrderBy ("score DESC")
-				//limit the collection to the given limit
-				.Limit (limit)
 				.ResultsAsync.Result;
 
-			List<Event> offers = new List<Event> ();
-
-			// zip events, event id's and their host's user id together in Enumerable<Offer>
-			// and add it to the offers List
-			foreach (var r in res)
-			{
-				offers.AddRange (r.events);
-			}
-
-			return offers;
+			return res.First ().offers;
 		}
 
 		public static IEnumerable<Event> GetEvents (string uid, bool ATTENDING = true, int LIMIT = 10)

@@ -35,16 +35,20 @@ namespace ClientCommunication
 		{
 			string ErrorContent = Response.Content;
 			string[] SplitErrorContent = ErrorContent.Split(':');
-			latestError = SplitErrorContent [SplitErrorContent.Length - 1].Trim('"', ':', '\\', '[', ']');
+			string CleanErrorContent = SplitErrorContent [SplitErrorContent.Length - 1].Trim('"', ':', '\\', '[', ']', '{', '}');
+			latestError = CleanErrorContent.Replace (".", ".\n");
 		}
 
-		void executeAndParseResponse(IRestRequest request)
+		bool executeAndParseResponse(IRestRequest request)
 		{
 			var response = client.Execute (request);
 
 			if (response.StatusCode != HttpStatusCode.OK) {
 				parseErrorMessage (response);
-			}
+				return false;
+			} 
+			else
+				return true;
 		}
 
 		#region IClientCommunication implementation
@@ -105,7 +109,7 @@ namespace ClientCommunication
 		public bool CreateUser (string Username, string Password, string ConfirmedPassword)
 		{
 			//Build request and user
-			var request = new RestRequest("user/register", Method.POST);
+			var request = new RestRequest ("user/register", Method.POST);
 			var user = new 
 			{
 				username = Username,
@@ -115,17 +119,12 @@ namespace ClientCommunication
 
 			//Alters request format to json and add information
 			request.RequestFormat = DataFormat.Json;
-			request.AddBody(user);
+			request.AddBody (user);
 
 			//Execute and await response
-			IRestResponse response = client.Execute (request);
-			if (response.StatusCode != HttpStatusCode.OK) {
-				parseErrorMessage (response);
-				return false;
-			}
-			else
-				return true;
+			return executeAndParseResponse (request);
 		}
+
 
 		/// <summary>
 		/// Updates the user specified by id.
@@ -165,8 +164,12 @@ namespace ClientCommunication
 
 			//Generates the token-request
 			var tokenRequest = new RestRequest("user/token", Method.POST);
-			tokenRequest.AddParameter ("Content-Type", "application/x-www-form-urlencoded");
-			tokenRequest.AddParameter ("grant_type", "client_credidentials");
+//			tokenRequest.AddBody( new {
+//				Content_Type = "application/x-www-form-urlencoded",
+//				grant_type = "Password"
+//			});
+			tokenRequest.AddParameter ("Content-Type", "application/x-www-form-urlencoded", ParameterType.RequestBody);
+			tokenRequest.AddParameter ("grant_type", "Password", ParameterType.RequestBody);
 
 			//Execute and await response
 			var tokenResponse = client.Execute (tokenRequest);

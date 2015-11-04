@@ -19,6 +19,9 @@ namespace ClientCommunication
 		void DeleteEvent (Event e);
 		void ReplyOffer (bool a);
 		void CancelReg (Event e);
+
+		List<Review> Reviews { get; }
+		void SubmitReview(Review R);
 	}
 }
 

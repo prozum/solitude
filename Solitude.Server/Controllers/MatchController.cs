@@ -15,7 +15,7 @@ namespace Solitude.Server
         [Authorize]
         public IHttpActionResult Get()
         {
-            return Ok(DAL.DAL.MatchUser(User.Identity.GetUserId()));
+            return Ok(DAL.DAL.GetOffers(User.Identity.GetUserId()));
         }
     }
 }
