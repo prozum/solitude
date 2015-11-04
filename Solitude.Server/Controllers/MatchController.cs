@@ -11,9 +11,9 @@ namespace Solitude.Server
     public class MatchController : ApiController
     {
         [Authorize]
-        public List<Event> Get(int limit)
+        public List<Event> Get()
         {
-            return DAL.DAL.MatchUser(User.Identity.GetUserId(), limit);
+            return DAL.DAL.MatchUser(User.Identity.GetUserId());
         }
     }
 }
