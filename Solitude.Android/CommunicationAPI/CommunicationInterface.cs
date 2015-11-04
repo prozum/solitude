@@ -17,6 +17,8 @@ namespace ClientCommunication
 	public class CommunicationInterface //: IClientCommunication
 	{
 		private string userToken;
+		private string token_type;
+
 		RestClient client = new RestClient (HttpStrings.SERVER_URL);
 		private string latestError;
 		/// <summary>
@@ -159,25 +161,26 @@ namespace ClientCommunication
 		/// <param name="password">Password.</param>
 		public bool Login(string username, string password)
 		{
-			//Sets the client to authenticate with the users name and password
-			client.Authenticator = new HttpBasicAuthenticator (username, password);
-
 			//Generates the token-request
-			var tokenRequest = new RestRequest("user/token", Method.POST);
-//			tokenRequest.AddBody( new {
-//				Content_Type = "application/x-www-form-urlencoded",
-//				grant_type = "Password"
-//			});
-			tokenRequest.AddParameter ("Content-Type", "application/x-www-form-urlencoded", ParameterType.RequestBody);
-			tokenRequest.AddParameter ("grant_type", "Password", ParameterType.RequestBody);
+			var request = new RestRequest("token", Method.POST);
+
+			//Adds headers to notify server that it's a token-request
+			request.AddHeader("content-type", "application/x-www-form-urlencoded");
+			request.AddHeader("postman-token", "a4e85886-daf2-5856-b530-12ed21af5867");
+			request.AddHeader("cache-control", "no-cache");
+
+			//Adds body including username and password and specify, that a grant_type as password is desired
+			request.AddParameter("application/x-www-form-urlencoded", String.Format("username={0}&password={1}&grant_type=password", username, password), ParameterType.RequestBody);
 
 			//Execute and await response
-			var tokenResponse = client.Execute (tokenRequest);
+			var tokenResponse = client.Execute (request);
 
 			//Saves the user and return true, if the login was successful and false otherwise
 			if (tokenResponse.StatusCode == HttpStatusCode.OK)
 			{
-				userToken = tokenResponse.Content;
+				JsonValue o = System.Json.JsonObject.Parse(tokenResponse.Content);
+				userToken = o ["access_token"];
+				token_type = o ["token_type"];
 				return true;
 			}
 			else

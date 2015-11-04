@@ -65,12 +65,14 @@ namespace DineWithaDane.Android
 					RunOnUiThread( () => {
 						loginProgress.Visibility = ViewStates.Invisible;
 					});
+
+					//Moves on to next activity, if login is succesful
+					if(loggedIn)
+					{
+						Intent toNotificationScreen = new Intent(this, typeof(NotificationActivity));
+						StartActivity(toNotificationScreen);
+					}
 				});
-				//Moves on to next activity, if login is succesful
-				if(loggedIn)
-				{
-					Intent toNotificationScreen = new Intent(this, typeof(NotificationActivity));
-				}
 			}
 			//Displays an errormessage, if no username or password is entered
 			else
