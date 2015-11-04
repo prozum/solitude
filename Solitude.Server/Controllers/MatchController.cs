@@ -13,7 +13,7 @@ namespace Solitude.Server
         [Authorize]
         public List<Event> Get()
         {
-            return DAL.DAL.MatchUser(User.Identity.GetUserId());
+            return DAL.DAL.GetOffers(User.Identity.GetUserId());
         }
     }
 }
