@@ -160,7 +160,7 @@ namespace DAL
 				.WithParam ("uid", uid)
 				//match on interests and make sure the data is available to the next clause
 				.Match ("user-[w1:WANTS]->(interest:Interest)<-[w2:WANTS]-rest")
-				.With ("user, rest, event sum(w1.weight) as weight1, sum(w2.weight) as weight2")
+				.With ("user, rest, event, sum(w1.weight) as weight1, sum(w2.weight) as weight2")
 				//match on languages and make sure the data is available to the next clause
 				.Match ("user-[w3:WANTS]->(language:Language)<-[w4:WANTS]-rest")
 				.With ("user, rest, event, weight1, weight2, sum(w3.weight) as weight3, sum(w4.weight) as weight4")
