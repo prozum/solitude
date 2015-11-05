@@ -19,14 +19,14 @@ namespace DineWithaDane.Android
 		public string ReviewText 
 		{
 			get {
-				newReview;
+				return newReview;
 			}
 		}
 
 		public int Rating
 		{
 			get {
-				rating.NumStars;	
+				return rating.NumStars;	
 			}
 		}
 
@@ -67,7 +67,8 @@ namespace DineWithaDane.Android
 
 		private void sendReview ()
 		{
-			CommunicationInterface.PostReview (this);
+			CommunicationInterface comInterface = new CommunicationInterface ();
+			comInterface.PostReview (this);
 		}
 	}
 }
