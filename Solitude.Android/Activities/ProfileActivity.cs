@@ -15,9 +15,9 @@ namespace DineWithaDane.Android
 	{
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
-			base.OnCreate (savedInstanceState);
-
 			drawerPosition = 4;
+
+			base.OnCreate (savedInstanceState);
 
 			var profile = FindViewById<RelativeLayout>(Resource.Layout.Profile);
 			var adapter = new ProfileInfoListAdapter(this, TestMaterial.Infos);

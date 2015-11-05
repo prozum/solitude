@@ -15,9 +15,9 @@ namespace DineWithaDane.Android
 	{
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
-			base.OnCreate (savedInstanceState);
-
 			drawerPosition = 2;
+
+			base.OnCreate (savedInstanceState);
 
 			var adapter = new EventListAdapter(this, TestMaterial.Events);
 			var tilelist = new EventList(this, adapter);
