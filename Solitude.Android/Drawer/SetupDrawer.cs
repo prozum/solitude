@@ -31,7 +31,7 @@ namespace DineWithaDane.Android
 
 		private static readonly string[] Sections = new[] 
 		{
-			"Notifications", "Offer", "Events", "Host"
+			"Notifications", "Offer", "Events", "Host", "Profile"
 		};
 
 		public SetupDrawer (
