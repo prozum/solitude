@@ -48,7 +48,6 @@ namespace Solitude.Server
             var user = new ApplicationUser() { UserName = userModel.UserName };
 
             IdentityResult result = await Manager.CreateAsync(user, userModel.Password);
-			//IdentityResult result = await _repo.RegisterUser(userModel);
 
             IHttpActionResult errorResult = GetErrorResult(result);
 
@@ -59,14 +58,6 @@ namespace Solitude.Server
                 
             return Ok();
 		}
-
-        [Route("login")]
-        public async Task<IHttpActionResult> Get (UserModel user)
-        {
-            //var result = await _repo.FindUser(user.UserName, user.Password);
-
-            return null;
-        }
 
         private IHttpActionResult GetErrorResult(IdentityResult result)
         {

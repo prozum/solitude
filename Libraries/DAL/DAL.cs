@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Neo4jClient;
 using Neo4jClient.Cypher;
 
@@ -173,18 +174,18 @@ namespace DAL
 				.ExecuteWithoutResultsAsync ();
 		}
 
-		public static IEnumerable<Event> GetOffers (string uid)
+		public async static Task<IEnumerable<Event>> GetOffers (string uid)
 		{
-			var res = client.Cypher
+			var res = await client.Cypher
 				.Match ("(user:User)-[:MATCHED]->(event:Event)")
 				.Where ("user.Id = {uid}")
 				.WithParam ("uid", uid)
 				.Return (() => new {
 					offers = Return.As<IEnumerable<Event>> ("collect(event)")
 				})
-				.ResultsAsync.Result;
+				.ResultsAsync;
 
-			return res.First ().offers;
+			return res.First().offers;
 		}
 
 		public static IEnumerable<Event> GetEvents (string uid, bool ATTENDING = true, int LIMIT = 10)
