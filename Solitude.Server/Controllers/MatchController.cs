@@ -1,9 +1,5 @@
-﻿using System;
-using System.Linq;
-using System.Web.Http;
-using System.Net.Http;
+﻿using System.Web.Http;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Microsoft.AspNet.Identity;
 using System.Collections.Generic;
 
