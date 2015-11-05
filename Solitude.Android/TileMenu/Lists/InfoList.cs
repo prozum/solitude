@@ -1,3 +1,4 @@
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,19 +8,25 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
 
 namespace DineWithaDane.Android
 {
-	[Activity (Label = "Notifications", MainLauncher = true)]			
-	public class NotificationActivity : AbstractActivity
+	public class InfoList : TileList<InfoTest>
 	{
-		protected override void OnCreate (Bundle bundle)
+		public bool EditMode
 		{
-			base.OnCreate (bundle);
+			get;
+			set;
+		}
 
-			drawerPosition = 0;
+		public InfoList(Context context, ProfileInfoListAdapter adapter)
+			: base(context, adapter)
+		{
+			Initialize();
 		}
 	}
 }
+
