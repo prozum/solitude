@@ -28,6 +28,15 @@ namespace DineWithaDane.Android
 			buttonRight.SetWidth (displaySize.X / 3);
 
 			//			buttonLeft.Click
+			buttonLeft.Click += (object sender, EventArgs e) => 
+			{
+				var dialog = new Dialog(activity);
+				dialog.RequestWindowFeature((int)WindowFeatures.NoTitle);
+				dialog.SetContentView(Resource.Layout.review_layout);
+
+				RatingBar rating = (RatingBar)dialog.FindViewById (Resource.Id.ratingbar);
+				dialog.Show();
+			};
 
 			buttonRight.Click += (object sender, EventArgs e) => 
 			{
