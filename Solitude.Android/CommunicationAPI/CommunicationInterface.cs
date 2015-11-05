@@ -30,15 +30,14 @@ namespace ClientCommunication
 		}
 
 		/// <summary>
-		/// Parses the error message and asigns to the latestError string.
+		/// Parses the error message and assigns to the latestError string.
 		/// </summary>
 		/// <param name="Response">Response from server.</param>
 		void parseErrorMessage(IRestResponse response)
 		{
 			string errorContent = response.Content;
 			string[] splitErrorContent = errorContent.Split(':');
-			string cleanErrorContent = splitErrorContent [splitErrorContent.Length - 1].Trim('"', ':', '\\', '[', ']', '{', '}');
-			latestError = cleanErrorContent.Replace (".", ".\n");
+			latestError = splitErrorContent [splitErrorContent.Length - 1].Trim('"', ':', '\\', '[', ']', '{', '}').Replace (".", ".\n");
 		}
 
 		bool executeAndParseResponse(IRestRequest request)
@@ -78,7 +77,7 @@ namespace ClientCommunication
 			}
 		}
 		#endregion
-		#region Event fethcing
+		#region Event fetching
 		/// <summary>
 		/// Gets the users own events.
 		/// </summary>
@@ -101,6 +100,12 @@ namespace ClientCommunication
 				return new List<Event> ();
 			}
 		}
+		#region Notification fetching
+		public void GetNotification()
+		{
+			throw new NotImplementedException ();
+		}
+		#endregion
 		#endregion
 		#region User-handling
 
@@ -234,15 +239,18 @@ namespace ClientCommunication
 			executeAndParseResponse (request);
 		}
 		#endregion
-
-		public void ReplyOffer (bool a, Offer o)
+		// Likely needs rewriting
+		public void ReplyOffer (bool answer, Event e)
 		{
 			var request = new RestRequest ("offer", Method.PUT);
 			request.RequestFormat = DataFormat.Json;
-			if (a)
-				request.AddParameter ("accept", o);
+			if (answer)
+			{
+				request.AddParameter ("event_id", e.id);
+				request.AddParameter ("user_token", userToken);
+			}
 			else
-				request.AddParameter ("decline", o);
+				request.AddParameter ("decline", e);
 			executeAndParseResponse (request);
 		}
 
