@@ -99,9 +99,9 @@
     <Compile Include="Activities\EventActivity.cs" />
     <Compile Include="Activities\OfferActivity.cs" />
     <Compile Include="Activities\ProfileActivity.cs" />
-    <Compile Include="TileMenu\Event.cs" />
-    <Compile Include="TileMenu\Info.cs" />
     <Compile Include="TileMenu\TestMaterial.cs" />
+    <Compile Include="TileMenu\EventTest.cs" />
+    <Compile Include="TileMenu\InfoTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

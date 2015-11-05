@@ -265,6 +265,14 @@ namespace ClientCommunication
 
 			executeAndParseResponse (request);
 		}
+		public void PostReview(Review r)
+		{
+			var request = new RestRequest("review", Method.POST);
+			request.RequestFormat = DataFormat.Json;
+
+			request.AddObject (r);
+			executeAndParseResponse (request);
+		}
 		#endregion
 	}
 }
