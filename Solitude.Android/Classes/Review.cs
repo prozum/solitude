@@ -48,11 +48,12 @@ namespace DineWithaDane.Android
 			dialog.SetContentView(Resource.Layout.review_layout);
 
 			rating = (RatingBar)dialog.FindViewById (Resource.Id.ratingbar);
-			dialog.Show();
-
-			cancelButton = (Button) dialog.FindViewById <Button> (Resource.Id.cancelReviewButton);
-			acceptButton = (Button) dialog.FindViewById <Button> (Resource.Id.postReviewButton);
 			input = (EditText)dialog.FindViewById <EditText> (Resource.Id.reviewUserInput);
+
+			acceptButton = (Button) dialog.FindViewById <Button> (Resource.Id.postReviewButton);
+			cancelButton = (Button) dialog.FindViewById <Button> (Resource.Id.cancelReviewButton);
+
+			dialog.Show();
 
 			cancelButton.Click += (object sender, EventArgs e) => 
 			{
@@ -62,6 +63,7 @@ namespace DineWithaDane.Android
 			acceptButton.Click += (object sender, EventArgs e) => 
 			{
 				newReview = input.Text;
+				dialog.Dismiss();
 			};
 		}
 
