@@ -89,7 +89,7 @@ namespace DineWithaDane.Android
 				_currentActivity.StartActivity (SecondActivity);
 				break;
 			case 2:
-				Intent ThirdActivity = new Intent (_currentActivity, typeof(EventsActivity));
+				Intent ThirdActivity = new Intent (_currentActivity, typeof(EventActivity));
 				_currentActivity.StartActivity (ThirdActivity);
 				break;
 			case 3:

@@ -12,12 +12,20 @@ using Android.Util;
 using Android.Views;
 using Android.Widget;
 
-namespace TileMenu
+namespace DineWithaDane.Android
 {
-	public class EventList : SortableTileList<Event>
+	public class EventList : SortableTileList<EventTest>
 	{
 		public EventList(Context context, EventListAdapter adapter)
-			: base(context, adapter)
+			: base(context, adapter, new string[] 
+				{
+					"Title (A-Z)",
+					"Title (Z-A)",
+					"Date (Soonest)",
+					"Date (Lastest)",
+					"Distance (Closest)",
+					"Distance (Farthest)"
+				})
 		{
 			adapter.OnCancel = (s, e) =>
 				{
@@ -26,11 +34,6 @@ namespace TileMenu
 				};
 
 			Initialize();
-		}
-
-		protected override void Initialize()
-		{
-			base.Initialize();
 		}
 	}
 }

@@ -76,13 +76,32 @@
     <Compile Include="Notifications\ReviewNotification.cs" />
     <Compile Include="Activities\SignUpActivity.cs" />
     <Compile Include="Activities\AbstractActivity.cs" />
-    <Compile Include="Activities\EventsActivity.cs" />
     <Compile Include="Activities\HostActivity.cs" />
-    <Compile Include="Activities\OfferActivity.cs" />
-    <Compile Include="Activities\ProfileActivity.cs" />
     <Compile Include="Drawer\DrawerToggle.cs" />
     <Compile Include="Drawer\SetupDrawer.cs" />
     <Compile Include="Classes\Review.cs" />
+    <Compile Include="TileMenu\Items\EventItem.cs" />
+    <Compile Include="TileMenu\Items\InfoGroup.cs" />
+    <Compile Include="TileMenu\Items\InfoItem.cs" />
+    <Compile Include="TileMenu\Items\OfferItem.cs" />
+    <Compile Include="TileMenu\Items\TileListGroup.cs" />
+    <Compile Include="TileMenu\Items\TileListItem.cs" />
+    <Compile Include="TileMenu\Lists\EventList.cs" />
+    <Compile Include="TileMenu\Lists\InfoList.cs" />
+    <Compile Include="TileMenu\Lists\OfferList.cs" />
+    <Compile Include="TileMenu\Items\EventGroup.cs" />
+    <Compile Include="TileMenu\Lists\SortableTileList.cs" />
+    <Compile Include="TileMenu\Lists\TileList.cs" />
+    <Compile Include="TileMenu\Adapters\BaseTileListAdapter.cs" />
+    <Compile Include="TileMenu\Adapters\EventListAdapter.cs" />
+    <Compile Include="TileMenu\Adapters\OfferListAdapter.cs" />
+    <Compile Include="TileMenu\Adapters\ProfileInfoListAdapter.cs" />
+    <Compile Include="Activities\EventActivity.cs" />
+    <Compile Include="Activities\OfferActivity.cs" />
+    <Compile Include="Activities\ProfileActivity.cs" />
+    <Compile Include="TileMenu\Event.cs" />
+    <Compile Include="TileMenu\Info.cs" />
+    <Compile Include="TileMenu\TestMaterial.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -103,6 +122,8 @@
     <AndroidResource Include="Resources\layout\ActivityLayout.axml" />
     <AndroidResource Include="Resources\layout\item_menu.axml" />
     <AndroidResource Include="Resources\drawable\ic_navigation_drawer.png" />
+    <AndroidResource Include="Resources\layout\SpinnerItem.axml" />
+    <AndroidResource Include="Resources\layout\Profile.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
@@ -112,6 +133,10 @@
     <Folder Include="Notifications\" />
     <Folder Include="Drawer\" />
     <Folder Include="Resources\drawable\" />
+    <Folder Include="TileMenu\" />
+    <Folder Include="TileMenu\Items\" />
+    <Folder Include="TileMenu\Lists\" />
+    <Folder Include="TileMenu\Adapters\" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="xamandroidsupportv4-18">

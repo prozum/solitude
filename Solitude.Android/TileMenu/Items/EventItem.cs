@@ -12,7 +12,7 @@ using Android.Util;
 using Android.Views;
 using Android.Widget;
 
-namespace TileMenu
+namespace DineWithaDane.Android
 {
 	public class EventItem : TileListItem
 	{
@@ -37,12 +37,10 @@ namespace TileMenu
 		{
 			AddView(DescritionView);
 			AddView(CancelButton);
-			AddView(SeperatorView);
 
-			DescritionView.LayoutParameters.Width = -1;
 			CancelButton.LayoutParameters.Width = -2;
-			SeperatorView.LayoutParameters.Width = -1;
-			SeperatorView.LayoutParameters.Height = 1;
+
+			base.Initialize();
 		}
 	}
 }

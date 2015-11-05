@@ -7,34 +7,38 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 
-namespace TileMenu
+namespace DineWithaDane.Android
 {
-	public class Event
+	public class EventTest
 	{
 		#region Field
-		public string Title {
+		public string Title 
+		{
 			get;
 			set;
 		}
 
-		public DateTime Date {
+		public DateTime Date 
+		{
 			get;
 			set;
 		}
 
-		public string Place {
+		public string Place 
+		{
 			get;
 			set;
 		}
 
-		public string Description {
+		public string Description 
+		{
 			get;
 			set;
 		}
 		#endregion
 
 		#region Constructor
-		public Event (string title, DateTime date, string place, string desc)
+		public EventTest (string title, DateTime date, string place, string desc)
 		{
 			Title = title;
 			Date = date;

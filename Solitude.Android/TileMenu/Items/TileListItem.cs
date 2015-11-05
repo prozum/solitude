@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,8 +10,9 @@ using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using Android.Graphics;
 
-namespace TileMenu
+namespace DineWithaDane.Android
 {
 	public abstract class TileListItem : LinearLayout
 	{
@@ -42,14 +42,13 @@ namespace TileMenu
 			Orientation = Orientation.Vertical;
 			SeperatorView = new TextView(context);
 
-			SeperatorView.SetBackgroundColor(new Android.Graphics.Color(255,255,255));
+			SeperatorView.SetBackgroundColor(new Color(255,255,255));
 
 			DescritionView = new TextView(context);
 		}
 
 		protected virtual void Initialize()
 		{
-			AddView(DescritionView);
 			AddView(SeperatorView);
 
 			DescritionView.LayoutParameters.Width = -1;

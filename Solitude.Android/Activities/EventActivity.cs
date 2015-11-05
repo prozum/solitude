@@ -8,19 +8,21 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 
-namespace TileMenu
+namespace DineWithaDane.Android
 {
-	[Activity (Label = "TileMenu", MainLauncher = true)]
-	public class EventActivity : Activity
+	[Activity (Label = "Events")]
+	public class EventActivity : AbstractActivity
 	{
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
 			base.OnCreate (savedInstanceState);
 
+			drawerPosition = 2;
+
 			var adapter = new EventListAdapter(this, TestMaterial.Events);
 			var tilelist = new EventList(this, adapter);
 
-			SetContentView(tilelist, new ViewGroup.LayoutParams(-1,-1));
+			Content.AddView(tilelist);
 		}
 	}
 }

@@ -1,41 +1,30 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using Android.App;
 using Android.Content;
-using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Android.OS;
 
 namespace DineWithaDane.Android
 {
-	[Activity (Label = "Offers")]			
+	[Activity (Label = "Offers")]
 	public class OfferActivity : AbstractActivity
 	{
-		protected override void OnCreate (Bundle bundle)
+		protected override void OnCreate (Bundle savedInstanceState)
 		{
-			base.OnCreate (bundle);
-			SetContentView (Resource.Layout.ActivityLayout);
+			base.OnCreate (savedInstanceState);
 
 			drawerPosition = 1;
 
-			drawerSetup = new SetupDrawer (
-				m_DrawerTitle,
-				m_Title,
-				m_Drawer,
-				m_DrawerList,
-				drawerPosition,
-				this
-			);
+			var adapter = new OfferListAdapter(this, TestMaterial.Events);
+			var tilelist = new OfferList(this, adapter);
 
-			drawerSetup.Configure ();
-			drawerSetup.DrawerToggleSetup ();
-			// Create your application here
+			Content.AddView(tilelist);
 		}
 	}
 }
+
 

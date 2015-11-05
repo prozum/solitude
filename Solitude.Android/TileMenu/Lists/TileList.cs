@@ -12,7 +12,7 @@ using Android.Util;
 using Android.Views;
 using Android.Widget;
 
-namespace TileMenu
+namespace DineWithaDane.Android
 {
 	public abstract class TileList<T> : RelativeLayout
 	{
@@ -46,7 +46,8 @@ namespace TileMenu
 			// focus selfcollapse, when another item expands
 			ExpListView.GroupExpand += (sender, e) => 
 				{
-					if (Focus != e.GroupPosition) {
+					if (Focus != e.GroupPosition) 
+					{
 						ExpListView.CollapseGroup(Focus);
 						Focus = e.GroupPosition;
 					}

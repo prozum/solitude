@@ -11,10 +11,18 @@ using Android.Util;
 using Android.Views;
 using Android.Widget;
 
-namespace TileMenu
+namespace DineWithaDane.Android
 {
 	public class EventGroup : TileListGroup
 	{
+		public string Title
+		{
+			set
+			{
+				TitleView.Text = "Title: " + value;
+			}
+		}
+
 		public string Place
 		{
 			set
@@ -31,7 +39,7 @@ namespace TileMenu
 			}
 		}
 
-		protected LinearLayout MoreDetailsView
+		protected TextView TitleView
 		{
 			get;
 			set;
@@ -52,38 +60,29 @@ namespace TileMenu
 		public EventGroup(Context context)
 			: base(context)
 		{
-			MoreDetailsView = new LinearLayout(context);
+			TitleView = new TextView(context);
 			PlaceView = new TextView(context);
 			DateView = new TextView(context);
-
-			MoreDetailsView.Orientation = Orientation.Horizontal;
 
 			Initialize();
 		}
 
-		public void SeperatorVisibility(ViewStates state)
-		{
-			DotsView.Visibility = state;
-			SeperatorView.Visibility = state;
-		}
-
 		protected override void Initialize()
 		{
-			AddView(TitleView);
-			AddView(MoreDetailsView);
-			AddView(DotsView);
-			AddView(SeperatorView);
-			MoreDetailsView.AddView(PlaceView);
-			MoreDetailsView.AddView(DateView);
+			var detailslayout = new LinearLayout(Context);
+			detailslayout.Orientation = Orientation.Horizontal;
 
-			MoreDetailsView.WeightSum = 2;
+			AddView(TitleView);
+			AddView(detailslayout);
+			detailslayout.AddView(PlaceView);
+			detailslayout.AddView(DateView);
+
+			detailslayout.WeightSum = 2;
 			TitleView.LayoutParameters.Width = -1;
-			DotsView.LayoutParameters.Width = -1;
-			SeperatorView.LayoutParameters.Width = -1;
-			SeperatorView.LayoutParameters.Height = 1;
 			PlaceView.LayoutParameters = new LinearLayout.LayoutParams(0, -2, 1);
 			DateView.LayoutParameters = new LinearLayout.LayoutParams(0, -2, 1);
 
+			base.Initialize();
 		}
 	}
 }

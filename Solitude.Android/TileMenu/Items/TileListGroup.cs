@@ -10,25 +10,12 @@ using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using Android.Graphics;
 
-namespace TileMenu
+namespace DineWithaDane.Android
 {
 	public abstract class TileListGroup : LinearLayout
 	{
-		public string Title
-		{
-			set
-			{
-				TitleView.Text = "Title: " + value;
-			}
-		}
-
-		protected TextView TitleView
-		{
-			get;
-			set;
-		}
-
 		protected TextView DotsView
 		{
 			get;
@@ -44,25 +31,28 @@ namespace TileMenu
 		public TileListGroup(Context context)
 			: base(context)
 		{
-			TitleView = new TextView(context);
 			DotsView = new TextView(context);
 			SeperatorView = new TextView(context);
 
 			Orientation = Orientation.Vertical;
 
 			DotsView.Text = "...";
-			SeperatorView.SetBackgroundColor(new Android.Graphics.Color(255,255,255));
+			SeperatorView.SetBackgroundColor(new Color(255,255,255));
 
 			DotsView.Gravity = GravityFlags.Center;
 		}
 
+		public void SeperatorVisibility(ViewStates state)
+		{
+			DotsView.Visibility = state;
+			SeperatorView.Visibility = state;
+		}
+
 		protected virtual void Initialize()
 		{
-			AddView(TitleView);
 			AddView(DotsView);
 			AddView(SeperatorView);
 
-			TitleView.LayoutParameters.Width = -1;
 			DotsView.LayoutParameters.Width = -1;
 			SeperatorView.LayoutParameters.Width = -1;
 			SeperatorView.LayoutParameters.Height = 1;

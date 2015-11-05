@@ -9,9 +9,9 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 
-namespace TileMenu
+namespace DineWithaDane.Android
 {
-	public class EventListAdapter : BaseTileListAdapter<Event>
+	public class EventListAdapter : BaseTileListAdapter<EventTest>
 	{
 		public EventHandler OnCancel
 		{
@@ -20,7 +20,7 @@ namespace TileMenu
 		}
 
 		#region Constructors
-		public EventListAdapter(Activity context, List<Event> items) : base(context, items)
+		public EventListAdapter(Activity context, List<EventTest> items) : base(context, items)
 		{
 			
 		}
@@ -29,7 +29,7 @@ namespace TileMenu
 		#region Public Methods
 		public override View GetGroupView(int groupPosition, bool isExpanded, View convertView, ViewGroup parent)
 		{
-			EventGroup view = (convertView as EventGroup); // re-use an existing view, if one is available
+			var view = (convertView as EventGroup); // re-use an existing view, if one is available
 
 			if (view == null) // otherwise create a new one
 				view = new EventGroup(Context);
@@ -48,7 +48,7 @@ namespace TileMenu
 
 		public override View GetChildView(int groupPosition, int childPosition, bool isLastChild, View convertView, ViewGroup parent)
 		{
-			EventItem view = (convertView as EventItem); // re-use an existing view, if one is available
+			var view = (convertView as EventItem); // re-use an existing view, if one is available
 
 			if (view == null)// otherwise create a new one
 				view = new EventItem(Context, OnCancel);
@@ -93,17 +93,17 @@ namespace TileMenu
 		#endregion
 
 		#region Private Methods
-		int CompareTitle(Event x, Event y)
+		int CompareTitle(EventTest x, EventTest y)
 		{
 			return x.Title.CompareTo(y.Title);
 		}
 
-		int CompareDate(Event x, Event y)
+		int CompareDate(EventTest x, EventTest y)
 		{
 			return x.Date.CompareTo(y.Date);
 		}
 
-		int CompareDistance(Event x, Event y)
+		int CompareDistance(EventTest x, EventTest y)
 		{
 			return x.Place.CompareTo(y.Place);
 		}

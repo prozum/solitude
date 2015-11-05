@@ -100,14 +100,11 @@
     <Reference Include="Neo4j.AspNet.Identity">
       <HintPath>..\packages\Neo4j.AspNet.Identity.1.1.23\lib\net45\Neo4j.AspNet.Identity.dll</HintPath>
     </Reference>
-    <Reference Include="Neo4jClient">
-      <HintPath>..\packages\Neo4jClient.1.1.0.11\lib\net45\Neo4jClient.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Cors">
-      <HintPath>..\packages\Microsoft.AspNet.Cors.5.0.0\lib\net45\System.Web.Cors.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Owin.Cors">
       <HintPath>..\packages\Microsoft.Owin.Cors.3.0.1\lib\net45\Microsoft.Owin.Cors.dll</HintPath>
+    </Reference>
+    <Reference Include="Neo4jClient">
+      <HintPath>..\packages\Neo4jClient.1.1.0.12\lib\net45\Neo4jClient.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

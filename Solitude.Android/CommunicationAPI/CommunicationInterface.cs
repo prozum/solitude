@@ -17,6 +17,8 @@ namespace ClientCommunication
 	public class CommunicationInterface //: IClientCommunication
 	{
 		private string userToken;
+		private string token_type;
+
 		RestClient client = new RestClient (HttpStrings.SERVER_URL);
 		private string latestError;
 		/// <summary>
@@ -31,12 +33,12 @@ namespace ClientCommunication
 		/// Parses the error message and asigns to the latestError string.
 		/// </summary>
 		/// <param name="Response">Response from server.</param>
-		void parseErrorMessage(IRestResponse Response)
+		void parseErrorMessage(IRestResponse response)
 		{
-			string ErrorContent = Response.Content;
-			string[] SplitErrorContent = ErrorContent.Split(':');
-			string CleanErrorContent = SplitErrorContent [SplitErrorContent.Length - 1].Trim('"', ':', '\\', '[', ']', '{', '}');
-			latestError = CleanErrorContent.Replace (".", ".\n");
+			string errorContent = response.Content;
+			string[] splitErrorContent = errorContent.Split(':');
+			string cleanErrorContent = splitErrorContent [splitErrorContent.Length - 1].Trim('"', ':', '\\', '[', ']', '{', '}');
+			latestError = cleanErrorContent.Replace (".", ".\n");
 		}
 
 		bool executeAndParseResponse(IRestRequest request)
@@ -159,30 +161,38 @@ namespace ClientCommunication
 		/// <param name="password">Password.</param>
 		public bool Login(string username, string password)
 		{
-			//Sets the client to authenticate with the users name and password
-			client.Authenticator = new HttpBasicAuthenticator (username, password);
-
 			//Generates the token-request
-			var tokenRequest = new RestRequest("user/token", Method.POST);
-//			tokenRequest.AddBody( new {
-//				Content_Type = "application/x-www-form-urlencoded",
-//				grant_type = "Password"
-//			});
-			tokenRequest.AddParameter ("Content-Type", "application/x-www-form-urlencoded", ParameterType.RequestBody);
-			tokenRequest.AddParameter ("grant_type", "Password", ParameterType.RequestBody);
+			var request = new RestRequest("token", Method.POST);
 
-			//Execute and await response
-			var tokenResponse = client.Execute (tokenRequest);
+			//Adds headers to notify server that it's a token-request
+			request.AddHeader("content-type", "application/x-www-form-urlencoded");
+			request.AddHeader("postman-token", "a4e85886-daf2-5856-b530-12ed21af5867");
+			request.AddHeader("cache-control", "no-cache");
+
+			//Adds body including username and password and specify, that a grant_type as password is desired
+			request.AddParameter("application/x-www-form-urlencoded", String.Format("username={0}&password={1}&grant_type=password", username, password), ParameterType.RequestBody);
+
+			//Execute and await response, parse afterwards
+			var tokenResponse = client.Execute (request);
+
+			if (tokenResponse.StatusCode == 0)
+			{
+				latestError = "No internet connection, please connect before logging in.";
+				return false;
+			}
+
+			JsonValue o = System.Json.JsonObject.Parse(tokenResponse.Content);
 
 			//Saves the user and return true, if the login was successful and false otherwise
 			if (tokenResponse.StatusCode == HttpStatusCode.OK)
 			{
-				userToken = tokenResponse.Content;
+				userToken = o ["access_token"];
+				token_type = o ["token_type"];
 				return true;
 			}
 			else
 			{
-				latestError = tokenResponse.Content;
+				latestError = o ["error_description"];
 				return false;
 			}
 		}
@@ -225,14 +235,27 @@ namespace ClientCommunication
 		}
 		#endregion
 
-		public void ReplyOffer (bool a)
+		public void ReplyOffer (bool a, Offer o)
 		{
-			throw new NotImplementedException ();
+			var request = new RestRequest ("offer", Method.PUT);
+			request.RequestFormat = DataFormat.Json;
+			if (a)
+				request.AddParameter ("accept", o);
+			else
+				request.AddParameter ("decline", o);
+			executeAndParseResponse (request);
 		}
 
 		public void CancelReg (Event e)
 		{
-			throw new NotImplementedException ();
+			var request = new RestRequest ("event", Method.DELETE);
+
+			request.RequestFormat = DataFormat.Json;
+
+			request.AddParameter ("event_id", e.id);
+			request.AddParameter ("user_token", userToken);
+
+			executeAndParseResponse (request);
 		}
 		#endregion
 	}

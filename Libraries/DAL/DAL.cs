@@ -81,7 +81,7 @@ namespace DAL
 			return true;
 		}
 
-		static void AddEvent (string uid, string date, string description, string address)
+		static void AddEvent (string uid, string date, string description, string address, int slots)
 		{
 			//get largest id for events owned by the user
 			var id = client.Cypher
@@ -100,7 +100,7 @@ namespace DAL
 				.WithParam ("uid", uid)
 				//creates a relation "HOSTING" between the created event 
 				.Create ("user-[:HOSTING]->(event:Event {info})")
-				.WithParam ("info", new Event (date, address, description, uid, eid))
+				.WithParam ("info", new Event (date, address, description, slots, uid, eid))
 				.ExecuteWithoutResultsAsync ();
 		}
 			
@@ -152,12 +152,21 @@ namespace DAL
 		public static void MatchUser (string uid, int LIMIT = 5)
 		{
 			client.Cypher
+				.Match ("(user:User)-[m:MATCHED]->(event:Event)")
+				.Where ("user.Id = {uid}")
+				.WithParam ("uid", uid)
+				.Delete ("m")
+				.ExecuteWithoutResultsAsync ();
+
+			client.Cypher
 			    //select all users in the system and all the users who hosts an event
 				.Match ("(user:User), (rest:User)-[:HOSTING]->(event:Event)")
 			    //filter out everyone except the user being matched
 				.Where ("user.Id = {uid}")
 			    //filter out the user in the rest of the users who hosts event
 				.AndWhere ("rest.Id <> {uid}")
+				//remove full events
+				.AndWhere ("event.SlotsLeft > 0")
 				.WithParam ("uid", uid)
 			    //match on interests and make sure the data is available to the next clause
 				.Match ("user-[w1:WANTS]->(interest:Interest)<-[w2:WANTS]-rest")
@@ -214,7 +223,7 @@ namespace DAL
 			else
 			{
 				var res = client.Cypher
-					.Match ("user-[:HOSTING]->(event:Event)")
+					.Match ("(user:User)-[:HOSTING]->(event:Event)")
 					.Where ("user.Id = {uid}")
 					.WithParam ("uid", uid)
 					.Return (() => new {
@@ -224,6 +233,82 @@ namespace DAL
 					.ResultsAsync.Result;
 
 				return res.First ().hosting;
+			}
+		}
+
+		public static void UpdateEvent (string uid, Event e)
+		{
+			client.Cypher
+				.Match ("user-[:HOSTING]->(event:Event {info})")
+				.Where ("user.Id = {uid} AND event.Id = eid AND event.uid = uid")
+				.WithParam ("uid", uid)
+				.WithParam ("eid", e.eid)
+				.Set ("info = {newinfo}")
+				.WithParam ("newinfo", e)
+				.ExecuteWithoutResultsAsync ();
+		}
+
+		public static void DeleteEvent (string uid, int eid)
+		{
+			client.Cypher
+				.Match ("(user:User)-[:HOSTING]->(event:Event)<-[r]-(rest:User)")
+				.WithParam ("user.Id", uid)
+				.Delete ("r, event")
+				.ExecuteWithoutResultsAsync ();
+		}
+
+		public static void CancelRegistration (string uid, Event e)
+		{
+			client.Cypher
+				.Match ("(user:User)-[a:ATTENDS]->(event:Event)")
+				.Where ("user.Id = {uid} AND event.uid = {euid} AND event.eid = {eid}")
+				.WithParam ("uid", uid)
+				.WithParam ("euid", e.uid)
+				.WithParam ("eid", e.eid)
+				.Delete ("a")
+				.ExecuteWithoutResultsAsync ();
+		}
+			
+		public static bool ReplyOffer (string uid, bool answer, Event e)
+		{
+			if (answer)
+			{
+				var res = client.Cypher
+					.Match ("(user:User), (event:Event)")
+					.Where ("user.Id = {uid} AND event.eid = {eid} AND event.uid = {euid}")
+					.AndWhere ("event.SlotsLeft > 0")
+					.WithParam ("uid", uid)
+					.WithParam ("eid", e.eid)
+					.WithParam ("euid", e.uid)
+					.Set ("event.SlotsLeft = event.SlotsLeft - 1")
+					.Create ("user-[:ATTENDS]->event")
+					.Delete ("user-[:MATCHED]->event")
+					.Return (() => new {
+						events = Return.As<int> ("count(event)")
+					})
+					.ResultsAsync.Result;
+
+				if (res.First ().events > 0)
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			else
+			{
+				client.Cypher
+					.Match ("(user:User), (event:Event)")
+					.Where ("user.Id = {uid} AND event.eid = {eid} AND event.uid = {euid}")
+					.WithParam ("uid", uid)
+					.WithParam ("eid", e.eid)
+					.WithParam ("euid", e.uid)
+					.Delete ("user-[:MATCHED]->event")
+					.ExecuteWithoutResultsAsync ();
+
+				return true;
 			}
 		}
 	}

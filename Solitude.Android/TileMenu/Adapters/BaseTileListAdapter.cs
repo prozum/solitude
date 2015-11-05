@@ -9,7 +9,7 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 
-namespace TileMenu
+namespace DineWithaDane.Android
 {
 	public abstract class BaseTileListAdapter<T> : BaseExpandableListAdapter
 	{
@@ -19,6 +19,7 @@ namespace TileMenu
 			get;
 			private set;
 		}
+
 		protected List<T> Items
 		{
 			get;

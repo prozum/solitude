@@ -11,7 +11,7 @@ using System.Threading;
 
 namespace DineWithaDane.Android
 {
-	[Activity (Label = "Solitude.Android", MainLauncher = true, Theme = "@android:style/Theme.DeviceDefault.NoActionBar")]
+	[Activity (Label = "Solitude.Android", MainLauncher = false, Theme = "@android:style/Theme.DeviceDefault.NoActionBar")]
 	public class MainActivity : Activity
 	{
 		private ClientCommunication.CommunicationInterface CIF;
@@ -65,12 +65,22 @@ namespace DineWithaDane.Android
 					RunOnUiThread( () => {
 						loginProgress.Visibility = ViewStates.Invisible;
 					});
+
+					//Moves on to next activity, if login is succesful
+					if(loggedIn)
+					{
+						Intent toNotificationScreen = new Intent(this, typeof(NotificationActivity));
+						StartActivity(toNotificationScreen);
+					}
+					else
+					{
+						var loginFailedDialog = new AlertDialog.Builder(this);
+						loginFailedDialog.SetMessage(CIF.LatestError);
+						RunOnUiThread( () => {
+							loginFailedDialog.Show();
+						});
+					}
 				});
-				//Moves on to next activity, if login is succesful
-				if(loggedIn)
-				{
-					Intent toNotificationScreen = new Intent(this, typeof(NotificationActivity));
-				}
 			}
 			//Displays an errormessage, if no username or password is entered
 			else
