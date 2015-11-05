@@ -51,6 +51,7 @@
     <Compile Include="Models\Interest.cs" />
     <Compile Include="Models\Language.cs" />
     <Compile Include="DatabaseAbstrationLayer.cs" />
+    <Compile Include="Models\Review.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
