@@ -132,6 +132,19 @@ namespace Dal
 				.WithParam ("info", new Event (date, address, description, slotsTotal, slotsTotal, uid, res + 1))
 				.ExecuteWithoutResultsAsync ();
 		}
+
+		public async Task AddReview(string uid, string text, int rating)
+		{
+			await client.Cypher
+				.Match ("(user:User)")
+				.Where ("user.Id = {uid}")
+				.WithParam ("uid", uid)
+				//creates a relation "HOSTING" between the created event 
+				.Create ("user-[:HOSTING]->(review:Review {data})")
+				.WithParam ("data", new Review() { ReviewText = text, Rating = rating })
+				.ExecuteWithoutResultsAsync ();
+		}
+
 			
 		public async Task ConnectUserInterest (string uid, Interest.InterestCode ic, int w)
 		{

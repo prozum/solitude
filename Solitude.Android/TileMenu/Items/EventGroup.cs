@@ -56,9 +56,9 @@ namespace DineWithaDane.Android
 
 			AddView(TitleView);
 			AddView(detailslayout);
-			AddView(ParticipantsView);
 			detailslayout.AddView(PlaceView);
 			detailslayout.AddView(DateView);
+			AddView(ParticipantsView);
 
 			detailslayout.WeightSum = 2;
 			TitleView.LayoutParameters.Width = -1;

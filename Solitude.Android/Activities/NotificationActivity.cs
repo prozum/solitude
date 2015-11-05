@@ -49,9 +49,9 @@ namespace DineWithaDane.Android
 
 			User currentUser = new User ("test", "bruger");
 
-			notificationList.Add (new ReviewNotification (Notification.Direction.Host, currentUser,  "Review Title #1", "Review Text", DateTime.Now.ToString(), this, notificationList));
-			notificationList.Add (new ReviewNotification (Notification.Direction.Host, currentUser, "Review Title #2", "Review Text", DateTime.Now.ToString(), this, notificationList));
-			notificationList.Add (new ReviewNotification (Notification.Direction.Host, currentUser, "Review Title #3", "Review Text", DateTime.Now.ToString(), this, notificationList));
+			notificationList.Add (new ReviewNotification (Notification.NotificationPosition.Right, currentUser,  "Review Title #1", "Review Text", DateTime.Now.ToString(), this, notificationList));
+			notificationList.Add (new ReviewNotification (Notification.NotificationPosition.Right, currentUser, "Review Title #2", "Review Text", DateTime.Now.ToString(), this, notificationList));
+			notificationList.Add (new ReviewNotification (Notification.NotificationPosition.Right, currentUser, "Review Title #3", "Review Text", DateTime.Now.ToString(), this, notificationList));
 
 			content.AddView (notificationLayout);
 
