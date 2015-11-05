@@ -11,7 +11,7 @@ using System.Threading;
 
 namespace DineWithaDane.Android
 {
-	[Activity (Label = "Solitude.Android", MainLauncher = true, Theme = "@android:style/Theme.DeviceDefault.NoActionBar")]
+	[Activity (Label = "Solitude.Android", MainLauncher = false, Theme = "@android:style/Theme.DeviceDefault.NoActionBar")]
 	public class MainActivity : Activity
 	{
 		private ClientCommunication.CommunicationInterface CIF;

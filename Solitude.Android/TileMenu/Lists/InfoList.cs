@@ -8,19 +8,24 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
 
 namespace DineWithaDane.Android
 {
-	[Activity (Label = "Hosts")]			
-	public class HostActivity : AbstractActivity
+	public class InfoList : TileList<InfoTest>
 	{
-		protected override void OnCreate (Bundle bundle)
+		public bool EditMode
 		{
-			drawerPosition = 3;
+			get;
+			set;
+		}
 
-			base.OnCreate (bundle);
+		public InfoList(Context context, ProfileInfoListAdapter adapter)
+			: base(context, adapter)
+		{
+			Initialize();
 		}
 	}
 }

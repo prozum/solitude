@@ -21,11 +21,30 @@ namespace DineWithaDane.Android
 		protected ListView m_DrawerList;
 		protected int drawerPosition;
 		protected SetupDrawer drawerSetup;
+		protected FrameLayout Content
+		{
+			get;
+			set;
+		}
 
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
 
+			SetContentView(Resource.Layout.ActivityLayout);
+
+			drawerSetup = new SetupDrawer (
+				m_DrawerTitle,
+				m_Title,
+				m_Drawer,
+				m_DrawerList,
+				drawerPosition,
+				this
+			);
+
+			drawerSetup.Configure ();
+			drawerSetup.DrawerToggleSetup ();
+			Content = FindViewById<FrameLayout>(Resource.Id.content_frame);
 			// Create your application here
 		}
 

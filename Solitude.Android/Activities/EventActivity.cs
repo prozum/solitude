@@ -10,17 +10,17 @@ using Android.OS;
 
 namespace DineWithaDane.Android
 {
-	[Activity (Label = "Offers")]
-	public class OfferActivity : AbstractActivity
+	[Activity (Label = "Events")]
+	public class EventActivity : AbstractActivity
 	{
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
-			drawerPosition = 1;
+			drawerPosition = 2;
 
 			base.OnCreate (savedInstanceState);
 
-			var adapter = new OfferListAdapter(this, TestMaterial.Events);
-			var tilelist = new OfferList(this, adapter);
+			var adapter = new EventListAdapter(this, TestMaterial.Events);
+			var tilelist = new EventList(this, adapter);
 
 			Content.AddView(tilelist);
 		}
