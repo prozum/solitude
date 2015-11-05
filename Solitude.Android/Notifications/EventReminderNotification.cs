@@ -9,7 +9,7 @@ namespace DineWithaDane.Android
 {
 	public class EventReminderNotification : Notification
 	{
-		public EventReminderNotification (User user, string title, string text, string time, Activity activity, ObservableCollection<Notification> notificationList) : base(user, title, text, time, Color.BlueViolet, Color.Blue, activity, notificationList)
+		public EventReminderNotification (Direction user, string title, string text, string time, Activity activity, ObservableCollection<Notification> notificationList) : base(user, title, text, time, Color.BlueViolet, Color.Blue, activity, notificationList)
 		{
 			LinearLayout buttonKeeper = new LinearLayout (activity);
 			buttonKeeper.Orientation = Orientation.Horizontal;

@@ -9,7 +9,7 @@ namespace DineWithaDane.Android
 {
 	public abstract class Notification : LinearLayout
 	{
-		public enum User
+		public enum Direction
 		{
 			User, Guest, Host
 		}
@@ -18,7 +18,7 @@ namespace DineWithaDane.Android
 		protected Point displaySize = new Point ();
 		protected ObservableCollection<Notification> notificationList;
 
-		protected Notification(User user, string title, string text, string time, Color headerColor, Color bodyColor, Activity activity, ObservableCollection<Notification> notificationList) : base(activity)
+		protected Notification(Direction user, string title, string text, string time, Color headerColor, Color bodyColor, Activity activity, ObservableCollection<Notification> notificationList) : base(activity)
 		{
 			display = activity.WindowManager.DefaultDisplay;
 			display.GetSize (displaySize);
@@ -26,7 +26,7 @@ namespace DineWithaDane.Android
 
 			this.LayoutParameters = new ViewGroup.LayoutParams (displaySize.X / 3 * 2, WindowManagerLayoutParams.WrapContent);
 
-			if (user == User.Host) 
+			if (user == Direction.Host) 
 			{
 				this.SetX (displaySize.X / 3);
 			}

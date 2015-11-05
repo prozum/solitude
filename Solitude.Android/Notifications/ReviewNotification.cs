@@ -9,7 +9,7 @@ namespace DineWithaDane.Android
 {
 	public class ReviewNotification : Notification
 	{
-		public ReviewNotification (User user, string title, string text, string time, Activity activity, ObservableCollection<Notification> notificationList) : base(user, title, text, time, Color.IndianRed, Color.Red, activity, notificationList)
+		public ReviewNotification (Direction user, DineWithaDane.Android.User currentUser, string title, string text, string time, Activity activity, ObservableCollection<Notification> notificationList) : base(user, title, text, time, Color.IndianRed, Color.Red, activity, notificationList)
 		{
 			var me = this;
 
@@ -30,12 +30,7 @@ namespace DineWithaDane.Android
 			//			buttonLeft.Click
 			buttonLeft.Click += (object sender, EventArgs e) => 
 			{
-				var dialog = new Dialog(activity);
-				dialog.RequestWindowFeature((int)WindowFeatures.NoTitle);
-				dialog.SetContentView(Resource.Layout.review_layout);
-
-				RatingBar rating = (RatingBar)dialog.FindViewById (Resource.Id.ratingbar);
-				dialog.Show();
+				Review newReview = new Review (currentUser, activity);
 			};
 
 			buttonRight.Click += (object sender, EventArgs e) => 

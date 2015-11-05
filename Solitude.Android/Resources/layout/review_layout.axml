@@ -47,7 +47,7 @@
         android:id="@+id/textView2" />
     <EditText
         android:inputType="textMultiLine"
-        android:layout_below="@+id/textView2"
+        android:layout_below="@+id/reviewUserInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="50dp"
@@ -60,14 +60,14 @@
         android:layout_alignParentBottom="true">
         <Button
             android:text="Cancel"
-            android:id="@+id/button1"
+            android:id="@+id/cancelReviewButton"
             android:layout_below="@+id/editText1"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true" />
         <Button
             android:text="Post review"
-            android:id="@+id/button2"
+            android:id="@+id/postReviewButton"
             android:layout_below="@+id/editText1"
             android:layout_toRightOf="@+id/button1"
             android:layout_width="150dp"

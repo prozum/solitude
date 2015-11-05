@@ -9,7 +9,7 @@ namespace DineWithaDane.Android
 {
 	public class EventUpdateNotification : Notification
 	{
-		public EventUpdateNotification (User user, string title, string text, string time, Activity activity, ObservableCollection<Notification> notificationList) : base(user, title, text, time, Color.GreenYellow, Color.Green, activity, notificationList)
+		public EventUpdateNotification (Direction user, string title, string text, string time, Activity activity, ObservableCollection<Notification> notificationList) : base(user, title, text, time, Color.GreenYellow, Color.Green, activity, notificationList)
 		{
 			LinearLayout buttonKeeper = new LinearLayout (activity);
 			buttonKeeper.Orientation = Orientation.Horizontal;
