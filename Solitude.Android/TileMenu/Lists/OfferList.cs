@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,6 +15,7 @@ namespace DineWithaDane.Android
 {
 	public class OfferList : SortableTileList<EventTest>
 	{
+		#region Constructors
 		public OfferList(Context context, OfferListAdapter adapter)
 			: base(context, adapter, new string[] 
 				{
@@ -32,7 +32,7 @@ namespace DineWithaDane.Android
 					ExpListView.CollapseGroup(Focus);
 					RemoveFocus();
 				};
-			
+
 			adapter.OnDecline = (s, e) =>
 				{
 					ExpListView.CollapseGroup(Focus);
@@ -41,6 +41,7 @@ namespace DineWithaDane.Android
 
 			Initialize();
 		}
+		#endregion
 	}
 }
 

@@ -1,4 +1,3 @@
-﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,24 +15,14 @@ namespace DineWithaDane.Android
 {
 	public abstract class TileList<T> : RelativeLayout
 	{
-		protected ExpandableListView ExpListView
-		{
-			get;
-			set;
-		}
+		#region Fields
+		protected ExpandableListView ExpListView { get; set; }
+		protected BaseTileListAdapter<T> Adapter { get;	set; }
+		protected int Focus	{ get; set;	}
+		#endregion
 
-		protected BaseTileListAdapter<T> Adapter
-		{
-			get;
-			set;
-		}
 
-		protected int Focus
-		{
-			get;
-			set;
-		}
-
+		#region Constructors
 		public TileList(Context context, BaseTileListAdapter<T> adabter)
 			: base(context)
 		{
@@ -53,12 +42,14 @@ namespace DineWithaDane.Android
 					}
 				};
 		}
+		#endregion
 
+
+		#region Private Methods
 		protected void RemoveFocus()
 		{
 			Adapter.RemoveAt(Focus);
 		}
-
 
 		protected virtual void Initialize()
 		{
@@ -66,6 +57,12 @@ namespace DineWithaDane.Android
 
 			ExpListView.LayoutParameters.Width = -1;
 		}
+		#endregion
+
+
+
+
+
+
 	}
 }
-

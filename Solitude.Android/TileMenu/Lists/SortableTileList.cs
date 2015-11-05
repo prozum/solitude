@@ -1,4 +1,3 @@
-﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,12 +16,12 @@ namespace DineWithaDane.Android
 {
 	public abstract class SortableTileList<T> : TileList<T>
 	{
-		protected Spinner SortSpinnerView
-		{
-			get;
-			set;
-		}
+		#region Fields
+		protected Spinner SortSpinnerView {	get; set; }
+		#endregion
 
+
+		#region Constructors
 		public SortableTileList(Context context, BaseTileListAdapter<T> adabter, string[] spinneritems)
 			: base(context, adabter)
 		{
@@ -30,7 +29,7 @@ namespace DineWithaDane.Android
 
 			SortSpinnerView.SetBackgroundColor(new Color(255,255,255));
 			SortSpinnerView.Adapter = new ArrayAdapter<string>(context, Android.Resource.Layout.SpinnerItem,spinneritems);
-			
+
 			#region Spinner Setup
 			// sort when new item is selected in spinner
 			SortSpinnerView.ItemSelected += (sender, e) => 
@@ -41,7 +40,10 @@ namespace DineWithaDane.Android
 				};
 			#endregion
 		}
+		#endregion
 
+
+		#region Private Methods
 		protected override void Initialize()
 		{
 			var sortspinnerlayout = new RelativeLayout.LayoutParams(-1, -2);
@@ -58,6 +60,6 @@ namespace DineWithaDane.Android
 			ExpListView.LayoutParameters = explistlayout;
 
 		}
+		#endregion
 	}
 }
-

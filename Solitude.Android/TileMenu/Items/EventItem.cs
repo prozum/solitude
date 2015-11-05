@@ -1,4 +1,3 @@
-﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,12 +15,11 @@ namespace DineWithaDane.Android
 {
 	public class EventItem : TileListItem
 	{
-		protected Button CancelButton
-		{
-			get;
-			set;
-		}
+		#region Fields
+		protected Button CancelButton { get; set; }
+		#endregion
 
+		#region Contructors
 		public EventItem(Context context, EventHandler onCancel)
 			: base(context)
 		{
@@ -32,7 +30,9 @@ namespace DineWithaDane.Android
 
 			Initialize();
 		}
+		#endregion
 
+		#region Private Methods
 		protected override void Initialize()
 		{
 			AddView(DescritionView);
@@ -42,6 +42,6 @@ namespace DineWithaDane.Android
 
 			base.Initialize();
 		}
+		#endregion
 	}
 }
-

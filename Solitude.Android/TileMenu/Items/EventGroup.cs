@@ -15,48 +15,18 @@ namespace DineWithaDane.Android
 {
 	public class EventGroup : TileListGroup
 	{
-		public string Title
-		{
-			set
-			{
-				TitleView.Text = "Title: " + value;
-			}
-		}
+		#region Field
+		public string Title { set { TitleView.Text = "Title: " + value; } }
+		public string Place	{ set { PlaceView.Text = "Place: " + value;	} }
+		public DateTime Date { set { DateView.Text = "Date: " + value; } }
 
-		public string Place
-		{
-			set
-			{
-				PlaceView.Text = "Place: " + value;
-			}
-		}
+		protected TextView TitleView { get; set; }
+		protected TextView PlaceView { get; set; }
+		protected TextView DateView { get; set; }
+		#endregion
 
-		public DateTime Date
-		{
-			set
-			{
-				DateView.Text = "Date: " + value.ToString();
-			}
-		}
 
-		protected TextView TitleView
-		{
-			get;
-			set;
-		}
-
-		protected TextView PlaceView
-		{
-			get;
-			set;
-		}
-
-		protected TextView DateView
-		{
-			get;
-			set;
-		}
-
+		#region Contructors
 		public EventGroup(Context context)
 			: base(context)
 		{
@@ -66,7 +36,10 @@ namespace DineWithaDane.Android
 
 			Initialize();
 		}
+		#endregion
 
+
+		#region Private Methods
 		protected override void Initialize()
 		{
 			var detailslayout = new LinearLayout(Context);
@@ -84,6 +57,6 @@ namespace DineWithaDane.Android
 
 			base.Initialize();
 		}
+		#endregion
 	}
 }
-

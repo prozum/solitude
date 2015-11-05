@@ -1,4 +1,3 @@
-﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,10 +17,9 @@ namespace DineWithaDane.Android
 	{
 		protected override void OnCreate (Bundle bundle)
 		{
+			// setting up and drawer
 			drawerPosition = 3;
-
 			base.OnCreate (bundle);
 		}
 	}
 }
-

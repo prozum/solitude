@@ -15,22 +15,24 @@ namespace DineWithaDane.Android
 	{
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
-			drawerPosition = 4;
-
-			base.OnCreate (savedInstanceState);
-
 			var profile = FindViewById<RelativeLayout>(Resource.Layout.Profile);
 			var adapter = new ProfileInfoListAdapter(this, TestMaterial.Infos);
 			var tilelist = new InfoList(this, adapter);
 			var tilelistparams = new RelativeLayout.LayoutParams(-1, -1);
-			var layout = profile.FindViewById<RelativeLayout>(Resource.Id.ProfileLayout);
 
+			// setting up drawer
+			drawerPosition = 4;
+			base.OnCreate (savedInstanceState);
+
+			// place tilelist between profile data and edit button
 			tilelistparams.AddRule(LayoutRules.Below, Resource.Id.ProfileDataLayout);
 			tilelistparams.AddRule(LayoutRules.Above, Resource.Id.EditProfileButton);
 			tilelist.LayoutParameters = tilelistparams;
 
-			layout.AddView(tilelist);
+			// add tilelist to profile layout
+			profile.FindViewById<RelativeLayout>(Resource.Id.ProfileLayout).AddView(tilelist);
 
+			// add profile to activity
 			Content.AddView(profile);
 
 
@@ -52,14 +54,6 @@ namespace DineWithaDane.Android
 			dialog.Show();
 			*/
   
-		}
-
-		[Activity (Label = "Profile")]			
-		public class ProfileActivityOld : AbstractActivity
-		{
-			protected override void OnCreate (Bundle bundle)
-			{
-			}
 		}
 	}
 }

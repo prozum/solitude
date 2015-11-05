@@ -15,20 +15,13 @@ namespace DineWithaDane.Android
 {
 	public class InfoGroup : TileListGroup
 	{
-		public string InfoName
-		{
-			set
-			{
-				InfoNameView.Text = value;
-			}
-		}
+		#region Fields
+		public string InfoName { set { InfoNameView.Text = value; } }
 
-		protected TextView InfoNameView
-		{
-			get;
-			set;
-		}
+		protected TextView InfoNameView { get; set;	}
+		#endregion
 
+		#region Contructors
 		public InfoGroup(Context context)
 			: base(context)
 		{
@@ -36,7 +29,9 @@ namespace DineWithaDane.Android
 
 			Initialize();
 		}
+		#endregion
 
+		#region Private Methods
 		protected override void Initialize()
 		{
 			AddView(InfoNameView);
@@ -45,6 +40,6 @@ namespace DineWithaDane.Android
 
 			base.Initialize();
 		}
+		#endregion
 	}
 }
-

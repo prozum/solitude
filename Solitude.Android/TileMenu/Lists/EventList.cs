@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,6 +15,7 @@ namespace DineWithaDane.Android
 {
 	public class EventList : SortableTileList<EventTest>
 	{
+		#region Constructor
 		public EventList(Context context, EventListAdapter adapter)
 			: base(context, adapter, new string[] 
 				{
@@ -35,6 +35,8 @@ namespace DineWithaDane.Android
 
 			Initialize();
 		}
+		#endregion
+
 	}
 }
 

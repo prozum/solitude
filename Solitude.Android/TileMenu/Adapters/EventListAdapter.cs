@@ -13,18 +13,16 @@ namespace DineWithaDane.Android
 {
 	public class EventListAdapter : BaseTileListAdapter<EventTest>
 	{
-		public EventHandler OnCancel
-		{
-			get;
-			set;
-		}
+		#region Fields
+		public EventHandler OnCancel { get; set; }
+		#endregion
+
 
 		#region Constructors
-		public EventListAdapter(Activity context, List<EventTest> items) : base(context, items)
-		{
-			
-		}
+		public EventListAdapter(Activity context, List<EventTest> items) 
+			: base(context, items) { }
 		#endregion
+
 
 		#region Public Methods
 		public override View GetGroupView(int groupPosition, bool isExpanded, View convertView, ViewGroup parent)
@@ -34,10 +32,12 @@ namespace DineWithaDane.Android
 			if (view == null) // otherwise create a new one
 				view = new EventGroup(Context);
 
+			// set view information
 			view.Title = Items[groupPosition].Title;
 			view.Place = Items[groupPosition].Place;
 			view.Date = Items[groupPosition].Date;
 
+			// set seperator visibility
 			if (isExpanded)
 				view.SeperatorVisibility(ViewStates.Gone);
 			else
@@ -50,9 +50,10 @@ namespace DineWithaDane.Android
 		{
 			var view = (convertView as EventItem); // re-use an existing view, if one is available
 
-			if (view == null)// otherwise create a new one
+			if (view == null) // otherwise create a new one
 				view = new EventItem(Context, OnCancel);
 
+			// set view information
 			view.Descrition = Items[groupPosition].Description;
 
 			return view;
@@ -92,22 +93,22 @@ namespace DineWithaDane.Android
 		}
 		#endregion
 
+
 		#region Private Methods
-		int CompareTitle(EventTest x, EventTest y)
+		private int CompareTitle(EventTest x, EventTest y)
 		{
 			return x.Title.CompareTo(y.Title);
 		}
 
-		int CompareDate(EventTest x, EventTest y)
+		private int CompareDate(EventTest x, EventTest y)
 		{
 			return x.Date.CompareTo(y.Date);
 		}
 
-		int CompareDistance(EventTest x, EventTest y)
+		private int CompareDistance(EventTest x, EventTest y)
 		{
 			return x.Place.CompareTo(y.Place);
 		}
 		#endregion
 	}
 }
-

@@ -1,4 +1,3 @@
-﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,18 +15,12 @@ namespace DineWithaDane.Android
 {
 	public class OfferItem : TileListItem
 	{
-		protected Button AcceptButton
-		{
-			get;
-			set;
-		}
+		#region Fields
+		protected Button AcceptButton {	get; set; }
+		protected Button DeclineButton { get; set; }
+		#endregion
 
-		protected Button DeclineButton
-		{
-			get;
-			set;
-		}
-
+		#region Constructors
 		public OfferItem(Context context, EventHandler onAccept, EventHandler onDecline)
 			: base(context)
 		{
@@ -41,7 +34,9 @@ namespace DineWithaDane.Android
 
 			Initialize();
 		}
+		#endregion
 
+		#region Private Methods
 		protected override void Initialize()
 		{
 			var buttonlayout = new LinearLayout(Context);
@@ -58,6 +53,6 @@ namespace DineWithaDane.Android
 
 			base.Initialize();
 		}
+		#endregion
 	}
 }
-

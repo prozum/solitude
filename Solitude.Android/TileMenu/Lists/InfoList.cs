@@ -1,4 +1,3 @@
-﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,17 +15,17 @@ namespace DineWithaDane.Android
 {
 	public class InfoList : TileList<InfoTest>
 	{
-		public bool EditMode
-		{
-			get;
-			set;
-		}
+		#region Fields
+		public bool EditMode { get;	set; }
+		#endregion
 
+
+		#region Constructors
 		public InfoList(Context context, ProfileInfoListAdapter adapter)
 			: base(context, adapter)
 		{
 			Initialize();
 		}
+		#endregion
 	}
 }
-
