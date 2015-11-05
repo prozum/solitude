@@ -9,10 +9,8 @@ namespace DineWithaDane.Android
 {
 	public class ReviewNotification : Notification
 	{
-		public ReviewNotification (Direction user, DineWithaDane.Android.User currentUser, string title, string text, string time, Activity activity, ObservableCollection<Notification> notificationList) : base(user, title, text, time, Color.IndianRed, Color.Red, activity, notificationList)
+		public ReviewNotification (NotificationPosition position, User user, string title, string text, string time, Activity activity, ObservableCollection<Notification> notificationList) : base(position, title, text, time, Color.IndianRed, Color.Red, activity, notificationList)
 		{
-			var me = this;
-
 			LinearLayout buttonKeeper = new LinearLayout (activity);
 			buttonKeeper.Orientation = Orientation.Horizontal;
 			buttonKeeper.SetBackgroundColor (Color.Red);
@@ -30,12 +28,12 @@ namespace DineWithaDane.Android
 			//			buttonLeft.Click
 			buttonLeft.Click += (object sender, EventArgs e) => 
 			{
-				Review newReview = new Review (currentUser, activity);
+				Review newReview = new Review (user, activity);
 			};
 
 			buttonRight.Click += (object sender, EventArgs e) => 
 			{
-				notificationList.Remove(me);
+					notificationList.Remove(this);
 			};
 
 			buttonKeeper.AddView (buttonLeft);

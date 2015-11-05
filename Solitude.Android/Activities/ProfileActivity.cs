@@ -15,22 +15,14 @@ namespace DineWithaDane.Android
 	{
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
-			var profile = FindViewById<RelativeLayout>(Resource.Layout.Profile);
+			
 			var adapter = new ProfileInfoListAdapter(this, TestMaterial.Infos);
 			var tilelist = new InfoList(this, adapter);
-			var tilelistparams = new RelativeLayout.LayoutParams(-1, -1);
+			var profile = new ProfileView(this, "Sven", 22, "Svenvej 3", tilelist);
 
 			// setting up drawer
 			drawerPosition = 4;
 			base.OnCreate (savedInstanceState);
-
-			// place tilelist between profile data and edit button
-			tilelistparams.AddRule(LayoutRules.Below, Resource.Id.ProfileDataLayout);
-			tilelistparams.AddRule(LayoutRules.Above, Resource.Id.EditProfileButton);
-			tilelist.LayoutParameters = tilelistparams;
-
-			// add tilelist to profile layout
-			profile.FindViewById<RelativeLayout>(Resource.Id.ProfileLayout).AddView(tilelist);
 
 			// add profile to activity
 			Content.AddView(profile);

@@ -36,6 +36,7 @@ namespace DineWithaDane.Android
 			view.Title = Items[groupPosition].Title;
 			view.Place = Items[groupPosition].Place;
 			view.Date = Items[groupPosition].Date;
+			view.Slots = new Tuple<int, int>(Items[groupPosition].SlotsLeft, Items[groupPosition].MaxSlots);
 
 			// set seperator visibility
 			if (isExpanded)
