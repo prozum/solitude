@@ -117,8 +117,7 @@ namespace Dal
 				.Match ("(user:User)")
 				.Where ("user.Id = {uid}")
 				.WithParam ("uid", uid)
-				//creates a relation "HOSTING" between the created event 
-				.Create ("user-[:HOSTING]->(review:Review {data})")
+				.Create ("user-[:REVIEWER]->(review:Review {data})")
 				.WithParam ("data", new Review() { ReviewText = text, Rating = rating })
 				.ExecuteWithoutResultsAsync ();
 		}
