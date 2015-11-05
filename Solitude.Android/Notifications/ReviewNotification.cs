@@ -3,13 +3,16 @@ using Android.App;
 using Android.Widget;
 using Android.Graphics;
 using Android.Views;
+using System.Collections.ObjectModel;
 
 namespace DineWithaDane.Android
 {
 	public class ReviewNotification : Notification
 	{
-		public ReviewNotification (User user, string title, string text, string time, Activity activity) : base(user, title, text, time, Color.IndianRed, Color.Red, activity)
+		public ReviewNotification (User user, string title, string text, string time, Activity activity, ObservableCollection<Notification> notificationList) : base(user, title, text, time, Color.IndianRed, Color.Red, activity, notificationList)
 		{
+			var me = this;
+
 			LinearLayout buttonKeeper = new LinearLayout (activity);
 			buttonKeeper.Orientation = Orientation.Horizontal;
 			buttonKeeper.SetBackgroundColor (Color.Red);
@@ -25,8 +28,20 @@ namespace DineWithaDane.Android
 			buttonRight.SetWidth (displaySize.X / 3);
 
 			//			buttonLeft.Click
+			buttonLeft.Click += (object sender, EventArgs e) => 
+			{
+				var dialog = new Dialog(activity);
+				dialog.RequestWindowFeature((int)WindowFeatures.NoTitle);
+				dialog.SetContentView(Resource.Layout.review_layout);
 
-			//			buttonRight.Click
+				RatingBar rating = (RatingBar)dialog.FindViewById (Resource.Id.ratingbar);
+				dialog.Show();
+			};
+
+			buttonRight.Click += (object sender, EventArgs e) => 
+			{
+				notificationList.Remove(me);
+			};
 
 			buttonKeeper.AddView (buttonLeft);
 			buttonKeeper.AddView (buttonRight);

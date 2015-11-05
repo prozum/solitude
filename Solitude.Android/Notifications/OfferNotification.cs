@@ -3,12 +3,13 @@ using Android.App;
 using Android.Graphics;
 using Android.Widget;
 using Android.Views;
+using System.Collections.ObjectModel;
 
 namespace DineWithaDane.Android
 {
 	public class OfferNotification : Notification
 	{
-		public OfferNotification (string title, string text, string time, Activity activity) : base(User.Guest, title, text, time, Color.OrangeRed, Color.Orange, activity)
+		public OfferNotification (string title, string text, string time, Activity activity, ObservableCollection<Notification> notificationList) : base(User.Guest, title, text, time, Color.OrangeRed, Color.Orange, activity, notificationList)
 		{
 			LinearLayout buttonKeeper = new LinearLayout (activity);
 			buttonKeeper.Orientation = Orientation.Horizontal;

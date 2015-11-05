@@ -3,12 +3,13 @@ using Android.Widget;
 using Android.App;
 using Android.Graphics;
 using Android.Views;
+using System.Collections.ObjectModel;
 
 namespace DineWithaDane.Android
 {
 	public class EventUpdateNotification : Notification
 	{
-		public EventUpdateNotification (User user, string title, string text, string time, Activity activity) : base(user, title, text, time, Color.GreenYellow, Color.Green, activity)
+		public EventUpdateNotification (User user, string title, string text, string time, Activity activity, ObservableCollection<Notification> notificationList) : base(user, title, text, time, Color.GreenYellow, Color.Green, activity, notificationList)
 		{
 			LinearLayout buttonKeeper = new LinearLayout (activity);
 			buttonKeeper.Orientation = Orientation.Horizontal;

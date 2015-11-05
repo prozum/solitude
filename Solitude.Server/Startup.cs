@@ -1,23 +1,13 @@
 ﻿using System;
 using System.Configuration;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Owin;
 using Owin.Security.AesDataProtectorProvider;
 using Microsoft.Owin;
-using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security.OAuth;
-using Microsoft.Owin.Security.Facebook;
-using Microsoft.Owin.Security.Cookies;
 using System.Web.Http;
-using System.Web.Configuration;
 using System.Net.Http.Formatting;
 using Neo4jClient;
 using Neo4j.AspNet.Identity;
-using System.IdentityModel.Tokens;
-using Microsoft.Owin.Security.Jwt;
 
 namespace Solitude.Server
 {
