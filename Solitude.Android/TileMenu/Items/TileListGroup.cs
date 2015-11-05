@@ -16,9 +16,13 @@ namespace DineWithaDane.Android
 {
 	public abstract class TileListGroup : LinearLayout
 	{
+		#region Fields
 		protected TextView DotsView { get; set;	}
 		protected TextView SeperatorView { get; set; }
+		#endregion
 
+
+		#region Constructors
 		public TileListGroup(Context context)
 			: base(context)
 		{
@@ -32,13 +36,19 @@ namespace DineWithaDane.Android
 
 			DotsView.Gravity = GravityFlags.Center;
 		}
+		#endregion
 
+
+		#region Public Methods
 		public void SeperatorVisibility(ViewStates state)
 		{
 			DotsView.Visibility = state;
 			SeperatorView.Visibility = state;
 		}
+		#endregion
 
+
+		#region Private Methods
 		protected virtual void Initialize()
 		{
 			AddView(DotsView);
@@ -48,5 +58,10 @@ namespace DineWithaDane.Android
 			SeperatorView.LayoutParameters.Width = -1;
 			SeperatorView.LayoutParameters.Height = 1;
 		}
+		#endregion
+
+
+
+
 	}
 }

@@ -16,11 +16,15 @@ namespace DineWithaDane.Android
 {
 	public abstract class TileListItem : LinearLayout
 	{
+		#region Fields
 		public string Descrition { set { DescritionView.Text = "Description: " + value; } }
 
 		protected TextView DescritionView {	get; set; }
 		protected TextView SeperatorView { get; set; }
+		#endregion
 
+
+		#region Constructors
 		public TileListItem(Context context)
 			: base(context)
 		{
@@ -31,7 +35,10 @@ namespace DineWithaDane.Android
 
 			DescritionView = new TextView(context);
 		}
+		#endregion
 
+
+		#region Private Methods
 		protected virtual void Initialize()
 		{
 			AddView(SeperatorView);
@@ -40,5 +47,6 @@ namespace DineWithaDane.Android
 			SeperatorView.LayoutParameters.Width = -1;
 			SeperatorView.LayoutParameters.Height = 1;
 		}
+		#endregion
 	}
 }

@@ -15,18 +15,23 @@ namespace DineWithaDane.Android
 {
 	public class InfoItem : TileListItem
 	{
+		#region Constructors
 		public InfoItem(Context context)
 			: base(context)
 		{
 			Initialize();
 		}
+		#endregion
 
+
+		#region Private Methods
 		protected override void Initialize()
 		{
 			AddView(DescritionView);
 
 			base.Initialize();
 		}
+		#endregion
 	}
 }
 

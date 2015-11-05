@@ -15,10 +15,14 @@ namespace DineWithaDane.Android
 {
 	public abstract class TileList<T> : RelativeLayout
 	{
+		#region Fields
 		protected ExpandableListView ExpListView { get; set; }
 		protected BaseTileListAdapter<T> Adapter { get;	set; }
 		protected int Focus	{ get; set;	}
+		#endregion
 
+
+		#region Constructors
 		public TileList(Context context, BaseTileListAdapter<T> adabter)
 			: base(context)
 		{
@@ -38,7 +42,10 @@ namespace DineWithaDane.Android
 					}
 				};
 		}
+		#endregion
 
+
+		#region Private Methods
 		protected void RemoveFocus()
 		{
 			Adapter.RemoveAt(Focus);
@@ -50,5 +57,12 @@ namespace DineWithaDane.Android
 
 			ExpListView.LayoutParameters.Width = -1;
 		}
+		#endregion
+
+
+
+
+
+
 	}
 }

@@ -15,12 +15,17 @@ namespace DineWithaDane.Android
 {
 	public class InfoList : TileList<InfoTest>
 	{
+		#region Fields
 		public bool EditMode { get;	set; }
+		#endregion
 
+
+		#region Constructors
 		public InfoList(Context context, ProfileInfoListAdapter adapter)
 			: base(context, adapter)
 		{
 			Initialize();
 		}
+		#endregion
 	}
 }

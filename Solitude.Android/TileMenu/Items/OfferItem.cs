@@ -15,9 +15,12 @@ namespace DineWithaDane.Android
 {
 	public class OfferItem : TileListItem
 	{
+		#region Fields
 		protected Button AcceptButton {	get; set; }
 		protected Button DeclineButton { get; set; }
+		#endregion
 
+		#region Constructors
 		public OfferItem(Context context, EventHandler onAccept, EventHandler onDecline)
 			: base(context)
 		{
@@ -31,7 +34,9 @@ namespace DineWithaDane.Android
 
 			Initialize();
 		}
+		#endregion
 
+		#region Private Methods
 		protected override void Initialize()
 		{
 			var buttonlayout = new LinearLayout(Context);
@@ -48,5 +53,6 @@ namespace DineWithaDane.Android
 
 			base.Initialize();
 		}
+		#endregion
 	}
 }
