@@ -16,11 +16,7 @@ namespace DineWithaDane.Android
 {
 	public class EventItem : TileListItem
 	{
-		protected Button CancelButton
-		{
-			get;
-			set;
-		}
+		protected Button CancelButton { get; set; }
 
 		public EventItem(Context context, EventHandler onCancel)
 			: base(context)

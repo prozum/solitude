@@ -16,11 +16,7 @@ namespace DineWithaDane.Android
 {
 	public class InfoList : TileList<InfoTest>
 	{
-		public bool EditMode
-		{
-			get;
-			set;
-		}
+		public bool EditMode { get;	set; }
 
 		public InfoList(Context context, ProfileInfoListAdapter adapter)
 			: base(context, adapter)

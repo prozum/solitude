@@ -14,10 +14,8 @@ namespace DineWithaDane.Android
 	public class ProfileInfoListAdapter : BaseTileListAdapter<InfoTest>
 	{
 		#region Constructors
-		public ProfileInfoListAdapter(Activity context, List<InfoTest> items) : base(context, items)
-		{
-
-		}
+		public ProfileInfoListAdapter(Activity context, List<InfoTest> items) 
+			: base(context, items) { }
 		#endregion
 
 		#region Public Methods
@@ -28,8 +26,10 @@ namespace DineWithaDane.Android
 			if (view == null) // otherwise create a new one
 				view = new InfoGroup(Context);
 
+			// set view information
 			view.InfoName = Items[groupPosition].Name;
 
+			// set seperator visibility
 			if (isExpanded)
 				view.SeperatorVisibility(ViewStates.Gone);
 			else
@@ -45,6 +45,7 @@ namespace DineWithaDane.Android
 			if (view == null)// otherwise create a new one
 				view = new InfoItem(Context);
 
+			// set view information
 			view.Descrition = Items[groupPosition].Description;
 
 			return view;
@@ -54,9 +55,6 @@ namespace DineWithaDane.Android
 		{
 			throw new NotImplementedException();
 		}
-		#endregion
-
-		#region Private Methods
 		#endregion
 	}
 }

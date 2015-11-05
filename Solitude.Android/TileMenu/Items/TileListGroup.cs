@@ -16,17 +16,8 @@ namespace DineWithaDane.Android
 {
 	public abstract class TileListGroup : LinearLayout
 	{
-		protected TextView DotsView
-		{
-			get;
-			set;
-		}
-
-		protected TextView SeperatorView
-		{
-			get;
-			set;
-		}
+		protected TextView DotsView { get; set;	}
+		protected TextView SeperatorView { get; set; }
 
 		public TileListGroup(Context context)
 			: base(context)

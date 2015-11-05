@@ -15,19 +15,9 @@ namespace DineWithaDane.Android
 {
 	public class InfoGroup : TileListGroup
 	{
-		public string InfoName
-		{
-			set
-			{
-				InfoNameView.Text = value;
-			}
-		}
+		public string InfoName { set { InfoNameView.Text = value; } }
 
-		protected TextView InfoNameView
-		{
-			get;
-			set;
-		}
+		protected TextView InfoNameView { get; set;	}
 
 		public InfoGroup(Context context)
 			: base(context)

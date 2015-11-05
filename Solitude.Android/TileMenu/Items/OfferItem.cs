@@ -16,17 +16,8 @@ namespace DineWithaDane.Android
 {
 	public class OfferItem : TileListItem
 	{
-		protected Button AcceptButton
-		{
-			get;
-			set;
-		}
-
-		protected Button DeclineButton
-		{
-			get;
-			set;
-		}
+		protected Button AcceptButton {	get; set; }
+		protected Button DeclineButton { get; set; }
 
 		public OfferItem(Context context, EventHandler onAccept, EventHandler onDecline)
 			: base(context)

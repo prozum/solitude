@@ -17,11 +17,7 @@ namespace DineWithaDane.Android
 {
 	public abstract class SortableTileList<T> : TileList<T>
 	{
-		protected Spinner SortSpinnerView
-		{
-			get;
-			set;
-		}
+		protected Spinner SortSpinnerView {	get; set; }
 
 		public SortableTileList(Context context, BaseTileListAdapter<T> adabter, string[] spinneritems)
 			: base(context, adabter)

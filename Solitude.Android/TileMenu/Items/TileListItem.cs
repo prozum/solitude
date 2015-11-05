@@ -16,25 +16,10 @@ namespace DineWithaDane.Android
 {
 	public abstract class TileListItem : LinearLayout
 	{
-		public string Descrition
-		{
-			set
-			{
-				DescritionView.Text = "Description: " + value;
-			}
-		}
+		public string Descrition { set { DescritionView.Text = "Description: " + value; } }
 
-		protected TextView DescritionView
-		{
-			get;
-			set;
-		}
-
-		protected TextView SeperatorView
-		{
-			get;
-			set;
-		}
+		protected TextView DescritionView {	get; set; }
+		protected TextView SeperatorView { get; set; }
 
 		public TileListItem(Context context)
 			: base(context)
