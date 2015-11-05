@@ -13,9 +13,10 @@ namespace Solitude.Server
     public class MatchController : ApiController
     {
         [Authorize]
-        public IHttpActionResult Get()
+        public async Task<IHttpActionResult> Get()
         {
-            return Ok(DAL.DAL.GetOffers(User.Identity.GetUserId()));
+            var match = await DAL.DAL.GetOffers(User.Identity.GetUserId());
+            return Ok(match);
         }
     }
 }
