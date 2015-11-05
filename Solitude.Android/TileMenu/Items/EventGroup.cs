@@ -25,6 +25,7 @@ namespace DineWithaDane.Android
 		protected TextView DateView { get; set; }
 		#endregion
 
+
 		#region Contructors
 		public EventGroup(Context context)
 			: base(context)
@@ -36,6 +37,7 @@ namespace DineWithaDane.Android
 			Initialize();
 		}
 		#endregion
+
 
 		#region Private Methods
 		protected override void Initialize()

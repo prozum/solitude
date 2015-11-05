@@ -18,6 +18,7 @@ namespace DineWithaDane.Android
 			: base(context, items) { }
 		#endregion
 
+
 		#region Public Methods
 		public override View GetGroupView(int groupPosition, bool isExpanded, View convertView, ViewGroup parent)
 		{

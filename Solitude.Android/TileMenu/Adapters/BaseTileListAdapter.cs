@@ -21,6 +21,7 @@ namespace DineWithaDane.Android
 		public override bool HasStableIds {	get { return true; } } 
 		#endregion
 
+
 		#region Constructors
 		public BaseTileListAdapter(Activity context, List<T> items) 
 			: base()
@@ -29,6 +30,7 @@ namespace DineWithaDane.Android
 			Items = items;
 		}
 		#endregion
+
 
 		#region Public Methods
 		public abstract void Sort(string context);

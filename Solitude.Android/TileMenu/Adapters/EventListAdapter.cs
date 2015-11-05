@@ -17,10 +17,12 @@ namespace DineWithaDane.Android
 		public EventHandler OnCancel { get; set; }
 		#endregion
 
+
 		#region Constructors
 		public EventListAdapter(Activity context, List<EventTest> items) 
 			: base(context, items) { }
 		#endregion
+
 
 		#region Public Methods
 		public override View GetGroupView(int groupPosition, bool isExpanded, View convertView, ViewGroup parent)
@@ -90,6 +92,7 @@ namespace DineWithaDane.Android
 			NotifyDataSetChanged();
 		}
 		#endregion
+
 
 		#region Private Methods
 		private int CompareTitle(EventTest x, EventTest y)
