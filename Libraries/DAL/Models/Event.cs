@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DAL
+namespace Dal
 {
 	public class Event
 	{

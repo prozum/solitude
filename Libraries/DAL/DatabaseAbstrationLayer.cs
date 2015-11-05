@@ -1,15 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Neo4jClient;
 using Neo4jClient.Cypher;
 
-namespace DAL
+namespace Dal
 {
-	public static class DAL
+	public class DatabaseAbstrationLayer : IDisposable
 	{
-		// client has to be set manually, and NEEDS to be set
-		public static GraphClient client;
+		private readonly GraphClient client;
+
+		public DatabaseAbstrationLayer(GraphClient client)
+		{
+			this.client = client;
+		}
+
+		public void Dispose()
+		{
+		}
 
 		/// <summary>
 		/// function to add an interest to the database
@@ -18,7 +27,7 @@ namespace DAL
 		/// </summary>
 		/// <returns><c>true</c>, if interest was added, <c>false</c> otherwise.</returns>
 		/// <param name="ic">Ic.</param>
-		public static bool AddInterest (Interest.InterestCode ic)
+		public bool AddInterest (Interest.InterestCode ic)
 		{
 			string interest = Interest.GetInterest (ic);
 
@@ -40,14 +49,14 @@ namespace DAL
 		/// </summary>
 		/// <returns><c>true</c>, if language was added, <c>false</c> otherwise.</returns>
 		/// <param name="lc">Lc.</param>
-		public static bool AddLanguage (Language.LanguageCode lc)
+		public async Task<bool> AddLanguage (Language.LanguageCode lc)
 		{
 			string language = Language.GetLanguage (lc);
 
 			if (language == null) {
 				return false;
 			} else {
-				client.Cypher
+				await client.Cypher
 				.Create ("(language:Language {info})")
 				.WithParam ("info", new {Id = lc, Description = language})
 				.ExecuteWithoutResultsAsync ();
@@ -63,14 +72,14 @@ namespace DAL
 		/// </summary>
 		/// <returns><c>true</c>, if food habit was added, <c>false</c> otherwise.</returns>
 		/// <param name="fc">Fc.</param>
-		public static bool AddFoodHabit (FoodHabit.FoodHabitCode fc)
+		public async Task<bool> AddFoodHabit (FoodHabit.FoodHabitCode fc)
 		{
 			string foodhabit = FoodHabit.GetFoodHabit (fc);
 
 			if (foodhabit == null) {
 				return false;
 			} else {
-				client.Cypher
+				await client.Cypher
 					.Create ("(foodhabit:FoodHabit {info})")
 					.WithParam ("info", new {Id = fc, Description = foodhabit})
 					.ExecuteWithoutResultsAsync ();
@@ -79,20 +88,20 @@ namespace DAL
 			return true;
 		}
 
-		static void AddEvent (string uid, string date, string description, string address, int slots)
+		public async Task AddEvent (string uid, string date, string description, string address, int slots)
 		{
 			//get largest id for events owned by the user
-			var id = client.Cypher
+			var id = await client.Cypher
 				.Match ("(user:User)-[:HOSTING]->(event:Event)")
 				.Return (() => new {
 					id = Return.As<int> ("max(event.Id)")
 				})
-				.ResultsAsync.Result;
+				.ResultsAsync;
 
 			//increment id by one
 			int eid = id.GetEnumerator ().Current.id + 1;
 
-			client.Cypher
+			await client.Cypher
 				.Match ("(user:User)")
 				.Where ("user.Id = {uid}")
 				.WithParam ("uid", uid)
@@ -102,9 +111,9 @@ namespace DAL
 				.ExecuteWithoutResultsAsync ();
 		}
 			
-		public static void ConnectUserInterest (string uid, Interest.InterestCode ic, int w)
+		public async Task ConnectUserInterest (string uid, Interest.InterestCode ic, int w)
 		{
-			client.Cypher
+			await client.Cypher
 				//make sure that the interest is related with the right user
 				.Match ("(user:User), (interest:Interest)")
 				.Where ("user.Id = {uid}")
@@ -117,9 +126,9 @@ namespace DAL
 				.ExecuteWithoutResultsAsync ();
 		}
 
-		public static void ConnectUserLanguage (string uid, Language.LanguageCode lc, int w)
+		public async Task ConnectUserLanguage (string uid, Language.LanguageCode lc, int w)
 		{
-			client.Cypher
+			await client.Cypher
 				//make sure that the interest is related with the right user
 				.Match ("(user:User), (language:Language)")
 				.Where ("user.Id = {uid}")
@@ -132,9 +141,9 @@ namespace DAL
 				.ExecuteWithoutResultsAsync ();
 		}
 
-		public static void ConnectUserLanguage (string uid, FoodHabit.FoodHabitCode fc, int w)
+		public async Task ConnectUserLanguage (string uid, FoodHabit.FoodHabitCode fc, int w)
 		{
-			client.Cypher
+			await client.Cypher
 				//make sure that the interest is related with the right user
 				.Match ("(user:User), (foodhabit:FoodHabit)")
 				.Where ("user.Id = {uid}")
@@ -147,16 +156,16 @@ namespace DAL
 				.ExecuteWithoutResultsAsync ();
 		}
 
-		public static void MatchUser (string uid, int LIMIT = 5)
+		public async Task MatchUser (string uid, int LIMIT = 5)
 		{
-			client.Cypher
+			await client.Cypher
 				.Match ("(user:User)-[m:MATCHED]->(event:Event)")
 				.Where ("user.Id = {uid}")
 				.WithParam ("uid", uid)
 				.Delete ("m")
 				.ExecuteWithoutResultsAsync ();
 
-			client.Cypher
+			await client.Cypher
 			    //select all users in the system and all the users who hosts an event
 				.Match ("(user:User), (rest:User)-[:HOSTING]->(event:Event)")
 			    //filter out everyone except the user being matched
@@ -178,10 +187,10 @@ namespace DAL
 				.OrderBy ("(wt1+wt2+wt3) DESC")
 				.Limit (LIMIT)
 				.Create ("user-[:MATCHED]->event")
-				.ExecuteWithoutResultsAsync ();
+				.ExecuteWithoutResultsAsync();
 		}
 
-		public async static Task<IEnumerable<Event>> GetOffers (string uid)
+		public async Task<IEnumerable<Event>> GetOffers (string uid)
 		{
 			var res = await client.Cypher
 				.Match ("(user:User)-[:MATCHED]->(event:Event)")
@@ -195,11 +204,11 @@ namespace DAL
 			return res.First().offers;
 		}
 
-		public static IEnumerable<Event> GetEvents (string uid, bool ATTENDING = true, int LIMIT = 10)
+		public async Task<IEnumerable<Event>> GetEvents (string uid, bool ATTENDING = true, int LIMIT = 10)
 		{
 			if (ATTENDING)
 			{
-				var res = client.Cypher
+				var res = await client.Cypher
 					.Match ("(user:User)-[:ATTENDING]->(event:Event)")
 					.Where ("user.Id = {uid}")
 					.WithParam ("uid", uid)
@@ -214,13 +223,13 @@ namespace DAL
 						events = Return.As<IEnumerable<Event>> ("collect(event)")
 					})
 					.Limit (LIMIT)
-					.ResultsAsync.Result;
+					.ResultsAsync;
 
-				return res.First ().events;
+				return res.First().events;
 			}
 			else
 			{
-				var res = client.Cypher
+				var res = await client.Cypher
 					.Match ("(user:User)-[:HOSTING]->(event:Event)")
 					.Where ("user.Id = {uid}")
 					.WithParam ("uid", uid)
@@ -228,50 +237,50 @@ namespace DAL
 						hosting = Return.As<IEnumerable<Event>> ("collect(event)")
 					})
 					.Limit (LIMIT)
-					.ResultsAsync.Result;
+					.ResultsAsync;
 
-				return res.First ().hosting;
+				return res.First().hosting;
 			}
 		}
 
-		public static void UpdateEvent (string uid, Event e)
+		public async Task UpdateEvent (string uid, Event e)
 		{
-			client.Cypher
+			await client.Cypher
 				.Match ("user-[:HOSTING]->(event:Event {info})")
 				.Where ("user.Id = {uid} AND event.Id = eid AND event.uid = uid")
 				.WithParam ("uid", uid)
 				.WithParam ("eid", e.eid)
 				.Set ("info = {newinfo}")
 				.WithParam ("newinfo", e)
-				.ExecuteWithoutResultsAsync ();
+				.ExecuteWithoutResultsAsync();
 		}
 
-		public static void DeleteEvent (string uid, int eid)
+		public async void DeleteEvent (string uid, int eid)
 		{
-			client.Cypher
+			await client.Cypher
 				.Match ("(user:User)-[:HOSTING]->(event:Event)<-[r]-(rest:User)")
 				.WithParam ("user.Id", uid)
 				.Delete ("r, event")
-				.ExecuteWithoutResultsAsync ();
+				.ExecuteWithoutResultsAsync();
 		}
 
-		public static void CancelRegistration (string uid, Event e)
+		public async Task CancelRegistration (string uid, Event e)
 		{
-			client.Cypher
+			await client.Cypher
 				.Match ("(user:User)-[a:ATTENDS]->(event:Event)")
 				.Where ("user.Id = {uid} AND event.uid = {euid} AND event.eid = {eid}")
 				.WithParam ("uid", uid)
 				.WithParam ("euid", e.uid)
 				.WithParam ("eid", e.eid)
 				.Delete ("a")
-				.ExecuteWithoutResultsAsync ();
+				.ExecuteWithoutResultsAsync();
 		}
 			
-		public static bool ReplyOffer (string uid, bool answer, Event e)
+		public async Task<bool> ReplyOffer (string uid, bool answer, Event e)
 		{
 			if (answer)
 			{
-				var res = client.Cypher
+				var res = await client.Cypher
 					.Match ("(user:User), (event:Event)")
 					.Where ("user.Id = {uid} AND event.eid = {eid} AND event.uid = {euid}")
 					.AndWhere ("event.SlotsLeft > 0")
@@ -284,27 +293,20 @@ namespace DAL
 					.Return (() => new {
 						events = Return.As<int> ("count(event)")
 					})
-					.ResultsAsync.Result;
+					.ResultsAsync;
 
-				if (res.First ().events > 0)
-				{
-					return true;
-				}
-				else
-				{
-					return false;
-				}
+				return res.First().events > 0;
 			}
 			else
 			{
-				client.Cypher
+				await client.Cypher
 					.Match ("(user:User), (event:Event)")
 					.Where ("user.Id = {uid} AND event.eid = {eid} AND event.uid = {euid}")
 					.WithParam ("uid", uid)
 					.WithParam ("eid", e.eid)
 					.WithParam ("euid", e.uid)
 					.Delete ("user-[:MATCHED]->event")
-					.ExecuteWithoutResultsAsync ();
+					.ExecuteWithoutResultsAsync();
 
 				return true;
 			}

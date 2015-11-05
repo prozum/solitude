@@ -132,9 +132,9 @@
     </MonoDevelop>
   </ProjectExtensions>
   <ItemGroup>
-    <ProjectReference Include="..\Libraries\DAL\DAL.csproj">
+    <ProjectReference Include="..\Libraries\DAL\Dal.csproj">
       <Project>{82693574-9042-403E-82E3-FFB594559CB6}</Project>
-      <Name>DAL</Name>
+      <Name>Dal</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

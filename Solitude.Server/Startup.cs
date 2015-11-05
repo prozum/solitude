@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dal;
+using System;
 using System.Configuration;
 using Owin;
 using Owin.Security.AesDataProtectorProvider;
@@ -38,12 +39,15 @@ namespace Solitude.Server
 
         private void ConfigureNeo4j(IAppBuilder app)
         {
+            var gc = new GraphClient(new Uri(ConfigurationManager.ConnectionStrings["neo4j"].ConnectionString));
+            gc.Connect();
+
             app.CreatePerOwinContext(() => {
-                var gc = new GraphClient(new Uri(ConfigurationManager.ConnectionStrings["neo4j"].ConnectionString));
-                DAL.DAL.client = gc;
-                gc.Connect();
-                var gcw = new GraphClientWrapper(gc);
-                return gcw;
+                return new GraphClientWrapper(gc);
+            });
+
+            app.CreatePerOwinContext(() => {
+                return new DatabaseAbstrationLayer(gc);
             });
 
             app.CreatePerOwinContext<Neo4jUserManager>(Neo4jUserManager.Create);
