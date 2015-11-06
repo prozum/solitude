@@ -20,9 +20,12 @@ namespace Solitude.Server
 
         [Authorize]
         [Route("add")]
-        public async Task<IHttpActionResult> Add(ReviewModel model)
+        public async Task<IHttpActionResult> Add(Review review)
         {
-            await DB.AddReview(User.Identity.GetUserId(), model.ReviewText, model.Rating);
+            review.UserID = User.Identity.GetUserId();
+            
+            await DB.AddReview(review);
+
             return Ok();
         }
     }

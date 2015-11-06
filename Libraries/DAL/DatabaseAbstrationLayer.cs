@@ -94,29 +94,29 @@ namespace Dal
 				.ExecuteWithoutResultsAsync ();
 		}
 
-		public async Task AddEvent (string uid, string date, string description, int slotsTotal, string address)
+		public async Task AddEvent (Event @event)
 		{
-			var res = await GetEventIdCounter ();
+			@event.ID = await GetEventIdCounter ();
 			await IncrementEventIdCounter ();
 
 			await client.Cypher
 				.Match ("(user:User)")
 				.Where ("user.Id = {uid}")
-				.WithParam ("uid", uid)
+				.WithParam ("uid", @event.UserID)
 				//creates a relation "HOSTING" between the created event 
 				.Create ("user-[:HOSTING]->(event:Event {info})")
-				.WithParam ("info", new Event (date, address, description, slotsTotal, slotsTotal, uid, res + 1))
+				.WithParam ("info", @event)
 				.ExecuteWithoutResultsAsync ();
 		}
 
-		public async Task AddReview(string uid, string text, int rating)
+		public async Task AddReview(Review review)
 		{
 			await client.Cypher
 				.Match ("(user:User)")
 				.Where ("user.Id = {uid}")
-				.WithParam ("uid", uid)
+				.WithParam ("uid", review.UserID)
 				.Create ("user-[:REVIEWER]->(review:Review {data})")
-				.WithParam ("data", new Review() { ReviewText = text, Rating = rating })
+				.WithParam ("data", review)
 				.ExecuteWithoutResultsAsync ();
 		}
 
@@ -264,15 +264,15 @@ namespace Dal
 			}
 		}
 
-		public async Task UpdateEvent (string uid, Event e)
+		public async Task UpdateEvent (Event @event)
 		{
 			await client.Cypher
 				.Match ("user-[:HOSTING]->(event:Event {info})")
-				.Where ("user.Id = {uid} AND event.Id = eid AND event.uid = uid")
-				.WithParam ("uid", uid)
-				.WithParam ("eid", e.eid)
+				.Where ("user.Id = {uid} AND event.Id = eid")
+				.WithParam ("uid", @event.UserID)
+				.WithParam ("eid", @event.ID)
 				.Set ("info = {newinfo}")
-				.WithParam ("newinfo", e)
+				.WithParam ("newinfo", @event)
 				.ExecuteWithoutResultsAsync();
 		}
 
@@ -285,34 +285,32 @@ namespace Dal
 				.ExecuteWithoutResultsAsync();
 		}
 
-		public async Task CancelRegistration (string uid, Event e)
+		public async Task CancelRegistration (string uid, Event @event)
 		{
 			await client.Cypher
 				.Match ("(user:User)-[a:ATTENDS]->(event:Event)")
-				.Where ("user.Id = {uid} AND event.uid = {euid} AND event.eid = {eid}")
+				.Where ("user.Id = {uid} AND event.eid = {eid}")
 				.WithParam ("uid", uid)
-				.WithParam ("euid", e.uid)
-				.WithParam ("eid", e.eid)
+				.WithParam ("eid", @event.ID)
 				.Delete ("a")
 				.ExecuteWithoutResultsAsync();
 
-			var newEvent = e;
-			newEvent.SlotsLeft++;
+			@event.SlotsLeft++;
 
-			await UpdateEvent (uid, newEvent);
+			await UpdateEvent(@event);
 		}
 			
-		public async Task<bool> ReplyOffer (string uid, bool answer, Event e)
+		public async Task<bool> ReplyOffer (string uid, bool answer, Event @event)
 		{
 			if (answer)
 			{
 				var res = await client.Cypher
 					.Match ("(user:User), (event:Event)")
-					.Where ("user.Id = {uid} AND event.eid = {eid} AND event.uid = {euid}")
+					.Where ("user.Id = {uid} AND event.eid = {eid}")
 					.AndWhere ("event.SlotsLeft > 0")
 					.WithParam ("uid", uid)
-					.WithParam ("eid", e.eid)
-					.WithParam ("euid", e.uid)
+					.WithParam ("eid", @event.ID)
+					.WithParam ("euid", @event.UserID)
 					.Set ("event.SlotsLeft = event.SlotsLeft - 1")
 					.Create ("user-[:ATTENDS]->event")
 					.Delete ("user-[:MATCHED]->event")
@@ -327,10 +325,10 @@ namespace Dal
 			{
 				await client.Cypher
 					.Match ("(user:User), (event:Event)")
-					.Where ("user.Id = {uid} AND event.eid = {eid} AND event.uid = {euid}")
+					.Where ("user.Id = {uid} AND event.eid = {eid}")
 					.WithParam ("uid", uid)
-					.WithParam ("eid", e.eid)
-					.WithParam ("euid", e.uid)
+					.WithParam ("eid", @event.ID)
+					.WithParam ("euid", @event.UserID)
 					.Delete ("user-[:MATCHED]->event")
 					.ExecuteWithoutResultsAsync();
 
