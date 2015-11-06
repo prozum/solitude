@@ -10,8 +10,7 @@ namespace DineWithaDane.Android
 	public class ReviewNotification : Notification
 	{
 		ObservableCollection<Notification> notificationList;
-
-		public ReviewNotification (NotificationPosition position, User user, string title, string text, string time, Activity activity, ObservableCollection<Notification> notificationList) : base(position, title, text, time, Color.IndianRed, Color.Red, activity, notificationList)
+		public ReviewNotification (NotificationPosition position, Event evnt, string title, string text, string time, Activity activity, ObservableCollection<Notification> notificationList) : base(position, title, text, time, Color.IndianRed, Color.Red, activity, notificationList)
 		{
 			this.notificationList = notificationList;
 
@@ -29,7 +28,12 @@ namespace DineWithaDane.Android
 			buttonDismiss.Gravity = GravityFlags.Center;
 			buttonDismiss.SetWidth (displaySize.X / 3);
 
-			buttonReview.Click += (object sender, EventArgs e) => new Review(user, activity, notificationList, this);
+			buttonReview.Click += (object sender, EventArgs e) => new Review(evnt, activity, notificationList, this);
+
+			buttonDismiss.Click += (object sender, EventArgs e) => 
+			{
+				Review newReview = new Review (evnt, activity);
+			};
 
 			buttonDismiss.Click += (object sender, EventArgs e) => notificationList.Remove(this);
 

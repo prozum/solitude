@@ -144,6 +144,9 @@ namespace DineWithaDane.Android
 			// aapt resource value: 0x7f050017
 			public const int ratingbar = 2131034135;
 			
+			// aapt resource value: 0x7f050014
+			public const int reviewTitle = 2131034132;
+			
 			// aapt resource value: 0x7f050019
 			public const int reviewUserInput = 2131034137;
 			
@@ -164,9 +167,6 @@ namespace DineWithaDane.Android
 			
 			// aapt resource value: 0x7f050018
 			public const int textView2 = 2131034136;
-			
-			// aapt resource value: 0x7f050014
-			public const int title = 2131034132;
 			
 			// aapt resource value: 0x7f050015
 			public const int underscore = 2131034133;
