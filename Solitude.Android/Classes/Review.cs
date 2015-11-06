@@ -11,8 +11,9 @@ using ClientCommunication;
 namespace DineWithaDane.Android
 {
 	public class Review
-	{		
-		User _user;
+	{
+		#region properties
+		Event _event;
 		Activity _currentActivity;
 		ObservableCollection<Notification> _notificationList;
 		ReviewNotification _notification;
@@ -29,14 +30,27 @@ namespace DineWithaDane.Android
 		public int Rating
 		{
 			get {
-				return rating.NumStars;	
+				return (int) rating.Rating;	
 			}
 		}
 
-		public Review (User user, Activity currentActivity, ObservableCollection<Notification> notificationList, ReviewNotification notification)
-		{
-			_user = user;
+		public Event Event {
+			get {
+				return _event;
+			}
+		}
+
+
+
+		#endregion
+		public Review (Event e, Activity currentActivity){
+			_event = e;
 			_currentActivity = currentActivity;
+		}
+
+		public Review (Event e, Activity currentActivity, ObservableCollection<Notification> notificationList, ReviewNotification notification)
+			: this (e, currentActivity)
+		{
 			_notificationList = notificationList;
 			_notification = notification;
 
@@ -48,12 +62,16 @@ namespace DineWithaDane.Android
 			var dialog = new Dialog(_currentActivity);
 			Button cancelButton, acceptButton;
 			EditText input;
+			TextView reviewTitle;
 
 			dialog.RequestWindowFeature((int) WindowFeatures.NoTitle);
 			dialog.SetContentView(Resource.Layout.review_layout);
 
+			reviewTitle = dialog.FindViewById<TextView>(Resource.Id.reviewTitle);
 			rating = (RatingBar)dialog.FindViewById (Resource.Id.ratingbar);
 			input = (EditText)dialog.FindViewById <EditText> (Resource.Id.reviewUserInput);
+
+			reviewTitle.Text = "Review of " + _event.name;
 
 			acceptButton = (Button) dialog.FindViewById <Button> (Resource.Id.postReviewButton);
 			cancelButton = (Button) dialog.FindViewById <Button> (Resource.Id.cancelReviewButton);
@@ -68,15 +86,18 @@ namespace DineWithaDane.Android
 			acceptButton.Click += (object sender, EventArgs e) => 
 			{
 				newReview = input.Text;
+				sendReview();
 				dialog.Dismiss();
 				_notificationList.Remove(_notification);
 			};
 		}
 
+		/// <summary>
+		/// Sends the review to the server.
+		/// </summary>
 		private void sendReview ()
 		{
-			CommunicationInterface comInterface = new CommunicationInterface ();
-			comInterface.PostReview (this);
+			MainActivity.CIF.PostReview(this);
 		}
 	}
 }

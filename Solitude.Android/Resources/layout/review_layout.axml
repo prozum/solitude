@@ -10,12 +10,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/white"
-        android:id="@+id/title" />
+        android:id="@+id/reviewTitle" />
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#FFFFFF"
-        android:layout_below="@+id/title"
+        android:layout_below="@+id/reviewTitle"
         android:id="@+id/underscore" />
     <TextView
         android:text="Tap stars to rate"

@@ -18,6 +18,7 @@ namespace Dal
 
 		public void Dispose()
 		{
+			GC.SuppressFinalize(this);
 		}
 
 		/// <summary>
@@ -27,20 +28,12 @@ namespace Dal
 		/// </summary>
 		/// <returns><c>true</c>, if interest was added, <c>false</c> otherwise.</returns>
 		/// <param name="ic">Ic.</param>
-		public bool AddInterest (Interest.InterestCode ic)
+		public async Task AddInterest (Interest ic)
 		{
-			string interest = Interest.GetInterest (ic);
-
-			if (interest == null) {
-				return false;
-			} else {
-				client.Cypher
+				await client.Cypher
 					.Create ("(interest:Interest {info})")
-					.WithParam ("info", new {Id = ic, Description = interest})
+					.WithParam ("info", ic)
 					.ExecuteWithoutResultsAsync ();
-			}
-
-			return true;
 		}
 
 		/// <summary>
@@ -50,20 +43,12 @@ namespace Dal
 		/// </summary>
 		/// <returns><c>true</c>, if language was added, <c>false</c> otherwise.</returns>
 		/// <param name="lc">Lc.</param>
-		public async Task<bool> AddLanguage (Language.LanguageCode lc)
+		public async Task AddLanguage (Language lc)
 		{
-			string language = Language.GetLanguage (lc);
-
-			if (language == null) {
-				return false;
-			} else {
-				await client.Cypher
+			await client.Cypher
 				.Create ("(language:Language {info})")
-				.WithParam ("info", new {Id = lc, Description = language})
+				.WithParam ("info", lc)
 				.ExecuteWithoutResultsAsync ();
-			}
-
-			return true;
 		}
 
 		/// <summary>
@@ -72,21 +57,13 @@ namespace Dal
 		/// possible to add something out of the supported range of foodhabits
 		/// </summary>
 		/// <returns><c>true</c>, if food habit was added, <c>false</c> otherwise.</returns>
-		/// <param name="fc">Fc.</param>
-		public async Task<bool> AddFoodHabit (FoodHabit.FoodHabitCode fc)
+		/// <param name="fh">Fc.</param>
+		public async Task AddFoodHabit (FoodHabit fh)
 		{
-			string foodhabit = FoodHabit.GetFoodHabit (fc);
-
-			if (foodhabit == null) {
-				return false;
-			} else {
-				await client.Cypher
-					.Create ("(foodhabit:FoodHabit {info})")
-					.WithParam ("info", new {Id = fc, Description = foodhabit})
-					.ExecuteWithoutResultsAsync ();
-			}
-
-			return true;
+			await client.Cypher
+				.Create ("(foodhabit:FoodHabit {info})")
+				.WithParam ("info", fh)
+				.ExecuteWithoutResultsAsync ();
 		}
 
 		public async Task SetEventIdCounter (int startVal)
@@ -118,34 +95,34 @@ namespace Dal
 				.ExecuteWithoutResultsAsync ();
 		}
 
-		public async Task AddEvent (string uid, string date, string description, int slotsTotal, string address)
+		public async Task AddEvent (Event @event)
 		{
-			var res = await GetEventIdCounter ();
+			@event.ID = await GetEventIdCounter ();
 			await IncrementEventIdCounter ();
 
 			await client.Cypher
 				.Match ("(user:User)")
 				.Where ("user.Id = {uid}")
-				.WithParam ("uid", uid)
+				.WithParam ("uid", @event.UserID)
 				//creates a relation "HOSTING" between the created event 
 				.Create ("user-[:HOSTING]->(event:Event {info})")
-				.WithParam ("info", new Event (date, address, description, slotsTotal, slotsTotal, uid, res + 1))
+				.WithParam ("info", @event)
 				.ExecuteWithoutResultsAsync ();
 		}
 
-		public async Task AddReview(string uid, string text, int rating)
+		public async Task AddReview(Review review)
 		{
 			await client.Cypher
 				.Match ("(user:User)")
 				.Where ("user.Id = {uid}")
-				.WithParam ("uid", uid)
+				.WithParam ("uid", review.UserID)
 				.Create ("user-[:REVIEWER]->(review:Review {data})")
-				.WithParam ("data", new Review() { ReviewText = text, Rating = rating })
+				.WithParam ("data", review)
 				.ExecuteWithoutResultsAsync ();
 		}
 
 			
-		public async Task ConnectUserInterest (string uid, Interest.InterestCode ic, int w)
+		public async Task ConnectUserInterest (string uid, Interest ic, int w)
 		{
 			await client.Cypher
 				//make sure that the interest is related with the right user
@@ -160,7 +137,7 @@ namespace Dal
 				.ExecuteWithoutResultsAsync ();
 		}
 
-		public async Task ConnectUserLanguage (string uid, Language.LanguageCode lc, int w)
+		public async Task ConnectUserLanguage (string uid, Language lc, int w)
 		{
 			await client.Cypher
 				//make sure that the interest is related with the right user
@@ -175,15 +152,15 @@ namespace Dal
 				.ExecuteWithoutResultsAsync ();
 		}
 
-		public async Task ConnectUserLanguage (string uid, FoodHabit.FoodHabitCode fc, int w)
+		public async Task ConnectUserLanguage (string uid, FoodHabit fh, int w)
 		{
 			await client.Cypher
 				//make sure that the interest is related with the right user
 				.Match ("(user:User), (foodhabit:FoodHabit)")
 				.Where ("user.Id = {uid}")
 				.WithParam ("uid", uid)
-				.AndWhere ("interest.Id == {fc}")
-				.WithParam ("fc", fc)
+				.AndWhere ("interest.Id == {fh}")
+				.WithParam ("fh", fh)
 				//create a unique relation "WANTS" with the weight 'w'
 				.CreateUnique (("user-[:WANTS {weight}]->interest"))
 				.WithParam ("weight", new {weight = w})
@@ -288,15 +265,15 @@ namespace Dal
 			}
 		}
 
-		public async Task UpdateEvent (string uid, Event e)
+		public async Task UpdateEvent (Event @event)
 		{
 			await client.Cypher
 				.Match ("user-[:HOSTING]->(event:Event {info})")
-				.Where ("user.Id = {uid} AND event.Id = eid AND event.uid = uid")
-				.WithParam ("uid", uid)
-				.WithParam ("eid", e.eid)
+				.Where ("user.Id = {uid} AND event.Id = eid")
+				.WithParam ("uid", @event.UserID)
+				.WithParam ("eid", @event.ID)
 				.Set ("info = {newinfo}")
-				.WithParam ("newinfo", e)
+				.WithParam ("newinfo", @event)
 				.ExecuteWithoutResultsAsync();
 		}
 
@@ -309,34 +286,32 @@ namespace Dal
 				.ExecuteWithoutResultsAsync();
 		}
 
-		public async Task CancelRegistration (string uid, Event e)
+		public async Task CancelRegistration (string uid, Event @event)
 		{
 			await client.Cypher
 				.Match ("(user:User)-[a:ATTENDS]->(event:Event)")
-				.Where ("user.Id = {uid} AND event.uid = {euid} AND event.eid = {eid}")
+				.Where ("user.Id = {uid} AND event.eid = {eid}")
 				.WithParam ("uid", uid)
-				.WithParam ("euid", e.uid)
-				.WithParam ("eid", e.eid)
+				.WithParam ("eid", @event.ID)
 				.Delete ("a")
 				.ExecuteWithoutResultsAsync();
 
-			var newEvent = e;
-			newEvent.SlotsLeft++;
+			@event.SlotsLeft++;
 
-			await UpdateEvent (uid, newEvent);
+			await UpdateEvent(@event);
 		}
 			
-		public async Task<bool> ReplyOffer (string uid, bool answer, Event e)
+		public async Task<bool> ReplyOffer (string uid, bool answer, Event @event)
 		{
 			if (answer)
 			{
 				var res = await client.Cypher
 					.Match ("(user:User), (event:Event)")
-					.Where ("user.Id = {uid} AND event.eid = {eid} AND event.uid = {euid}")
+					.Where ("user.Id = {uid} AND event.eid = {eid}")
 					.AndWhere ("event.SlotsLeft > 0")
 					.WithParam ("uid", uid)
-					.WithParam ("eid", e.eid)
-					.WithParam ("euid", e.uid)
+					.WithParam ("eid", @event.ID)
+					.WithParam ("euid", @event.UserID)
 					.Set ("event.SlotsLeft = event.SlotsLeft - 1")
 					.Create ("user-[:ATTENDS]->event")
 					.Delete ("user-[:MATCHED]->event")
@@ -351,10 +326,10 @@ namespace Dal
 			{
 				await client.Cypher
 					.Match ("(user:User), (event:Event)")
-					.Where ("user.Id = {uid} AND event.eid = {eid} AND event.uid = {euid}")
+					.Where ("user.Id = {uid} AND event.eid = {eid}")
 					.WithParam ("uid", uid)
-					.WithParam ("eid", e.eid)
-					.WithParam ("euid", e.uid)
+					.WithParam ("eid", @event.ID)
+					.WithParam ("euid", @event.UserID)
 					.Delete ("user-[:MATCHED]->event")
 					.ExecuteWithoutResultsAsync();
 
