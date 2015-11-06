@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using DineWithaDane.Android;
 using System.Threading.Tasks;
 using Android.App;
@@ -13,6 +14,8 @@ namespace DineWithaDane.Android
 	{		
 		User _user;
 		Activity _currentActivity;
+		ObservableCollection<Notification> _notificationList;
+		ReviewNotification _notification;
 		RatingBar rating;
 		string newReview;
 
@@ -30,10 +33,12 @@ namespace DineWithaDane.Android
 			}
 		}
 
-		public Review (User user, Activity currentActivity)
+		public Review (User user, Activity currentActivity, ObservableCollection<Notification> notificationList, ReviewNotification notification)
 		{
 			_user = user;
 			_currentActivity = currentActivity;
+			_notificationList = notificationList;
+			_notification = notification;
 
 			setupReviewDialog ();
 		}
@@ -64,6 +69,7 @@ namespace DineWithaDane.Android
 			{
 				newReview = input.Text;
 				dialog.Dismiss();
+				_notificationList.Remove(_notification);
 			};
 		}
 

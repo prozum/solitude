@@ -35,8 +35,9 @@ namespace DineWithaDane.Android
 			SortSpinnerView.ItemSelected += (sender, e) => 
 				{
 					ExpListView.CollapseGroup(Focus);
-					Adapter.Sort((e.View as TextView).Text);
 
+					if (e.View != null)
+						Adapter.Sort((e.View as TextView).Text);
 				};
 			#endregion
 		}
