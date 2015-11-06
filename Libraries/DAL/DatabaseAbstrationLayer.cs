@@ -368,11 +368,12 @@ namespace Dal
 				.Match ("(user:User)")
 				.Where ("user.Id = {uid}")
 				.WithParam ("uid", uid)
-				.Create ("user-[:HAS]->(notification:Notification)")
+				.Create ("user-[:HAS]->(notification:Notification {msg})")
+				.WithParam ("msg", msg)
 				.ExecuteWithoutResultsAsync ();
 		}
 
-		public async Task ClearNotification (string uid, string msg)
+		public async Task ClearNotification (string uid)
 		{
 			await client.Cypher
 				.Match ("(user:User)-[h:HAS]-(notification:Notification)")
@@ -382,7 +383,7 @@ namespace Dal
 				.ExecuteWithoutResultsAsync ();
 		}
 
-		public async Task<IEnumerable<string>> GetNotification (string uid, string msg)
+		public async Task<IEnumerable<string>> GetNotification (string uid)
 		{
 			var res = await client.Cypher
 				.Match ("(user:User)-[:HAS]-(notification:Notification)")
@@ -392,6 +393,8 @@ namespace Dal
 					notifications = Return.As<IEnumerable<string>> ("collect(notification)")
 				})
 				.ResultsAsync;
+
+			await ClearNotification (uid);
 
 			return res.First ().notifications;
 		}
