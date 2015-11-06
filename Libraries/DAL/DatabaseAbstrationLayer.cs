@@ -27,20 +27,12 @@ namespace Dal
 		/// </summary>
 		/// <returns><c>true</c>, if interest was added, <c>false</c> otherwise.</returns>
 		/// <param name="ic">Ic.</param>
-		public bool AddInterest (Interest.InterestCode ic)
+		public async Task AddInterest (Interest ic)
 		{
-			string interest = Interest.GetInterest (ic);
-
-			if (interest == null) {
-				return false;
-			} else {
-				client.Cypher
+				await client.Cypher
 					.Create ("(interest:Interest {info})")
-					.WithParam ("info", new {Id = ic, Description = interest})
+					.WithParam ("info", ic)
 					.ExecuteWithoutResultsAsync ();
-			}
-
-			return true;
 		}
 
 		/// <summary>
@@ -50,20 +42,12 @@ namespace Dal
 		/// </summary>
 		/// <returns><c>true</c>, if language was added, <c>false</c> otherwise.</returns>
 		/// <param name="lc">Lc.</param>
-		public async Task<bool> AddLanguage (Language.LanguageCode lc)
+		public async Task AddLanguage (Language lc)
 		{
-			string language = Language.GetLanguage (lc);
-
-			if (language == null) {
-				return false;
-			} else {
-				await client.Cypher
+			await client.Cypher
 				.Create ("(language:Language {info})")
-				.WithParam ("info", new {Id = lc, Description = language})
+				.WithParam ("info", lc)
 				.ExecuteWithoutResultsAsync ();
-			}
-
-			return true;
 		}
 
 		/// <summary>
@@ -72,21 +56,13 @@ namespace Dal
 		/// possible to add something out of the supported range of foodhabits
 		/// </summary>
 		/// <returns><c>true</c>, if food habit was added, <c>false</c> otherwise.</returns>
-		/// <param name="fc">Fc.</param>
-		public async Task<bool> AddFoodHabit (FoodHabit.FoodHabitCode fc)
+		/// <param name="fh">Fc.</param>
+		public async Task AddFoodHabit (FoodHabit fh)
 		{
-			string foodhabit = FoodHabit.GetFoodHabit (fc);
-
-			if (foodhabit == null) {
-				return false;
-			} else {
-				await client.Cypher
-					.Create ("(foodhabit:FoodHabit {info})")
-					.WithParam ("info", new {Id = fc, Description = foodhabit})
-					.ExecuteWithoutResultsAsync ();
-			}
-
-			return true;
+			await client.Cypher
+				.Create ("(foodhabit:FoodHabit {info})")
+				.WithParam ("info", fh)
+				.ExecuteWithoutResultsAsync ();
 		}
 
 		public async Task SetEventIdCounter (int startVal)
@@ -145,7 +121,7 @@ namespace Dal
 		}
 
 			
-		public async Task ConnectUserInterest (string uid, Interest.InterestCode ic, int w)
+		public async Task ConnectUserInterest (string uid, Interest ic, int w)
 		{
 			await client.Cypher
 				//make sure that the interest is related with the right user
@@ -160,7 +136,7 @@ namespace Dal
 				.ExecuteWithoutResultsAsync ();
 		}
 
-		public async Task ConnectUserLanguage (string uid, Language.LanguageCode lc, int w)
+		public async Task ConnectUserLanguage (string uid, Language lc, int w)
 		{
 			await client.Cypher
 				//make sure that the interest is related with the right user
@@ -175,15 +151,15 @@ namespace Dal
 				.ExecuteWithoutResultsAsync ();
 		}
 
-		public async Task ConnectUserLanguage (string uid, FoodHabit.FoodHabitCode fc, int w)
+		public async Task ConnectUserLanguage (string uid, FoodHabit fh, int w)
 		{
 			await client.Cypher
 				//make sure that the interest is related with the right user
 				.Match ("(user:User), (foodhabit:FoodHabit)")
 				.Where ("user.Id = {uid}")
 				.WithParam ("uid", uid)
-				.AndWhere ("interest.Id == {fc}")
-				.WithParam ("fc", fc)
+				.AndWhere ("interest.Id == {fh}")
+				.WithParam ("fh", fh)
 				//create a unique relation "WANTS" with the weight 'w'
 				.CreateUnique (("user-[:WANTS {weight}]->interest"))
 				.WithParam ("weight", new {weight = w})
