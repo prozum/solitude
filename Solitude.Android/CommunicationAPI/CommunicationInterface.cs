@@ -11,6 +11,7 @@ using DineWithaDane.Android;
 using Newtonsoft.Json;
 using RestSharp;
 using RestSharp.Authenticators;
+using System.Text.RegularExpressions;
 
 namespace ClientCommunication
 {
@@ -86,20 +87,77 @@ namespace ClientCommunication
 		/// <param name="NEWEST">If set to <c>true</c> returns the newest events.</param>
 		public List<Event> GetOwnEvents (int n, bool NEWEST = true)
 		{
+			//Builds request
 			var eventRequest = new RestRequest ("event", Method.GET);
-			eventRequest.AddParameter ("Token", userToken);
 
-			try 
-			{
-				IRestResponse<List<Event>> eventResponse = client.Execute<List<Event>>(eventRequest);
-				return eventResponse.Data;
-			}
+			//Executes request and recieves response
+			string serverResponse = client.Execute(eventRequest).Content;
+
+			//Tries to convert response to events
+			try {
+				//Initialize variables
+				var events = new List<Event>();
+
+				//Extract every single json to it's own JsonValue
+				Regex reg = new Regex(@"{[^}]*}");
+				var matches = reg.Matches(serverResponse);
+
+				//Generate Events from the JsonValues
+				for(int i = 0; i < matches.Count; i++)
+				{
+					JsonValue jVal = System.Json.JsonObject.Parse(matches[i].Value);
+					int ID = parseToInt(jVal["ID"]);
+					//string title = jVal["Title"];
+					string desc = jVal["Description"];
+					string dateTime = jVal["Date"];
+					DateTime dt = parseToDateTime(dateTime);
+					string adress = jVal["Address"];
+
+					events.Add(new Event("Missing out from server, fix it!", dt, adress, desc, 10, 10));
+				}
+
+				return events;
+			} 
 			catch (Exception ex)
 			{
 				latestError = "Could not find events\n" + ex.Message;
 				return new List<Event> ();
 			}
 		}
+
+		private int parseToInt(JsonValue value){
+			try 
+			{
+				string strVal = value.ToString();
+
+				return int.Parse(strVal);
+			}
+			catch (Exception e)
+			{
+				latestError = "Failed to parse event-id" + e.Message;
+				return -1;
+			}
+		}
+
+		private DateTime parseToDateTime(string dt){
+			string[] values = dt.Split('-');
+
+			try {
+				int date = int.Parse(values[0]);
+				int month = int.Parse(values[1]);
+				int year = int.Parse(values[2]);
+
+				return new DateTime(year, month, date);
+			}
+			catch (Exception e)
+			{
+				latestError = "Couldn't convert date " + e.Message;
+				return DateTime.Today;
+			}
+
+
+		}
+			
 		#region Notification fetching
 		public void GetNotification()
 		{
@@ -141,7 +199,7 @@ namespace ClientCommunication
 		public void UpdateUser (InfoChange i)
 		{
 			var request = new RestRequest ("user", Method.PUT);
-			request.AddParameter (i.Key, i.Value);
+			request.AddBody(i);
 
 			executeAndParseResponse (request);
 		}
@@ -152,9 +210,14 @@ namespace ClientCommunication
 		/// <param name="u">User to delete.</param>
 		public void DeleteUser ()
 		{
-			var deleteRequest = new RestRequest ("user", Method.DELETE);
+			var deleteRequest = new RestRequest ("user/delete", Method.DELETE);
+			deleteRequest.RequestFormat = DataFormat.Json;
 
-			deleteRequest.AddParameter ("Token", userToken);
+			//Adds body to the request
+			var body = new {
+				userToken = userToken
+			};
+			deleteRequest.AddBody(body);
 
 			executeAndParseResponse (deleteRequest);
 		}
@@ -170,12 +233,12 @@ namespace ClientCommunication
 			var request = new RestRequest("token", Method.POST);
 
 			//Adds headers to notify server that it's a token-request
-			request.AddHeader("content-type", "application/x-www-form-urlencoded");
-			request.AddHeader("postman-token", "a4e85886-daf2-5856-b530-12ed21af5867");
-			request.AddHeader("cache-control", "no-cache");
+			request.AddHeader("content-type", HttpStrings.URLENCODED);
+			request.AddHeader("postman-token", HttpStrings.CLIENT_TOKEN);
+			request.AddHeader("cache-control", HttpStrings.NO_CACHE);
 
 			//Adds body including username and password and specify, that a grant_type as password is desired
-			request.AddParameter("application/x-www-form-urlencoded", String.Format("username={0}&password={1}&grant_type=password", username, password), ParameterType.RequestBody);
+			request.AddParameter(HttpStrings.URLENCODED, String.Format("username={0}&password={1}&grant_type=password", username, password), ParameterType.RequestBody);
 
 			//Execute and await response, parse afterwards
 			var tokenResponse = client.Execute (request);
@@ -234,37 +297,51 @@ namespace ClientCommunication
 		{
 			var request = new RestRequest ("event", Method.DELETE);
 
-			request.AddParameter ("id", e.id);
+			request.AddParameter ("id", e);
 
 			executeAndParseResponse (request);
 		}
 		#endregion
-		// Likely needs rewriting
+		#region Offer-replies and registration cancelling
+		/// <summary>
+		/// Replies the offer.
+		/// </summary>
+		/// <param name="answer">If set to <c>true</c> the user wants to join.</param>
+		/// <param name="e">Event which is being replied to.</param>
 		public void ReplyOffer (bool answer, Event e)
 		{
 			var request = new RestRequest ("offer", Method.PUT);
 			request.RequestFormat = DataFormat.Json;
-			if (answer)
-			{
-				request.AddParameter ("eventID", e.id);
-				request.AddParameter ("userToken", userToken);
-			}
-			else
-				request.AddParameter ("decline", e);
+
+			var offerReply = new {
+				eventID = e.ID,
+				userToken = userToken,
+				reply = answer
+			};
+			request.AddBody(offerReply);
+
 			executeAndParseResponse (request);
 		}
 
+		/// <summary>
+		/// Cancels the registration to the specified event.
+		/// </summary>
 		public void CancelReg (Event e)
 		{
+			//Generate request and set DataFormat
 			var request = new RestRequest ("event", Method.DELETE);
-
 			request.RequestFormat = DataFormat.Json;
 
-			request.AddParameter ("eventID", e.id);
-			request.AddParameter ("userToken", userToken);
+			//Add body to request
+			var cancelBody = new {
+				eventID = e.ID,
+				userToken = userToken
+			};
+			request.AddBody(cancelBody);
 
 			executeAndParseResponse (request);
 		}
+		#endregion
 
 		/// <summary>
 		/// Posts the review to the server.
@@ -273,9 +350,8 @@ namespace ClientCommunication
 		public void PostReview(Review r)
 		{
 			var request = new RestRequest("review/add", Method.POST);
-//			request.AddHeader ("content-type", "application/json");
 			request.RequestFormat = DataFormat.Json;
-			request.AddHeader("Authorization", "bearer " + userToken);
+			request.AddHeader(HttpStrings.AUTHORIZATION, HttpStrings.BEARER + userToken);
 
 			//Adds a body to the request containing the reciew
 			var review = new {

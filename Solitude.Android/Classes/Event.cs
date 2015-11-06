@@ -4,21 +4,40 @@ namespace DineWithaDane.Android
 {
 	public class Event
 	{
-		public string name;
-		public int id;
-		public string description;
+		#region Field
+		private int _id;
 
-		public Event (string name, int ID, string Description)
-		{
-			this.name = name;
-			id = ID;
-			description = Description;
+		public string Title { get; set; }
+		public DateTime Date { get; set; }
+		public string Place { get; set; }
+		public string Description { get; set;}
+		public int MaxSlots { get; set; }
+		public int SlotsLeft { get; set; }
+		public int ID {
+			get {
+				return _id;
+			}
 		}
+		#endregion
 
-		public override string ToString ()
+		#region Constructor
+		public Event (string title, DateTime date, string place, string desc, int max, int left)
 		{
-			return string.Format ("[{0}]: {1}", name, description);
+			Title = title;
+			Date = date;
+			Place = place;
+			Description = desc;
+			MaxSlots = max;
+			SlotsLeft = left;
 		}
+		#endregion
+
+		#region Public Methods
+		#endregion
+
+		#region Privat Methods
+
+		#endregion
 	}
 }
 

@@ -9,7 +9,6 @@ namespace DineWithaDane.Android
 {
 	public class ReviewNotification : Notification
 	{
-		ObservableCollection<Notification> notificationList;
 		public ReviewNotification (NotificationPosition position, Event evnt, string title, string text, string time, Activity activity, ObservableCollection<Notification> notificationList) : base(position, title, text, time, Color.IndianRed, Color.Red, activity, notificationList)
 		{
 			this.notificationList = notificationList;

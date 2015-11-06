@@ -47,13 +47,13 @@ namespace DineWithaDane.Android
 				}
 			};
 
-			Event test1 = new Event("Flan", 1, "Computer gaming and fapping");
-			Event test2 = new Event("I-dag", 2, "Alle brækker sig og er trælse");
-			Event test3 = new Event("Fallout4 release", 3, "Tobias sover ikke hele natten og hans liv går i stå");
+			Event test1 = new Event("Flan", new DateTime(2015, 10, 27), "Cassiopeia", "Computer gaming and fapping", 20, 20);
+			Event test2 = new Event("I-dag", new DateTime(2015, 05, 11), "DE-klubben", "Alle brækker sig og er trælse", 50, 35);
+			Event test3 = new Event("Fallout4 release", new DateTime(2015, 11, 10), "Whole world", "Tobias sover ikke hele natten og hans liv går i stå", 1000000, 100000);
 
-			notificationList.Add (new ReviewNotification (Notification.NotificationPosition.Right, test1,  test1.name, test1.description, DateTime.Now.ToString(), this, notificationList));
-			notificationList.Add (new ReviewNotification (Notification.NotificationPosition.Right, test2, test2.name, test2.description, DateTime.Now.ToString(), this, notificationList));
-			notificationList.Add (new ReviewNotification (Notification.NotificationPosition.Right, test3, test3.name, test3.description, DateTime.Now.ToString(), this, notificationList));
+			notificationList.Add (new ReviewNotification (Notification.NotificationPosition.Right, test1,  test1.Title, test1.Description, test1.Date.ToString(), this, notificationList));
+			notificationList.Add (new ReviewNotification (Notification.NotificationPosition.Right, test2, test2.Title, test2.Description, test2.Date.ToString(), this, notificationList));
+			notificationList.Add (new ReviewNotification (Notification.NotificationPosition.Right, test3, test3.Title, test3.Description, test3.Date.ToString(), this, notificationList));
 
 			content.AddView (notificationLayout);
 
