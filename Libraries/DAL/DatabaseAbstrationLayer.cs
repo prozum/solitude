@@ -361,5 +361,39 @@ namespace Dal
 				return true;
 			}
 		}
+
+		public async Task AddNotification (string uid, string msg)
+		{
+			await client.Cypher
+				.Match ("(user:User)")
+				.Where ("user.Id = {uid}")
+				.WithParam ("uid", uid)
+				.Create ("user-[:HAS]->(notification:Notification)")
+				.ExecuteWithoutResultsAsync ();
+		}
+
+		public async Task ClearNotification (string uid, string msg)
+		{
+			await client.Cypher
+				.Match ("(user:User)-[h:HAS]-(notification:Notification)")
+				.Where ("user.Id = {uid}")
+				.WithParam ("uid", uid)
+				.Delete ("h, notification")
+				.ExecuteWithoutResultsAsync ();
+		}
+
+		public async Task<IEnumerable<string>> GetNotification (string uid, string msg)
+		{
+			var res = await client.Cypher
+				.Match ("(user:User)-[:HAS]-(notification:Notification)")
+				.Where ("user.Id = {uid}")
+				.WithParam ("uid", uid)
+				.Return ((notifications) => new {
+					notifications = Return.As<IEnumerable<string>> ("collect(notification)")
+				})
+				.ResultsAsync;
+
+			return res.First ().notifications;
+		}
 	}
 }
