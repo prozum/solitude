@@ -28,23 +28,7 @@ namespace DineWithaDane.Android
 			Content.AddView(profile);
 
 
-			/*
-			var dialog = new Dialog(this);
-			dialog.RequestWindowFeature((int)WindowFeatures.NoTitle);
-			dialog.SetContentView(Resource.Layout.popup);
 
-			Button btnRetry = dialog.FindViewById<Button>(Resource.Id.btnFirst);
-			btnRetry.Typeface = Typeface.CreateFromAsset (this.context.Assets, "Fonts/arial.ttf");
-			btnRetry.Text = this.context.Resources.GetString(Resource.String.WifiInactiveDialogPositive);
-			btnRetry.Click += (object sender, EventArgs e) =>
-				{
-					dialog.Dismiss();
-					Check ();
-				};
-			
-
-			dialog.Show();
-			*/
   
 		}
 	}
