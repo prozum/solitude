@@ -42,6 +42,7 @@ namespace Dal
 
 			return true;
 		}
+
 		/// <summary>
 		/// function to add a language to the database
 		/// the input is limited to an enum so it's not
@@ -88,18 +89,39 @@ namespace Dal
 			return true;
 		}
 
-		public async Task AddEvent (string uid, string date, string description, string address, int slots)
+		public async Task SetEventIdCounter (int startVal)
 		{
-			//get largest id for events owned by the user
-			var id = await client.Cypher
-				.Match ("(user:User)-[:HOSTING]->(event:Event)")
-				.Return (() => new {
-					id = Return.As<int> ("max(event.Id)")
+			await client.Cypher
+				.Match ("(eid:ServerInfo)")
+				.CreateUnique ("eid.value = {val}")
+				.WithParam ("val", startVal)
+				.ExecuteWithoutResultsAsync ();
+		}
+
+		async Task<int> GetEventIdCounter ()
+		{
+			var res = await client.Cypher
+				.Match ("(eid:ServerInfo)")
+				.Return ((eid) => new {
+					eid = Return.As<int>("eid.value")
 				})
 				.ResultsAsync;
 
-			//increment id by one
-			int eid = id.GetEnumerator ().Current.id + 1;
+			return res.First ().eid;
+		}
+
+		async Task IncrementEventIdCounter ()
+		{
+			await client.Cypher
+				.Match ("(eid:ServerInfo)")
+				.Set ("eid.value = eid.value + 1")
+				.ExecuteWithoutResultsAsync ();
+		}
+
+		public async Task AddEvent (string uid, string date, string description, int slotsTotal, string address)
+		{
+			var res = await GetEventIdCounter ();
+			await IncrementEventIdCounter ();
 
 			await client.Cypher
 				.Match ("(user:User)")
@@ -107,7 +129,7 @@ namespace Dal
 				.WithParam ("uid", uid)
 				//creates a relation "HOSTING" between the created event 
 				.Create ("user-[:HOSTING]->(event:Event {info})")
-				.WithParam ("info", new Event (date, address, description, slots, uid, eid))
+				.WithParam ("info", new Event (date, address, description, slotsTotal, slotsTotal, uid, res + 1))
 				.ExecuteWithoutResultsAsync ();
 		}
 
@@ -168,7 +190,7 @@ namespace Dal
 				.ExecuteWithoutResultsAsync ();
 		}
 
-		public async Task MatchUser (string uid, int LIMIT = 5)
+		async Task CleanMatches (string uid)
 		{
 			await client.Cypher
 				.Match ("(user:User)-[m:MATCHED]->(event:Event)")
@@ -176,24 +198,35 @@ namespace Dal
 				.WithParam ("uid", uid)
 				.Delete ("m")
 				.ExecuteWithoutResultsAsync ();
+		}
+
+		public async Task MatchUser (string uid, int LIMIT = 5)
+		{
+			await CleanMatches (uid);
+
+			/*
+			 * 1: select all users (user) and users who host an event
+			 * 2: filter out all users in user, except the one the uid is for
+			 * 3: make sure the user isn't compared with itself (user shouldn't be in rest)
+			 * 4: filter out all the events that don't have slots left
+			 * 5: replace the 'uid' with the uid arg
+			 * 6: add param uid
+			 * 7,8,9,10,11,12: calculate weights for rest against user and send the results further along
+			 * 13: order the rest by how great they are matched, descending order
+			 * 14: only take the top (LIMIT) of the rest
+			 * 15: create 'relationship' "MATCHED" from user to all the events that fits
+			 */
 
 			await client.Cypher
-			    //select all users in the system and all the users who hosts an event
 				.Match ("(user:User), (rest:User)-[:HOSTING]->(event:Event)")
-			    //filter out everyone except the user being matched
 				.Where ("user.Id = {uid}")
-			    //filter out the user in the rest of the users who hosts event
 				.AndWhere ("rest.Id <> {uid}")
-				//remove full events
 				.AndWhere ("event.SlotsLeft > 0")
 				.WithParam ("uid", uid)
-			    //match on interests and make sure the data is available to the next clause
 				.Match ("user-[w1:WANTS]->(interest:Interest)<-[w2:WANTS]-rest")
 				.With ("user, rest, event, sum(w1.weight) + sum(w2.weight) as wt1")
-			    //match on languages and make sure the data is available to the next clause
 				.Match ("user-[w3:WANTS]->(language:Language)<-[w4:WANTS]-rest")
 				.With ("user, rest, event, wt1, sum(w3.weight) + sum(w4.weight) as wt2")
-			    //match on foodhabits and make sure the data is available to the next clause
 				.Match ("user-[w5:WANTS]->(foodhabit:FoodHabit)<-[w6:WANTS]-rest")
 				.With ("user, event, wt1, wt2, sum(w5.weight) + sum(w6.weight) as wt3")
 				.OrderBy ("(wt1+wt2+wt3) DESC")
@@ -286,6 +319,11 @@ namespace Dal
 				.WithParam ("eid", e.eid)
 				.Delete ("a")
 				.ExecuteWithoutResultsAsync();
+
+			var newEvent = e;
+			newEvent.SlotsLeft++;
+
+			await UpdateEvent (uid, newEvent);
 		}
 			
 		public async Task<bool> ReplyOffer (string uid, bool answer, Event e)
@@ -322,6 +360,43 @@ namespace Dal
 
 				return true;
 			}
+		}
+
+		public async Task AddNotification (string uid, string msg)
+		{
+			await client.Cypher
+				.Match ("(user:User)")
+				.Where ("user.Id = {uid}")
+				.WithParam ("uid", uid)
+				.Create ("user-[:HAS]->(notification:Notification {msg})")
+				.WithParam ("msg", msg)
+				.ExecuteWithoutResultsAsync ();
+		}
+
+		public async Task ClearNotification (string uid)
+		{
+			await client.Cypher
+				.Match ("(user:User)-[h:HAS]-(notification:Notification)")
+				.Where ("user.Id = {uid}")
+				.WithParam ("uid", uid)
+				.Delete ("h, notification")
+				.ExecuteWithoutResultsAsync ();
+		}
+
+		public async Task<IEnumerable<string>> GetNotification (string uid)
+		{
+			var res = await client.Cypher
+				.Match ("(user:User)-[:HAS]-(notification:Notification)")
+				.Where ("user.Id = {uid}")
+				.WithParam ("uid", uid)
+				.Return ((notifications) => new {
+					notifications = Return.As<IEnumerable<string>> ("collect(notification)")
+				})
+				.ResultsAsync;
+
+			await ClearNotification (uid);
+
+			return res.First ().notifications;
 		}
 	}
 }
