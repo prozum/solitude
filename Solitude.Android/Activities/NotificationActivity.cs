@@ -47,11 +47,13 @@ namespace DineWithaDane.Android
 				}
 			};
 
-			User currentUser = new User ("test", "bruger");
+			Event test1 = new Event("Flan", 1, "Computer gaming and fapping");
+			Event test2 = new Event("I-dag", 2, "Alle brækker sig og er trælse");
+			Event test3 = new Event("Fallout4 release", 3, "Tobias sover ikke hele natten og hans liv går i stå");
 
-			notificationList.Add (new ReviewNotification (Notification.NotificationPosition.Right, currentUser,  "Review Title #1", "Review Text", DateTime.Now.ToString(), this, notificationList));
-			notificationList.Add (new ReviewNotification (Notification.NotificationPosition.Right, currentUser, "Review Title #2", "Review Text", DateTime.Now.ToString(), this, notificationList));
-			notificationList.Add (new ReviewNotification (Notification.NotificationPosition.Right, currentUser, "Review Title #3", "Review Text", DateTime.Now.ToString(), this, notificationList));
+			notificationList.Add (new ReviewNotification (Notification.NotificationPosition.Right, test1,  test1.name, test1.description, DateTime.Now.ToString(), this, notificationList));
+			notificationList.Add (new ReviewNotification (Notification.NotificationPosition.Right, test2, test2.name, test2.description, DateTime.Now.ToString(), this, notificationList));
+			notificationList.Add (new ReviewNotification (Notification.NotificationPosition.Right, test3, test3.name, test3.description, DateTime.Now.ToString(), this, notificationList));
 
 			content.AddView (notificationLayout);
 
