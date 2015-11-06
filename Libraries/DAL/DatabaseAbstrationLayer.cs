@@ -18,6 +18,7 @@ namespace Dal
 
 		public void Dispose()
 		{
+			GC.SuppressFinalize(this);
 		}
 
 		/// <summary>
