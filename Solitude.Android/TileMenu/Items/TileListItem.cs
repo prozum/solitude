@@ -30,10 +30,9 @@ namespace DineWithaDane.Android
 		{
 			Orientation = Orientation.Vertical;
 			SeperatorView = new TextView(context);
+			DescritionView = new TextView(context);
 
 			SeperatorView.SetBackgroundColor(new Color(255,255,255));
-
-			DescritionView = new TextView(context);
 		}
 		#endregion
 

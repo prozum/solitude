@@ -40,9 +40,9 @@ namespace DineWithaDane.Android
 			var addressparams = new RelativeLayout.LayoutParams(-1, -2);
 			var seperatorparams = new RelativeLayout.LayoutParams(-1, -2);
 			var infolistparams = new RelativeLayout.LayoutParams(-1, -2);
-			var editbuttonparams = new RelativeLayout.LayoutParams(-1, -2);
+			var editbuttonparams = new RelativeLayout.LayoutParams(-2, -2);
 
-			seperator.Orientation = Orientation.Horizontal;
+			seperator.Orientation = Orientation.Vertical;
 			seperator.AddView(septext);
 			seperator.AddView(sepline);
 
@@ -52,9 +52,7 @@ namespace DineWithaDane.Android
 
 			sepline.SetBackgroundColor(new Color(255,255,255));
 			sepline.LayoutParameters.Width = -1;
-			sepline.SetMinHeight(1);
-			sepline.SetMaxHeight(1);
-			sepline.Gravity = GravityFlags.Center;
+			sepline.LayoutParameters.Height = 1;
 
 			PictureView = new ImageView(context);
 			NameView = new TextView(context);
@@ -66,6 +64,7 @@ namespace DineWithaDane.Android
 			NameView.Text = "Name: " + name;
 			AgeView.Text = "Age: " + age;
 			AddressView.Text = "Address: " + address;
+			EditProfileButton.Text = "Edit Profile";
 
 			PictureView.SetImageResource(Resource.Drawable.Icon);
 			PictureView.SetMinimumHeight(100);
@@ -99,6 +98,7 @@ namespace DineWithaDane.Android
 			infolistparams.AddRule(LayoutRules.Above, EditProfileButton.Id);
 			infolistparams.AddRule(LayoutRules.Below, detailLayout.Id);
 			editbuttonparams.AddRule(LayoutRules.AlignParentBottom);
+			editbuttonparams.AddRule(LayoutRules.AlignParentRight);
 
 			NameView.LayoutParameters = nameparams;
 			AgeView.LayoutParameters = ageparams;
