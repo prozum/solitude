@@ -9,41 +9,38 @@ namespace DineWithaDane.Android
 {
 	public class ReviewNotification : Notification
 	{
+		ObservableCollection<Notification> notificationList;
+
 		public ReviewNotification (NotificationPosition position, User user, string title, string text, string time, Activity activity, ObservableCollection<Notification> notificationList) : base(position, title, text, time, Color.IndianRed, Color.Red, activity, notificationList)
 		{
+			this.notificationList = notificationList;
+
 			LinearLayout buttonKeeper = new LinearLayout (activity);
 			buttonKeeper.Orientation = Orientation.Horizontal;
 			buttonKeeper.SetBackgroundColor (Color.Red);
 
-			Button buttonLeft = new Button (activity);
-			buttonLeft.Text = "Review";
-			buttonLeft.Gravity = GravityFlags.Center;
-			buttonLeft.SetWidth (displaySize.X / 3);
+			Button buttonReview = new Button (activity);
+			buttonReview.Text = "Review";
+			buttonReview.Gravity = GravityFlags.Center;
+			buttonReview.SetWidth (displaySize.X / 3);
 
-			Button buttonRight = new Button (activity);
-			buttonRight.Text = "Dismiss";
-			buttonRight.Gravity = GravityFlags.Center;
-			buttonRight.SetWidth (displaySize.X / 3);
+			Button buttonDismiss = new Button (activity);
+			buttonDismiss.Text = "Dismiss";
+			buttonDismiss.Gravity = GravityFlags.Center;
+			buttonDismiss.SetWidth (displaySize.X / 3);
 
-			//			buttonLeft.Click
-			buttonLeft.Click += (object sender, EventArgs e) => 
-			{
-				Review newReview = new Review (user, activity);
-			};
+			buttonReview.Click += (object sender, EventArgs e) => new Review(user, activity, notificationList, this);
 
-			buttonRight.Click += (object sender, EventArgs e) => 
-			{
-					notificationList.Remove(this);
-			};
+			buttonDismiss.Click += (object sender, EventArgs e) => notificationList.Remove(this);
 
-			buttonKeeper.AddView (buttonLeft);
-			buttonKeeper.AddView (buttonRight);
+			buttonKeeper.AddView (buttonReview);
+			buttonKeeper.AddView (buttonDismiss);
 
-			this.AddView (buttonKeeper);
+			AddView (buttonKeeper);
 
 			Button filler = new Button (activity);
 			filler.Visibility = ViewStates.Invisible;
-			this.AddView (filler);
+			AddView (filler);
 		}
 	}
 }
