@@ -246,8 +246,8 @@ namespace ClientCommunication
 			request.RequestFormat = DataFormat.Json;
 			if (answer)
 			{
-				request.AddParameter ("event_id", e.id);
-				request.AddParameter ("user_token", userToken);
+				request.AddParameter ("eventID", e.id);
+				request.AddParameter ("userToken", userToken);
 			}
 			else
 				request.AddParameter ("decline", e);
@@ -260,17 +260,30 @@ namespace ClientCommunication
 
 			request.RequestFormat = DataFormat.Json;
 
-			request.AddParameter ("event_id", e.id);
-			request.AddParameter ("user_token", userToken);
+			request.AddParameter ("eventID", e.id);
+			request.AddParameter ("userToken", userToken);
 
 			executeAndParseResponse (request);
 		}
+
+		/// <summary>
+		/// Posts the review to the server.
+		/// </summary>
+		/// <param name="r">The review to post.</param>
 		public void PostReview(Review r)
 		{
-			var request = new RestRequest("review", Method.POST);
+			var request = new RestRequest("review/add", Method.POST);
+//			request.AddHeader ("content-type", "application/json");
 			request.RequestFormat = DataFormat.Json;
+			request.AddHeader("Authorization", "bearer " + userToken);
 
-			request.AddObject (r);
+			//Adds a body to the request containing the reciew
+			var review = new {
+				rating = r.Rating,
+				reviewTect = r.ReviewText//, eventID = r.Event.id
+			};
+			request.AddBody(review);
+
 			executeAndParseResponse (request);
 		}
 		#endregion

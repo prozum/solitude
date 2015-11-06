@@ -14,7 +14,12 @@ namespace DineWithaDane.Android
 	[Activity (Label = "Solitude.Android", MainLauncher = true, Theme = "@android:style/Theme.DeviceDefault.NoActionBar")]
 	public class MainActivity : Activity
 	{
-		private ClientCommunication.CommunicationInterface CIF;
+		private static ClientCommunication.CommunicationInterface _CIF;
+		public static ClientCommunication.CommunicationInterface CIF{
+			get { 
+				return _CIF;
+			}
+		}
 
 		protected override void OnCreate (Bundle bundle)
 		{
@@ -22,7 +27,7 @@ namespace DineWithaDane.Android
 
 			StartService (new Intent(this, typeof(BackgroundService)));
 
-			CIF = new ClientCommunication.CommunicationInterface ();
+			_CIF = new ClientCommunication.CommunicationInterface ();
 
 			// Set our view from the "main" layout resource
 			SetContentView (Resource.Layout.Main);
@@ -60,7 +65,7 @@ namespace DineWithaDane.Android
 				bool loggedIn = false;
 
 				ThreadPool.QueueUserWorkItem(o => {
-					loggedIn = CIF.Login(username.Text, password.Text);
+					loggedIn = _CIF.Login(username.Text, password.Text);
 
 					RunOnUiThread( () => {
 						loginProgress.Visibility = ViewStates.Invisible;
@@ -75,7 +80,7 @@ namespace DineWithaDane.Android
 					else
 					{
 						var loginFailedDialog = new AlertDialog.Builder(this);
-						loginFailedDialog.SetMessage(CIF.LatestError);
+						loginFailedDialog.SetMessage(_CIF.LatestError);
 						RunOnUiThread( () => {
 							loginFailedDialog.Show();
 						});
