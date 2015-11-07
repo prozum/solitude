@@ -11,7 +11,7 @@ using Android.OS;
 
 namespace DineWithaDane.Android
 {
-	public class EventListAdapter : BaseTileListAdapter<EventTest>
+	public class EventListAdapter : BaseTileListAdapter<Event>
 	{
 		#region Fields
 		public EventHandler OnCancel { get; set; }
@@ -19,7 +19,7 @@ namespace DineWithaDane.Android
 
 
 		#region Constructors
-		public EventListAdapter(Activity context, List<EventTest> items) 
+		public EventListAdapter(Activity context, List<Event> items) 
 			: base(context, items) { }
 		#endregion
 
@@ -96,17 +96,17 @@ namespace DineWithaDane.Android
 
 
 		#region Private Methods
-		private int CompareTitle(EventTest x, EventTest y)
+		private int CompareTitle(Event x, Event y)
 		{
 			return x.Title.CompareTo(y.Title);
 		}
 
-		private int CompareDate(EventTest x, EventTest y)
+		private int CompareDate(Event x, Event y)
 		{
 			return x.Date.CompareTo(y.Date);
 		}
 
-		private int CompareDistance(EventTest x, EventTest y)
+		private int CompareDistance(Event x, Event y)
 		{
 			return x.Place.CompareTo(y.Place);
 		}

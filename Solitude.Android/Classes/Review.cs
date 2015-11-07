@@ -34,13 +34,14 @@ namespace DineWithaDane.Android
 			}
 		}
 
-		public Event Event {
-			get {
+		public Event Event
+		{
+			get
+			{
 				return _event;
 			}
+		
 		}
-
-
 
 		#endregion
 		public Review (Event e, Activity currentActivity){
@@ -71,7 +72,7 @@ namespace DineWithaDane.Android
 			rating = (RatingBar)dialog.FindViewById (Resource.Id.ratingbar);
 			input = (EditText)dialog.FindViewById <EditText> (Resource.Id.reviewUserInput);
 
-			reviewTitle.Text = "Review of " + _event.name;
+			reviewTitle.Text = "Review of " + _event.Title;
 
 			acceptButton = (Button) dialog.FindViewById <Button> (Resource.Id.postReviewButton);
 			cancelButton = (Button) dialog.FindViewById <Button> (Resource.Id.cancelReviewButton);

@@ -22,13 +22,13 @@ namespace DineWithaDane.Android
 		public TextView NameView { get; set; }
 		public TextView AgeView { get; set; }
 		public TextView AddressView { get; set; }
-		public TileList<InfoTest> InfoTileList { get; set; }
+		public InfoList InfoTileList { get; set; }
 		public Button EditProfileButton { get; set; }
 		#endregion
 
 
 		#region Constructors
-		public ProfileView(Context context, string name, int age, string address, TileList<InfoTest> infolist)
+		public ProfileView(Context context, string name, int age, string address, InfoList infolist)
 			: base(context)
 		{
 			var detailLayout = new RelativeLayout(context);
@@ -115,6 +115,8 @@ namespace DineWithaDane.Android
 			InfoTileList.LayoutParameters = infolistparams;
 			sepline2.LayoutParameters = sepline2params;
 			EditProfileButton.LayoutParameters = editbuttonparams;
+
+			EditProfileButton.Click += EditClick;
 		}
 		#endregion
 
@@ -125,7 +127,19 @@ namespace DineWithaDane.Android
 
 
 		#region Private Methods
-
+		private void EditClick(object sender, EventArgs e)
+		{
+			if (InfoTileList.EditMode)
+			{
+				InfoTileList.EditMode = false;
+				EditProfileButton.Text = "Edit Profile";
+			}
+			else
+			{
+				InfoTileList.EditMode = true;
+				EditProfileButton.Text = "Done";
+			}
+		}
 		#endregion
 	}
 }

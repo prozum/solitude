@@ -5,19 +5,19 @@ namespace DineWithaDane.Android
 {
 	public static class TestMaterial
 	{
-		public static List<EventTest> Events = new List<EventTest> () 
+		public static List<Event> Events = new List<Event> () 
 			{
-				new EventTest("Ey Boy1", new DateTime(2015, 11, 1), "EyBoyStreet 5", "Ey boy. Wonna go for a wild ride <3ffgnsdfgjsdlfgkjdflgjdflgkjdsflgkjdfgkljsfgdjæfgsdjgdlkfgjdslfgjdlgkjdglkdsjfgældfjgldksfgjsdfgdfgdsfgsdfgdsfgdsfgsdfgdsgdsgdsgdsfgsdfgsdfgdsgdfg", 5, 3),
-				new EventTest("Ey Boy2", new DateTime(2015, 11, 2), "EyBoyStreet 5", "Ey boy. Wonna go for a wild ride <3", 7, 2),
-				new EventTest("Ey Boy3", new DateTime(2015, 11, 3), "EyBoyStreet 5", "Ey boy. Wonna go for a wild ride <3", 9, 1),
-				new EventTest("Ey Boy4", new DateTime(2015, 11, 4), "EyBoyStreet 5", "Ey boy. Wonna go for a wild ride <3", 2, 0),
-				new EventTest("Ey Boy5", new DateTime(2015, 11, 5), "EyBoyStreet 5", "Ey boy. Wonna go for a wild ride <3", 5, 5),
-				new EventTest("Ey Boy6", new DateTime(2015, 11, 6), "EyBoyStreet 5", "Ey boy. Wonna go for a wild ride <3", 8, 6),
-				new EventTest("Ey Boy7", new DateTime(2015, 11, 7), "EyBoyStreet 5", "Ey boy. Wonna go for a wild ride <3", 10, 10),
-				new EventTest("Ey Boy8", new DateTime(2015, 11, 8), "EyBoyStreet 5", "Ey boy. Wonna go for a wild ride <3", 4, 3),
-				new EventTest("Ey Boy9", new DateTime(2015, 11, 9), "EyBoyStreet 5", "Ey boy. Wonna go for a wild ride <3", 2, 0),
-				new EventTest("Ey Boy0", new DateTime(2015, 11, 10), "EyBoyStreet 5", "Ey boy. Wonna go for a wild ride <3", 6, 2),
-				new EventTest("Ey Boy+", new DateTime(2015, 11, 11), "EyBoyStreet 5", "Ey boy. Wonna go for a wild ride <3", 7, 4)
+				new Event("Ey Boy1", new DateTime(2015, 11, 1), "EyBoyStreet 5", "Ey boy. Wonna go for a wild ride <3ffgnsdfgjsdlfgkjdflgjdflgkjdsflgkjdfgkljsfgdjæfgsdjgdlkfgjdslfgjdlgkjdglkdsjfgældfjgldksfgjsdfgdfgdsfgsdfgdsfgdsfgsdfgdsgdsgdsgdsfgsdfgsdfgdsgdfg", 5, 3),
+				new Event("Ey Boy2", new DateTime(2015, 11, 2), "EyBoyStreet 5", "Ey boy. Wonna go for a wild ride <3", 7, 2),
+				new Event("Ey Boy3", new DateTime(2015, 11, 3), "EyBoyStreet 5", "Ey boy. Wonna go for a wild ride <3", 9, 1),
+				new Event("Ey Boy4", new DateTime(2015, 11, 4), "EyBoyStreet 5", "Ey boy. Wonna go for a wild ride <3", 2, 0),
+				new Event("Ey Boy5", new DateTime(2015, 11, 5), "EyBoyStreet 5", "Ey boy. Wonna go for a wild ride <3", 5, 5),
+				new Event("Ey Boy6", new DateTime(2015, 11, 6), "EyBoyStreet 5", "Ey boy. Wonna go for a wild ride <3", 8, 6),
+				new Event("Ey Boy7", new DateTime(2015, 11, 7), "EyBoyStreet 5", "Ey boy. Wonna go for a wild ride <3", 10, 10),
+				new Event("Ey Boy8", new DateTime(2015, 11, 8), "EyBoyStreet 5", "Ey boy. Wonna go for a wild ride <3", 4, 3),
+				new Event("Ey Boy9", new DateTime(2015, 11, 9), "EyBoyStreet 5", "Ey boy. Wonna go for a wild ride <3", 2, 0),
+				new Event("Ey Boy0", new DateTime(2015, 11, 10), "EyBoyStreet 5", "Ey boy. Wonna go for a wild ride <3", 6, 2),
+				new Event("Ey Boy+", new DateTime(2015, 11, 11), "EyBoyStreet 5", "Ey boy. Wonna go for a wild ride <3", 7, 4)
 			};
 
 		public static List<InfoTest> Infos = new List<InfoTest>()

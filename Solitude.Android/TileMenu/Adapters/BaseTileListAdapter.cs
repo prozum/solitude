@@ -15,8 +15,8 @@ namespace DineWithaDane.Android
 	{
 		#region Fields
 		protected Activity Context { get; private set; }
-		protected List<T> Items { get; private set; }
 
+		public List<T> Items { get; private set; }
 		public override int GroupCount { get { return Items.Count; } }
 		public override bool HasStableIds {	get { return true; } } 
 		#endregion
