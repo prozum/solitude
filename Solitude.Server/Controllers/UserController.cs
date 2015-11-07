@@ -4,25 +4,27 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Neo4j.AspNet.Identity;
+using Neo4jClient;
+using Dal;
 
 namespace Solitude.Server
 {
     [RoutePrefix("api/user")]
     public class UserController : ApiController
 	{
-        private Neo4jUserManager manager;
+        private SolitudeUserManager manager;
 
         public UserController() {}
-        public UserController(Neo4jUserManager manager)
+        public UserController(SolitudeUserManager manager)
 		{
             this.Manager = manager;
 		}
 
-        public Neo4jUserManager Manager
+        public SolitudeUserManager Manager
         {
             get
             {
-                return manager ?? Request.GetOwinContext().GetUserManager<Neo4jUserManager>();
+                return manager ?? Request.GetOwinContext().GetUserManager<SolitudeUserManager>();
             }
             private set
             {
@@ -30,13 +32,21 @@ namespace Solitude.Server
             }
         }
 
+        public IGraphClient DB
+        {
+            get
+            {
+                return Request.GetOwinContext().Get<GraphClientWrapper>().GraphClient;
+            }
+        }
+
 		[AllowAnonymous]
 		[Route("register")]
-		public async Task<IHttpActionResult> Register(UserModel userModel)
+		public async Task<IHttpActionResult> Register(User user)
 		{
-            var user = new ApplicationUser() { UserName = userModel.UserName };
+            var appUser = new ApplicationUser() { UserName = user.UserName };
 
-            IdentityResult result = await Manager.CreateAsync(user, userModel.Password);
+            var result = await Manager.CreateAsync(appUser, user.Password);
 
             IHttpActionResult errorResult = GetErrorResult(result);
 
@@ -47,6 +57,24 @@ namespace Solitude.Server
                 
             return Ok();
 		}
+
+        [Authorize]
+        [Route("delete")]
+        public async Task<IHttpActionResult> Delete()
+        {
+            var user = await Manager.FindByIdAsync(User.Identity.GetUserId());
+
+            var result = await Manager.DeleteAsync(user);
+
+            IHttpActionResult errorResult = GetErrorResult(result);
+
+            if (errorResult != null)
+            {
+                return errorResult;
+            }
+
+            return Ok();
+        }
 
         private IHttpActionResult GetErrorResult(IdentityResult result)
         {

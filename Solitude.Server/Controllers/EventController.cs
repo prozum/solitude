@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
+using System.Threading.Tasks;
 using Dal;
 
 namespace Solitude.Server
 {
 	public class EventController : ApiController
 	{
-        public IHttpActionResult Get ()
+        public IHttpActionResult Get()
         {
             List<Event> OrderList = new List<Event> 
                 {
@@ -25,5 +26,16 @@ namespace Solitude.Server
 		{
             return Ok(new Event() { ID = id, Date = "already over", Address = "Cassiopeia", Description = "FLAN party in Cassiopeia"});
 		}
+
+//        [Authorize]
+//        [Route("add")]
+//        public async Task<IHttpActionResult> Add(Review review)
+//        {
+//            review.UserID = User.Identity.GetUserId();
+//
+//            await DB.AddReview(review);
+//
+//            return Ok();
+//        }
 	}
 }

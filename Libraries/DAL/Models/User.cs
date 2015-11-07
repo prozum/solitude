@@ -2,7 +2,7 @@
 
 namespace Dal
 {
-	public class UserModel
+	public class User
 	{
 		[Required]
 		[Display(Name = "User name")]

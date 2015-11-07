@@ -50,8 +50,8 @@ namespace Solitude.Server
                 return new DatabaseAbstrationLayer(gc);
             });
 
-            app.CreatePerOwinContext<Neo4jUserManager>(Neo4jUserManager.Create);
-            app.CreatePerOwinContext<Neo4jSignInManager>(Neo4jSignInManager.Create);
+            app.CreatePerOwinContext<SolitudeUserManager>(SolitudeUserManager.Create);
+            app.CreatePerOwinContext<SolitudeSignInManager>(SolitudeSignInManager.Create);
         }
 
         public void ConfigureOAuth(IAppBuilder app)
@@ -62,7 +62,7 @@ namespace Solitude.Server
 
             OAuthAuthorizationServerOptions OAuthServerOptions = new OAuthAuthorizationServerOptions()
                 {
-                    Provider = new Neo4jAuthorizationServerProvider(),
+                    Provider = new SolitudeAuthorizationServerProvider(),
                     AllowInsecureHttp = true,
                     TokenEndpointPath = new PathString("/api/token"),
                     AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
@@ -70,7 +70,6 @@ namespace Solitude.Server
 
             app.UseOAuthAuthorizationServer(OAuthServerOptions);
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
-            app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
         }
     }
 }

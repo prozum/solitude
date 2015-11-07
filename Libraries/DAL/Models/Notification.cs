@@ -4,7 +4,7 @@ namespace Dal
 {
 	public class Notification
 	{
-		enum NotificationType
+		public enum NotificationType
 		{
 			OFFER,		//notify the user about offers
 			REVIEW,		//notify the user that they have a pending review
@@ -16,7 +16,7 @@ namespace Dal
 
 		public Notification (NotificationType type)
 		{
-			this.Type = type;
+			Type = type;
 		}
 	}
 }
