@@ -194,7 +194,7 @@ namespace Dal
 			 * 15: create 'relationship' "MATCHED" from user to all the events that fits
 			 */
 
-			await client.Cypher
+			var res = await client.Cypher
 				.Match ("(user:User), (rest:User)-[:HOSTING]->(event:Event)")
 				.Where ("user.Id = {uid}")
 				.AndWhere ("rest.Id <> {uid}")
@@ -208,8 +208,15 @@ namespace Dal
 				.With ("user, event, wt1, wt2, sum(w5.weight) + sum(w6.weight) as wt3")
 				.OrderBy ("(wt1+wt2+wt3) DESC")
 				.Limit (LIMIT)
-				.Create ("user-[:MATCHED]->event")
-				.ExecuteWithoutResultsAsync();
+				.Create ("user-[m:MATCHED]->event")
+				.Return ((matches) => new {
+					matches = Return.As<int> ("count(m)")
+				}).ResultsAsync;
+
+			if (res.First().matches > 0)
+			{
+				await AddNotification (uid, "You have new offers pending");
+			}
 		}
 
 		public async Task<IEnumerable<Event>> GetOffers (string uid)
@@ -281,6 +288,8 @@ namespace Dal
 		{
 			await client.Cypher
 				.Match ("(user:User)-[:HOSTING]->(event:Event)<-[r]-(rest:User)")
+				.Where ("event.eid = {eid}")
+				.WithParam ("event.eid", eid)
 				.WithParam ("user.Id", uid)
 				.Delete ("r, event")
 				.ExecuteWithoutResultsAsync();
@@ -299,6 +308,8 @@ namespace Dal
 			@event.SlotsLeft++;
 
 			await UpdateEvent(@event);
+
+			await AddNotification (@event.UserID, "A person has cancelled his/her registration for your event.");
 		}
 			
 		public async Task<bool> ReplyOffer (string uid, bool answer, Event @event)
