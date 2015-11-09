@@ -116,7 +116,7 @@ namespace Dal
 				.Match ("(user:User)")
 				.Where ("user.Id = {uid}")
 				.WithParam ("uid", review.UserID)
-				.Create ("user-[:REVIEWER]->(review:Review {data})")
+				.Create ("user-[:GAVE_REVIEW]->(review:Review {data})")
 				.WithParam ("data", review)
 				.ExecuteWithoutResultsAsync ();
 		}
