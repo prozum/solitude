@@ -8,15 +8,8 @@ using Dal;
 namespace Solitude.Server
 {
     [RoutePrefix("api/offer")]
-    public class OfferController : ApiController
+    public class OfferController : SolitudeController
     {
-        public DatabaseAbstrationLayer DB
-        {
-            get
-            {
-                return Request.GetOwinContext().Get<DatabaseAbstrationLayer>();
-            }
-        }
 
         [Authorize]
         public async Task<IHttpActionResult> Get()
