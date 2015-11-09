@@ -70,17 +70,18 @@ namespace Dal
 		public async Task SetEventIdCounter (int startVal)
 		{
 			await client.Cypher
-				.Match ("(eid:ServerInfo)")
-				.CreateUnique ("eid.value = {val}")
-				.WithParam ("val", startVal)
-				.ExecuteWithoutResultsAsync ();
+				.Merge("(sinfo:ServerInfo)")
+				.OnCreate()
+				.Set("sinfo.eid = {val}")
+				.WithParam("val", startVal)
+				.ExecuteWithoutResultsAsync();
 		}
 
 		async Task<int> GetEventIdCounter ()
 		{
 			var res = await client.Cypher
-				.Match ("(eid:ServerInfo)")
-				.Return ((eid) => Return.As<int>("eid.value"))
+				.Match ("(sinfo:ServerInfo)")
+				.Return (() => Return.As<int>("sinfo.eid"))
 				.ResultsAsync;
 
 			return res.First ();
@@ -89,8 +90,8 @@ namespace Dal
 		async Task IncrementEventIdCounter ()
 		{
 			await client.Cypher
-				.Match ("(eid:ServerInfo)")
-				.Set ("eid.value = eid.value + 1")
+				.Match ("(sinfo:ServerInfo)")
+				.Set ("sinfo.eid = sinfo.eid + 1")
 				.ExecuteWithoutResultsAsync ();
 		}
 
