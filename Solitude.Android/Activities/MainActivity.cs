@@ -54,8 +54,14 @@ namespace DineWithaDane.Android
 			EditText username = FindViewById<EditText> (Resource.Id.editUsername);
 			EditText password = FindViewById<EditText> (Resource.Id.editPassword);
 
-			username.Text = "test";
-			password.Text = "#Test123";
+
+			#if DEBUG
+			if (String.IsNullOrEmpty(username.Text) && String.IsNullOrEmpty(password.Text))
+			{
+				username.Text = "test";
+				password.Text = "#Test123";
+			}
+			#endif
 
 			//Tries to login if strings are present in the fields
 			if(username.Text != "" || password.Text != "")
