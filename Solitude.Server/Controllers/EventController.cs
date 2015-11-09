@@ -13,11 +13,11 @@ namespace Solitude.Server
         {
             List<Event> OrderList = new List<Event> 
                 {
-                    new Event {Title = "Julefrokost", ID = 666, Address = "Everywhere", Description = "Julefrokost", Date = "21-12-12" },
-                    new Event {Title = "I-dag", ID = 667, Address = "DE-club", Description = "DE-club", Date = "Thursday" },
-                    new Event {Title = "FLAN", ID = 668, Address = "Cassiopeia", Description = "Cassiopeia", Date = "00-00-99" },
-                    new Event {Title = "J-dag", ID = 669, Address = "D-building", Description = "J-dag", Date = "05-11-15"},
-                    new Event {Title = "ØL", ID = 670, Address = "Cantina", Description = "Free beer", Date = "Always tomorrow"}
+                    new Event {Title = "Julefrokost", Id = 666, Address = "Everywhere", Description = "Julefrokost", Date = "21-12-12" },
+                    new Event {Title = "I-dag", Id = 667, Address = "DE-club", Description = "DE-club", Date = "Thursday" },
+                    new Event {Title = "FLAN", Id = 668, Address = "Cassiopeia", Description = "Cassiopeia", Date = "00-00-99" },
+                    new Event {Title = "J-dag", Id = 669, Address = "D-building", Description = "J-dag", Date = "05-11-15"},
+                    new Event {Title = "ØL", Id = 670, Address = "Cantina", Description = "Free beer", Date = "Always tomorrow"}
                 };
 
             return Ok(OrderList);
@@ -26,14 +26,14 @@ namespace Solitude.Server
         [Authorize]
         public IHttpActionResult Get (int id)
 		{
-            return Ok(new Event() { ID = id, Date = "Already over", Address = "Cassiopeia", Description = "FLAN party in Cassiopeia"});
+            return Ok(new Event() { Id = id, Date = "Already over", Address = "Cassiopeia", Description = "FLAN party in Cassiopeia"});
 		}
 
         [Authorize]
         [Route("add")]
         public async Task<IHttpActionResult> Add(Event e)
         {
-            e.UserID = User.Identity.GetUserId();
+            e.UserId = User.Identity.GetUserId();
 
             await DB.AddEvent(e);
 

@@ -96,12 +96,12 @@ namespace Dal
 
 		public async Task AddEvent (Event @event)
 		{
-			@event.ID = await GetEventIdCounter ();
+			@event.Id = await GetEventIdCounter ();
 			await IncrementEventIdCounter ();
 
 			await client.Cypher
 				.Match ("(user:User)")
-				.Where((User user) => user.Id == @event.UserID)
+				.Where((User user) => user.Id == @event.UserId)
 				//creates a relation "HOSTING" between the created event 
 				.Create ("user-[:HOSTING]->(event:Event {info})")
 				.WithParam ("info", @event)
@@ -258,7 +258,7 @@ namespace Dal
 			await client.Cypher
 				.Match ("user-[:HOSTING]->(event:Event {info})")
 				.Where ("event.Id = {eid}")
-				.WithParam ("eid", @event.ID)
+				.WithParam ("eid", @event.Id)
 				.Set ("info = {newinfo}")
 				.WithParam ("newinfo", @event)
 				.ExecuteWithoutResultsAsync();
@@ -278,7 +278,7 @@ namespace Dal
 		{
 			var res = await client.Cypher
 				.Match ("(e:Event)")
-				.Where ((Event e) => e.ID == eid)
+				.Where ((Event e) => e.Id == eid)
 				.AndWhere ((Event e) => e.SlotsTaken > e.SlotsTotal)
 				.Set ("event.SlotsTaken = event.SlotsTaken + 1")
 				.Return ((@event) => @event.As<Event> ())
@@ -291,7 +291,7 @@ namespace Dal
 		{
 			await client.Cypher
 				.Match("(e:Event)")
-				.Where((Event e) => e.ID == eid)
+				.Where((Event e) => e.Id == eid)
 				.AndWhere((Event e) => e.SlotsTaken > 0)
 				.Set("event.SlotsTaken = event.SlotsTaken - 1")
 				.ExecuteWithoutResultsAsync();
@@ -302,7 +302,7 @@ namespace Dal
 			await client.Cypher
 				.Match ("(user:User)-[a:ATTENDS]->(e:Event)")
 				.Where((User user) => user.Id == uid)
-				.AndWhere((Event e) => e.ID == eid)
+				.AndWhere((Event e) => e.Id == eid)
 				.Delete ("a")
 				.ExecuteWithoutResultsAsync();
 
@@ -323,7 +323,7 @@ namespace Dal
 				await client.Cypher
 					.Match ("(user:User), (e:Event)")
 					.Where ((User user) => user.Id == uid)
-					.AndWhere ((Event e) => e.ID == eid)
+					.AndWhere ((Event e) => e.Id == eid)
 					.Create ("user-[:ATTENDS]->e")
 					.Delete ("user-[:MATCHED]->e")
 					.ExecuteWithoutResultsAsync();
@@ -335,7 +335,7 @@ namespace Dal
 				await client.Cypher
 					.Match ("(user:User), (e:Event)")
 					.Where((User user) => user.Id == uid)
-					.Where((Event e) => e.ID == eid)
+					.Where((Event e) => e.Id == eid)
 					.Delete ("user-[:MATCHED]->e")
 					.ExecuteWithoutResultsAsync();
 
@@ -385,7 +385,7 @@ namespace Dal
 			var hostIds = await client.Cypher
 				.Match("(user:User)-[:HOSTS]-(event:Event)")
 				.Where((User user) => user.Id == uid)
-				.Return((@event) => @event.As<Event>().ID)
+				.Return((@event) => @event.As<Event>().Id)
 				.ResultsAsync;
 
 			foreach (var id in hostIds)
@@ -396,7 +396,7 @@ namespace Dal
 			var attendingIds = await client.Cypher
 				.Match("(user:User)-[:ATTENDS]-(event:Event)")
 				.Where((User user) => user.Id == uid)
-				.Return((@event) => @event.As<Event>().ID)
+				.Return((@event) => @event.As<Event>().Id)
 				.ResultsAsync;
 
 			foreach (var id in attendingIds)
