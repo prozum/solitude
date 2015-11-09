@@ -412,7 +412,7 @@ namespace Dal
 		public async Task DeleteUser(string uid)
 		{
 			await client.Cypher
-				.Match("(u:User)-[r]->() DETACH")
+				.Match("(u:User)-[r]->()")
 				.Where("u.Id = {uid}")
 				.WithParam("uid", uid)
 				.Delete("u, r")
