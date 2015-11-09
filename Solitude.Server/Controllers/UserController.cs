@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Neo4j.AspNet.Identity;
 using Neo4jClient;
-using Dal;
+using Model;
 
 namespace Solitude.Server
 {

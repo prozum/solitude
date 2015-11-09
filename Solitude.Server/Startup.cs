@@ -1,4 +1,5 @@
 ﻿using Dal;
+using Model;
 using System;
 using System.Configuration;
 using Owin;
@@ -55,23 +56,23 @@ namespace Solitude.Server
             app.CreatePerOwinContext<SolitudeUserManager>(SolitudeUserManager.Create);
             app.CreatePerOwinContext<SolitudeSignInManager>(SolitudeSignInManager.Create);
 
-            var interests = Enum.GetValues(typeof(Dal.Interest));
-            var languages = Enum.GetValues(typeof(Dal.Language));
-            var foodhabits = Enum.GetValues(typeof(Dal.Interest));
+            var interests = Enum.GetValues(typeof(Interest));
+            var languages = Enum.GetValues(typeof(Language));
+            var foodhabits = Enum.GetValues(typeof(Interest));
 
             foreach (var i in interests)
             {
-                dal.AddInterest((Dal.Interest)i);
+                dal.AddInterest((Interest)i);
             }
 
             foreach (var l in languages)
             {
-                dal.AddLanguage((Dal.Language)l);
+                dal.AddLanguage((Language)l);
             }
 
             foreach (var f in foodhabits)
             {
-                dal.AddFoodHabit((Dal.FoodHabit)f);
+                dal.AddFoodHabit((FoodHabit)f);
             }
         }
 

@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System.Collections.Generic;
 using Dal;
+using Model;
 
 namespace Solitude.Server
 {
@@ -53,7 +54,7 @@ namespace Solitude.Server
         [Route("delete")]
         public async Task<IHttpActionResult> Delete(int eID)
         {
-            await DB.DeleteEvent(User.Identity.GetUserId, eID);
+            await DB.DeleteEvent(User.Identity.GetUserId(), eID);
 
             return Ok();
         }
