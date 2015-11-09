@@ -16,81 +16,54 @@ namespace DineWithaDane.Android
 {			
 	public class SetupDrawer
 	{
-		// Private variables
-		private string m_DrawerTitle, m_Title;
-		private DrawerLayout m_Drawer;
-		private ListView m_DrawerList;
-		private AbstractActivity _currentActivity;
-		private int _drawerPosition;
-		private ActionBarDrawerToggle drawerToggle;
+		
+		public DrawerLayout Drawer { get; set; }
+		public ListView DrawerList { get; set; }
+		public DrawerActivity CurrentActivity { get; set; }
+		public int Position { get; set; }
+		public ActionBarDrawerToggle DrawerToggle { get; set; }
 
-		/// <summary>
-		/// Gets the drawer toggle.
-		/// </summary>
-		/// <value>The drawer toggle.</value>
-		public ActionBarDrawerToggle DrawerToggle {
-			get {
-				return drawerToggle;
-			}
-		}
 
-		// Strings displayed in the drawer, in order
 		private static readonly string[] Sections = new[] 
 		{
 			"Notifications", "Offer", "Events", "Host", "Profile", "Settings"
 		};
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="DineWithaDane.Android.SetupDrawer"/> class.
-		/// </summary>
-		/// <param name="DrawerTitle">Drawer title.</param>
-		/// <param name="Title">Title.</param>
-		/// <param name="Drawer">Drawer.</param>
-		/// <param name="DrawerList">Drawer list.</param>
-		/// <param name="drawerPosition">Drawer position.</param>
-		/// <param name="currentActivity">Current activity.</param>
 		public SetupDrawer (
-			string DrawerTitle,
-			string Title,
-			DrawerLayout Drawer,
-			ListView DrawerList,
-			int drawerPosition,
-			AbstractActivity currentActivity
+			//DrawerLayout drawer,
+			//ListView drawerlist,
+			int position,
+			DrawerActivity currentActivity
 		)
 		{
-			m_DrawerTitle = DrawerTitle;
-			m_Title = m_DrawerTitle = Title;
-			m_Drawer = Drawer;
-			m_DrawerList = DrawerList;
-			_currentActivity = currentActivity;
-			_drawerPosition = drawerPosition;
+
+			CurrentActivity = currentActivity;
+			Position = position;
 		}
 
-		// Configures the drawer, sets up an adapter and adds click functionality
 		public void Configure ()
 		{
-			m_Drawer = _currentActivity.FindViewById<DrawerLayout> (Resource.Id.drawer_layout);
-			m_DrawerList = _currentActivity.FindViewById<ListView> (Resource.Id.left_drawer);
+			Drawer = CurrentActivity.FindViewById<DrawerLayout> (Resource.Id.drawer_layout);
+			DrawerList = CurrentActivity.FindViewById<ListView> (Resource.Id.left_drawer);
 
-			m_DrawerList.Adapter = new ArrayAdapter<string> (_currentActivity, Resource.Layout.item_menu, Sections);
-			this.m_DrawerList.SetItemChecked (0, true);
-			this.m_DrawerList.SetItemChecked (_drawerPosition, true);
+			DrawerList.Adapter = new ArrayAdapter<string> (CurrentActivity, Resource.Layout.item_menu, Sections);
+			DrawerList.SetItemChecked (0, true);
+			DrawerList.SetItemChecked (Position, true);
 
-			m_DrawerList.ItemClick += DrawerListOnItemClick;
+			DrawerList.ItemClick += DrawerListOnItemClick;
 		}
 
-		// sets up the drawer toggle button in the current activity
 		public void DrawerToggleSetup () {
-			drawerToggle = new DrawerToggle (
-				_currentActivity, 
-				m_Drawer, 
+			DrawerToggle = new ActionBarDrawerToggle (
+				CurrentActivity, 
+				Drawer, 
 				Resource.Drawable.ic_navigation_drawer, 
 				Resource.String.open_drawer, 
 				Resource.String.close_drawer);
 
-			m_Drawer.SetDrawerListener (drawerToggle);
-			_currentActivity.ActionBar.SetDisplayHomeAsUpEnabled (true);
-			_currentActivity.ActionBar.SetHomeButtonEnabled (true);
+			Drawer.SetDrawerListener (DrawerToggle);
+			CurrentActivity.ActionBar.SetDisplayHomeAsUpEnabled (true);
+			CurrentActivity.ActionBar.SetHomeButtonEnabled (true);
 		}
 
 		/// <summary>
@@ -130,9 +103,10 @@ namespace DineWithaDane.Android
 				break;
 			}
 
-			this.m_DrawerList.SetItemChecked (itemClickEventArgs.Position, true);
-			this.m_Drawer.CloseDrawer (m_DrawerList);
+			DrawerList.SetItemChecked (itemClickEventArgs.Position, true);
+			Drawer.CloseDrawer (DrawerList);
 		}
 	}
 }
 
+>>>>>>> origin/master

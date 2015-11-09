@@ -11,7 +11,7 @@ using Android.OS;
 namespace DineWithaDane.Android
 {
 	[Activity (Label = "Events")]
-	public class EventActivity : AbstractActivity
+	public class EventActivity : DrawerActivity
 	{
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
@@ -19,7 +19,7 @@ namespace DineWithaDane.Android
 			var tilelist = new EventList(this, adapter);
 
 			// setting up and drawer
-			drawerPosition = 2;
+			Position = 2;
 			base.OnCreate (savedInstanceState);
 
 			// adding tilelist to activity

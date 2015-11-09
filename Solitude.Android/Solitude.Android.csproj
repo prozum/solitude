@@ -75,7 +75,6 @@
     <Compile Include="Notifications\OfferNotification.cs" />
     <Compile Include="Notifications\ReviewNotification.cs" />
     <Compile Include="Activities\SignUpActivity.cs" />
-    <Compile Include="Activities\AbstractActivity.cs" />
     <Compile Include="Activities\HostActivity.cs" />
     <Compile Include="Drawer\DrawerToggle.cs" />
     <Compile Include="Drawer\SetupDrawer.cs" />
@@ -103,7 +102,11 @@
     <Compile Include="TileMenu\InfoTest.cs" />
     <Compile Include="TileMenu\ProfileView.cs" />
     <Compile Include="Activities\CreateEventActivity.cs" />
+<<<<<<< HEAD
     <Compile Include="Activities\SettingsActivitiy.cs" />
+=======
+    <Compile Include="Activities\DrawerActivity.cs" />
+>>>>>>> origin/master
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -128,7 +131,11 @@
     <AndroidResource Include="Resources\layout\Profile.axml" />
     <AndroidResource Include="Resources\layout\review_layout.axml" />
     <AndroidResource Include="Resources\layout\EditInfo.axml" />
+<<<<<<< HEAD
     <AndroidResource Include="Resources\layout\deletionDialog.axml" />
+=======
+    <AndroidResource Include="Resources\layout\EditText.axml" />
+>>>>>>> origin/master
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

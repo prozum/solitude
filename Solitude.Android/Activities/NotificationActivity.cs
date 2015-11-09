@@ -12,14 +12,14 @@ using Android.Widget;
 
 namespace DineWithaDane.Android
 {
-	[Activity (Label = "Notifications", MainLauncher = false)]			
-	public class NotificationActivity : AbstractActivity
+	[Activity (Label = "Notifications")]			
+	public class NotificationActivity : DrawerActivity
 	{
 		ObservableCollection<Notification> notificationList = new ObservableCollection<Notification>();
 
 		protected override void OnCreate (Bundle bundle)
 		{
-			drawerPosition = 0;
+			Position = 0;
 			base.OnCreate (bundle);
 
 			// Create your application here

@@ -8,7 +8,7 @@ namespace DineWithaDane.Android
 {
 	public class DrawerToggle : ActionBarDrawerToggle
 	{
-		AbstractActivity _currentActivity;
+		DrawerActivity currentActivity;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DineWithaDane.Android.DrawerToggle" that sets up a drawerToggle/> class.
@@ -21,7 +21,7 @@ namespace DineWithaDane.Android
 		public DrawerToggle (AbstractActivity currentActivity, DrawerLayout layout, int imageResource, int openDrawerDesc, int closeDrawerDesc) 
 			: base (currentActivity, layout, imageResource, openDrawerDesc, closeDrawerDesc)
 		{
-			_currentActivity = currentActivity;
+			currentActivity = currentActivity;
 		}
 	}
 }
