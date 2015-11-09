@@ -10,7 +10,7 @@ namespace DineWithaDane.Android
 		public string Title { get; set; }
 		public DateTime Date { get; set; }
 		public string Place { get; set; }
-		public string Description { get; set;}
+		public string Description { get; set; }
 		public int MaxSlots { get; set; }
 		public int SlotsLeft { get; set; }
 		public int ID {
