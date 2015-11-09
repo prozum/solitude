@@ -17,11 +17,11 @@ namespace Solitude.Server
         {
             List<Event> OrderList = new List<Event> 
                 {
-                    new Event {Title = "Julefrokost", Host = "Kurt Egelund", ID = 666, Address = "Everywhere", Description = "Julefrokost", Date = "21-12-12" },
-                    new Event {Title = "I-dag", Host = "Kurt Egelund", ID = 667, Address = "DE-club", Description = "DE-club", Date = "Thursday" },
-                    new Event {Title = "FLAN", Host = "Kurt Egelund", ID = 668, Address = "Cassiopeia", Description = "Cassiopeia", Date = "00-00-99" },
-                    new Event {Title = "J-dag", Host = "Kurt Egelund", ID = 669, Address = "D-building", Description = "J-dag", Date = "05-11-15"},
-                    new Event {Title = "ØL", Host = "Kurt Egelund", ID = 670, Address = "Cantina", Description = "Free beer", Date = "Always tomorrow"}
+                    new Event {Title = "Julefrokost", ID = 666, Address = "Everywhere", Description = "Julefrokost", Date = "21-12-12" },
+                    new Event {Title = "I-dag", ID = 667, Address = "DE-club", Description = "DE-club", Date = "Thursday" },
+                    new Event {Title = "FLAN", ID = 668, Address = "Cassiopeia", Description = "Cassiopeia", Date = "00-00-99" },
+                    new Event {Title = "J-dag", ID = 669, Address = "D-building", Description = "J-dag", Date = "05-11-15"},
+                    new Event {Title = "ØL", ID = 670, Address = "Cantina", Description = "Free beer", Date = "Always tomorrow"}
                 };
 
             return Ok(OrderList);
