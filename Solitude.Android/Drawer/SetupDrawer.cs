@@ -16,6 +16,7 @@ namespace DineWithaDane.Android
 {			
 	public class SetupDrawer
 	{
+		// Private variables
 		private string m_DrawerTitle, m_Title;
 		private DrawerLayout m_Drawer;
 		private ListView m_DrawerList;
@@ -23,17 +24,31 @@ namespace DineWithaDane.Android
 		private int _drawerPosition;
 		private ActionBarDrawerToggle drawerToggle;
 
+		/// <summary>
+		/// Gets the drawer toggle.
+		/// </summary>
+		/// <value>The drawer toggle.</value>
 		public ActionBarDrawerToggle DrawerToggle {
 			get {
 				return drawerToggle;
 			}
 		}
 
+		// Strings displayed in the drawer, in order
 		private static readonly string[] Sections = new[] 
 		{
-			"Notifications", "Offer", "Events", "Host", "Profile"
+			"Notifications", "Offer", "Events", "Host", "Profile", "Settings"
 		};
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DineWithaDane.Android.SetupDrawer"/> class.
+		/// </summary>
+		/// <param name="DrawerTitle">Drawer title.</param>
+		/// <param name="Title">Title.</param>
+		/// <param name="Drawer">Drawer.</param>
+		/// <param name="DrawerList">Drawer list.</param>
+		/// <param name="drawerPosition">Drawer position.</param>
+		/// <param name="currentActivity">Current activity.</param>
 		public SetupDrawer (
 			string DrawerTitle,
 			string Title,
@@ -51,6 +66,7 @@ namespace DineWithaDane.Android
 			_drawerPosition = drawerPosition;
 		}
 
+		// Configures the drawer, sets up an adapter and adds click functionality
 		public void Configure ()
 		{
 			m_Drawer = _currentActivity.FindViewById<DrawerLayout> (Resource.Id.drawer_layout);
@@ -63,6 +79,7 @@ namespace DineWithaDane.Android
 			m_DrawerList.ItemClick += DrawerListOnItemClick;
 		}
 
+		// sets up the drawer toggle button in the current activity
 		public void DrawerToggleSetup () {
 			drawerToggle = new DrawerToggle (
 				_currentActivity, 
@@ -76,29 +93,38 @@ namespace DineWithaDane.Android
 			_currentActivity.ActionBar.SetHomeButtonEnabled (true);
 		}
 
+		/// <summary>
+		/// Drawer item click cases
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="itemClickEventArgs">The ${ParameterType} instance containing the event data.</param>
 		private void DrawerListOnItemClick (object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)
 		{
 			switch (itemClickEventArgs.Position) 
 			{
 			case 0:
-				Intent FrameMain = new Intent (_currentActivity, typeof(NotificationActivity));
-				_currentActivity.StartActivity (FrameMain);
+				Intent NotificationIntent = new Intent (_currentActivity, typeof(NotificationActivity));
+				_currentActivity.StartActivity (NotificationIntent);
 				break;
 			case 1:
-				Intent SecondActivity = new Intent (_currentActivity, typeof(OfferActivity));
-				_currentActivity.StartActivity (SecondActivity);
+				Intent OfferIntent = new Intent (_currentActivity, typeof(OfferActivity));
+				_currentActivity.StartActivity (OfferIntent);
 				break;
 			case 2:
-				Intent ThirdActivity = new Intent (_currentActivity, typeof(EventActivity));
-				_currentActivity.StartActivity (ThirdActivity);
+				Intent EventIntent = new Intent (_currentActivity, typeof(EventActivity));
+				_currentActivity.StartActivity (EventIntent);
 				break;
 			case 3:
-				Intent FourthActivity = new Intent (_currentActivity, typeof(HostActivity));
-				_currentActivity.StartActivity (FourthActivity);
+				Intent HostIntent = new Intent (_currentActivity, typeof(HostActivity));
+				_currentActivity.StartActivity (HostIntent);
 				break;
 			case 4:
-				Intent FifthActivity = new Intent (_currentActivity, typeof(ProfileActivity));
-				_currentActivity.StartActivity (FifthActivity);
+				Intent ProfileIntent = new Intent (_currentActivity, typeof(ProfileActivity));
+				_currentActivity.StartActivity (ProfileIntent);
+				break;
+			case 5:
+				Intent SettingsIntent = new Intent (_currentActivity, typeof(SettingsActivitiy));
+				_currentActivity.StartActivity (SettingsIntent);
 				break;
 			default:
 				break;

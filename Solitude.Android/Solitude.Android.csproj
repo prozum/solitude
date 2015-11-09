@@ -103,6 +103,7 @@
     <Compile Include="TileMenu\InfoTest.cs" />
     <Compile Include="TileMenu\ProfileView.cs" />
     <Compile Include="Activities\CreateEventActivity.cs" />
+    <Compile Include="Activities\SettingsActivitiy.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -127,6 +128,7 @@
     <AndroidResource Include="Resources\layout\Profile.axml" />
     <AndroidResource Include="Resources\layout\review_layout.axml" />
     <AndroidResource Include="Resources\layout\EditInfo.axml" />
+    <AndroidResource Include="Resources\layout\deletionDialog.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
