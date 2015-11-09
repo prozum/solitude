@@ -15,7 +15,7 @@ using Android.Graphics;
 namespace DineWithaDane.Android
 {
 	[Activity(Label = "SettingsActivitiy")]			
-	public class SettingsActivitiy : AbstractActivity
+	public class SettingsActivitiy : DrawerActivity
 	{
 		protected override void OnCreate(Bundle bundle)
 		{

@@ -19,7 +19,7 @@ namespace DineWithaDane.Android
 		
 		public DrawerLayout Drawer { get; set; }
 		public ListView DrawerList { get; set; }
-		public DrawerActivity CurrentActivity { get; set; }
+		public DrawerActivity _currentActivity { get; set; }
 		public int Position { get; set; }
 		public ActionBarDrawerToggle DrawerToggle { get; set; }
 
@@ -37,16 +37,16 @@ namespace DineWithaDane.Android
 		)
 		{
 
-			CurrentActivity = currentActivity;
+			_currentActivity = currentActivity;
 			Position = position;
 		}
 
 		public void Configure ()
 		{
-			Drawer = CurrentActivity.FindViewById<DrawerLayout> (Resource.Id.drawer_layout);
-			DrawerList = CurrentActivity.FindViewById<ListView> (Resource.Id.left_drawer);
+			Drawer = _currentActivity.FindViewById<DrawerLayout> (Resource.Id.drawer_layout);
+			DrawerList = _currentActivity.FindViewById<ListView> (Resource.Id.left_drawer);
 
-			DrawerList.Adapter = new ArrayAdapter<string> (CurrentActivity, Resource.Layout.item_menu, Sections);
+			DrawerList.Adapter = new ArrayAdapter<string> (_currentActivity, Resource.Layout.item_menu, Sections);
 			DrawerList.SetItemChecked (0, true);
 			DrawerList.SetItemChecked (Position, true);
 
@@ -55,15 +55,15 @@ namespace DineWithaDane.Android
 
 		public void DrawerToggleSetup () {
 			DrawerToggle = new ActionBarDrawerToggle (
-				CurrentActivity, 
+				_currentActivity, 
 				Drawer, 
 				Resource.Drawable.ic_navigation_drawer, 
 				Resource.String.open_drawer, 
 				Resource.String.close_drawer);
 
 			Drawer.SetDrawerListener (DrawerToggle);
-			CurrentActivity.ActionBar.SetDisplayHomeAsUpEnabled (true);
-			CurrentActivity.ActionBar.SetHomeButtonEnabled (true);
+			_currentActivity.ActionBar.SetDisplayHomeAsUpEnabled (true);
+			_currentActivity.ActionBar.SetHomeButtonEnabled (true);
 		}
 
 		/// <summary>

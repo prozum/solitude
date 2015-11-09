@@ -18,7 +18,7 @@ namespace DineWithaDane.Android
 		/// <param name="imageResource">Image resource.</param>
 		/// <param name="openDrawerDesc">Open drawer desc.</param>
 		/// <param name="closeDrawerDesc">Close drawer desc.</param>
-		public DrawerToggle (AbstractActivity currentActivity, DrawerLayout layout, int imageResource, int openDrawerDesc, int closeDrawerDesc) 
+		public DrawerToggle (DrawerActivity currentActivity, DrawerLayout layout, int imageResource, int openDrawerDesc, int closeDrawerDesc) 
 			: base (currentActivity, layout, imageResource, openDrawerDesc, closeDrawerDesc)
 		{
 			currentActivity = currentActivity;
