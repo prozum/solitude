@@ -29,7 +29,7 @@ namespace DineWithaDane.Android
 			: base(context)
 		{
 			Orientation = Orientation.Vertical;
-			SeperatorView = new TextView(context);
+			SeperatorView = new Seperator(context);
 			DescritionView = new TextView(context);
 
 			SeperatorView.SetBackgroundColor(new Color(255,255,255));
@@ -44,7 +44,6 @@ namespace DineWithaDane.Android
 
 			DescritionView.LayoutParameters.Width = -1;
 			SeperatorView.LayoutParameters.Width = -1;
-			SeperatorView.LayoutParameters.Height = 1;
 		}
 		#endregion
 	}

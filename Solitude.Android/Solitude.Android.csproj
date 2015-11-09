@@ -56,7 +56,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CommunicationAPI\CommunicationInterface.cs" />
     <Compile Include="CommunicationAPI\IClientCommunication.cs" />
@@ -105,6 +104,8 @@
     <Compile Include="Activities\SettingsActivitiy.cs" />
     <Compile Include="Activities\DrawerActivity.cs" />
     <Compile Include="TileMenu\UserInfoEnums.cs" />
+    <Compile Include="Resources\Resource.designer.cs" />
+    <Compile Include="TileMenu\Seperator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

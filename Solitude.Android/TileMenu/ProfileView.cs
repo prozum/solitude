@@ -36,6 +36,8 @@ namespace DineWithaDane.Android
 			: base(context)
 		{
 			var detailLayout = new RelativeLayout(context);
+			var scroll = new ScrollView(context);
+			var infolayout = new LinearLayout(context);
 			var languagetext = new TextView(context);
 			var intereststext = new TextView(context);
 			var foodhabitstext = new TextView(context);
@@ -49,15 +51,16 @@ namespace DineWithaDane.Android
 			EditProfileButton = new Button(context);
 
 			Orientation = Orientation.Vertical;
+			infolayout.Orientation = Orientation.Vertical;
 
 			User = user;
 
 			NameView.Text = "Name: " + User.Name;
 			AddressView.Text = "Address: " + User.Address;
 			EditProfileButton.Text = "Edit Profile";
-			languagetext.Text = "Languages:";
-			intereststext.Text = "Interests:";
-			foodhabitstext.Text = "Food Habits:";
+			languagetext.Text = "\nLanguages:";
+			intereststext.Text = "\nInterests:";
+			foodhabitstext.Text = "\nFood Habits:";
 
 			PictureView.SetImageResource(Resource.Drawable.Icon);
 			PictureView.SetMinimumHeight(100);
@@ -69,14 +72,40 @@ namespace DineWithaDane.Android
 
 			var test = new ListView(context);
 			test.Adapter = new ArrayAdapter<string>(context, Android.Resource.Layout.SpinnerItem, Enum.GetNames(typeof(Language)));
-			test.Enabled = false;
 
+
+			var test2 = new ListView(context);
+			test2.Adapter = new ArrayAdapter<string>(context, Android.Resource.Layout.SpinnerItem, Enum.GetNames(typeof(Interest)));
+
+
+			var test3 = new ListView(context);
+			test3.Adapter = new ArrayAdapter<string>(context, Android.Resource.Layout.SpinnerItem, Enum.GetNames(typeof(FoodHabit)));
+
+
+			infolayout.AddView(languagetext);
+			infolayout.AddView(new Seperator(context, Color.Black));
+			infolayout.AddView(test);
+
+			infolayout.AddView(intereststext);
+			infolayout.AddView(new Seperator(context, Color.Black));
+			infolayout.AddView(test2);
+
+			infolayout.AddView(foodhabitstext);
+			infolayout.AddView(new Seperator(context, Color.Black));
+			infolayout.AddView(test3);
+
+			//scroll.AddView(infolayout);
+		
 			AddView(detailLayout);
-			AddView(languagetext);
-			AddView(test);
-			AddView(intereststext);
-			AddView(foodhabitstext);
+			AddView(infolayout);
 			AddView(EditProfileButton);
+
+			//scroll.LayoutParameters.Height = -1;
+			infolayout.LayoutParameters.Height = -1;
+			infolayout.WeightSum = 4;
+			(test.LayoutParameters as LinearLayout.LayoutParams).Weight = 1;
+			(test2.LayoutParameters as LinearLayout.LayoutParams).Weight = 1;
+			(test3.LayoutParameters as LinearLayout.LayoutParams).Weight = 1;
 
 			PictureView.Id = 5;
 			NameView.Id = 6;
