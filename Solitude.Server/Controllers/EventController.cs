@@ -39,14 +39,14 @@ namespace Solitude.Server
         {
             e.UserID = User.Identity.GetUserId();
 
-            var result = await DB.AddEvent(e);
+            await DB.AddEvent(e);
 
-            IHttpActionResult errorResult = GetErrorResult(result);
-
-            if (errorResult != null)
-            {
-                return errorResult;
-            }
+//            IHttpActionResult errorResult = GetErrorResult(result);
+//
+//            if (errorResult != null)
+//            {
+//                return errorResult;
+//            }
             return Ok();
         }
 
