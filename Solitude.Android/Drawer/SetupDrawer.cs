@@ -108,5 +108,3 @@ namespace DineWithaDane.Android
 		}
 	}
 }
-
->>>>>>> origin/master
