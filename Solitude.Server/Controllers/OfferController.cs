@@ -19,7 +19,7 @@ namespace Solitude.Server
         [Route("reply")]
         public async Task<IHttpActionResult> ReplyOffer(bool answer, Event e)
         {
-            await DB.ReplyOffer(User.Identity.GetUserId(), answer, e.ID);
+            await DB.ReplyOffer(User.Identity.GetUserId(), answer, e.Id);
 
             return Ok();
         }
