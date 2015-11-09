@@ -66,7 +66,6 @@
     <Compile Include="Activities\MainActivity.cs" />
     <Compile Include="Classes\Event.cs" />
     <Compile Include="Classes\InfoChange.cs" />
-    <Compile Include="Classes\Offer.cs" />
     <Compile Include="Classes\User.cs" />
     <Compile Include="Notifications\EventReminderNotification.cs" />
     <Compile Include="Notifications\EventUpdateNotification.cs" />

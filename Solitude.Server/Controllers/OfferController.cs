@@ -1,6 +1,7 @@
 ﻿using System.Web.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
+using Model;
 
 namespace Solitude.Server
 {
@@ -12,6 +13,15 @@ namespace Solitude.Server
         {
             var offers = await DB.GetOffers(User.Identity.GetUserId());
             return Ok(offers);
+        }
+
+        [Authorize]
+        [Route("reply")]
+        public async Task<IHttpActionResult> ReplyOffer(bool answer, Event e)
+        {
+            await DB.ReplyOffer(User.Identity.GetUserId(), answer, e.ID);
+
+            return Ok();
         }
     }
 }
