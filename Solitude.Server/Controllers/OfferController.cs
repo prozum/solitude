@@ -1,28 +1,27 @@
-﻿using System.Net.Http;
-using System.Web.Http;
+﻿using System.Web.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Dal;
+using Model;
 
 namespace Solitude.Server
 {
     [RoutePrefix("api/offer")]
-    public class OfferController : ApiController
+    public class OfferController : SolitudeController
     {
-        public DatabaseAbstrationLayer DB
-        {
-            get
-            {
-                return Request.GetOwinContext().Get<DatabaseAbstrationLayer>();
-            }
-        }
-
         [Authorize]
         public async Task<IHttpActionResult> Get()
         {
             var offers = await DB.GetOffers(User.Identity.GetUserId());
             return Ok(offers);
+        }
+
+        [Authorize]
+        [Route("reply")]
+        public async Task<IHttpActionResult> ReplyOffer(bool answer, Event e)
+        {
+            await DB.ReplyOffer(User.Identity.GetUserId(), answer, e.Id);
+
+            return Ok();
         }
     }
 }

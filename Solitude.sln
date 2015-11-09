@@ -9,12 +9,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dal", "Libraries\DAL\Dal.cs
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Libraries\Model\Model.csproj", "{BB5645E2-A303-4B98-9D0F-662EC6B94DDB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Solitude.Server.Tests", "Solitude.Server.Tests\Solitude.Server.Tests.csproj", "{58D6E51E-A219-4554-963D-DA72CDA45CD3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{58D6E51E-A219-4554-963D-DA72CDA45CD3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{58D6E51E-A219-4554-963D-DA72CDA45CD3}.Debug|x86.Build.0 = Debug|Any CPU
+		{58D6E51E-A219-4554-963D-DA72CDA45CD3}.Release|x86.ActiveCfg = Release|Any CPU
+		{58D6E51E-A219-4554-963D-DA72CDA45CD3}.Release|x86.Build.0 = Release|Any CPU
 		{82693574-9042-403E-82E3-FFB594559CB6}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{82693574-9042-403E-82E3-FFB594559CB6}.Debug|x86.Build.0 = Debug|Any CPU
 		{82693574-9042-403E-82E3-FFB594559CB6}.Release|x86.ActiveCfg = Release|Any CPU

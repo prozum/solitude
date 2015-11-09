@@ -7,6 +7,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using System.Threading;
 
 namespace DineWithaDane.Android
 {
@@ -15,15 +16,29 @@ namespace DineWithaDane.Android
 	{
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
-			var adapter = new OfferListAdapter(this, TestMaterial.Events);
-			var tilelist = new OfferList(this, adapter);
-
 			// setting up and drawer
 			Position = 1;
 			base.OnCreate (savedInstanceState);
 
-			// adding tilelist to activity
-			Content.AddView(tilelist);
+			//Shows spinner to indicate loading
+			showSpinner();
+
+			ThreadPool.QueueUserWorkItem(o =>
+				{
+					//Fetch offers from server
+					prepareLooper();
+					
+					var offers = MainActivity.CIF.RequestOffers();
+					var adapter = new OfferListAdapter(this, offers);
+					var tilelist = new OfferList(this, adapter);
+
+					//Clear screen and show the found offers
+					RunOnUiThread( () => {
+						clearLayout();
+
+						Content.AddView(tilelist);
+					});
+				});
 		}
 	}
 }

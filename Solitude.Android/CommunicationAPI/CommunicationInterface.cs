@@ -32,6 +32,7 @@ namespace ClientCommunication
 			get { return latestError; }
 		}
 
+		#region parses
 		/// <summary>
 		/// Parses the error message and assigns to the latestError string.
 		/// </summary>
@@ -58,78 +59,6 @@ namespace ClientCommunication
 			} 
 			else
 				return true;
-		}
-
-		#region IClientCommunication implementation
-		#region OfferFetching
-		/// <summary>
-		/// Request the list of matches found by the server.
-		/// </summary>
-		/// <returns>A list of all Offers.</returns>
-		public List<Offer> RequestOffers ()
-		{
-			var offerRequest = new RestRequest ("offer", Method.GET);
-
-			offerRequest.AddParameter ("userToken", userToken);
-
-			try
-			{
-				IRestResponse<List<Offer>> offerResponse = client.Execute<List<Offer>>(offerRequest);
-				return offerResponse.Data;
-
-			}
-			catch (Exception e)
-			{
-				latestError = "Could not fetch the events from the server" + e.Message;
-				return new List<Offer> ();
-			}
-		}
-		#endregion
-		#region Event fetching
-		/// <summary>
-		/// Gets the users own events.
-		/// </summary>
-		/// <returns>A list of the users events.</returns>
-		/// <param name="n">Amount of events to find.</param>
-		/// <param name="NEWEST">If set to <c>true</c> returns the newest events.</param>
-		public List<Event> GetOwnEvents (int n, bool NEWEST = true)
-		{
-			//Builds request
-			var eventRequest = new RestRequest ("event", Method.GET);
-
-			//Executes request and recieves response
-			string serverResponse = client.Execute(eventRequest).Content;
-
-			//Tries to convert response to events
-			var events = new List<Event>();
-
-			//Extract every single json to it's own JsonValue
-			Regex reg = new Regex(@"{[^}]*}");
-			var matches = reg.Matches(serverResponse);
-
-			//Generate Events from the JsonValues
-			for(int i = 0; i < matches.Count; i++)
-			{
-				try {
-					JsonValue jVal = System.Json.JsonObject.Parse(matches[i].Value);
-					int ID = parseToInt(jVal["ID"]);
-					//string title = jVal["Title"];
-					string desc = jVal["Description"];
-					string dateTime = jVal["Date"];
-					DateTime dt = parseToDateTime(dateTime);
-					string adress = jVal["Address"];
-
-					events.Add(new Event("Missing out from server, fix it!", dt, adress, desc, 10, 10));
-				}
-				catch
-				{
-					//string title = "jVal["Title"] + " [Some information was missing, sorry!]"
-
-					events.Add(new Event ("title", new DateTime(0000, 00, 00), "N/A", "N/A", 0, 0));
-				}
-			}
-
-			return events;
 		}
 
 		/// <summary>
@@ -171,8 +100,122 @@ namespace ClientCommunication
 				latestError = "Couldn't convert date " + e.Message;
 				return DateTime.Today;
 			}
+		}
+		#endregion
 
+		#region IClientCommunication implementation
+		#region OfferFetching
+		/// <summary>
+		/// Request the list of matches found by the server.
+		/// </summary>
+		/// <returns>A list of all Offers.</returns>
+		public List<Event> RequestOffers ()
+		{
+			var offerRequest = new RestRequest ("offer", Method.GET);
+			offerRequest.RequestFormat = DataFormat.Json;
 
+			offerRequest.AddBody(new {
+				userToken = userToken
+			});
+
+			var response = client.Execute(offerRequest);
+
+			if (response.StatusCode == 0)
+				latestError = "No internet connection";
+			else if (response.StatusCode != HttpStatusCode.OK)
+				parseErrorMessage(response);
+			else
+				return parseEvents(response);
+
+			return new List<Event>();
+		}
+
+		/// <summary>
+		/// Replies the offer.
+		/// </summary>
+		/// <param name="answer">If set to <c>true</c> the user wants to join.</param>
+		/// <param name="e">Event which is being replied to.</param>
+		public void ReplyOffer (bool answer, Event e)
+		{
+			var request = new RestRequest ("offer", Method.PUT);
+			request.RequestFormat = DataFormat.Json;
+
+			var offerReply = new {
+				eventId = e.ID,
+				userToken = userToken,
+				reply = answer
+			};
+			request.AddBody(offerReply);
+
+			executeAndParseResponse (request);
+		}
+		#endregion
+		#region Event fetching
+		/// <summary>
+		/// Gets the users own events.
+		/// </summary>
+		/// <returns>A list of the users events.</returns>
+		/// <param name="n">Amount of events to find.</param>
+		/// <param name="NEWEST">If set to <c>true</c> returns the newest events.</param>
+		public List<Event> GetOwnEvents (int n, bool NEWEST = true)
+		{
+			//Builds request
+			var eventRequest = new RestRequest ("event", Method.GET);
+
+			//Executes request and recieves response
+			var serverResponse = client.Execute(eventRequest);
+
+			//Parses the event if status code is OK else determine the error
+			if (serverResponse.StatusCode == 0)
+				latestError = "No internet connection";
+			else if (serverResponse.StatusCode != HttpStatusCode.OK)
+				parseErrorMessage(serverResponse);
+			else
+				return parseEvents(serverResponse);
+
+			return new List<Event>();
+
+		}
+
+		/// <summary>
+		/// Parses the events from the server response.
+		/// </summary>
+		/// <returns>The events.</returns>
+		/// <param name="serverResponse">Server response.</param>
+		private List<Event> parseEvents(IRestResponse serverResponse){
+			//Tries to convert response to events
+			var events = new List<Event>();
+
+			//Extract every single json to it's own JsonValue
+			Regex reg = new Regex(@"{[^}]*}");
+			var matches = reg.Matches(serverResponse.Content);
+
+			//Generate Events from the JsonValues
+			for(int i = 0; i < matches.Count; i++)
+			{
+				//Generate Events from the JsonValues
+				try {
+					JsonValue jVal = System.Json.JsonObject.Parse(matches[i].Value);
+					int ID = parseToInt(jVal["Id"]);
+					string title = jVal["Title"];
+					string desc = jVal["Description"];
+					string dateTime = jVal["Date"];
+					DateTime dt = parseToDateTime(dateTime);
+					string adress = jVal["Address"];
+					int slotsTotal = parseToInt(jVal["SlotsTotal"]);
+					int slotsTaken = parseToInt(jVal["SlotsTaken"]);
+
+					events.Add(new Event(title, dt, adress, desc, slotsTaken, slotsTotal - slotsTaken));
+				}
+				catch
+				{
+					//string title = "jVal["Title"] + " [Some information was missing, sorry!]"
+
+					events.Add(new Event ("title", new DateTime(0000, 00, 00), "N/A", "N/A", 0, 0));
+				}
+			}
+
+			return events;
 		}
 			
 //		#region Notification fetching
@@ -229,6 +272,8 @@ namespace ClientCommunication
 		{
 			var deleteRequest = new RestRequest ("user/delete", Method.DELETE);
 			deleteRequest.RequestFormat = DataFormat.Json;
+
+			deleteRequest.AddHeader(HttpStrings.AUTHORIZATION, HttpStrings.BEARER + userToken);
 
 			//Adds body to the request
 			var body = new {
@@ -300,22 +345,28 @@ namespace ClientCommunication
 		/// Creates an event on the server.
 		/// </summary>
 		/// <param name="e">Event to create.</param>
-		public void CreateEvent (Event e)
+		public bool CreateEvent (Event e)
 		{
-			var request = new RestRequest ("event", Method.POST);
+			var request = new RestRequest ("event/add", Method.POST);
 
 			request.RequestFormat = DataFormat.Json;
+
+			//Add authorization header:
+			request.AddHeader(HttpStrings.AUTHORIZATION, HttpStrings.BEARER + userToken);
+
+			//And the body containing event-informatino
 			var body = new {
-				ID = e.ID,
+				Date = e.Date.ToString(),
+				Adress = e.Place,
 				Title = e.Title,
 				Description = e.Description,
-				Date = e.Date.ToString(),
-				Adress = e.Place
+				SlotsTaken = 0,
+				SlotsTotal = e.MaxSlots
 			};
 
 			request.AddBody(body);
 
-			executeAndParseResponse (request);
+			return executeAndParseResponse (request);
 		}
 
 		/// <summary>
@@ -346,26 +397,6 @@ namespace ClientCommunication
 		#endregion
 		#region Offer-replies and registration cancelling
 		/// <summary>
-		/// Replies the offer.
-		/// </summary>
-		/// <param name="answer">If set to <c>true</c> the user wants to join.</param>
-		/// <param name="e">Event which is being replied to.</param>
-		public void ReplyOffer (bool answer, Event e)
-		{
-			var request = new RestRequest ("offer", Method.PUT);
-			request.RequestFormat = DataFormat.Json;
-
-			var offerReply = new {
-				eventID = e.ID,
-				userToken = userToken,
-				reply = answer
-			};
-			request.AddBody(offerReply);
-
-			executeAndParseResponse (request);
-		}
-
-		/// <summary>
 		/// Cancels the registration to the specified event.
 		/// </summary>
 		public void CancelReg (Event e)
@@ -376,7 +407,7 @@ namespace ClientCommunication
 
 			//Add body to request
 			var cancelBody = new {
-				eventID = e.ID,
+				eventId = e.ID,
 				userToken = userToken
 			};
 			request.AddBody(cancelBody);

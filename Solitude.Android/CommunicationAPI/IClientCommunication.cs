@@ -8,7 +8,7 @@ namespace ClientCommunication
 {
 	public interface IClientCommunication
 	{
-		Task<List<Offer>> RequestOffers ();
+		Task<List<Event>> RequestOffers ();
 		Task<List<Event>> GetOwnEvents (int n, bool NEWEST = true);
 		void CreateUser (string userName, string password, string passwordConfirmed);
 		bool Login (string username, string password);

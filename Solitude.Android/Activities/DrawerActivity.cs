@@ -74,6 +74,11 @@ namespace DineWithaDane.Android
 		{
 			this.Content.RemoveAllViews();
 		}
+
+		protected void prepareLooper(){
+			if (Looper.MyLooper() == null)
+				Looper.Prepare();
+		}
 	}
 }
 
