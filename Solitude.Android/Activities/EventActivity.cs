@@ -7,23 +7,41 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using System.Threading;
 
 namespace DineWithaDane.Android
 {
 	[Activity (Label = "Events")]
-	public class EventActivity : AbstractActivity
+	public class EventActivity : DrawerActivity
 	{
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
-			var adapter = new EventListAdapter(this, MainActivity.CIF.GetOwnEvents(100));
-			var tilelist = new EventList(this, adapter);
-
 			// setting up and drawer
-			drawerPosition = 2;
+			Position = 2;
 			base.OnCreate (savedInstanceState);
 
-			// adding tilelist to activity
-			Content.AddView(tilelist);
+			showSpinner();
+
+			ThreadPool.QueueUserWorkItem(o =>
+				{
+					Looper.Prepare();
+					var events = MainActivity.CIF.GetOwnEvents(100);
+					var adapter = new EventListAdapter(this, MainActivity.CIF.GetOwnEvents(100));
+					var tilelist = new EventList(this, adapter);
+
+					RunOnUiThread( () => {
+						clearLayout();
+
+						if(events == null){
+							var dialog = new AlertDialog.Builder(this);
+							dialog.SetMessage("Sorry, couldn't fetch events:\n" + MainActivity.CIF.LatestError);
+							dialog.Show();
+						}
+
+						// adding tilelist to activity
+						Content.AddView(tilelist);
+					});
+				});
 		}
 	}
 }

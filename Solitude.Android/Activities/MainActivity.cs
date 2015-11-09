@@ -11,7 +11,7 @@ using System.Threading;
 
 namespace DineWithaDane.Android
 {
-	[Activity (Label = "Solitude.Android", MainLauncher = true, Theme = "@android:style/Theme.DeviceDefault.NoActionBar")]
+	[Activity (Label = "Solitude.Android", MainLauncher = true)]
 	public class MainActivity : Activity
 	{
 		private static ClientCommunication.CommunicationInterface _CIF;
@@ -31,11 +31,8 @@ namespace DineWithaDane.Android
 
 			// Set our view from the "main" layout resource
 			SetContentView (Resource.Layout.Main);
-			ProgressBar loginProgress = FindViewById<ProgressBar> (Resource.Id.progressLogin);
 			Button loginButton = FindViewById<Button> (Resource.Id.buttonLogin);
 			Button signUp = FindViewById<Button> (Resource.Id.buttonSignUp);
-
-			loginProgress.Visibility = ViewStates.Invisible;
 
 			//Adds a delegates to the buttons
 			loginButton.Click += loginButtonClicked;
@@ -56,20 +53,19 @@ namespace DineWithaDane.Android
 			Button loginButton = FindViewById<Button> (Resource.Id.buttonLogin);
 			EditText username = FindViewById<EditText> (Resource.Id.editUsername);
 			EditText password = FindViewById<EditText> (Resource.Id.editPassword);
-			ProgressBar loginProgress = FindViewById<ProgressBar> (Resource.Id.progressLogin);
 
 			//Tries to login if strings are present in the fields
 			if(username.Text != "" || password.Text != "")
 			{
-				loginProgress.Visibility = ViewStates.Visible;
 				bool loggedIn = false;
+
+				ProgressBar pb = new ProgressBar(this);
+				LinearLayout layout = FindViewById<LinearLayout> (Resource.Id.layoutMain);
+
+				layout.AddView(pb);
 
 				ThreadPool.QueueUserWorkItem(o => {
 					loggedIn = _CIF.Login(username.Text, password.Text);
-
-					RunOnUiThread( () => {
-						loginProgress.Visibility = ViewStates.Invisible;
-					});
 
 					//Moves on to next activity, if login is succesful
 					if(loggedIn)
@@ -83,6 +79,9 @@ namespace DineWithaDane.Android
 						loginFailedDialog.SetMessage(_CIF.LatestError);
 						RunOnUiThread( () => {
 							loginFailedDialog.Show();
+
+							layout.RemoveView(pb);
+							pb.Dispose();
 						});
 					}
 				});

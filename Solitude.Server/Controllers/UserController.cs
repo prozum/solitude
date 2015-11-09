@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Neo4j.AspNet.Identity;
 using Neo4jClient;
-using Dal;
+using Model;
 
 namespace Solitude.Server
 {
     [RoutePrefix("api/user")]
-    public class UserController : ApiController
+    public class UserController : SolitudeController
 	{
         private SolitudeUserManager manager;
 
@@ -29,14 +29,6 @@ namespace Solitude.Server
             private set
             {
                 manager = value;
-            }
-        }
-
-        public IGraphClient DB
-        {
-            get
-            {
-                return Request.GetOwinContext().Get<GraphClientWrapper>().GraphClient;
             }
         }
 
@@ -81,34 +73,7 @@ namespace Solitude.Server
             return Ok();
         }
 
-        private IHttpActionResult GetErrorResult(IdentityResult result)
-        {
-            if (result == null)
-            {
-                return InternalServerError();
-            }
 
-            if (!result.Succeeded)
-            {
-                if (result.Errors != null)
-                {
-                    foreach (string error in result.Errors)
-                    {
-                        ModelState.AddModelError("", error);
-                    }
-                }
-
-                if (ModelState.IsValid)
-                {
-                    // No ModelState errors are available to send, so just return an empty BadRequest.
-                    return BadRequest();
-                }
-
-                return BadRequest(ModelState);
-            }
-
-            return null;
-        }
 	}
 }
 

@@ -7,6 +7,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dal", "Libraries\DAL\Dal.csproj", "{82693574-9042-403E-82E3-FFB594559CB6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Libraries\Model\Model.csproj", "{BB5645E2-A303-4B98-9D0F-662EC6B94DDB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -17,6 +19,10 @@ Global
 		{82693574-9042-403E-82E3-FFB594559CB6}.Debug|x86.Build.0 = Debug|Any CPU
 		{82693574-9042-403E-82E3-FFB594559CB6}.Release|x86.ActiveCfg = Release|Any CPU
 		{82693574-9042-403E-82E3-FFB594559CB6}.Release|x86.Build.0 = Release|Any CPU
+		{BB5645E2-A303-4B98-9D0F-662EC6B94DDB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BB5645E2-A303-4B98-9D0F-662EC6B94DDB}.Debug|x86.Build.0 = Debug|Any CPU
+		{BB5645E2-A303-4B98-9D0F-662EC6B94DDB}.Release|x86.ActiveCfg = Release|Any CPU
+		{BB5645E2-A303-4B98-9D0F-662EC6B94DDB}.Release|x86.Build.0 = Release|Any CPU
 		{FA2C7C80-4F2B-42B1-BDB9-4E5924E63AC2}.Debug|x86.ActiveCfg = Debug|x86
 		{FA2C7C80-4F2B-42B1-BDB9-4E5924E63AC2}.Debug|x86.Build.0 = Debug|x86
 		{FA2C7C80-4F2B-42B1-BDB9-4E5924E63AC2}.Release|x86.ActiveCfg = Release|x86
@@ -24,5 +30,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{82693574-9042-403E-82E3-FFB594559CB6} = {17813E89-6089-46C1-B0B9-0701DEF247CD}
+		{BB5645E2-A303-4B98-9D0F-662EC6B94DDB} = {17813E89-6089-46C1-B0B9-0701DEF247CD}
 	EndGlobalSection
 EndGlobal

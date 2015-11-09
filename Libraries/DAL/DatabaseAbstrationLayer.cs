@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Neo4jClient;
 using Neo4jClient.Cypher;
+using Model;
 
 namespace Dal
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Dal
+namespace Model
 {
 	public class Notification
 	{

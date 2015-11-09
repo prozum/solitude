@@ -111,6 +111,7 @@
     <Compile Include="Identity\SolitudeSignInManager.cs" />
     <Compile Include="Identity\SolitudeAuthorizationServerProvider.cs" />
     <Compile Include="Controllers\OfferController.cs" />
+    <Compile Include="Controllers\SolitudeController.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
@@ -134,6 +135,10 @@
     <ProjectReference Include="..\Libraries\DAL\Dal.csproj">
       <Project>{82693574-9042-403E-82E3-FFB594559CB6}</Project>
       <Name>Dal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Libraries\Model\Model.csproj">
+      <Project>{BB5645E2-A303-4B98-9D0F-662EC6B94DDB}</Project>
+      <Name>Model</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

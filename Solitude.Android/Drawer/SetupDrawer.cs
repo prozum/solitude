@@ -16,97 +16,95 @@ namespace DineWithaDane.Android
 {			
 	public class SetupDrawer
 	{
-		private string m_DrawerTitle, m_Title;
-		private DrawerLayout m_Drawer;
-		private ListView m_DrawerList;
-		private AbstractActivity _currentActivity;
-		private int _drawerPosition;
-		private ActionBarDrawerToggle drawerToggle;
+		
+		public DrawerLayout Drawer { get; set; }
+		public ListView DrawerList { get; set; }
+		public DrawerActivity _currentActivity { get; set; }
+		public int Position { get; set; }
+		public ActionBarDrawerToggle DrawerToggle { get; set; }
 
-		public ActionBarDrawerToggle DrawerToggle {
-			get {
-				return drawerToggle;
-			}
-		}
 
 		private static readonly string[] Sections = new[] 
 		{
-			"Notifications", "Offer", "Events", "Host", "Profile"
+			"Notifications", "Offer", "Events", "Host", "Profile", "Settings"
 		};
 
 		public SetupDrawer (
-			string DrawerTitle,
-			string Title,
-			DrawerLayout Drawer,
-			ListView DrawerList,
-			int drawerPosition,
-			AbstractActivity currentActivity
+			//DrawerLayout drawer,
+			//ListView drawerlist,
+			int position,
+			DrawerActivity currentActivity
 		)
 		{
-			m_DrawerTitle = DrawerTitle;
-			m_Title = m_DrawerTitle = Title;
-			m_Drawer = Drawer;
-			m_DrawerList = DrawerList;
+
 			_currentActivity = currentActivity;
-			_drawerPosition = drawerPosition;
+			Position = position;
 		}
 
 		public void Configure ()
 		{
-			m_Drawer = _currentActivity.FindViewById<DrawerLayout> (Resource.Id.drawer_layout);
-			m_DrawerList = _currentActivity.FindViewById<ListView> (Resource.Id.left_drawer);
+			Drawer = _currentActivity.FindViewById<DrawerLayout> (Resource.Id.drawer_layout);
+			DrawerList = _currentActivity.FindViewById<ListView> (Resource.Id.left_drawer);
 
-			m_DrawerList.Adapter = new ArrayAdapter<string> (_currentActivity, Resource.Layout.item_menu, Sections);
-			this.m_DrawerList.SetItemChecked (0, true);
-			this.m_DrawerList.SetItemChecked (_drawerPosition, true);
+			DrawerList.Adapter = new ArrayAdapter<string> (_currentActivity, Resource.Layout.item_menu, Sections);
+			DrawerList.SetItemChecked (0, true);
+			DrawerList.SetItemChecked (Position, true);
 
-			m_DrawerList.ItemClick += DrawerListOnItemClick;
+			DrawerList.ItemClick += DrawerListOnItemClick;
 		}
 
 		public void DrawerToggleSetup () {
-			drawerToggle = new DrawerToggle (
+			DrawerToggle = new ActionBarDrawerToggle (
 				_currentActivity, 
-				m_Drawer, 
+				Drawer, 
 				Resource.Drawable.ic_navigation_drawer, 
 				Resource.String.open_drawer, 
 				Resource.String.close_drawer);
 
-			m_Drawer.SetDrawerListener (drawerToggle);
+			Drawer.SetDrawerListener (DrawerToggle);
 			_currentActivity.ActionBar.SetDisplayHomeAsUpEnabled (true);
 			_currentActivity.ActionBar.SetHomeButtonEnabled (true);
 		}
 
+		/// <summary>
+		/// Drawer item click cases
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="itemClickEventArgs">The ${ParameterType} instance containing the event data.</param>
 		private void DrawerListOnItemClick (object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)
 		{
 			switch (itemClickEventArgs.Position) 
 			{
 			case 0:
-				Intent FrameMain = new Intent (_currentActivity, typeof(NotificationActivity));
-				_currentActivity.StartActivity (FrameMain);
+				Intent NotificationIntent = new Intent (_currentActivity, typeof(NotificationActivity));
+				_currentActivity.StartActivity (NotificationIntent);
 				break;
 			case 1:
-				Intent SecondActivity = new Intent (_currentActivity, typeof(OfferActivity));
-				_currentActivity.StartActivity (SecondActivity);
+				Intent OfferIntent = new Intent (_currentActivity, typeof(OfferActivity));
+				_currentActivity.StartActivity (OfferIntent);
 				break;
 			case 2:
-				Intent ThirdActivity = new Intent (_currentActivity, typeof(EventActivity));
-				_currentActivity.StartActivity (ThirdActivity);
+				Intent EventIntent = new Intent (_currentActivity, typeof(EventActivity));
+				_currentActivity.StartActivity (EventIntent);
 				break;
 			case 3:
-				Intent FourthActivity = new Intent (_currentActivity, typeof(HostActivity));
-				_currentActivity.StartActivity (FourthActivity);
+				Intent HostIntent = new Intent (_currentActivity, typeof(HostActivity));
+				_currentActivity.StartActivity (HostIntent);
 				break;
 			case 4:
-				Intent FifthActivity = new Intent (_currentActivity, typeof(ProfileActivity));
-				_currentActivity.StartActivity (FifthActivity);
+				Intent ProfileIntent = new Intent (_currentActivity, typeof(ProfileActivity));
+				_currentActivity.StartActivity (ProfileIntent);
+				break;
+			case 5:
+				Intent SettingsIntent = new Intent (_currentActivity, typeof(SettingsActivitiy));
+				_currentActivity.StartActivity (SettingsIntent);
 				break;
 			default:
 				break;
 			}
 
-			this.m_DrawerList.SetItemChecked (itemClickEventArgs.Position, true);
-			this.m_Drawer.CloseDrawer (m_DrawerList);
+			DrawerList.SetItemChecked (itemClickEventArgs.Position, true);
+			Drawer.CloseDrawer (DrawerList);
 		}
 	}
 }
-
