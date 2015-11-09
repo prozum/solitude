@@ -44,6 +44,11 @@ namespace Solitude.Server
 		[Route("register")]
 		public async Task<IHttpActionResult> Register(User user)
 		{
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var appUser = new ApplicationUser() { UserName = user.UserName };
 
             var result = await Manager.CreateAsync(appUser, user.Password);

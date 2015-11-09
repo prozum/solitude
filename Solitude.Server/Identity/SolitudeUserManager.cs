@@ -4,6 +4,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Neo4j.AspNet.Identity;
+using Dal;
 
 namespace Solitude.Server
 {
@@ -20,7 +21,7 @@ namespace Solitude.Server
 
         public static SolitudeUserManager Create(IdentityFactoryOptions<SolitudeUserManager> options, IOwinContext context) 
         {
-            var manager = new SolitudeUserManager(new SolitudeUserStore(context.Get<GraphClientWrapper>().GraphClient));
+            var manager = new SolitudeUserManager(new SolitudeUserStore(context.Get<GraphClientWrapper>().GraphClient, context.Get<DatabaseAbstrationLayer>()));
             // Configure validation logic for usernames
             manager.UserValidator = new UserValidator<ApplicationUser>(manager)
                 {
