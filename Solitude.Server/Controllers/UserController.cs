@@ -72,8 +72,6 @@ namespace Solitude.Server
 
             return Ok();
         }
-
-
 	}
 }
 

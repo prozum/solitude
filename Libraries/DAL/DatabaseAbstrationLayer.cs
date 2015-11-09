@@ -147,7 +147,7 @@ namespace Dal
 				.ExecuteWithoutResultsAsync ();
 		}
 
-		public async Task ConnectUserLanguage (string uid, FoodHabit fh, int w)
+		public async Task ConnectUserFoodHabit (string uid, FoodHabit fh, int w)
 		{
 			await client.Cypher
 				//make sure that the interest is related with the right user

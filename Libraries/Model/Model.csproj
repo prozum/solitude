@@ -43,6 +43,7 @@
     <Compile Include="Notification.cs" />
     <Compile Include="Review.cs" />
     <Compile Include="User.cs" />
+    <Compile Include="InfoType.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
