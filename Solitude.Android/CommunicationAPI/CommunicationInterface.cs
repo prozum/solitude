@@ -12,6 +12,8 @@ using Newtonsoft.Json;
 using RestSharp;
 using RestSharp.Authenticators;
 using System.Text.RegularExpressions;
+using Android.Content;
+using Android.App;
 
 namespace ClientCommunication
 {
@@ -279,6 +281,19 @@ namespace ClientCommunication
 				return false;
 			}
 		}
+
+		/// <summary>
+		/// Logout from the system.
+		/// </summary>
+		/// <param name="activeActivity">Active activity used to start intent from.</param>
+		public void Logout(Activity activeActivity){
+			userToken = null;
+
+			var toLogin = new Intent(this, typeof(MainActivity));
+			toLogin.AddFlags(ActivityFlags.ClearTask | ActivityFlags.NoHistory);
+			activeActivity.StartActivity(toLogin);
+		}
+
 		#endregion
 		#region Event-handling
 		/// <summary>
