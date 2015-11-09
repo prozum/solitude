@@ -4,30 +4,24 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using Dal;
 using Model;
 
 namespace Solitude.Server
 {
-	public class EventController : ApiController
+    public class EventController : SolitudeController
 	{
-        public DatabaseAbstrationLayer DB
-        {
-            get
-            {
-                return Request.GetOwinContext().Get<DatabaseAbstrationLayer>();
-            }
-        }
 
         public IHttpActionResult Get()
         {
             List<Event> OrderList = new List<Event> 
                 {
-                    new Event {ID = 666, Address = "Everywhere", Description = "Julefrokost", Date = "21-12-12" },
-                    new Event {ID = 667, Address = "DE-club", Description = "DE-club", Date = "Thursday" },
-                    new Event {ID = 668, Address = "Cassiopeia", Description = "Cassiopeia", Date = "00-00-99" },
-                    new Event {ID = 669, Address = "D-building", Description = "J-dag", Date = "05-11-15"},
-                    new Event {ID = 670, Address = "Cantina", Description = "Free beer", Date = "Always tomorrow"}
+                    new Event {Title = "Julefrokost", Host = "Kurt Egelund", ID = 666, Address = "Everywhere", Description = "Julefrokost", Date = "21-12-12" },
+                    new Event {Title = "I-dag", Host = "Kurt Egelund", ID = 667, Address = "DE-club", Description = "DE-club", Date = "Thursday" },
+                    new Event {Title = "FLAN", Host = "Kurt Egelund", ID = 668, Address = "Cassiopeia", Description = "Cassiopeia", Date = "00-00-99" },
+                    new Event {Title = "J-dag", Host = "Kurt Egelund", ID = 669, Address = "D-building", Description = "J-dag", Date = "05-11-15"},
+                    new Event {Title = "ØL", Host = "Kurt Egelund", ID = 670, Address = "Cantina", Description = "Free beer", Date = "Always tomorrow"}
                 };
 
             return Ok(OrderList);
@@ -45,8 +39,14 @@ namespace Solitude.Server
         {
             e.UserID = User.Identity.GetUserId();
 
-            await DB.AddEvent(e);
+            var result = await DB.AddEvent(e);
 
+            IHttpActionResult errorResult = GetErrorResult(result);
+
+            if (errorResult != null)
+            {
+                return errorResult;
+            }
             return Ok();
         }
 

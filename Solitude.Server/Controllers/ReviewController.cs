@@ -9,15 +9,8 @@ using Model;
 namespace Solitude.Server
 {
     [RoutePrefix("api/review")]
-    public class ReviewController : ApiController
+    public class ReviewController : SolitudeController
     {
-        public DatabaseAbstrationLayer DB
-        {
-            get
-            {
-                return Request.GetOwinContext().Get<DatabaseAbstrationLayer>();
-            }
-        }
 
         [Authorize]
         [Route("add")]
