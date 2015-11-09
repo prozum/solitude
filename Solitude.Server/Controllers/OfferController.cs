@@ -7,8 +7,8 @@ using Dal;
 
 namespace Solitude.Server
 {
-    [RoutePrefix("api/match")]
-    public class MatchController : ApiController
+    [RoutePrefix("api/offer")]
+    public class OfferController : ApiController
     {
         public DatabaseAbstrationLayer DB
         {
@@ -21,8 +21,8 @@ namespace Solitude.Server
         [Authorize]
         public async Task<IHttpActionResult> Get()
         {
-            var match = await DB.GetOffers(User.Identity.GetUserId());
-            return Ok(match);
+            var offers = await DB.GetOffers(User.Identity.GetUserId());
+            return Ok(offers);
         }
     }
 }
