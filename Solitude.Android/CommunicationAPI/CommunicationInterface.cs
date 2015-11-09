@@ -141,7 +141,7 @@ namespace ClientCommunication
 			request.RequestFormat = DataFormat.Json;
 
 			var offerReply = new {
-				eventID = e.ID,
+				eventId = e.ID,
 				userToken = userToken,
 				reply = answer
 			};
@@ -196,14 +196,16 @@ namespace ClientCommunication
 				//Generate Events from the JsonValues
 				try {
 					JsonValue jVal = System.Json.JsonObject.Parse(matches[i].Value);
-					int ID = parseToInt(jVal["ID"]);
-					//string title = jVal["Title"];
+					int ID = parseToInt(jVal["Id"]);
+					string title = jVal["Title"];
 					string desc = jVal["Description"];
 					string dateTime = jVal["Date"];
 					DateTime dt = parseToDateTime(dateTime);
 					string adress = jVal["Address"];
+					int slotsTotal = parseToInt(jVal["SlotsTotal"]);
+					int slotsTaken = parseToInt(jVal["SlotsTaken"]);
 
-					events.Add(new Event("Missing out from server, fix it!", dt, adress, desc, 10, 10));
+					events.Add(new Event(title, dt, adress, desc, slotsTaken, slotsTotal - slotsTaken));
 				}
 				catch
 				{
@@ -270,6 +272,8 @@ namespace ClientCommunication
 		{
 			var deleteRequest = new RestRequest ("user/delete", Method.DELETE);
 			deleteRequest.RequestFormat = DataFormat.Json;
+
+			deleteRequest.AddHeader(HttpStrings.AUTHORIZATION, HttpStrings.BEARER + userToken);
 
 			//Adds body to the request
 			var body = new {
@@ -341,22 +345,28 @@ namespace ClientCommunication
 		/// Creates an event on the server.
 		/// </summary>
 		/// <param name="e">Event to create.</param>
-		public void CreateEvent (Event e)
+		public bool CreateEvent (Event e)
 		{
 			var request = new RestRequest ("event/add", Method.POST);
 
 			request.RequestFormat = DataFormat.Json;
+
+			//Add authorization header:
+			request.AddHeader(HttpStrings.AUTHORIZATION, HttpStrings.BEARER + userToken);
+
+			//And the body containing event-informatino
 			var body = new {
-				ID = e.ID,
+				Date = e.Date.ToString(),
+				Adress = e.Place,
 				Title = e.Title,
 				Description = e.Description,
-				Date = e.Date.ToString(),
-				Adress = e.Place
+				SlotsTaken = 0,
+				SlotsTotal = e.MaxSlots
 			};
 
 			request.AddBody(body);
 
-			executeAndParseResponse (request);
+			return executeAndParseResponse (request);
 		}
 
 		/// <summary>
@@ -397,7 +407,7 @@ namespace ClientCommunication
 
 			//Add body to request
 			var cancelBody = new {
-				eventID = e.ID,
+				eventId = e.ID,
 				userToken = userToken
 			};
 			request.AddBody(cancelBody);
