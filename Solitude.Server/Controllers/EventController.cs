@@ -54,7 +54,7 @@ namespace Solitude.Server
         [Route("delete")]
         public async Task<IHttpActionResult> Delete(int eID)
         {
-            await DB.DeleteEvent(User.Identity.GetUserId(), eID);
+            await DB.DeleteEvent(eID);
 
             return Ok();
         }

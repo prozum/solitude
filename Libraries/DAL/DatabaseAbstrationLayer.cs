@@ -80,12 +80,10 @@ namespace Dal
 		{
 			var res = await client.Cypher
 				.Match ("(eid:ServerInfo)")
-				.Return ((eid) => new {
-					eid = Return.As<int>("eid.value")
-				})
+				.Return ((eid) => Return.As<int>("eid.value"))
 				.ResultsAsync;
 
-			return res.First ().eid;
+			return res.First ();
 		}
 
 		async Task IncrementEventIdCounter ()
@@ -210,9 +208,7 @@ namespace Dal
 				.OrderBy ("(wt1+wt2+wt3) DESC")
 				.Limit (LIMIT)
 				.Create ("user-[m:MATCHED]->event")
-				.Return ((matches) => new {
-					matches = Return.As<int> ("count(m)")
-				}).ResultsAsync;
+				.Return ((matches) => Return.As<int> ("count(m)")).ResultsAsync;
 
 			/*
 			if (res.First().matches > 0)
@@ -228,12 +224,10 @@ namespace Dal
 				.Match ("(user:User)-[:MATCHED]->(event:Event)")
 				.Where ("user.Id = {uid}")
 				.WithParam ("uid", uid)
-				.Return (() => new {
-					offers = Return.As<IEnumerable<Event>> ("collect(event)")
-				})
+				.Return (() => Return.As<IEnumerable<Event>> ("collect(event)"))
 				.ResultsAsync;
 
-			return res.First().offers;
+			return res.First();
 		}
 
 		public async Task<IEnumerable<Event>> GetEvents (string uid, bool ATTENDING = true, int LIMIT = 10)
@@ -244,20 +238,16 @@ namespace Dal
 					.Match ("(user:User)-[:ATTENDING]->(event:Event)")
 					.Where ("user.Id = {uid}")
 					.WithParam ("uid", uid)
-					.Return (() => new {
-						attending = Return.As<IEnumerable<Event>> ("collect(event)")
-					})
+					.Return (() =>  Return.As<IEnumerable<Event>> ("collect(event)"))
 					.Union ()
 					.Match ("user-[:HOSTING]->(event:Event)")
 					.Where ("user.Id = {uid}")
 					.WithParam ("uid", uid)
-					.Return (() => new {
-						events = Return.As<IEnumerable<Event>> ("collect(event)")
-					})
+					.Return (() => Return.As<IEnumerable<Event>> ("collect(event)"))
 					.Limit (LIMIT)
 					.ResultsAsync;
 
-				return res.First().events;
+				return res.First();
 			}
 			else
 			{
@@ -265,13 +255,11 @@ namespace Dal
 					.Match ("(user:User)-[:HOSTING]->(event:Event)")
 					.Where ("user.Id = {uid}")
 					.WithParam ("uid", uid)
-					.Return (() => new {
-						hosting = Return.As<IEnumerable<Event>> ("collect(event)")
-					})
+					.Return (() => Return.As<IEnumerable<Event>> ("collect(event)"))
 					.Limit (LIMIT)
 					.ResultsAsync;
 
-				return res.First().hosting;
+				return res.First();
 			}
 		}
 
@@ -300,14 +288,14 @@ namespace Dal
 		public async Task<bool> TakeSlot(int eid)
 		{
 			var res = await client.Cypher
-				.Match("(e:Event)")
-				.Where((Event e) => e.ID == eid)
-				.AndWhere((Event e) => e.SlotsTaken > e.SlotsTotal)
-				.Set("event.SlotsTaken = event.SlotsTaken + 1")
-				.Return((Event e) => new { b = e.SlotsTotal > e.SlotsTaken })
+				.Match ("(e:Event)")
+				.Where ((Event e) => e.ID == eid)
+				.AndWhere ((Event e) => e.SlotsTaken > e.SlotsTotal)
+				.Set ("event.SlotsTaken = event.SlotsTaken + 1")
+				.Return ((@event) => @event.As<Event> ())
 				.ResultsAsync;
 
-			return res.First ();
+			return res.Count() > 0;
 		}
 
 		public async Task ReleaseSlot(int eid)
@@ -397,14 +385,12 @@ namespace Dal
 				.Match ("(user:User)-[:HAS]-(notification:Notification)")
 				.Where ("user.Id = {uid}")
 				.WithParam ("uid", uid)
-				.Return ((notifications) => new {
-					notifications = Return.As<IEnumerable<string>> ("collect(notification)")
-				})
+				.Return ((notifications) => Return.As<IEnumerable<string>> ("collect(notification)"))
 				.ResultsAsync;
 
 			await ClearNotification (uid);
 
-			return res.First ().notifications;
+			return res.First();
 		}
 
 		/// <summary>
