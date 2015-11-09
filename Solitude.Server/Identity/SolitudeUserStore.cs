@@ -18,7 +18,7 @@ namespace Solitude.Server
             Throw.ArgumentException.IfNull(user, "user");
 
             await _graphClient.Cypher
-                .OptionalMatch("(u:User)-[r]-()")
+                .Match("(u:User)-[r]-() DETACH")
                 .Where((ApplicationUser u) => u.Id == user.Id)
                 .Delete("r, u")
                 .ExecuteWithoutResultsAsync();
