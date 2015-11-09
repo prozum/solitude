@@ -407,15 +407,36 @@ namespace Dal
 			{
 				h.events.Select<Event, Task>(x => DeleteEvent(x.UserID, x.ID));
 			}
+
+			var attending = await client.Cypher
+				.Match("(u:User)-[:ATTENDS]-(event:Event)")
+				.Where("u.Id = {uid}")
+				.WithParam("uid", uid)
+				.Return((events) => new {
+					events = Return.As<IEnumerable<Event>>("collect(event)")
+				})
+				.ResultsAsync;
+
+			foreach (var a in attending)
+			{
+				a.events.Select<Event, Task>(x => CancelRegistration(x.UserID, x));
+			}
+
+			await client.Cypher
+				.OptionalMatch ("(u:User)-[r]->()")
+				.Where ("u.Id = {uid}")
+				.WithParam ("uid", uid)
+				.Delete ("r")
+				.ExecuteWithoutResultsAsync ();
 		}
 
 		public async Task DeleteUser(string uid)
 		{
 			await client.Cypher
-				.Match("(u:User)-[r]->()")
+				.Match("(u:User)")
 				.Where("u.Id = {uid}")
 				.WithParam("uid", uid)
-				.Delete("u, r")
+				.Delete("u")
 				.ExecuteWithoutResultsAsync();
 		}
 	}
