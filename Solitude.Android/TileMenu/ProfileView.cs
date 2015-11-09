@@ -23,7 +23,7 @@ namespace DineWithaDane.Android
 		protected ImageView PictureView { get; set; }
 		protected TextView NameView { get; set; }
 		protected TextView AddressView { get; set; }
-		protected InfoList InfoTileList { get; set; }
+		//protected InfoList InfoTileList { get; set; }
 		protected Button EditProfileButton { get; set; }
 		#endregion
 
@@ -33,26 +33,29 @@ namespace DineWithaDane.Android
 			: base(context)
 		{
 			var detailLayout = new RelativeLayout(context);
+			/*
 			var seperator = new LinearLayout(context);
 			var septext = new TextView(context);
 			var sepline = new TextView(context);
 			var sepline2 = new TextView(context);
+			*/
 
 			var nameparams = new RelativeLayout.LayoutParams(-1, -2);
 			var addressparams = new RelativeLayout.LayoutParams(-1, -2);
-			var seperatorparams = new RelativeLayout.LayoutParams(-1, -2);
-			var infolistparams = new RelativeLayout.LayoutParams(-1, -2);
-			var sepline2params = new RelativeLayout.LayoutParams(-1, 1);
+			//var seperatorparams = new RelativeLayout.LayoutParams(-1, -2);
+			//var infolistparams = new RelativeLayout.LayoutParams(-1, -2);
+			//var sepline2params = new RelativeLayout.LayoutParams(-1, 1);
 			var editbuttonparams = new RelativeLayout.LayoutParams(-2, -2);
 
 			PictureView = new ImageView(context);
 			NameView = new TextView(context);
 			AddressView = new TextView(context);
-			InfoTileList = infolist;
+			//InfoTileList = infolist;
 			EditProfileButton = new Button(context);
 
 			User = user;
 
+			/*
 			seperator.Orientation = Orientation.Vertical;
 			seperator.AddView(septext);
 			seperator.AddView(sepline);
@@ -66,6 +69,7 @@ namespace DineWithaDane.Android
 			sepline.LayoutParameters.Height = 1;
 
 			sepline2.SetBackgroundColor(new Color(255,255,255));
+			*/
 
 			NameView.Text = "Name: " + User.Name;
 			AddressView.Text = "Address: " + User.Address;
@@ -78,37 +82,37 @@ namespace DineWithaDane.Android
 			detailLayout.AddView(PictureView);
 			detailLayout.AddView(NameView);
 			detailLayout.AddView(AddressView);
-			detailLayout.AddView(seperator);
+			//detailLayout.AddView(seperator);
 
 			AddView(detailLayout);
-			AddView(InfoTileList);
-			AddView(sepline2);
+			//AddView(InfoTileList);
+			//AddView(sepline2);
 			AddView(EditProfileButton);
 
 			detailLayout.Id = 4;
 			PictureView.Id = 5;
 			NameView.Id = 6;
 			AddressView.Id = 7;
-			seperator.Id = 8;
-			InfoTileList.Id = 9;
-			sepline2.Id = 10;
+			//seperator.Id = 8;
+			//InfoTileList.Id = 9;
+			//sepline2.Id = 10;
 			EditProfileButton.Id = 11;
 
 			nameparams.AddRule(LayoutRules.RightOf, PictureView.Id);
 			addressparams.AddRule(LayoutRules.RightOf, PictureView.Id);
 			addressparams.AddRule(LayoutRules.Below, NameView.Id);
-			seperatorparams.AddRule(LayoutRules.Below, PictureView.Id);
-			infolistparams.AddRule(LayoutRules.Above, sepline2.Id);
-			infolistparams.AddRule(LayoutRules.Below, detailLayout.Id);
-			sepline2params.AddRule(LayoutRules.Above, EditProfileButton.Id);
+			//seperatorparams.AddRule(LayoutRules.Below, PictureView.Id);
+			//infolistparams.AddRule(LayoutRules.Above, sepline2.Id);
+			//infolistparams.AddRule(LayoutRules.Below, detailLayout.Id);
+			//sepline2params.AddRule(LayoutRules.Above, EditProfileButton.Id);
 			editbuttonparams.AddRule(LayoutRules.AlignParentBottom);
 			editbuttonparams.AddRule(LayoutRules.AlignParentRight);
 
 			NameView.LayoutParameters = nameparams;
 			AddressView.LayoutParameters = addressparams;
-			seperator.LayoutParameters = seperatorparams;
-			InfoTileList.LayoutParameters = infolistparams;
-			sepline2.LayoutParameters = sepline2params;
+			//seperator.LayoutParameters = seperatorparams;
+			//InfoTileList.LayoutParameters = infolistparams;
+			//sepline2.LayoutParameters = sepline2params;
 			EditProfileButton.LayoutParameters = editbuttonparams;
 
 			EditProfileButton.Click += EditClick;
@@ -129,13 +133,13 @@ namespace DineWithaDane.Android
 			if (EditMode)
 			{
 				EditMode = false;
-				InfoTileList.EditMode = false;
+				//InfoTileList.EditMode = false;
 				EditProfileButton.Text = "Edit Profile";
 			}
 			else
 			{
 				EditMode = true;
-				InfoTileList.EditMode = true;
+				//InfoTileList.EditMode = true;
 				EditProfileButton.Text = "Done";
 			}
 		}

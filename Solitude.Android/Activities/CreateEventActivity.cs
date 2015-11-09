@@ -14,11 +14,11 @@ using Android.Widget;
 namespace DineWithaDane.Android
 {
 	[Activity(Label = "CreateEventActivity")]			
-	public class CreateEventActivity : AbstractActivity
+	public class CreateEventActivity : DrawerActivity
 	{
 		protected override void OnCreate(Bundle bundle)
 		{
-			drawerPosition = 3;
+			Position = 3;
 			base.OnCreate (bundle);
 
 			var contentFrame = FindViewById<FrameLayout>(Resource.Id.content_frame);

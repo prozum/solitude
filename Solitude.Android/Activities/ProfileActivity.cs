@@ -11,7 +11,7 @@ using Android.OS;
 namespace DineWithaDane.Android
 {
 	[Activity (Label = "TileMenu")]
-	public class ProfileActivity : AbstractActivity
+	public class ProfileActivity : DrawerActivity
 	{
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
@@ -20,7 +20,7 @@ namespace DineWithaDane.Android
 			var profile = new ProfileView(this, new User("Jimmi", "Jimmivej 12"), tilelist);
 
 			// setting up drawer
-			drawerPosition = 4;
+			Position = 4;
 			base.OnCreate (savedInstanceState);
 
 			// add profile to activity

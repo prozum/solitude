@@ -8,12 +8,12 @@ namespace DineWithaDane.Android
 {
 	public class DrawerToggle : ActionBarDrawerToggle
 	{
-		AbstractActivity _currentActivity;
+		DrawerActivity currentActivity;
 
-		public DrawerToggle (AbstractActivity currentActivity, DrawerLayout layout, int imageResource, int openDrawerDesc, int closeDrawerDesc) 
+		public DrawerToggle (DrawerActivity currentActivity, DrawerLayout layout, int imageResource, int openDrawerDesc, int closeDrawerDesc) 
 			: base (currentActivity, layout, imageResource, openDrawerDesc, closeDrawerDesc)
 		{
-			_currentActivity = currentActivity;
+			currentActivity = currentActivity;
 		}
 	}
 }
