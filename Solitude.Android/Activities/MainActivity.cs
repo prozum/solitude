@@ -54,6 +54,9 @@ namespace DineWithaDane.Android
 			EditText username = FindViewById<EditText> (Resource.Id.editUsername);
 			EditText password = FindViewById<EditText> (Resource.Id.editPassword);
 
+			username.Text = "test";
+			password.Text = "#Test123";
+
 			//Tries to login if strings are present in the fields
 			if(username.Text != "" || password.Text != "")
 			{
