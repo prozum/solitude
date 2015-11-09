@@ -74,6 +74,8 @@ namespace Solitude.Server
             {
                 dal.AddFoodHabit((FoodHabit)f);
             }
+
+            dal.SetEventIdCounter(0);
         }
 
         public void ConfigureOAuth(IAppBuilder app)
