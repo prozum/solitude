@@ -286,30 +286,49 @@ namespace Dal
 				.ExecuteWithoutResultsAsync();
 		}
 
-		public async Task DeleteEvent (string uid, int eid)
+		public async Task DeleteEvent (int eid)
 		{
 			await client.Cypher
 				.Match ("(user:User)-[:HOSTING]->(event:Event)<-[r]-(rest:User)")
 				.Where ("event.eid = {eid}")
 				.WithParam ("event.eid", eid)
-				.WithParam ("user.Id", uid)
 				.Delete ("r, event")
 				.ExecuteWithoutResultsAsync();
 		}
 
-		public async Task CancelRegistration (string uid, Event @event)
+		public async Task<bool> TakeSlot(int eid)
+		{
+			var res = await client.Cypher
+				.Match("(e:Event)")
+				.Where((Event e) => e.ID == eid)
+				.AndWhere((Event e) => e.SlotsTaken > e.SlotsTotal)
+				.Set("event.SlotsTaken = event.SlotsTaken + 1")
+				.Return((Event e) => new { b = e.SlotsTotal > e.SlotsTaken })
+				.ResultsAsync;
+
+			return res.First ();
+		}
+
+		public async Task ReleaseSlot(int eid)
 		{
 			await client.Cypher
-				.Match ("(user:User)-[a:ATTENDS]->(event:Event)")
-				.Where ("user.Id = {uid} AND event.eid = {eid}")
-				.WithParam ("uid", uid)
-				.WithParam ("eid", @event.ID)
+				.Match("(e:Event)")
+				.Where((Event e) => e.ID == eid)
+				.AndWhere((Event e) => e.SlotsTaken > 0)
+				.Set("event.SlotsTaken = event.SlotsTaken - 1")
+				.ExecuteWithoutResultsAsync();
+		}
+
+		public async Task CancelRegistration (string uid, int eid)
+		{
+			await client.Cypher
+				.Match ("(u:User)-[a:ATTENDS]->(e:Event)")
+				.Where((User u) => u.Id == uid)
+				.AndWhere((Event e) => e.ID == eid)
 				.Delete ("a")
 				.ExecuteWithoutResultsAsync();
 
-			@event.SlotsLeft++;
-
-			await UpdateEvent(@event);
+			await ReleaseSlot(eid);
 
 			//await AddNotification (@event.UserID, "A person has cancelled his/her registration for your event.");
 		}
@@ -394,32 +413,28 @@ namespace Dal
 		/// <param name="uid">Uid.</param>
 		public async Task DeleteUserData(string uid)
 		{
-			var hosts = await client.Cypher
+			var hostIDs = await client.Cypher
 				.Match("(u:User)-[:HOSTS]-(event:Event)")
 				.Where("u.Id = {uid}")
 				.WithParam("uid", uid)
-				.Return((events) => new {
-					events = Return.As<IEnumerable<Event>>("collect(event)")
-				})
+				.Return((@event) => @event.As<Event>().ID)
 				.ResultsAsync;
 
-			foreach (var h in hosts)
+			foreach (var id in hostIDs)
 			{
-				h.events.Select<Event, Task>(x => DeleteEvent(x.UserID, x.ID));
+				await DeleteEvent(id);
 			}
 
-			var attending = await client.Cypher
+			var attendingIDs = await client.Cypher
 				.Match("(u:User)-[:ATTENDS]-(event:Event)")
 				.Where("u.Id = {uid}")
 				.WithParam("uid", uid)
-				.Return((events) => new {
-					events = Return.As<IEnumerable<Event>>("collect(event)")
-				})
+				.Return((@event) => @event.As<Event>().ID)
 				.ResultsAsync;
 
-			foreach (var a in attending)
+			foreach (var id in attendingIDs)
 			{
-				a.events.Select<Event, Task>(x => CancelRegistration(x.UserID, x));
+				await CancelRegistration (uid, id);
 			}
 
 			await client.Cypher

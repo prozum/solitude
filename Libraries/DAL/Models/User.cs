@@ -4,6 +4,8 @@ namespace Dal
 {
 	public class User
 	{
+		public string Id { set; get; }
+
 		[Required]
 		[Display(Name = "User name")]
 		public string UserName { set; get; }
