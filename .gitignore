@@ -3,6 +3,8 @@ bin/
 obj/
 
 Solitude.Server/App.config
+
+Solitude.Android/Resources/Resource.designer.cs
 *~
 *.userprefs
 *.suo
