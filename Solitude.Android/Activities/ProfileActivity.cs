@@ -17,7 +17,7 @@ namespace DineWithaDane.Android
 		{
 			var adapter = new ProfileInfoListAdapter(this, TestMaterial.Infos);
 			var tilelist = new InfoList(this, adapter);
-			var profile = new ProfileView(this, new User("Jimmi", "Jimmivej 12"), tilelist);
+			var profile = new ProfileView(this, new User("Jimmi", "Jimmivej 12"));
 
 			// setting up drawer
 			Position = 4;

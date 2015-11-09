@@ -1,4 +1,8 @@
-﻿
+﻿/*
+ * Don't mind me, im dumb.
+ * 						- Jimmi
+ */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +19,7 @@ using Android.Graphics;
 
 namespace DineWithaDane.Android
 {
-	public class ProfileView : RelativeLayout
+	public class ProfileView : LinearLayout
 	{
 		#region Fields
 		protected User User { get; set; }
@@ -23,57 +27,37 @@ namespace DineWithaDane.Android
 		protected ImageView PictureView { get; set; }
 		protected TextView NameView { get; set; }
 		protected TextView AddressView { get; set; }
-		//protected InfoList InfoTileList { get; set; }
 		protected Button EditProfileButton { get; set; }
 		#endregion
 
 
 		#region Constructors
-		public ProfileView(Context context, User user, InfoList infolist)
+		public ProfileView(Context context, User user)
 			: base(context)
 		{
 			var detailLayout = new RelativeLayout(context);
-			/*
-			var seperator = new LinearLayout(context);
-			var septext = new TextView(context);
-			var sepline = new TextView(context);
-			var sepline2 = new TextView(context);
-			*/
+			var languagetext = new TextView(context);
+			var intereststext = new TextView(context);
+			var foodhabitstext = new TextView(context);
 
 			var nameparams = new RelativeLayout.LayoutParams(-1, -2);
 			var addressparams = new RelativeLayout.LayoutParams(-1, -2);
-			//var seperatorparams = new RelativeLayout.LayoutParams(-1, -2);
-			//var infolistparams = new RelativeLayout.LayoutParams(-1, -2);
-			//var sepline2params = new RelativeLayout.LayoutParams(-1, 1);
-			var editbuttonparams = new RelativeLayout.LayoutParams(-2, -2);
 
 			PictureView = new ImageView(context);
 			NameView = new TextView(context);
 			AddressView = new TextView(context);
-			//InfoTileList = infolist;
 			EditProfileButton = new Button(context);
 
+			Orientation = Orientation.Vertical;
+
 			User = user;
-
-			/*
-			seperator.Orientation = Orientation.Vertical;
-			seperator.AddView(septext);
-			seperator.AddView(sepline);
-
-			septext.Text = "Info:";
-			septext.LayoutParameters.Width = -1;
-			septext.Gravity = GravityFlags.Center;
-
-			sepline.SetBackgroundColor(new Color(255,255,255));
-			sepline.LayoutParameters.Width = -1;
-			sepline.LayoutParameters.Height = 1;
-
-			sepline2.SetBackgroundColor(new Color(255,255,255));
-			*/
 
 			NameView.Text = "Name: " + User.Name;
 			AddressView.Text = "Address: " + User.Address;
 			EditProfileButton.Text = "Edit Profile";
+			languagetext.Text = "Languages:";
+			intereststext.Text = "Interests:";
+			foodhabitstext.Text = "Food Habits:";
 
 			PictureView.SetImageResource(Resource.Drawable.Icon);
 			PictureView.SetMinimumHeight(100);
@@ -82,38 +66,28 @@ namespace DineWithaDane.Android
 			detailLayout.AddView(PictureView);
 			detailLayout.AddView(NameView);
 			detailLayout.AddView(AddressView);
-			//detailLayout.AddView(seperator);
+
+			var test = new ListView(context);
+			test.Adapter = new ArrayAdapter<string>(context, Android.Resource.Layout.SpinnerItem, Enum.GetNames(typeof(Language)));
+			test.Enabled = false;
 
 			AddView(detailLayout);
-			//AddView(InfoTileList);
-			//AddView(sepline2);
+			AddView(languagetext);
+			AddView(test);
+			AddView(intereststext);
+			AddView(foodhabitstext);
 			AddView(EditProfileButton);
 
-			detailLayout.Id = 4;
 			PictureView.Id = 5;
 			NameView.Id = 6;
 			AddressView.Id = 7;
-			//seperator.Id = 8;
-			//InfoTileList.Id = 9;
-			//sepline2.Id = 10;
-			EditProfileButton.Id = 11;
 
 			nameparams.AddRule(LayoutRules.RightOf, PictureView.Id);
 			addressparams.AddRule(LayoutRules.RightOf, PictureView.Id);
 			addressparams.AddRule(LayoutRules.Below, NameView.Id);
-			//seperatorparams.AddRule(LayoutRules.Below, PictureView.Id);
-			//infolistparams.AddRule(LayoutRules.Above, sepline2.Id);
-			//infolistparams.AddRule(LayoutRules.Below, detailLayout.Id);
-			//sepline2params.AddRule(LayoutRules.Above, EditProfileButton.Id);
-			editbuttonparams.AddRule(LayoutRules.AlignParentBottom);
-			editbuttonparams.AddRule(LayoutRules.AlignParentRight);
 
 			NameView.LayoutParameters = nameparams;
 			AddressView.LayoutParameters = addressparams;
-			//seperator.LayoutParameters = seperatorparams;
-			//InfoTileList.LayoutParameters = infolistparams;
-			//sepline2.LayoutParameters = sepline2params;
-			EditProfileButton.LayoutParameters = editbuttonparams;
 
 			EditProfileButton.Click += EditClick;
 			NameView.Click += TextClick;

@@ -104,6 +104,7 @@
     <Compile Include="Activities\CreateEventActivity.cs" />
     <Compile Include="Activities\SettingsActivitiy.cs" />
     <Compile Include="Activities\DrawerActivity.cs" />
+    <Compile Include="TileMenu\UserInfoEnums.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
