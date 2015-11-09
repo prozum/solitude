@@ -116,7 +116,7 @@ namespace Dal
 				.Match ("(user:User)")
 				.Where ("user.Id = {uid}")
 				.WithParam ("uid", review.UserID)
-				.Create ("user-[:REVIEWER]->(review:Review {data})")
+				.Create ("user-[:GAVE_REVIEW]->(review:Review {data})")
 				.WithParam ("data", review)
 				.ExecuteWithoutResultsAsync ();
 		}
@@ -213,10 +213,12 @@ namespace Dal
 					matches = Return.As<int> ("count(m)")
 				}).ResultsAsync;
 
+			/*
 			if (res.First().matches > 0)
 			{
 				await AddNotification (uid, "You have new offers pending");
 			}
+			*/
 		}
 
 		public async Task<IEnumerable<Event>> GetOffers (string uid)
@@ -284,7 +286,7 @@ namespace Dal
 				.ExecuteWithoutResultsAsync();
 		}
 
-		public async void DeleteEvent (string uid, int eid)
+		public async Task DeleteEvent (string uid, int eid)
 		{
 			await client.Cypher
 				.Match ("(user:User)-[:HOSTING]->(event:Event)<-[r]-(rest:User)")
@@ -309,7 +311,7 @@ namespace Dal
 
 			await UpdateEvent(@event);
 
-			await AddNotification (@event.UserID, "A person has cancelled his/her registration for your event.");
+			//await AddNotification (@event.UserID, "A person has cancelled his/her registration for your event.");
 		}
 			
 		public async Task<bool> ReplyOffer (string uid, bool answer, Event @event)
@@ -383,6 +385,38 @@ namespace Dal
 			await ClearNotification (uid);
 
 			return res.First ().notifications;
+		}
+
+		/// <summary>
+		/// Deletes the user's data, used as a help function for user deletion
+		/// </summary>
+		/// <returns>Task</returns>
+		/// <param name="uid">Uid.</param>
+		public async Task DeleteUserData(string uid)
+		{
+			var hosts = await client.Cypher
+				.Match("(u:User)-[:HOSTS]-(event:Event)")
+				.Where("u.Id = {uid}")
+				.WithParam("uid", uid)
+				.Return((events) => new {
+					events = Return.As<IEnumerable<Event>>("collect(event)")
+				})
+				.ResultsAsync;
+
+			foreach (var h in hosts)
+			{
+				h.events.Select<Event, Task>(x => DeleteEvent(x.UserID, x.ID));
+			}
+		}
+
+		public async Task DeleteUser(string uid)
+		{
+			await client.Cypher
+				.Match("(u:User)-[r]->() DETACH")
+				.Where("u.Id = {uid}")
+				.WithParam("uid", uid)
+				.Delete("u, r")
+				.ExecuteWithoutResultsAsync();
 		}
 	}
 }

@@ -34,14 +34,19 @@ namespace ClientCommunication
 		/// Parses the error message and assigns to the latestError string.
 		/// </summary>
 		/// <param name="Response">Response from server.</param>
-		void parseErrorMessage(IRestResponse response)
+		private void parseErrorMessage(IRestResponse response)
 		{
 			string errorContent = response.Content;
 			string[] splitErrorContent = errorContent.Split(':');
 			latestError = splitErrorContent [splitErrorContent.Length - 1].Trim('"', ':', '\\', '[', ']', '{', '}').Replace (".", ".\n");
 		}
 
-		bool executeAndParseResponse(IRestRequest request)
+		/// <summary>
+		/// Executes the request and parse response.
+		/// </summary>
+		/// <returns><c>true</c>, if and parse response was executed, <c>false</c> otherwise.</returns>
+		/// <param name="request">Request.</param>
+		private bool executeAndParseResponse(IRestRequest request)
 		{
 			var response = client.Execute (request);
 
@@ -94,17 +99,16 @@ namespace ClientCommunication
 			string serverResponse = client.Execute(eventRequest).Content;
 
 			//Tries to convert response to events
-			try {
-				//Initialize variables
-				var events = new List<Event>();
+			var events = new List<Event>();
 
-				//Extract every single json to it's own JsonValue
-				Regex reg = new Regex(@"{[^}]*}");
-				var matches = reg.Matches(serverResponse);
+			//Extract every single json to it's own JsonValue
+			Regex reg = new Regex(@"{[^}]*}");
+			var matches = reg.Matches(serverResponse);
 
-				//Generate Events from the JsonValues
-				for(int i = 0; i < matches.Count; i++)
-				{
+			//Generate Events from the JsonValues
+			for(int i = 0; i < matches.Count; i++)
+			{
+				try {
 					JsonValue jVal = System.Json.JsonObject.Parse(matches[i].Value);
 					int ID = parseToInt(jVal["ID"]);
 					//string title = jVal["Title"];
@@ -115,16 +119,22 @@ namespace ClientCommunication
 
 					events.Add(new Event("Missing out from server, fix it!", dt, adress, desc, 10, 10));
 				}
+				catch
+				{
+					//string title = "jVal["Title"] + " [Some information was missing, sorry!]"
 
-				return events;
-			} 
-			catch (Exception ex)
-			{
-				latestError = "Could not find events\n" + ex.Message;
-				return new List<Event> ();
+					events.Add(new Event ("title", new DateTime(0000, 00, 00), "N/A", "N/A", 0, 0));
+				}
 			}
+
+			return events;
 		}
 
+		/// <summary>
+		/// Parses a JsonValue to int.
+		/// </summary>
+		/// <returns>An int with same value as the JsonValue.</returns>
+		/// <param name="value">Value.</param>
 		private int parseToInt(JsonValue value){
 			try 
 			{
@@ -139,6 +149,11 @@ namespace ClientCommunication
 			}
 		}
 
+		/// <summary>
+		/// Parses a string to DateTime object.
+		/// </summary>
+		/// <returns>The DateTime specified in the string.</returns>
+		/// <param name="dt">DateTime as a string.</param>
 		private DateTime parseToDateTime(string dt){
 			string[] values = dt.Split('-');
 
@@ -158,12 +173,12 @@ namespace ClientCommunication
 
 		}
 			
-		#region Notification fetching
-		public void GetNotification()
-		{
-			throw new NotImplementedException ();
-		}
-		#endregion
+//		#region Notification fetching
+//		public void GetNotification()
+//		{
+//			throw new NotImplementedException ();
+//		}
+//		#endregion
 		#endregion
 		#region User-handling
 
@@ -275,11 +290,23 @@ namespace ClientCommunication
 			var request = new RestRequest ("event", Method.POST);
 
 			request.RequestFormat = DataFormat.Json;
-			request.AddObject (e);
+			var body = new {
+				ID = e.ID,
+				Title = e.Title,
+				Description = e.Description,
+				Date = e.Date.ToString(),
+				Adress = e.Place
+			};
+
+			request.AddBody(body);
 
 			executeAndParseResponse (request);
 		}
 
+		/// <summary>
+		/// Updates the event.
+		/// </summary>
+		/// <param name="e">Event to update</param>
 		public void UpdateEvent (Event e)
 		{
 			var request = new RestRequest ("event", Method.PUT);

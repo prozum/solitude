@@ -1,28 +1,31 @@
 ﻿using Neo4j.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using System.Net.Http;
 using Neo4jClient;
+using Neo4jClient.Cypher;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Dal;
+using System.Linq;
 
 namespace Solitude.Server
 {
     public class SolitudeUserStore : Neo4jUserStore<ApplicationUser>
     {
-        private readonly IGraphClient _graphClient;
+        private readonly DatabaseAbstrationLayer _dal;
 
-        public SolitudeUserStore(IGraphClient graphClient) : base(graphClient)
+        public SolitudeUserStore(IGraphClient graphClient, DatabaseAbstrationLayer DAL) : base(graphClient)
         {
-            _graphClient = graphClient;
+            _dal = DAL;
         }
 
         public async Task DeleteAsyncFixed(ApplicationUser user)
         {
             Throw.ArgumentException.IfNull(user, "user");
 
-            await _graphClient.Cypher
-                .OptionalMatch("(u:User)-[r]-()")
-                .Where((ApplicationUser u) => u.Id == user.Id)
-                .Delete("r, u")
-                .ExecuteWithoutResultsAsync();
+            await _dal.DeleteUserData(user.Id);
+
+            await _dal.DeleteUser(user.Id);
         }
     }
 }
-
