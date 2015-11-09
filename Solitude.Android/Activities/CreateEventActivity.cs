@@ -28,6 +28,12 @@ namespace DineWithaDane.Android
 			scroll.AddView(internalContent);
 			content.AddView(scroll);
 
+			TextView titleTitle = new TextView(this);
+			titleTitle.Text = "Event name";
+
+			EditText title = new EditText(this);
+			title.Hint = "Title";
+
 			TextView descriptionTitle = new TextView(this);
 			descriptionTitle.Text = "Event Description";
 
@@ -56,18 +62,32 @@ namespace DineWithaDane.Android
 			TextView timeTitle = new TextView(this);
 			timeTitle.Text = "Time";
 
-			TimePicker time = new TimePicker(this);
+			TimePicker timePicker = new TimePicker(this);
 
 			Button createEventButton = new Button(this);
 			createEventButton.Text = "Host Event";
+			createEventButton.Click += (object sender, EventArgs e) => 
+				{
+					try {
+						DateTime @dateTime = new DateTime(date.Year, date.Month, date.DayOfMonth, (int)timePicker.CurrentHour, (int)timePicker.CurrentMinute, 0);
+						Event @event = new Event(title.Text, @dateTime, location.Text, description.Text, int.Parse(guests.Text), 0);
+						MainActivity.CIF.CreateEvent(@event);
+						Finish();
+					} catch (Exception ex) {
+						// 
+					}
+				};
 			Button cancelButton = new Button(this);
 			cancelButton.Text = "Cancel";
+			cancelButton.Click += (object sender, EventArgs e) => Finish();
 
 			LinearLayout buttonKeeper = new LinearLayout(this);
 			buttonKeeper.Orientation = Orientation.Horizontal;
 			buttonKeeper.AddView(cancelButton);
 			buttonKeeper.AddView(createEventButton);
 
+			internalContent.AddView(titleTitle);
+			internalContent.AddView(title);
 			internalContent.AddView(descriptionTitle);
 			internalContent.AddView(description);
 			internalContent.AddView(locationTitle);
@@ -77,7 +97,7 @@ namespace DineWithaDane.Android
 			internalContent.AddView(dateTitle);
 			internalContent.AddView(date);
 			internalContent.AddView(timeTitle);
-			internalContent.AddView(time);
+			internalContent.AddView(timePicker);
 			internalContent.AddView(buttonKeeper);
 
 			// Create your application here
