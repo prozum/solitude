@@ -57,38 +57,37 @@ namespace Solitude.Server
 
             return Ok();
         }
-
-        /*
+            
         [Authorize]
-        [Route("add")]
-        public async Task<IHttpActionResult> Add(Type t, int val)
+        [Route("delete")]
+        public async Task<IHttpActionResult> Delete(InfoType t, int val)
         {
             switch (t)
             {
-                case Type.LANGUAGE:
+                case InfoType.LANGUAGE:
                     if (Enum.IsDefined(typeof(Model.Language), val))
                     {
-                        await DB.ConnectUserLanguage(User.Identity.GetUserId(), (Model.Language)val, 1);
+                        await DB.DisconnectUserLanguage(User.Identity.GetUserId(), (Model.Language)val);
                     }
                     else
                     {
                         return BadRequest("Invalid information.");
                     }
                     break;
-                case Type.INTEREST:
+                case InfoType.INTEREST:
                     if (Enum.IsDefined(typeof(Model.Interest), val))
                     {
-                        await DB.ConnectUserInterest(User.Identity.GetUserId(), (Model.Interest)val, 1);
+                        await DB.DisconnectUserInterest(User.Identity.GetUserId(), (Model.Interest)val);
                     }
                     else
                     {
                         return BadRequest("Invalid information.");
                     }
                     break;
-                case Type.FOODHABIT:
+                case InfoType.FOODHABIT:
                     if (Enum.IsDefined(typeof(Model.FoodHabit), val))
                     {
-                        await DB.ConnectUserFoodHabit(User.Identity.GetUserId(), (Model.FoodHabit)val, 1);
+                        await DB.DisconnectUserFoodHabit(User.Identity.GetUserId(), (Model.FoodHabit)val);
                     }
                     else
                     {
@@ -101,7 +100,6 @@ namespace Solitude.Server
 
             return Ok();
         }
-        */
     }
 }
 

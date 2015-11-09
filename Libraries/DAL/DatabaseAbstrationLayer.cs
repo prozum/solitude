@@ -186,7 +186,7 @@ namespace Dal
 				.ExecuteWithoutResultsAsync ();
 		}
 
-		public async Task DisconnectUserInterest (string uid, FoodHabit fh)
+		public async Task DisconnectUserFoodHabit (string uid, FoodHabit fh)
 		{
 			await client.Cypher
 			//make sure that the interest is related with the right user
