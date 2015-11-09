@@ -1,11 +1,7 @@
-﻿using System.Net.Http;
-using System.Web.Http;
+﻿using System.Web.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
 using System.Collections.Generic;
-using Newtonsoft.Json;
-using Dal;
 using Model;
 
 namespace Solitude.Server
@@ -41,12 +37,6 @@ namespace Solitude.Server
 
             await DB.AddEvent(e);
 
-//            IHttpActionResult errorResult = GetErrorResult(result);
-//
-//            if (errorResult != null)
-//            {
-//                return errorResult;
-//            }
             return Ok();
         }
 
