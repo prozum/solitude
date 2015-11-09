@@ -10,7 +10,7 @@ using Android.OS;
 
 namespace DineWithaDane.Android
 {
-	[Activity (Label = "Offers")]
+	[Activity (Label = "Offer")]
 	public class OfferActivity : DrawerActivity
 	{
 		protected override void OnCreate (Bundle savedInstanceState)

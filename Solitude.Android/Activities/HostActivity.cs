@@ -14,7 +14,7 @@ using Android.Util;
 
 namespace DineWithaDane.Android
 {
-	[Activity (Label = "Hosts")]			
+	[Activity (Label = "Host")]			
 	public class HostActivity : DrawerActivity
 	{
 		ObservableCollection<Event> hostedEventsList;

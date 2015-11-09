@@ -10,7 +10,7 @@ using Android.OS;
 
 namespace DineWithaDane.Android
 {
-	[Activity (Label = "TileMenu")]
+	[Activity (Label = "Profile")]
 	public class ProfileActivity : DrawerActivity
 	{
 		protected override void OnCreate (Bundle savedInstanceState)
