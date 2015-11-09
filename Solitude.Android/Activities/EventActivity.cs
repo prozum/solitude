@@ -26,7 +26,8 @@ namespace DineWithaDane.Android
 			ThreadPool.QueueUserWorkItem(o =>
 				{
 					//Fetch events from server
-					Looper.Prepare();
+					prepareLooper();
+
 					var events = MainActivity.CIF.GetOwnEvents(100);
 					var adapter = new EventListAdapter(this, MainActivity.CIF.GetOwnEvents(100));
 					var tilelist = new EventList(this, adapter);

@@ -26,7 +26,8 @@ namespace DineWithaDane.Android
 			ThreadPool.QueueUserWorkItem(o =>
 				{
 					//Fetch offers from server
-					Looper.Prepare();
+					prepareLooper();
+					
 					var offers = MainActivity.CIF.RequestOffers();
 					var adapter = new OfferListAdapter(this, offers);
 					var tilelist = new OfferList(this, adapter);

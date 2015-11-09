@@ -93,8 +93,14 @@ namespace DineWithaDane.Android
 					{
 						DateTime @dateTime = new DateTime(date.Year, date.Month, date.DayOfMonth, (int)timePicker.CurrentHour, (int)timePicker.CurrentMinute, 0);
 						Event @event = new Event(title.Text, @dateTime, location.Text, description.Text, int.Parse(guests.Text), 0);
-						MainActivity.CIF.CreateEvent(@event);
-						Finish();
+						bool completed = MainActivity.CIF.CreateEvent(@event);
+						if(completed)
+							Finish();
+						else {
+							var dialog = new AlertDialog.Builder(this);
+							dialog.SetMessage("Sorry, could not create event:\n" + MainActivity.CIF.LatestError);
+							dialog.Show();
+						}
 					}
 				};
 			var cancelButton = new Button(this);
