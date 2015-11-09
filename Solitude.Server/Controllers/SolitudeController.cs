@@ -1,20 +1,13 @@
-﻿using System;
-using System.Web.Http;
+﻿using System.Web.Http;
 using Microsoft.AspNet.Identity;
-using Neo4jClient;
 using System.Net.Http;
-using Neo4j.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Dal;
 
 namespace Solitude.Server
 {
-    public class SolitudeController : ApiController 
+    public abstract class SolitudeController : ApiController 
     {
-        public SolitudeController()
-        {
-        }
-
         public DatabaseAbstrationLayer DB
         {
             get
