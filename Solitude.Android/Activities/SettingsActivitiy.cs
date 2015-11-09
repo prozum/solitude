@@ -39,11 +39,6 @@ namespace DineWithaDane.Android
 			Content.AddView(settingsLayout);
 		}
 
-		private void deleteProfile ()
-		{
-
-		}
-
 		private void deletionDialog ()
 		{
 			var dialog = new Dialog(this);
@@ -60,7 +55,7 @@ namespace DineWithaDane.Android
 			};
 
 			acceptButton.Click += (object sender, EventArgs e) => {
-				deleteProfile ();
+				MainActivity.CIF.DeleteUser();
 				dialog.Dismiss ();
 			};
 

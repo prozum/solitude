@@ -19,14 +19,14 @@ namespace DineWithaDane.Android
 		
 		public DrawerLayout Drawer { get; set; }
 		public ListView DrawerList { get; set; }
-		public DrawerActivity _currentActivity { get; set; }
+		public DrawerActivity CurrentActivity { get; set; }
 		public int Position { get; set; }
 		public ActionBarDrawerToggle DrawerToggle { get; set; }
 
 
 		private static readonly string[] Sections = new[] 
 		{
-			"Notifications", "Offer", "Events", "Host", "Profile", "Settings"
+			"Notifications", "Offer", "Events", "Host", "Profile", "Settings", "Logout"
 		};
 
 		public SetupDrawer (
@@ -37,16 +37,16 @@ namespace DineWithaDane.Android
 		)
 		{
 
-			_currentActivity = currentActivity;
+			CurrentActivity = currentActivity;
 			Position = position;
 		}
 
 		public void Configure ()
 		{
-			Drawer = _currentActivity.FindViewById<DrawerLayout> (Resource.Id.drawer_layout);
-			DrawerList = _currentActivity.FindViewById<ListView> (Resource.Id.left_drawer);
+			Drawer = CurrentActivity.FindViewById<DrawerLayout> (Resource.Id.drawer_layout);
+			DrawerList = CurrentActivity.FindViewById<ListView> (Resource.Id.left_drawer);
 
-			DrawerList.Adapter = new ArrayAdapter<string> (_currentActivity, Resource.Layout.item_menu, Sections);
+			DrawerList.Adapter = new ArrayAdapter<string> (CurrentActivity, Resource.Layout.item_menu, Sections);
 			DrawerList.SetItemChecked (0, true);
 			DrawerList.SetItemChecked (Position, true);
 
@@ -55,15 +55,15 @@ namespace DineWithaDane.Android
 
 		public void DrawerToggleSetup () {
 			DrawerToggle = new ActionBarDrawerToggle (
-				_currentActivity, 
+				CurrentActivity, 
 				Drawer, 
 				Resource.Drawable.ic_navigation_drawer, 
 				Resource.String.open_drawer, 
 				Resource.String.close_drawer);
 
 			Drawer.SetDrawerListener (DrawerToggle);
-			_currentActivity.ActionBar.SetDisplayHomeAsUpEnabled (true);
-			_currentActivity.ActionBar.SetHomeButtonEnabled (true);
+			CurrentActivity.ActionBar.SetDisplayHomeAsUpEnabled (true);
+			CurrentActivity.ActionBar.SetHomeButtonEnabled (true);
 		}
 
 		/// <summary>
@@ -76,28 +76,31 @@ namespace DineWithaDane.Android
 			switch (itemClickEventArgs.Position) 
 			{
 			case 0:
-				Intent NotificationIntent = new Intent (_currentActivity, typeof(NotificationActivity));
-				_currentActivity.StartActivity (NotificationIntent);
+				Intent NotificationIntent = new Intent (CurrentActivity, typeof(NotificationActivity));
+				CurrentActivity.StartActivity (NotificationIntent);
 				break;
 			case 1:
-				Intent OfferIntent = new Intent (_currentActivity, typeof(OfferActivity));
-				_currentActivity.StartActivity (OfferIntent);
+				Intent OfferIntent = new Intent (CurrentActivity, typeof(OfferActivity));
+				CurrentActivity.StartActivity (OfferIntent);
 				break;
 			case 2:
-				Intent EventIntent = new Intent (_currentActivity, typeof(EventActivity));
-				_currentActivity.StartActivity (EventIntent);
+				Intent EventIntent = new Intent (CurrentActivity, typeof(EventActivity));
+				CurrentActivity.StartActivity (EventIntent);
 				break;
 			case 3:
-				Intent HostIntent = new Intent (_currentActivity, typeof(HostActivity));
-				_currentActivity.StartActivity (HostIntent);
+				Intent HostIntent = new Intent (CurrentActivity, typeof(HostActivity));
+				CurrentActivity.StartActivity (HostIntent);
 				break;
 			case 4:
-				Intent ProfileIntent = new Intent (_currentActivity, typeof(ProfileActivity));
-				_currentActivity.StartActivity (ProfileIntent);
+				Intent ProfileIntent = new Intent (CurrentActivity, typeof(ProfileActivity));
+				CurrentActivity.StartActivity (ProfileIntent);
 				break;
 			case 5:
-				Intent SettingsIntent = new Intent (_currentActivity, typeof(SettingsActivitiy));
-				_currentActivity.StartActivity (SettingsIntent);
+				Intent SettingsIntent = new Intent (CurrentActivity, typeof(SettingsActivitiy));
+				CurrentActivity.StartActivity (SettingsIntent);
+				break;
+			case 6:
+				MainActivity.CIF.Logout(CurrentActivity);
 				break;
 			default:
 				break;

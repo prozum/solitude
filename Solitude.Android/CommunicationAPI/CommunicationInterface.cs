@@ -289,8 +289,8 @@ namespace ClientCommunication
 		public void Logout(Activity activeActivity){
 			userToken = null;
 
-			var toLogin = new Intent(this, typeof(MainActivity));
-			toLogin.AddFlags(ActivityFlags.ClearTask | ActivityFlags.NoHistory);
+			var toLogin = new Intent(activeActivity, typeof(MainActivity));
+			toLogin.AddFlags(ActivityFlags.NewTask | ActivityFlags.ClearTask);
 			activeActivity.StartActivity(toLogin);
 		}
 

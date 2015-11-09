@@ -27,7 +27,7 @@ namespace DineWithaDane.Android
 			: base(context)
 		{
 			DotsView = new TextView(context);
-			SeperatorView = new TextView(context);
+			SeperatorView = new Seperator(context);
 
 			Orientation = Orientation.Vertical;
 
