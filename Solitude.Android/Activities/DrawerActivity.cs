@@ -55,6 +55,25 @@ namespace DineWithaDane.Android
 
 			return base.OnOptionsItemSelected (item);
 		}
+
+		/// <summary>
+		/// Shows the spinner, indicating loading.
+		/// </summary>
+		/// <remarks>Must be run from the UI-thread</remarks>
+		protected void showSpinner()
+		{
+			ProgressBar pb = new ProgressBar(this);
+			this.Content.AddView(pb);
+		}
+
+		/// <summary>
+		/// Removes the spinner.
+		/// </summary>
+		/// <remarks>Must be run in the UI-thread</remarks>
+		protected void clearLayout()
+		{
+			this.Content.RemoveAllViews();
+		}
 	}
 }
 
