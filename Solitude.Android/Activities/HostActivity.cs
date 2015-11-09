@@ -15,14 +15,14 @@ using Android.Util;
 namespace DineWithaDane.Android
 {
 	[Activity (Label = "Hosts")]			
-	public class HostActivity : AbstractActivity
+	public class HostActivity : DrawerActivity
 	{
 		ObservableCollection<Event> hostedEventsList;
 
 		protected override void OnCreate (Bundle bundle)
 		{
 			// setting up and drawer
-			drawerPosition = 3;
+			Position = 3;
 			base.OnCreate (bundle);
 
 			hostedEventsList = new ObservableCollection<Event>();
