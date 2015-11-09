@@ -6,9 +6,9 @@ using Model;
 
 namespace Solitude.Server
 {
+    [RoutePrefix("api/event")]
     public class EventController : SolitudeController
 	{
-
         public IHttpActionResult Get()
         {
             List<Event> OrderList = new List<Event> 
