@@ -1,9 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 
 namespace Model
 {
 	public class User
 	{
+		[JsonIgnore]
 		public string Id { set; get; }
 
 		[Required]
