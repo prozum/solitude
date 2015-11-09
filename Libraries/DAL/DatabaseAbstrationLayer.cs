@@ -134,6 +134,18 @@ namespace Dal
 				.ExecuteWithoutResultsAsync ();
 		}
 
+		public async Task DisconnectUserInterest (string uid, Interest ic)
+		{
+			await client.Cypher
+				//make sure that the interest is related with the right user
+				.Match ("(user:User)-[w:WANTS]->(interest:Interest)")
+				.Where((User user) => user.Id == uid)
+				.AndWhere ("interest.Id = {ic}")
+				.WithParam ("ic", ic)
+				.Delete("w")
+				.ExecuteWithoutResultsAsync ();
+		}
+
 		public async Task ConnectUserLanguage (string uid, Language lc, int w)
 		{
 			await client.Cypher
@@ -148,6 +160,18 @@ namespace Dal
 				.ExecuteWithoutResultsAsync ();
 		}
 
+		public async Task DisconnectUserLanguage (string uid, Language lc)
+		{
+			await client.Cypher
+			//make sure that the interest is related with the right user
+				.Match ("(user:User)-[w:WANTS]->(language:Language)")
+				.Where((User user) => user.Id == uid)
+				.AndWhere ("language.Id = {lc}")
+				.WithParam ("lc", lc)
+				.Delete("w")
+				.ExecuteWithoutResultsAsync ();
+		}
+
 		public async Task ConnectUserFoodHabit (string uid, FoodHabit fh, int w)
 		{
 			await client.Cypher
@@ -159,6 +183,18 @@ namespace Dal
 				//create a unique relation "WANTS" with the weight 'w'
 				.CreateUnique (("user-[:WANTS {weight}]->interest"))
 				.WithParam ("weight", new {weight = w})
+				.ExecuteWithoutResultsAsync ();
+		}
+
+		public async Task DisconnectUserInterest (string uid, FoodHabit fh)
+		{
+			await client.Cypher
+			//make sure that the interest is related with the right user
+				.Match ("(user:User)-[w:WANTS]->(foodhabit:FoodHabit)")
+				.Where((User user) => user.Id == uid)
+				.AndWhere ("foodhabit.Id = {fh}")
+				.WithParam ("fh", fh)
+				.Delete("w")
 				.ExecuteWithoutResultsAsync ();
 		}
 
