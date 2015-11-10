@@ -105,10 +105,6 @@ namespace DineWithaDane.Android
 						};
 					}*/
 				});
-
-			//var metrics = new DisplayMetrics();
-			//WindowManager.DefaultDisplay.GetMetrics(metrics);
-
 		}
 	}
 }

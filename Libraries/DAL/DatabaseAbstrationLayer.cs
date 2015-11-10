@@ -298,10 +298,10 @@ namespace Dal
 			var hosting = await client.Cypher
 				.Match ("(user:User)-[:HOSTING]->(event:Event)")
 				.Where((User user) => user.Id == uid)
-				.Return (() => Return.As<Event> ("collect(event)"))
+				.Return (() => Return.As<IEnumerable<Event>> ("collect(event)"))
 				.ResultsAsync;
 
-			return hosting;
+			return hosting.First();
 		}
 
 		public async Task<IEnumerable<Event>> GetAttendingEvents (string uid)
@@ -309,19 +309,19 @@ namespace Dal
 			var attending = await client.Cypher
 				.Match ("(user:User)-[:ATTENDING]->(event:Event)")
 				.Where ((User user) => user.Id == uid)
-				.Return (() => Return.As<Event> ("collect(event)"))
+				.Return (() => Return.As<IEnumerable<Event>> ("collect(event)"))
 				.ResultsAsync;
 
-			return attending;
+			return attending.First();
 		}
 
 		public async Task UpdateEvent (Event @event)
 		{
 			await client.Cypher
-				.Match ("user-[:HOSTING]->(event:Event {info})")
+				.Match ("user-[:HOSTING]->(event:Event)")
 				.Where ("event.Id = {eid}")
 				.WithParam ("eid", @event.Id)
-				.Set ("info = {newinfo}")
+				.Set ("event = {newinfo}")
 				.WithParam ("newinfo", @event)
 				.ExecuteWithoutResultsAsync();
 		}
@@ -329,10 +329,9 @@ namespace Dal
 		public async Task DeleteEvent (int eid)
 		{
 			await client.Cypher
-				.Match ("(user:User)-[:HOSTING]->(event:Event)<-[r]-(rest:User)")
-				.Where ("event.eid = {eid}")
-				.WithParam ("event.eid", eid)
-				.Delete ("r, event")
+				.OptionalMatch ("(e:Event)<-[r]-())")
+				.Where ((Event e) => e.Id == eid)
+				.Delete ("e, r")
 				.ExecuteWithoutResultsAsync ();
 		}
 
@@ -346,7 +345,7 @@ namespace Dal
 				.Return ((@event) => @event.As<Event> ())
 				.ResultsAsync;
 
-			return res.Count() > 0;
+			return res.Any();
 		}
 
 		public async Task ReleaseSlot(int eid)

@@ -412,7 +412,8 @@ namespace ClientCommunication
 		/// <param name="e">Event to delete.</param>
 		public void DeleteEvent (Event e)
 		{
-			var request = new RestRequest ("event", Method.DELETE);
+			var request = new RestRequest (string.Format("event/{0}", e.ID), Method.DELETE);
+			request.AddHeader(HttpStrings.AUTHORIZATION, HttpStrings.BEARER + userToken);
 
 			request.AddParameter ("id", e);
 
