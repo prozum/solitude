@@ -271,7 +271,7 @@ namespace Dal
 				.With ("user, event, wt1, wt2, sum(w5.weight) + sum(w6.weight) as wt3")
 				.OrderBy ("(wt1+wt2+wt3) DESC")
 				.Limit (LIMIT)
-				.Create ("user-[m:MATCHED]->event")
+				.Create ("user-[m:MATCHED]->e")
 				.ExecuteWithoutResultsAsync ();
 
 			/*
