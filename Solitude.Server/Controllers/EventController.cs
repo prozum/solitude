@@ -9,25 +9,27 @@ namespace Solitude.Server
     [RoutePrefix("api/event")]
     public class EventController : SolitudeController
 	{
-        public IHttpActionResult Get()
+        [Authorize]
+        public async Task<IHttpActionResult> Get()
         {
-            List<Event> OrderList = new List<Event> 
-                {
-                    new Event {Title = "Julefrokost", Id = 666, Address = "Everywhere", Description = "Julefrokost", Date = "21-12-12" },
-                    new Event {Title = "I-dag", Id = 667, Address = "DE-club", Description = "DE-club", Date = "Thursday" },
-                    new Event {Title = "FLAN", Id = 668, Address = "Cassiopeia", Description = "Cassiopeia", Date = "00-00-99" },
-                    new Event {Title = "J-dag", Id = 669, Address = "D-building", Description = "J-dag", Date = "05-11-15"},
-                    new Event {Title = "ØL", Id = 670, Address = "Cantina", Description = "Free beer", Date = "Always tomorrow"}
-                };
-
-            return Ok(OrderList);
+            var offers = await DB.GetEvents(User.Identity.GetUserId());
+            return Ok(offers);
 		}
 
         [Authorize]
-        public IHttpActionResult Get (int id)
+        public IHttpActionResult Get(int id)
 		{
-            return Ok(new Event() { Id = id, Date = "Already over", Address = "Cassiopeia", Description = "FLAN party in Cassiopeia"});
-		}
+            List<Event> OrderList = new List<Event> 
+                {
+                    new Event {Title = "Julefrokost", Id = 0, Address = "Everywhere", Description = "Julefrokost", Date = "21-12-12" },
+                    new Event {Title = "I-dag", Id = 1, Address = "DE-club", Description = "DE-club", Date = "Thursday" },
+                    new Event {Title = "FLAN", Id = 2, Address = "Cassiopeia", Description = "Cassiopeia", Date = "00-00-99" },
+                    new Event {Title = "J-dag", Id = 3, Address = "D-building", Description = "J-dag", Date = "05-11-15"},
+                    new Event {Title = "ØL", Id = 4, Address = "Cantina", Description = "Free beer", Date = "Always tomorrow"}
+                };
+
+            return Ok(OrderList[id]);
+   		}
 
         [Authorize]
         [Route("add")]
