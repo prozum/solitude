@@ -4,24 +4,23 @@ namespace DineWithaDane.Android
 {
 	public class User
 	{
-		public string Name;
-		public string Address;
+		public int ID;
+		public string Name { get; set; }
+		public string Address { get; set; }
 
 		private string username;
 		private string password;
 
-		public int ID;
-
 		public User (string name, string address, int id)
 			: this (name, address)
 		{
-			this.ID = id;
+			ID = id;
 		}
 
 		public User (string name, string address)
 		{
-			this.Name = name;
-			this.Address = address;
+			Name = name;
+			Address = address;
 		}
 
 		public User (string name, string address, string username, string password)
