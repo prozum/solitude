@@ -384,7 +384,18 @@ namespace ClientCommunication
 
 			request.AddBody(body);
 
-			return executeAndParseResponse (request);
+			var response = client.Execute(request);
+
+			if (response.StatusCode == HttpStatusCode.OK)
+			{
+				JsonValue jVal = new JsonValue(response.Content);
+				e.ID = parseToInt(jVal);
+				return true;
+			}
+			else
+			{
+				parseErrorMessage(response.Content);
+			}
 		}
 
 		/// <summary>
@@ -447,7 +458,8 @@ namespace ClientCommunication
 			//Adds a body to the request containing the reciew
 			var review = new {
 				rating = r.Rating,
-				reviewTect = r.ReviewText//, eventID = r.Event.id
+				text = r.ReviewText,
+				eventId = r.Event.ID
 			};
 			request.AddBody(review);
 
