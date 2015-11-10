@@ -117,15 +117,6 @@ namespace Dal
 				.Create ("user-[:GAVE_REVIEW]->(review:Review {data})")
 				.WithParam ("data", review)
 				.ExecuteWithoutResultsAsync ();
-
-//			await client.Cypher
-//				.Match ("(user:User)")
-//				.Where ("user.Id = {uid}")
-//				.WithParam ("uid", review.UserId)
-//				//creates a relation "HOSTING" between the created event 
-//				.Create ("user-[:HOSTING]->(review:Review {data})")
-//				.WithParam ("data", new { Text = review.Text, Rating = review.Rating })
-//				.ExecuteWithoutResultsAsync ();
 		}
 
 			
@@ -400,7 +391,7 @@ namespace Dal
 					return false;
 
 				await client.Cypher
-					.Match ("(user:User), (e:Event)")
+					.Match ("(user:User)-[:MATCHED]->(e:Event)")
 					.Where ((User user) => user.Id == uid)
 					.AndWhere ((Event e) => e.Id == eid)
 					.Create ("user-[:ATTENDS]->e")
@@ -412,7 +403,7 @@ namespace Dal
 			else
 			{
 				await client.Cypher
-					.Match ("(user:User), (e:Event)")
+					.Match ("(user:User)-[:MATCHED]->(e:Event)")
 					.Where((User user) => user.Id == uid)
 					.Where((Event e) => e.Id == eid)
 					.Delete ("user-[:MATCHED]->e")
