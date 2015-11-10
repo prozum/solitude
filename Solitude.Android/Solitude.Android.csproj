@@ -131,6 +131,10 @@
     <AndroidResource Include="Resources\layout\EditInfo.axml" />
     <AndroidResource Include="Resources\layout\deletionDialog.axml" />
     <AndroidResource Include="Resources\layout\EditText.axml" />
+    <AndroidResource Include="Resources\layout\CheckedListViewItem.axml" />
+    <AndroidResource Include="Resources\layout\EditComparableInfo.axml" />
+    <AndroidResource Include="Resources\layout\EditDetails.axml" />
+    <AndroidResource Include="Resources\drawable\border_ui.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

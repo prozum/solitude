@@ -36,10 +36,10 @@ namespace DineWithaDane.Android
 			{
 				var dialog = new Dialog(Context);
 				dialog.RequestWindowFeature((int)WindowFeatures.NoTitle);
-				dialog.SetContentView(Resource.Layout.EditInfo);
+				dialog.SetContentView(Resource.Layout.EditDetails);
 
 				var nameview = dialog.FindViewById<AutoCompleteTextView>(Resource.Id.NameEditor);
-				var descview = dialog.FindViewById<MultiAutoCompleteTextView>(Resource.Id.DescriptionEditor);
+				var descview = dialog.FindViewById<MultiAutoCompleteTextView>(Resource.Id.AddressEditor);
 				var savebutton = dialog.FindViewById<Button>(Resource.Id.SaveButton);
 				var cancelbutton = dialog.FindViewById<Button>(Resource.Id.CancelButton);
 
