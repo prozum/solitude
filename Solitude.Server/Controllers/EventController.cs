@@ -10,6 +10,7 @@ namespace Solitude.Server
     public class EventController : SolitudeController
 	{
         [Authorize]
+        [Route("")]
         public async Task<IHttpActionResult> Get()
         {
             var events = await DB.GetHostingEvents(User.Identity.GetUserId());
