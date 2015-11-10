@@ -95,7 +95,9 @@ namespace Solitude.Server.Tests
 
 			response = Values.testClient.Execute (request);
 
-			Assert.AreEqual (HttpStatusCode.NotFound, response.StatusCode, "The event was found on server and thus not deleted.");
+			Event receivedEvent = parseEvents (response);
+
+			Assert.AreEqual (receivedEvent, null);
 		}
 
 		private RestRequest buildRequest(string resource, Method method)
