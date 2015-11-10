@@ -40,6 +40,11 @@ namespace DineWithaDane.Android
 
 
 		#region Constructors
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DineWithaDane.Android.ProfileView"/> class.
+		/// </summary>
+		/// <param name="context">Context.</param>
+		/// <param name="user">User.</param>
 		public ProfileView(Context context, User user)
 			: base(context)
 		{
@@ -197,29 +202,39 @@ namespace DineWithaDane.Android
 			dialog.RequestWindowFeature((int)WindowFeatures.NoTitle);
 			dialog.SetContentView(Resource.Layout.EditDetails);
 
+			// getting relevant views
 			var nameview = dialog.FindViewById<AutoCompleteTextView>(Resource.Id.NameEditor);
 			var addressview = dialog.FindViewById<AutoCompleteTextView>(Resource.Id.AddressEditor);
 			var savebutton = dialog.FindViewById<Button>(Resource.Id.SaveButton);
 			var cancelbutton = dialog.FindViewById<Button>(Resource.Id.CancelButton);
 
+			// setting textbox info
 			nameview.Text = User.Name;
 			addressview.Text = User.Address;
 
+			// adding functionallity to save button
 			savebutton.Click += (s, e) => 
 				{
+					// updating user name and address
 					User.Name = nameview.Text;
 					User.Address = addressview.Text;
+
+					// updating ui
 					NameView.Text = "Name: " + User.Name;
 					AddressView.Text = "Address: " + User.Address;
 
+					// closing dialog
 					dialog.Dismiss();
 				};
 
+			// adding functionallity to cancelbutton
 			cancelbutton.Click += (s, e) => 
 				{
+					// closing dialog
 					dialog.Dismiss();
 				};
 
+			// show dialog
 			dialog.Show();
    		}
 
@@ -229,11 +244,13 @@ namespace DineWithaDane.Android
 			dialog.RequestWindowFeature((int)WindowFeatures.NoTitle);
 			dialog.SetContentView(Resource.Layout.EditComparableInfo);
 
+			// getting relevant views
 			var nameview = dialog.FindViewById<TextView>(Resource.Id.Text);
 			var infolist = dialog.FindViewById<ListView>(Resource.Id.InfoList);
 			var savebutton = dialog.FindViewById<Button>(Resource.Id.SaveButton);
 			var cancelbutton = dialog.FindViewById<Button>(Resource.Id.CancelButton);
 
+			// setting header text info
 			if (dialogtype == typeof(Language))
 				nameview.Text = "Languages:";
 			else if (dialogtype == typeof(Interest))
@@ -243,26 +260,35 @@ namespace DineWithaDane.Android
 			else 
 				throw new NotImplementedException();
 
+			// setting up list of info with checkboxes
 			infolist.Adapter = new ArrayAdapter<string>(Context, Resource.Layout.CheckedListViewItem, Enum.GetNames(dialogtype));
 			infolist.ChoiceMode = ChoiceMode.Multiple;
 
+			// selecting info that is already chosen by user
 			foreach (var item in info)
 				infolist.SetItemChecked((int)item, true);
 
+			// adding functionallity to save button
 			savebutton.Click += (s, e) => 
 				{
 					info.Clear();
 
+					// adding selected info to list
 					for (int i = 0; i < infolist.ChildCount; i++) 
 						if ((infolist.GetChildAt(i) as CheckBox).Checked)
 							info.Add(i);
 
+					// updating ui
 					UpdateLayout(layout, info);
+
+					// closing dialog
 					dialog.Dismiss();
 				};
 
+			// adding functionallity to cancelbutton
 			cancelbutton.Click += (s, e) => 
 				{
+					// closing dialog
 					dialog.Dismiss();
 				};
 			

@@ -16,9 +16,24 @@ namespace DineWithaDane.Android
 	public class EventGroup : TileListGroup
 	{
 		#region Field
+		/// <summary>
+		/// Sets the title of the view.
+		/// </summary>
 		public string Title { set { TitleView.Text = "Title: " + value; } }
+
+		/// <summary>
+		/// Sets the place of the view.
+		/// </summary>
 		public string Place	{ set { PlaceView.Text = "Place: " + value;	} }
+
+		/// <summary>
+		/// Sets the date of the view.
+		/// </summary>
 		public DateTime Date { set { DateView.Text = "Date: " + value; } }
+
+		/// <summary>
+		/// Sets the slots taken and total stols of the view. Item1 is slots taken. Item2 is totals slots.
+		/// </summary>
 		public Tuple<int,int> Slots 
 		{
 			set 
@@ -35,6 +50,10 @@ namespace DineWithaDane.Android
 
 
 		#region Contructors
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DineWithaDane.Android.EventGroup"/> class.
+		/// </summary>
+		/// <param name="context">Context.</param>
 		public EventGroup(Context context)
 			: base(context)
 		{

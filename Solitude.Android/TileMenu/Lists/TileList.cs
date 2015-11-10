@@ -23,6 +23,11 @@ namespace DineWithaDane.Android
 
 
 		#region Constructors
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DineWithaDane.Android.TileList`1"/> class.
+		/// </summary>
+		/// <param name="context">Context.</param>
+		/// <param name="adabter">Adabter.</param>
 		public TileList(Context context, BaseTileListAdapter<T> adabter)
 			: base(context)
 		{
@@ -58,11 +63,6 @@ namespace DineWithaDane.Android
 			ExpListView.LayoutParameters.Width = -1;
 		}
 		#endregion
-
-
-
-
-
 
 	}
 }

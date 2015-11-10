@@ -17,8 +17,18 @@ namespace DineWithaDane.Android
 {
 	public class Seperator : TextView
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DineWithaDane.Android.Seperator"/> class.
+		/// </summary>
+		/// <param name="context">Context.</param>
 		public Seperator(Context context)
 			: this(context, new Color(255, 255, 255)) { }
+		
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DineWithaDane.Android.Seperator"/> class.
+		/// </summary>
+		/// <param name="context">Context.</param>
+		/// <param name="color">Color.</param>
 		public Seperator(Context context, Color color)
 			: base(context)
 		{

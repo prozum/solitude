@@ -17,6 +17,10 @@ namespace DineWithaDane.Android
 	public abstract class TileListItem : LinearLayout
 	{
 		#region Fields
+		/// <summary>
+		/// Sets the descrition of the view.
+		/// </summary>
+		/// <value>The descrition.</value>
 		public string Descrition { set { DescritionView.Text = "Description: " + value; } }
 
 		protected TextView DescritionView {	get; set; }
@@ -25,6 +29,10 @@ namespace DineWithaDane.Android
 
 
 		#region Constructors
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DineWithaDane.Android.TileListItem"/> class.
+		/// </summary>
+		/// <param name="context">Context.</param>
 		public TileListItem(Context context)
 			: base(context)
 		{

@@ -20,6 +20,11 @@ namespace DineWithaDane.Android
 		#endregion
 
 		#region Contructors
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DineWithaDane.Android.EventItem"/> class.
+		/// </summary>
+		/// <param name="context">Context.</param>
+		/// <param name="onCancel">On cancel.</param>
 		public EventItem(Context context, EventHandler onCancel)
 			: base(context)
 		{
