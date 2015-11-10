@@ -7,7 +7,8 @@ namespace Model
 		public int Id { set; get;}
 		public string Text { set; get; }
 		public int Rating { set; get; }
-		public string UserID { get; set; }
+		public string UserId { get; set; }
+		public int EventId { get; set; }
 	}
 }
 
