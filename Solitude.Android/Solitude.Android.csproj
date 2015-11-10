@@ -74,7 +74,6 @@
     <Compile Include="Notifications\ReviewNotification.cs" />
     <Compile Include="Activities\SignUpActivity.cs" />
     <Compile Include="Activities\HostActivity.cs" />
-    <Compile Include="Drawer\DrawerToggle.cs" />
     <Compile Include="Drawer\SetupDrawer.cs" />
     <Compile Include="Classes\Review.cs" />
     <Compile Include="TileMenu\Items\EventItem.cs" />
