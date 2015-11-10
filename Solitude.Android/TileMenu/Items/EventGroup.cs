@@ -38,7 +38,7 @@ namespace DineWithaDane.Android
 		{
 			set 
 			{ 
-				ParticipantsView.Text = "Participants: " + (value.Item2 - value.Item1) + "/" + value.Item2; 
+				ParticipantsView.Text = "Participants: " + (value.Item1) + "/" + value.Item2; 
 			} 
 		}
 

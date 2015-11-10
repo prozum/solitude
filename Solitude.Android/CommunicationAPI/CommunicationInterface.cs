@@ -89,7 +89,7 @@ namespace ClientCommunication
 		/// <param name="dt">DateTime as a string.</param>
 		private DateTime parseToDateTime(string dt)
 		{
-			string[] values = dt.Split('-');
+			string[] values = dt.Split('/', ' ');
 
 			try 
 			{
@@ -162,6 +162,7 @@ namespace ClientCommunication
 		{
 			//Builds request
 			var eventRequest = new RestRequest ("event", Method.GET);
+			eventRequest.AddHeader(HttpStrings.AUTHORIZATION, HttpStrings.BEARER + userToken);
 
 			//Executes request and recieves response
 			var serverResponse = client.Execute(eventRequest);
@@ -201,19 +202,16 @@ namespace ClientCommunication
 					int ID = parseToInt(jVal["Id"]);
 					string title = jVal["Title"];
 					string desc = jVal["Description"];
-					string dateTime = jVal["Date"];
-					DateTime dt = parseToDateTime(dateTime);
+					DateTime dt = DateTime.Parse(jVal["Date"]);
 					string adress = jVal["Address"];
 					int slotsTotal = parseToInt(jVal["SlotsTotal"]);
 					int slotsTaken = parseToInt(jVal["SlotsTaken"]);
 
-					events.Add(new Event(title, dt, adress, desc, slotsTaken, slotsTotal - slotsTaken));
+					events.Add(new Event(title, dt, adress, desc, slotsTotal, slotsTaken));
 				}
 				catch
 				{
-					//string title = "jVal["Title"] + " [Some information was missing, sorry!]"
-
-					events.Add(new Event ("title", new DateTime(0000, 00, 00), "N/A", "N/A", 0, 0));
+					events.Add(new Event ("title", new DateTime(1000, 01, 01), "N/A", "N/A", 0, 0));
 				}
 			}
 
@@ -368,13 +366,15 @@ namespace ClientCommunication
 			//Add authorization header:
 			request.AddHeader(HttpStrings.AUTHORIZATION, HttpStrings.BEARER + userToken);
 
-			//And the body containing event-informatino
-			var body = new { Date = e.Date.ToString(), 
-							 Adress = e.Place,
-							 Title = e.Title,
-							 Description = e.Description,
-							 SlotsTaken = 0,
-							 SlotsTotal = e.MaxSlots      };
+			//And the body containing event-informatinon
+			var body = new { 
+				Date = e.Date.ToString(), 
+				Adress = e.Place,
+				Title = e.Title,
+				Description = e.Description,
+				SlotsTaken = 0,
+				SlotsTotal = e.MaxSlots
+			};
 
 			request.AddBody(body);
 

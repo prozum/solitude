@@ -11,6 +11,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.Util;
+using System.Threading;
 
 namespace DineWithaDane.Android
 {
@@ -25,70 +26,87 @@ namespace DineWithaDane.Android
 			Position = 3;
 			base.OnCreate (bundle);
 
-			hostedEventsList = new ObservableCollection<Event>();
+			ShowSpinner();
 
-			var content = FindViewById<FrameLayout>(Resource.Id.content_frame);
-			var internalContent = new LinearLayout(this);
-			internalContent.Orientation = Orientation.Vertical;
-			content.AddView(internalContent);
-
-			var metrics = new DisplayMetrics();
-			WindowManager.DefaultDisplay.GetMetrics(metrics);
-
-			var hostNewEventButton = new Button(this);
-			hostNewEventButton.Text = "Host New Event";
-
-			hostNewEventButton.Click += (object sender, EventArgs e) => 
+			ThreadPool.QueueUserWorkItem(o =>
 				{
-					Intent intent = new Intent(this, typeof(HostEventActivity));
-					intent.PutExtra("type", "new");
-					StartActivity(intent);
-				};
+					PrepareLooper();
 
-			hostedEventsList.CollectionChanged += (object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e) => 
-			{
-				foreach (var item in hostedEventsList)
-				{
-					// Add element with event
-				}
-				content.AddView(hostNewEventButton);
-			};
+					var events = MainActivity.CIF.GetOwnEvents(100);
+					var adapter = new EventListAdapter(this, events);
+					var tilelist = new EventList(this, adapter);
 
-			foreach (var item in hostedEventsList)
-			{
-				LinearLayout hostEventLayout = new LinearLayout(this);
-				hostEventLayout.Orientation = Orientation.Horizontal;
+					var content = FindViewById<FrameLayout>(Resource.Id.content_frame);
+					var internalContent = new LinearLayout(this);
+					internalContent.Orientation = Orientation.Vertical;
 
-				TextView eventTitle = new TextView(this);
-				eventTitle.Text = item.Title;
+					var hostNewEventButton = new Button(this);
+					hostNewEventButton.Text = "Host New Event";
 
-				TextView eventDate = new TextView(this);
-				eventDate.Text = item.Date.ToString();
-
-				TextView eventDescription = new TextView(this);
-				eventDescription.Text = item.Description;
-
-				hostEventLayout.AddView(eventTitle);
-				hostEventLayout.AddView(eventDate);
-				hostEventLayout.AddView(eventDescription);
-
-				hostEventLayout.Click += (object sender, EventArgs e) => 
-					{
-						Intent intent = new Intent(this, typeof(HostEventActivity));
-						intent.PutExtra("type", "edit");
-						intent.PutExtra("title", item.Title);
-						intent.PutExtra("description", item.Description);
-						intent.PutExtra("date day", item.Date.Day);
-						intent.PutExtra("date month", item.Date.Month);
-						intent.PutExtra("date year", item.Date.Year);
-						intent.PutExtra("date hour", item.Date.Hour);
-						intent.PutExtra("date minutte", item.Date.Minute);
-						intent.PutExtra("place", item.Place);
-						intent.PutExtra("maxslots", item.MaxSlots);
+					hostNewEventButton.Click += (object sender, EventArgs e) => {
+						var intent = new Intent(this, typeof(HostEventActivity));
+						intent.PutExtra("type", "new");
 						StartActivity(intent);
 					};
-			}
-			internalContent.AddView(hostNewEventButton);
+
+					RunOnUiThread (() =>
+						{
+							ClearLayout();
+							content.AddView(internalContent);
+							internalContent.AddView(hostNewEventButton);
+							internalContent.AddView(tilelist);
+						});
+
+					/*hostedEventsList.CollectionChanged += (sender, e) =>
+					{
+						foreach (var item in hostedEventsList)
+						{
+							// Add element with event
+						}
+						content.AddView(hostNewEventButton);
+					};*/
+
+					/*foreach (var item in events)
+					{
+						LinearLayout hostEventLayout = new LinearLayout(this);
+						hostEventLayout.Orientation = Orientation.Horizontal;
+
+						TextView eventTitle = new TextView(this);
+						eventTitle.Text = item.Title;
+
+						TextView eventDate = new TextView(this);
+						eventDate.Text = item.Date.ToString();
+
+						TextView eventDescription = new TextView(this);
+						eventDescription.Text = item.Description;
+
+						RunOnUiThread( () => {
+							hostEventLayout.AddView(eventTitle);
+							hostEventLayout.AddView(eventDate);
+							hostEventLayout.AddView(eventDescription);
+						});
+
+						hostEventLayout.Click += (object sender, EventArgs e) =>
+						{
+							Intent intent = new Intent(this, typeof(HostEventActivity));
+							intent.PutExtra("type", "edit");
+							intent.PutExtra("title", item.Title);
+							intent.PutExtra("description", item.Description);
+							intent.PutExtra("date day", item.Date.Day);
+							intent.PutExtra("date month", item.Date.Month);
+							intent.PutExtra("date year", item.Date.Year);
+							intent.PutExtra("date hour", item.Date.Hour);
+							intent.PutExtra("date minutte", item.Date.Minute);
+							intent.PutExtra("place", item.Place);
+							intent.PutExtra("maxslots", item.MaxSlots);
+							StartActivity(intent);
+						};
+					}*/
+				});
+
+			//var metrics = new DisplayMetrics();
+			//WindowManager.DefaultDisplay.GetMetrics(metrics);
+
 		}
 	}
 }
