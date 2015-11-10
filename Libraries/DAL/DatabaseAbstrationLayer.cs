@@ -293,25 +293,23 @@ namespace Dal
 			return res.First();
 		}
 
-		public async Task<IEnumerable<Event>> GetHostingEvents (string uid, int LIMIT = 10)
+		public async Task<IEnumerable<Event>> GetHostingEvents (string uid)
 		{
 			var hosting = await client.Cypher
 				.Match ("(user:User)-[:HOSTING]->(event:Event)")
 				.Where((User user) => user.Id == uid)
 				.Return (() => Return.As<Event> ("collect(event)"))
-				.Limit (LIMIT)
 				.ResultsAsync;
 
 			return hosting;
 		}
 
-		public async Task<IEnumerable<Event>> GetAttendingEvents (string uid, int LIMIT = 10)
+		public async Task<IEnumerable<Event>> GetAttendingEvents (string uid)
 		{
 			var attending = await client.Cypher
 				.Match ("(user:User)-[:ATTENDING]->(event:Event)")
 				.Where ((User user) => user.Id == uid)
 				.Return (() => Return.As<Event> ("collect(event)"))
-				.Limit (LIMIT)
 				.ResultsAsync;
 
 			return attending;

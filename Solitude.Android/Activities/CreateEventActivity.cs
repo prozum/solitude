@@ -21,14 +21,12 @@ namespace DineWithaDane.Android
 			Position = 3;
 			base.OnCreate (bundle);
 
-			var contentFrame = FindViewById<FrameLayout>(Resource.Id.content_frame);
-
 			var content = new LinearLayout(this);
 			content.Orientation = Orientation.Vertical;
 
 			var scroll = new ScrollView(this);
 			scroll.AddView(content);
-			contentFrame.AddView(scroll);
+			Content.AddView(scroll);
 
 			// Create all visible elements required to create event
 			var titleTitle = new TextView(this);

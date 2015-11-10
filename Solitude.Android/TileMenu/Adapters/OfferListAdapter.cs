@@ -62,9 +62,9 @@ namespace DineWithaDane.Android
 
 			// set seperator visibility
 			if (isExpanded)
-				view.SeperatorVisibility(ViewStates.Gone);
+				view.SetSeperatorVisibility(ViewStates.Gone);
 			else
-				view.SeperatorVisibility(ViewStates.Visible);
+				view.SetSeperatorVisibility(ViewStates.Visible);
 
 			return view;
 		}
