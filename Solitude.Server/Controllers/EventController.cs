@@ -39,14 +39,14 @@ namespace Solitude.Server
 
             await DB.AddEvent(e);
 
-            return Ok();
+            return Ok(new { Id = e.Id});
         }
 
         [Authorize]
         [Route("delete")]
-        public async Task<IHttpActionResult> Delete(int eID)
+        public async Task<IHttpActionResult> Delete(int eventId)
         {
-            await DB.DeleteEvent(eID);
+            await DB.DeleteEvent(eventId);
 
             return Ok();
         }

@@ -31,10 +31,10 @@ namespace Solitude.Server.Tests
 			e.SlotsTaken = 0;
 			e.SlotsTotal = 100;
 			e.Title = "[Test] : Sandwich og sprællemænd";
-			e.UserId = 0;
+			e.UserId = "";
 
 			var request = new RestRequest ("event/add", Method.POST);
-			request.AddHeader ("Authorization", "BEARER " + userToken);
+			//request.AddHeader ("Authorization", "BEARER " + userToken);
 			request.RequestFormat = DataFormat.Json;
 			request.AddBody (e);
 
