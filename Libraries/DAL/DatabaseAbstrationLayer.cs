@@ -146,6 +146,17 @@ namespace Dal
 				.ExecuteWithoutResultsAsync ();
 		}
 
+		public async Task<IEnumerable<int>> GetUserInterest (string uid)
+		{
+			var res = await client.Cypher
+				.Match ("(user:User)-[:WANTS]->(interest:Interest)")
+				.Where ((User user) => user.Id == uid)
+				.Return (() => Return.As<int> ("collect(interest)"))
+				.ResultsAsync;
+
+			return res;
+		}
+
 		public async Task ConnectUserLanguage (string uid, Language lc, int w)
 		{
 			await client.Cypher
@@ -172,6 +183,17 @@ namespace Dal
 				.ExecuteWithoutResultsAsync ();
 		}
 
+		public async Task<IEnumerable<int>> GetUserLanguage (string uid)
+		{
+			var res = await client.Cypher
+				.Match ("(user:User)-[:WANTS]->(language:Language)")
+				.Where ((User user) => user.Id == uid)
+				.Return (() => Return.As<int> ("collect(language)"))
+				.ResultsAsync;
+
+			return res;
+		}
+
 		public async Task ConnectUserFoodHabit (string uid, FoodHabit fh, int w)
 		{
 			await client.Cypher
@@ -196,6 +218,17 @@ namespace Dal
 				.WithParam ("fh", fh)
 				.Delete("w")
 				.ExecuteWithoutResultsAsync ();
+		}
+
+		public async Task<IEnumerable<int>> GetUserFoodHabit (string uid)
+		{
+			var res = await client.Cypher
+				.Match ("(user:User)-[:WANTS]->(foodhabit:FoodHabit)")
+				.Where ((User user) => user.Id == uid)
+				.Return (() => Return.As<int> ("collect(foodhabit)"))
+				.ResultsAsync;
+
+			return res;
 		}
 
 		async Task CleanMatches (string uid)
