@@ -31,8 +31,8 @@ namespace DineWithaDane.Android.UITests
 
 			Random rand = new Random();
 
-			testUsername = "UI_test_user_@+ID/" + rand.Next();
-			testPassword = "UI_test_password_@+id/" + rand.Next();
+			testUsername = "test" + rand.Next();
+			testPassword = "T3$t" + rand.Next();
 
 			app.Tap(c => c.Id("editName"));
 
@@ -94,7 +94,7 @@ namespace DineWithaDane.Android.UITests
 		}
 
 		[Test]
-		public void GotoProfile()
+		public void DrawerProfile()
 		{
 			_Login();
 
@@ -110,7 +110,7 @@ namespace DineWithaDane.Android.UITests
 		}
 
 		[Test]
-		public void GotoOffer()
+		public void DrawerOffer()
 		{
 			_Login();
 
@@ -126,7 +126,7 @@ namespace DineWithaDane.Android.UITests
 		}
 
 		[Test]
-		public void GotoHost()
+		public void DrawerHost()
 		{
 			_Login();
 
@@ -142,7 +142,7 @@ namespace DineWithaDane.Android.UITests
 		}
 
 		[Test]
-		public void GotoEvents()
+		public void DrawerEvents()
 		{
 			_Login();
 
@@ -158,7 +158,7 @@ namespace DineWithaDane.Android.UITests
 		}
 
 		[Test]
-		public void GotoSettings()
+		public void DrawerSettings()
 		{
 			_Login();
 
