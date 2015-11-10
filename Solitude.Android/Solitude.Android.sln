@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Solitude.Android", "Solitud
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Solitude.Android.UITests", "..\Solitude.Android.UITests\Solitude.Android.UITests.csproj", "{07883476-DB05-43D1-B136-45D956242800}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "..\Libraries\Model\Model.csproj", "{BB5645E2-A303-4B98-9D0F-662EC6B94DDB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{478310BE-22D3-4A3E-84EC-9716C50834D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{478310BE-22D3-4A3E-84EC-9716C50834D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{478310BE-22D3-4A3E-84EC-9716C50834D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB5645E2-A303-4B98-9D0F-662EC6B94DDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB5645E2-A303-4B98-9D0F-662EC6B94DDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB5645E2-A303-4B98-9D0F-662EC6B94DDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB5645E2-A303-4B98-9D0F-662EC6B94DDB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0

@@ -8,7 +8,7 @@ using Android.Content;
 
 namespace DineWithaDane.Android
 {
-	[Activity (Label = "Solitude.Android", Theme = "@android:style/Theme.DeviceDefault.NoActionBar")]
+	[Activity (Label = "Solitude.Android")]
 	public class SignUpActivity : Activity
 	{
 		protected override void OnCreate (Bundle savedInstanceState)
@@ -31,6 +31,7 @@ namespace DineWithaDane.Android
 			submit.Click += (sender, e) => {
 				if(username.Text != "" && password.Text != "" && confirm.Text != "")
 				{
+					submit.Clickable = false;
 					var CIF = new CommunicationInterface();
 					pb.Visibility = global::Android.Views.ViewStates.Visible;
 					bool success = false;
@@ -54,10 +55,10 @@ namespace DineWithaDane.Android
 							RunOnUiThread(() => {
 								errorDialog.Show();
 							});
+
+							submit.Clickable = true;
 						}
 					});
-
-
 				}
 				else
 				{

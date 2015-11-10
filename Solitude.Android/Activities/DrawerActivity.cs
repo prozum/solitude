@@ -56,6 +56,18 @@ namespace DineWithaDane.Android
 			return base.OnOptionsItemSelected (item);
 		}
 
+		public override void OnBackPressed()
+		{
+			var dialog = new AlertDialog.Builder(this);
+			dialog.SetMessage("Are you sure you want to log out?");
+			dialog.SetNegativeButton("No", delegate{ /*Empty delegate hides the dialog*/ });
+			dialog.SetNeutralButton("Yes", delegate
+				{
+					MainActivity.CIF.Logout(this);
+				});
+			dialog.Show();
+		}
+
 		/// <summary>
 		/// Shows the spinner, indicating loading.
 		/// </summary>

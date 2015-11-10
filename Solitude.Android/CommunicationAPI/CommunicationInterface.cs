@@ -8,6 +8,7 @@ using System.Threading;
 
 using DineWithaDane.Android;
 
+
 using Newtonsoft.Json;
 using RestSharp;
 using RestSharp.Authenticators;
@@ -239,7 +240,7 @@ namespace ClientCommunication
 			{
 				username = Username,
 				password = Password,
-				confirmedPassword = ConfirmedPassword
+				confirmPassword = ConfirmedPassword
 			};
 
 			//Alters request format to json and add information
@@ -255,13 +256,30 @@ namespace ClientCommunication
 		/// Updates the user specified by id.
 		/// </summary>
 		/// <param name="i">A reference to a <see cref="DineWithaDane.InfoChange"/> containing Key and Value of the change.</param>
-		/// <param name="id">Identifier of the user to change.</param>
-		public void UpdateUser (InfoChange i)
+		public void AddInformation (InfoChange i)
 		{
-			var request = new RestRequest ("user", Method.PUT);
+			var request = new RestRequest ("info/add", Method.POST);
+
+			request.AddHeader(HttpStrings.AUTHORIZATION, HttpStrings.BEARER + userToken);
+
 			request.AddBody(i);
 
 			executeAndParseResponse (request);
+		}
+
+		/// <summary>
+		/// Deletes the information from the server.
+		/// </summary>
+		/// <param name="i">A reference to a <see cref="DineWithaDane.InfoChange"/> containing Key and Value of the change.</param>
+		public void DeleteInformation (InfoChange i)
+		{
+			var request = new RestRequest("info/delete", Method.DELETE);
+
+			request.AddHeader(HttpStrings.AUTHORIZATION, HttpStrings.BEARER + userToken);
+
+			request.AddBody(i);
+
+			executeAndParseResponse(request);
 		}
 
 		/// <summary>
