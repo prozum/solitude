@@ -331,7 +331,7 @@ namespace Dal
 			await client.Cypher
 				.OptionalMatch ("(user:User)-[:HOSTING]->(event:Event)<-[r]-(rest:User)")
 				.Where ("event.eid = {eid}")
-				.WithParam ("event.eid", eid)
+				.WithParam ("eid", eid)
 				.Delete ("r, event")
 				.ExecuteWithoutResultsAsync ();
 		}
