@@ -9,9 +9,15 @@ namespace Solitude.Server
     public class OfferController : SolitudeController
     {
         [Authorize]
+        [Route("")]
         public async Task<IHttpActionResult> Get()
         {
-            var offers = await DB.GetOffers(User.Identity.GetUserId());
+            var uid = User.Identity.GetUserId();
+
+            await DB.MatchUser(uid);
+
+            var offers = await DB.GetOffers(uid);
+
             return Ok(offers);
         }
 
@@ -21,7 +27,10 @@ namespace Solitude.Server
         {
             var success = await DB.ReplyOffer(User.Identity.GetUserId(), reply.Value, reply.EventId);
 
-            return success ? Ok() : BadRequest();
+            if (!success)
+                return BadRequest();
+
+            return Ok();
         }
     }
 }

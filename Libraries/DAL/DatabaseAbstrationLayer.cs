@@ -240,7 +240,7 @@ namespace Dal
 				.ExecuteWithoutResultsAsync ();
 		}
 
-		public async Task MatchUser (string uid, int LIMIT = 5)
+		public async Task MatchUser(string uid, int LIMIT = 5)
 		{
 			await CleanMatches (uid);
 
