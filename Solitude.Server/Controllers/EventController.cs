@@ -12,8 +12,8 @@ namespace Solitude.Server
         [Authorize]
         public async Task<IHttpActionResult> Get()
         {
-            var offers = await DB.GetEvents(User.Identity.GetUserId());
-            return Ok(offers);
+            var events = await DB.GetAttendingEvents(User.Identity.GetUserId());
+            return Ok(events);
 		}
 
         [Authorize]
