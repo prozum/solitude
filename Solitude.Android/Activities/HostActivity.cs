@@ -40,14 +40,14 @@ namespace DineWithaDane.Android
 
 			hostNewEventButton.Click += (object sender, EventArgs e) => StartActivity(typeof(CreateEventActivity));
 
-			hostedEventsList.CollectionChanged += (object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e) => 
-			{
-				foreach (var item in hostedEventsList)
+			hostedEventsList.CollectionChanged += (sender, e) => 
 				{
-					// Add element with event
-				}
-				content.AddView(hostNewEventButton);
-			};
+					foreach (var item in hostedEventsList)
+					{
+						// Add element with event
+					}
+					content.AddView(hostNewEventButton);
+				};
 
 			foreach (var item in hostedEventsList)
 			{

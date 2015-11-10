@@ -15,9 +15,6 @@ namespace DineWithaDane.Android
 	[Activity (Label = "AbstractActivity")]			
 	public abstract class DrawerActivity : Activity
 	{
-		//protected string m_DrawerTitle, m_Title;
-		//protected DrawerLayout m_Drawer;
-		//protected ListView m_DrawerList;
 		protected int Position { get; set; }
 		protected SetupDrawer DrawerSetup { get; set; }
 		protected FrameLayout Content { get; set; }
@@ -28,14 +25,7 @@ namespace DineWithaDane.Android
 
 			SetContentView(Resource.Layout.ActivityLayout);
 
-			DrawerSetup = new SetupDrawer (
-				//m_DrawerTitle,
-				//m_Title,
-				//m_Drawer,
-				//m_DrawerList,
-				Position,
-				this
-			);
+			DrawerSetup = new SetupDrawer (Position, this);
 
 			DrawerSetup.Configure ();
 			DrawerSetup.DrawerToggleSetup ();
@@ -72,22 +62,23 @@ namespace DineWithaDane.Android
 		/// Shows the spinner, indicating loading.
 		/// </summary>
 		/// <remarks>Must be run from the UI-thread</remarks>
-		protected void showSpinner()
+		protected void ShowSpinner()
 		{
 			ProgressBar pb = new ProgressBar(this);
-			this.Content.AddView(pb);
+			Content.AddView(pb);
 		}
 
 		/// <summary>
 		/// Removes the spinner.
 		/// </summary>
 		/// <remarks>Must be run in the UI-thread</remarks>
-		protected void clearLayout()
+		protected void ClearLayout()
 		{
-			this.Content.RemoveAllViews();
+			Content.RemoveAllViews();
 		}
 
-		protected void prepareLooper(){
+		protected void PrepareLooper()
+		{
 			if (Looper.MyLooper() == null)
 				Looper.Prepare();
 		}
