@@ -348,7 +348,7 @@ namespace Dal
 				.Return ((@event) => @event.As<Event> ())
 				.ResultsAsync;
 
-			return res.Count() > 0;
+			return res.Any();
 		}
 
 		public async Task ReleaseSlot(int eid)
