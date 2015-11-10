@@ -56,7 +56,7 @@ namespace DineWithaDane.Android
 
 			acceptButton.Click += (object sender, EventArgs e) => {
 				MainActivity.CIF.DeleteUser();
-				dialog.Dismiss ();
+				MainActivity.CIF.Logout(this);
 			};
 
 			dialog.Show();
