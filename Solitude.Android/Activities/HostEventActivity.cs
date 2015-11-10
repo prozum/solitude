@@ -160,7 +160,8 @@ namespace DineWithaDane.Android
 				buttonConfirm.Text = "Save changes";
 				buttonConfirm.Click += (object sender, EventArgs e) =>
 				{
-					throw new NotImplementedException("Can't tell server that event is changed");
+						Event @event = new Event(title.Text, new DateTime(date.DateTime.Year, date.DateTime.Month, date.DateTime.Day, (int)timePicker.CurrentHour, (int)timePicker.CurrentMinute, 0), location.Text, description.Text, int.Parse(guests.Text), Intent.GetIntExtra("leftslots", 0), Intent.GetIntExtra("id", 0));
+					MainActivity.CIF.UpdateEvent(@event);
 				};
 				
 				var buttonCancel = new Button(this);
