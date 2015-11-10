@@ -257,11 +257,11 @@ namespace Dal
 			 * 15: create 'relationship' "MATCHED" from user to all the events that fits
 			 */
 
-			var res = await client.Cypher
-				.Match ("(user:User), (rest:User)-[:HOSTING]->(event:Event)")
-				.Where ("user.Id = {uid}")
-				.AndWhere ("rest.Id <> {uid}")
-				.AndWhere ("event.SlotsTotal > event.SlotsTaken")
+			await client.Cypher
+				.Match ("(user:User), (rest:User)-[:HOSTING]->(e:Event)")
+				.Where ((User user) => user.Id == uid )
+				.AndWhere ((User rest) => rest.Id != uid)
+				.AndWhere ((Event e) => e.SlotsTotal > e.SlotsTaken)
 				.WithParam ("uid", uid)
 				.Match ("user-[w1:WANTS]->(interest:Interest)<-[w2:WANTS]-rest")
 				.With ("user, rest, event, sum(w1.weight) + sum(w2.weight) as wt1")
@@ -272,7 +272,7 @@ namespace Dal
 				.OrderBy ("(wt1+wt2+wt3) DESC")
 				.Limit (LIMIT)
 				.Create ("user-[m:MATCHED]->event")
-				.Return ((matches) => Return.As<int> ("count(m)")).ResultsAsync;
+				.ExecuteWithoutResultsAsync ();
 
 			/*
 			if (res.First().matches > 0)
