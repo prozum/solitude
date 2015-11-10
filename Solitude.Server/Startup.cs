@@ -25,11 +25,14 @@ namespace Solitude.Server
         private void ConfigureWebApi (IAppBuilder app)
         {
             var config = new HttpConfiguration ();
+
+            // Allow
             config.MapHttpAttributeRoutes ();
+
             config.Routes.MapHttpRoute (
-                "DefaultApi",
-                "api/{controller}/{id}",
-                new { id = RouteParameter.Optional });
+                name: "DefaultApi",
+                routeTemplate: "api/{controller}/{id}",
+                defaults: new { id = RouteParameter.Optional });
 
             // Use json
             config.Formatters.Clear ();

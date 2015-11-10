@@ -6,20 +6,17 @@ using Model;
 
 namespace Solitude.Server
 {
-    [RoutePrefix("api/event")]
     public class EventController : SolitudeController
 	{
         [Authorize]
-        [Route("")]
         public async Task<IHttpActionResult> Get()
         {
             var events = await DB.GetHostingEvents(User.Identity.GetUserId());
             return Ok(events);
 		}
-
+            
         [Authorize]
-        [Route("add")]
-        public async Task<IHttpActionResult> Add(Event e)
+        public async Task<IHttpActionResult> Post(Event e)
         {
             e.UserId = User.Identity.GetUserId();
 
@@ -27,19 +24,17 @@ namespace Solitude.Server
 
             return Ok(new { Id = e.Id});
         }
-
+            
         [Authorize]
-        [Route("delete")]
-        public async Task<IHttpActionResult> Delete(int eventId)
+        public async Task<IHttpActionResult> Delete(int id)
         {
-            await DB.DeleteEvent(eventId);
+            await DB.DeleteEvent(id);
 
             return Ok();
         }
-
+            
         [Authorize]
-        [Route("update")]
-        public async Task<IHttpActionResult> Update(Event e)
+        public async Task<IHttpActionResult> Put(Event e)
         {
             await DB.UpdateEvent(e);
 

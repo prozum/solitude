@@ -8,13 +8,10 @@ using Model;
 
 namespace Solitude.Server
 {
-    [RoutePrefix("api/review")]
     public class ReviewController : SolitudeController
     {
-
         [Authorize]
-        [Route("add")]
-        public async Task<IHttpActionResult> Add(Review review)
+        public async Task<IHttpActionResult> Post(Review review)
         {
             review.UserId = User.Identity.GetUserId();
             

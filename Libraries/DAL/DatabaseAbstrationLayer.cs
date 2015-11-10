@@ -333,7 +333,7 @@ namespace Dal
 				.Where ("event.eid = {eid}")
 				.WithParam ("event.eid", eid)
 				.Delete ("r, event")
-				.ExecuteWithoutResultsAsync();
+				.ExecuteWithoutResultsAsync ();
 		}
 
 		public async Task<bool> TakeSlot(int eid)
