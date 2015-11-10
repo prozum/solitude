@@ -388,13 +388,14 @@ namespace ClientCommunication
 
 			if (response.StatusCode == HttpStatusCode.OK)
 			{
-				JsonValue jVal = new JsonValue(response.Content);
+				JsonValue jVal = System.Json.JsonValue.Parse(response.Content);
 				e.ID = parseToInt(jVal);
 				return true;
 			}
 			else
 			{
-				parseErrorMessage(response.Content);
+				parseErrorMessage(response);
+				return false;
 			}
 		}
 
