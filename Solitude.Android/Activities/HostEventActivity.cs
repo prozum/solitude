@@ -97,20 +97,24 @@ namespace DineWithaDane.Android
 				createEventButton.Id = 0x0007;
 				createEventButton.Click += (object sender, EventArgs e) =>
 				{
+					int res;
+					bool valid = int.TryParse(guests.Text, out res);
 					// Check if all forms have been filled.
 					if (String.IsNullOrEmpty(title.Text) ||
 					    String.IsNullOrEmpty(description.Text) ||
 					    String.IsNullOrEmpty(location.Text) ||
-					    String.IsNullOrEmpty(guests.Text))
+					    String.IsNullOrEmpty(guests.Text) ||
+						!valid)
 					{
 						AlertDialog.Builder builder = new AlertDialog.Builder(this);
 						AlertDialog alertDialog = builder.Create();
 						alertDialog.SetTitle("Empty fields");
-						alertDialog.SetMessage(String.Format("The following fields are empty:\n{0}{1}{2}{3}", 
+							alertDialog.SetMessage(String.Format("There are errors in your event:\n{0}{1}{2}{3}{4}", 
 								String.IsNullOrEmpty(title.Text) ? "- No title\n" : "",
 								String.IsNullOrEmpty(description.Text) ? "- No description\n" : "",
 								String.IsNullOrEmpty(location.Text) ? "- No address\n" : "",
-								String.IsNullOrEmpty(guests.Text) ? "- No guest limit" : ""));
+								String.IsNullOrEmpty(guests.Text) ? "- No guest limit\n" : "",
+								(!valid && !String.IsNullOrEmpty(guests.Text)) ? "- Too many event guests." : ""));
 						alertDialog.SetButton("OK", (s, ev) => alertDialog.Dismiss());
 						alertDialog.Show();
 					}
