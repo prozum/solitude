@@ -11,8 +11,12 @@ namespace Solitude.Server.Tests
 	{
 		RestClient testClient = new RestClient("http://prozum.dk:8080/api/");
 		Random r = new Random();
-		string testUsername = "TestKurt" + r.Next(1, 100000), testToken = "", token_type = "";
+		public string testUsername, testToken = "", token_type = "";
 
+		public Test ()
+		{
+			testUsername = "ServerTestUser" + r.Next(1, 1000000);
+		}
 		[Test ()]
 		public void TestCase ()
 		{
@@ -22,7 +26,6 @@ namespace Solitude.Server.Tests
 		[Test ()]
 		public void TestCaseRegisterUser ()
 		{
-			//Build request and user
 			var request = new RestRequest ("user/register", Method.POST);
 			var user = new 
 			{
@@ -31,11 +34,10 @@ namespace Solitude.Server.Tests
 				confirmedPassword = "Testkurt123!"
 			};
 
-			//Alters request format to json and add information
 			request.RequestFormat = DataFormat.Json;
 			request.AddBody (user);
 			var response = testClient.Execute (request);
-			Assert.IsTrue (response.ResponseStatus == HttpStatusCode.OK);
+			Assert.IsTrue (response.StatusCode == HttpStatusCode.OK);
 		}
 
 		public void Login()
