@@ -9,6 +9,7 @@ namespace Solitude.Server
     [RoutePrefix("api/event")]
     public class EventController : SolitudeController
 	{
+        [Authorize]
         public async Task<IHttpActionResult> Get()
         {
             var offers = await DB.GetEvents(User.Identity.GetUserId());
