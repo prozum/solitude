@@ -19,7 +19,7 @@ namespace DineWithaDane.Android
 		protected override void OnCreate(Bundle bundle)
 		{
 			Position = 3;
-			base.OnCreate (bundle);
+			base.OnCreate(bundle);
 
 			var contentFrame = FindViewById<FrameLayout>(Resource.Id.content_frame);
 
@@ -99,31 +99,35 @@ namespace DineWithaDane.Android
 				createEventButton.Id = 0x0007;
 				createEventButton.Click += (object sender, EventArgs e) =>
 				{
-					int res;
-					bool valid = int.TryParse(guests.Text, out res);
+					int numberOfGuestsMax;
+					bool boolGuestCount = int.TryParse(guests.Text, out numberOfGuestsMax);
+					bool boolTitle = String.IsNullOrEmpty(title.Text);
+					bool boolDescription = String.IsNullOrEmpty(description.Text);
+					bool boolLocation = String.IsNullOrEmpty(location.Text);
+					bool boolGuest = String.IsNullOrEmpty(guests.Text);
 					// Check if all forms have been filled.
-					if (String.IsNullOrEmpty(title.Text) ||
-					    String.IsNullOrEmpty(description.Text) ||
-					    String.IsNullOrEmpty(location.Text) ||
-					    String.IsNullOrEmpty(guests.Text) ||
-						!valid)
+					if (boolTitle
+					    || boolDescription
+					    || boolLocation
+					    || boolGuest
+					    || !boolGuestCount)
 					{
 						AlertDialog.Builder builder = new AlertDialog.Builder(this);
 						AlertDialog alertDialog = builder.Create();
 						alertDialog.SetTitle("Empty fields");
-							alertDialog.SetMessage(String.Format("There are errors in your event:\n{0}{1}{2}{3}{4}", 
-								String.IsNullOrEmpty(title.Text) ? "- No title\n" : "",
-								String.IsNullOrEmpty(description.Text) ? "- No description\n" : "",
-								String.IsNullOrEmpty(location.Text) ? "- No address\n" : "",
-								String.IsNullOrEmpty(guests.Text) ? "- No guest limit\n" : "",
-								(!valid && !String.IsNullOrEmpty(guests.Text)) ? "- Too many event guests." : ""));
+						alertDialog.SetMessage(String.Format("There are errors in your event:\n{0}{1}{2}{3}{4}", 
+								boolTitle ? "- No title\n" : "",
+								boolDescription ? "- No description\n" : "",
+								boolLocation ? "- No address\n" : "",
+								boolGuest ? "- No guest limit\n" : "",
+								(!boolGuestCount && boolGuest) ? "- Too many event guests." : ""));
 						alertDialog.SetButton("OK", (s, ev) => alertDialog.Dismiss());
 						alertDialog.Show();
 					}
 					else
 					{
 						DateTime @dateTime = new DateTime(date.DateTime.Year, date.DateTime.Month, date.DateTime.Day, (int)timePicker.CurrentHour, (int)timePicker.CurrentMinute, 0);
-						Event @event = new Event(title.Text, @dateTime, location.Text, description.Text, int.Parse(guests.Text), 0);
+						Event @event = new Event(title.Text, @dateTime, location.Text, description.Text, numberOfGuestsMax, 0);
 						bool completed = MainActivity.CIF.CreateEvent(@event);
 						if (completed)
 							Finish();
@@ -162,7 +166,35 @@ namespace DineWithaDane.Android
 				buttonConfirm.Text = "Save changes";
 				buttonConfirm.Click += (object sender, EventArgs e) =>
 				{
-					Event @event = new Event(title.Text, new DateTime(date.DateTime.Year, date.DateTime.Month, date.DateTime.Day, (int)timePicker.CurrentHour, (int)timePicker.CurrentMinute, 0), location.Text, description.Text, int.Parse(guests.Text), Intent.GetIntExtra("leftslots", 0), Intent.GetIntExtra("id", 0));
+					int numberOfGuestsMax;
+					bool boolGuestCount = int.TryParse(guests.Text, out numberOfGuestsMax);
+					bool boolTitle = String.IsNullOrEmpty(title.Text);
+					bool boolDescription = String.IsNullOrEmpty(description.Text);
+					bool boolLocation = String.IsNullOrEmpty(location.Text);
+					bool boolGuest = String.IsNullOrEmpty(guests.Text);
+					bool bool32BitGuest = numberOfGuestsMax < Intent.GetIntExtra("leftslots", Int32.MaxValue);
+
+					if (boolTitle
+					    || boolDescription
+					    || boolLocation
+					    || boolGuest
+					    || !boolGuestCount
+					    || bool32BitGuest)
+					{
+						AlertDialog.Builder builder = new AlertDialog.Builder(this);
+						AlertDialog alertDialog = builder.Create();
+						alertDialog.SetTitle("Empty fields");
+						alertDialog.SetMessage(String.Format("There are errors in your event:\n{0}{1}{2}{3}{4}{5}", 
+								boolTitle ? "- No title\n" : "",
+								boolDescription ? "- No description\n" : "",
+								boolLocation ? "- No address\n" : "",
+								boolGuest ? "- No guest limit\n" : "",
+								(!boolGuestCount && !boolGuest) ? "- Too many event guests." : "",
+								bool32BitGuest ? "- Your new guest limit is below current number of participants" : ""));
+						alertDialog.SetButton("OK", (s, ev) => alertDialog.Dismiss());
+						alertDialog.Show();
+					}
+					Event @event = new Event(title.Text, new DateTime(date.DateTime.Year, date.DateTime.Month, date.DateTime.Day, (int)timePicker.CurrentHour, (int)timePicker.CurrentMinute, 0), location.Text, description.Text, numberOfGuestsMax, Intent.GetIntExtra("leftslots", 0), Intent.GetIntExtra("id", 0));
 					MainActivity.CIF.UpdateEvent(@event);
 				};
 				
