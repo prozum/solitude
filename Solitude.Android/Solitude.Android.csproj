@@ -78,13 +78,10 @@
     <Compile Include="Drawer\SetupDrawer.cs" />
     <Compile Include="Classes\Review.cs" />
     <Compile Include="TileMenu\Items\EventItem.cs" />
-    <Compile Include="TileMenu\Items\InfoGroup.cs" />
-    <Compile Include="TileMenu\Items\InfoItem.cs" />
     <Compile Include="TileMenu\Items\OfferItem.cs" />
     <Compile Include="TileMenu\Items\TileListGroup.cs" />
     <Compile Include="TileMenu\Items\TileListItem.cs" />
     <Compile Include="TileMenu\Lists\EventList.cs" />
-    <Compile Include="TileMenu\Lists\InfoList.cs" />
     <Compile Include="TileMenu\Lists\OfferList.cs" />
     <Compile Include="TileMenu\Items\EventGroup.cs" />
     <Compile Include="TileMenu\Lists\SortableTileList.cs" />
@@ -92,7 +89,6 @@
     <Compile Include="TileMenu\Adapters\BaseTileListAdapter.cs" />
     <Compile Include="TileMenu\Adapters\EventListAdapter.cs" />
     <Compile Include="TileMenu\Adapters\OfferListAdapter.cs" />
-    <Compile Include="TileMenu\Adapters\ProfileInfoListAdapter.cs" />
     <Compile Include="Activities\EventActivity.cs" />
     <Compile Include="Activities\OfferActivity.cs" />
     <Compile Include="Activities\ProfileActivity.cs" />

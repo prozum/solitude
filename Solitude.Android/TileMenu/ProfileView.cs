@@ -38,6 +38,9 @@ namespace DineWithaDane.Android
 			var detailLayout = new RelativeLayout(context);
 			var scrollview = new ScrollView(context);
 			var infolayout = new LinearLayout(context);
+			var languagelayout = new LinearLayout(context);
+			var interestlayout = new LinearLayout(context);
+			var foodhabitlayout = new LinearLayout(context);
 			var languagetext = new TextView(context);
 			var intereststext = new TextView(context);
 			var foodhabitstext = new TextView(context);
@@ -62,6 +65,9 @@ namespace DineWithaDane.Android
 			Orientation = Orientation.Vertical;
 			infolayout.Orientation = Orientation.Vertical;
 			infolayout.SetHorizontalGravity(GravityFlags.Right);
+			languagelayout.Orientation = Orientation.Vertical;
+			interestlayout.Orientation = Orientation.Vertical;
+			foodhabitlayout.Orientation = Orientation.Vertical;
 
 			NameView.Text = "Name: " + User.Name;
 			AddressView.Text = "Address: " + User.Address;
@@ -95,17 +101,20 @@ namespace DineWithaDane.Android
 
 			infolayout.AddView(languagetext);
 			infolayout.AddView(new Seperator(context, Color.Black));
-			AddTo(infolayout, Enum.GetNames(typeof(Language)), context);
+			infolayout.AddView(languagelayout);
+			//AddTo(infolayout, Enum.GetNames(typeof(Language)), context);
 			infolayout.AddView(editlanguage);
 
 			infolayout.AddView(intereststext);
 			infolayout.AddView(new Seperator(context, Color.Black));
-			AddTo(infolayout, Enum.GetNames(typeof(Interest)), context);
+			infolayout.AddView(interestlayout);
+			//AddTo(infolayout, Enum.GetNames(typeof(Interest)), context);
 			infolayout.AddView(editinterests);
 
 			infolayout.AddView(foodhabitstext);
 			infolayout.AddView(new Seperator(context, Color.Black));
-			AddTo(infolayout, Enum.GetNames(typeof(FoodHabit)), context);
+			infolayout.AddView(foodhabitlayout);
+			//AddTo(infolayout, Enum.GetNames(typeof(FoodHabit)), context);
 			infolayout.AddView(editfoodhabits);
 
 			scrollview.AddView(infolayout);
