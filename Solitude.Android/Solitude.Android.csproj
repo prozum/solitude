@@ -120,7 +120,6 @@
     <AndroidResource Include="Resources\layout\SpinnerItem.axml" />
     <AndroidResource Include="Resources\layout\Profile.axml" />
     <AndroidResource Include="Resources\layout\review_layout.axml" />
-    <AndroidResource Include="Resources\layout\EditInfo.axml" />
     <AndroidResource Include="Resources\layout\deletionDialog.axml" />
     <AndroidResource Include="Resources\layout\EditText.axml" />
     <AndroidResource Include="Resources\layout\CheckedListViewItem.axml" />

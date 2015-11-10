@@ -28,7 +28,7 @@ namespace DineWithaDane.Android
 		public Review (Event e, Activity currentActivity)
 		{
 			Event = e;
-			currentActivity = currentActivity;
+			this.currentActivity = currentActivity;
 		}
 
 		public Review (Event e, Activity currentActivity, 
@@ -36,8 +36,8 @@ namespace DineWithaDane.Android
 					   ReviewNotification notification)
 			: this (e, currentActivity)
 		{
-			notificationList = notificationList;
-			notification = notification;
+			this.notificationList = notificationList;
+			this.notification = notification;
 
 			setupReviewDialog ();
 		}
@@ -54,7 +54,7 @@ namespace DineWithaDane.Android
 
 			reviewTitle = dialog.FindViewById<TextView>(Resource.Id.reviewTitle);
 			rating = (RatingBar)dialog.FindViewById (Resource.Id.ratingbar);
-			input = (EditText)dialog.FindViewById <EditText> (Resource.Id.reviewUserInput);
+			input = (EditText)dialog.FindViewById<EditText> (Resource.Id.reviewUserInput);
 
 			reviewTitle.Text = "Review of " + Event.Title;
 
