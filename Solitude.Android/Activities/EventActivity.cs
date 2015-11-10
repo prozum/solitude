@@ -21,12 +21,12 @@ namespace DineWithaDane.Android
 			base.OnCreate (savedInstanceState);
 
 			//Show spinner to indicate loading
-			showSpinner();
+			ShowSpinner();
 
 			ThreadPool.QueueUserWorkItem(o =>
 				{
 					//Fetch events from server
-					prepareLooper();
+					PrepareLooper();
 
 					var events = MainActivity.CIF.GetOwnEvents(100);
 					var adapter = new EventListAdapter(this, MainActivity.CIF.GetOwnEvents(100));
@@ -34,7 +34,7 @@ namespace DineWithaDane.Android
 
 					//Clear screen and show found events
 					RunOnUiThread( () => {
-						clearLayout();
+						ClearLayout();
 
 						//If no events are found display an error-message
 						if(events == null){

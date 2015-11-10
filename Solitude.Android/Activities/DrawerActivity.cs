@@ -15,9 +15,6 @@ namespace DineWithaDane.Android
 	[Activity (Label = "AbstractActivity")]			
 	public abstract class DrawerActivity : Activity
 	{
-		//protected string m_DrawerTitle, m_Title;
-		//protected DrawerLayout m_Drawer;
-		//protected ListView m_DrawerList;
 		protected int Position { get; set; }
 		protected SetupDrawer DrawerSetup { get; set; }
 		protected FrameLayout Content { get; set; }
@@ -28,14 +25,7 @@ namespace DineWithaDane.Android
 
 			SetContentView(Resource.Layout.ActivityLayout);
 
-			DrawerSetup = new SetupDrawer (
-				//m_DrawerTitle,
-				//m_Title,
-				//m_Drawer,
-				//m_DrawerList,
-				Position,
-				this
-			);
+			DrawerSetup = new SetupDrawer (Position, this);
 
 			DrawerSetup.Configure ();
 			DrawerSetup.DrawerToggleSetup ();

@@ -21,12 +21,12 @@ namespace DineWithaDane.Android
 			base.OnCreate (savedInstanceState);
 
 			//Shows spinner to indicate loading
-			showSpinner();
+			ShowSpinner();
 
 			ThreadPool.QueueUserWorkItem(o =>
 				{
 					//Fetch offers from server
-					prepareLooper();
+					PrepareLooper();
 					
 					var offers = MainActivity.CIF.RequestOffers();
 					var adapter = new OfferListAdapter(this, offers);
@@ -34,7 +34,7 @@ namespace DineWithaDane.Android
 
 					//Clear screen and show the found offers
 					RunOnUiThread( () => {
-						clearLayout();
+						ClearLayout();
 
 						Content.AddView(tilelist);
 					});

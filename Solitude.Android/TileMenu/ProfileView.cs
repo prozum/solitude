@@ -170,13 +170,7 @@ namespace DineWithaDane.Android
 			#endregion
 
 		}
-		#endregion
-
-
-		#region Public Methods
-
-		#endregion
-
+            		#endregion
 
 		#region Private Methods
 		private async void GetInfo()
