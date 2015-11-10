@@ -32,7 +32,7 @@ namespace Dal
 		public async Task AddInterest (Interest ic)
 		{
 				await client.Cypher
-					.Create ("(interest:Interest {info})")
+					.Create ("(interest:Interest {val: info})")
 					.WithParam ("info", ic)
 					.ExecuteWithoutResultsAsync ();
 		}
@@ -47,7 +47,7 @@ namespace Dal
 		public async Task AddLanguage (Language lc)
 		{
 			await client.Cypher
-				.Create ("(language:Language {info})")
+				.Create ("(language:Language {val: info})")
 				.WithParam ("info", lc)
 				.ExecuteWithoutResultsAsync ();
 		}
@@ -62,7 +62,7 @@ namespace Dal
 		public async Task AddFoodHabit (FoodHabit fh)
 		{
 			await client.Cypher
-				.Create ("(foodhabit:FoodHabit {info})")
+				.Create ("(foodhabit:FoodHabit {val: info})")
 				.WithParam ("info", fh)
 				.ExecuteWithoutResultsAsync ();
 		}
@@ -151,7 +151,7 @@ namespace Dal
 			var res = await client.Cypher
 				.Match ("(user:User)-[:WANTS]->(interest:Interest)")
 				.Where ((User user) => user.Id == uid)
-				.Return (() => Return.As<int> ("collect(interest)"))
+				.Return (() => Return.As<int> ("collect(interest.val)"))
 				.ResultsAsync;
 
 			return res;
@@ -188,7 +188,7 @@ namespace Dal
 			var res = await client.Cypher
 				.Match ("(user:User)-[:WANTS]->(language:Language)")
 				.Where ((User user) => user.Id == uid)
-				.Return (() => Return.As<int> ("collect(language)"))
+				.Return (() => Return.As<int> ("collect(language.val)"))
 				.ResultsAsync;
 
 			return res;
@@ -225,7 +225,7 @@ namespace Dal
 			var res = await client.Cypher
 				.Match ("(user:User)-[:WANTS]->(foodhabit:FoodHabit)")
 				.Where ((User user) => user.Id == uid)
-				.Return (() => Return.As<int> ("collect(foodhabit)"))
+				.Return (() => Return.As<int> ("collect(foodhabit.val)"))
 				.ResultsAsync;
 
 			return res;
