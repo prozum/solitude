@@ -298,10 +298,10 @@ namespace Dal
 			var hosting = await client.Cypher
 				.Match ("(user:User)-[:HOSTING]->(event:Event)")
 				.Where((User user) => user.Id == uid)
-				.Return (() => Return.As<Event> ("collect(event)"))
+				.Return (() => Return.As<IEnumerable<Event>> ("collect(event)"))
 				.ResultsAsync;
 
-			return hosting;
+			return hosting.First();
 		}
 
 		public async Task<IEnumerable<Event>> GetAttendingEvents (string uid)
@@ -309,10 +309,10 @@ namespace Dal
 			var attending = await client.Cypher
 				.Match ("(user:User)-[:ATTENDING]->(event:Event)")
 				.Where ((User user) => user.Id == uid)
-				.Return (() => Return.As<Event> ("collect(event)"))
+				.Return (() => Return.As<IEnumerable<Event>> ("collect(event)"))
 				.ResultsAsync;
 
-			return attending;
+			return attending.First();
 		}
 
 		public async Task UpdateEvent (Event @event)
