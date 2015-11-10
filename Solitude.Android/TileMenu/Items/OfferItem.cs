@@ -21,6 +21,12 @@ namespace DineWithaDane.Android
 		#endregion
 
 		#region Constructors
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DineWithaDane.Android.OfferItem"/> class.
+		/// </summary>
+		/// <param name="context">Context.</param>
+		/// <param name="onAccept">On accept.</param>
+		/// <param name="onDecline">On decline.</param>
 		public OfferItem(Context context, EventHandler onAccept, EventHandler onDecline)
 			: base(context)
 		{

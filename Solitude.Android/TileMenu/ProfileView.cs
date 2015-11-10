@@ -4,6 +4,7 @@
  */
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,13 +25,26 @@ namespace DineWithaDane.Android
 	{
 		#region Fields
 		protected User User { get; set; }
+		protected List<Language> Languages { get; set; }
+		protected List<Interest> Interests { get; set; }
+		protected List<FoodHabit> FoodHabits { get; set; }
+
 		protected ImageView PictureView { get; set; }
 		protected TextView NameView { get; set; }
 		protected TextView AddressView { get; set; }
+
+		protected LinearLayout LanguageLayout { get; set; }
+		protected LinearLayout InterestLayout { get; set; }
+		protected LinearLayout FoodhabitLayout { get; set; }
 		#endregion
 
 
 		#region Constructors
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DineWithaDane.Android.ProfileView"/> class.
+		/// </summary>
+		/// <param name="context">Context.</param>
+		/// <param name="user">User.</param>
 		public ProfileView(Context context, User user)
 			: base(context)
 		{
@@ -38,9 +52,6 @@ namespace DineWithaDane.Android
 			var detailLayout = new RelativeLayout(context);
 			var scrollview = new ScrollView(context);
 			var infolayout = new LinearLayout(context);
-			var languagelayout = new LinearLayout(context);
-			var interestlayout = new LinearLayout(context);
-			var foodhabitlayout = new LinearLayout(context);
 			var languagetext = new TextView(context);
 			var intereststext = new TextView(context);
 			var foodhabitstext = new TextView(context);
@@ -56,18 +67,27 @@ namespace DineWithaDane.Android
 
 			#region Adding parameters to proporties
 			User = user;
+
+			Languages = new List<Language>();
+			Interests = new List<Interest>();
+			FoodHabits = new List<FoodHabit>();
+
 			PictureView = new ImageView(context);
 			NameView = new TextView(context);
 			AddressView = new TextView(context);
+
+			LanguageLayout = new LinearLayout(context);
+			InterestLayout = new LinearLayout(context);
+			FoodhabitLayout = new LinearLayout(context);
 			#endregion
 
 			#region Setting variables values
 			Orientation = Orientation.Vertical;
 			infolayout.Orientation = Orientation.Vertical;
 			infolayout.SetHorizontalGravity(GravityFlags.Right);
-			languagelayout.Orientation = Orientation.Vertical;
-			interestlayout.Orientation = Orientation.Vertical;
-			foodhabitlayout.Orientation = Orientation.Vertical;
+			LanguageLayout.Orientation = Orientation.Vertical;
+			InterestLayout.Orientation = Orientation.Vertical;
+			FoodhabitLayout.Orientation = Orientation.Vertical;
 
 			NameView.Text = "Name: " + User.Name;
 			AddressView.Text = "Address: " + User.Address;
@@ -88,9 +108,18 @@ namespace DineWithaDane.Android
 			AddressView.Id = 7;
 
 			editdetails.Click += EditDetails;
-			editlanguage.Click += EditLanguage;
-			editinterests.Click += EditInterests;
-			editfoodhabits.Click += EditFoodHabits;
+			editlanguage.Click += (sender, e) => 
+				{
+					SetupEditDialog(typeof(Language), Languages, LanguageLayout);
+				};
+			editinterests.Click += (sender, e) => 
+				{
+					SetupEditDialog(typeof(Interest), Interests, InterestLayout);
+				};
+			editfoodhabits.Click += (sender, e) => 
+				{
+					SetupEditDialog(typeof(FoodHabit), FoodHabits, FoodhabitLayout);
+				};
 			#endregion
 
 			#region Adding views to layouts
@@ -101,20 +130,17 @@ namespace DineWithaDane.Android
 
 			infolayout.AddView(languagetext);
 			infolayout.AddView(new Seperator(context, Color.Black));
-			infolayout.AddView(languagelayout);
-			//AddTo(infolayout, Enum.GetNames(typeof(Language)), context);
+			infolayout.AddView(LanguageLayout);
 			infolayout.AddView(editlanguage);
 
 			infolayout.AddView(intereststext);
 			infolayout.AddView(new Seperator(context, Color.Black));
-			infolayout.AddView(interestlayout);
-			//AddTo(infolayout, Enum.GetNames(typeof(Interest)), context);
+			infolayout.AddView(InterestLayout);
 			infolayout.AddView(editinterests);
 
 			infolayout.AddView(foodhabitstext);
 			infolayout.AddView(new Seperator(context, Color.Black));
-			infolayout.AddView(foodhabitlayout);
-			//AddTo(infolayout, Enum.GetNames(typeof(FoodHabit)), context);
+			infolayout.AddView(FoodhabitLayout);
 			infolayout.AddView(editfoodhabits);
 
 			scrollview.AddView(infolayout);
@@ -144,20 +170,21 @@ namespace DineWithaDane.Android
 			#endregion
 
 		}
-		#endregion
-
-
-		#region Public Methods
-
-		#endregion
-
+            		#endregion
 
 		#region Private Methods
-		private void AddTo(ViewGroup layout, IEnumerable<object> items, Context context)
+		private async void GetInfo()
 		{
+			throw new NotImplementedException();
+		}
+
+		private void UpdateLayout(LinearLayout layout, IEnumerable items)
+		{
+			layout.RemoveAllViews();
+
 			foreach (var item in items)
 			{
-				var view = new TextView(context);
+				var view = new TextView(Context);
 				view.Text = item.ToString();
 				layout.AddView(view);
 			}
@@ -169,112 +196,99 @@ namespace DineWithaDane.Android
 			dialog.RequestWindowFeature((int)WindowFeatures.NoTitle);
 			dialog.SetContentView(Resource.Layout.EditDetails);
 
+			// getting relevant views
 			var nameview = dialog.FindViewById<AutoCompleteTextView>(Resource.Id.NameEditor);
 			var addressview = dialog.FindViewById<AutoCompleteTextView>(Resource.Id.AddressEditor);
 			var savebutton = dialog.FindViewById<Button>(Resource.Id.SaveButton);
 			var cancelbutton = dialog.FindViewById<Button>(Resource.Id.CancelButton);
 
+			// setting textbox info
 			nameview.Text = User.Name;
 			addressview.Text = User.Address;
 
+			// adding functionallity to save button
 			savebutton.Click += (s, e) => 
 				{
+					// updating user name and address
 					User.Name = nameview.Text;
 					User.Address = addressview.Text;
+
+					// updating ui
 					NameView.Text = "Name: " + User.Name;
 					AddressView.Text = "Address: " + User.Address;
 
+					// closing dialog
 					dialog.Dismiss();
 				};
 
+			// adding functionallity to cancelbutton
 			cancelbutton.Click += (s, e) => 
 				{
+					// closing dialog
 					dialog.Dismiss();
 				};
 
+			// show dialog
 			dialog.Show();
-		}
+   		}
 
-		private void EditLanguage(object sender, EventArgs evntarg)
+		private void SetupEditDialog(Type dialogtype, IList info, LinearLayout layout)
 		{
 			var dialog = new Dialog(Context);
 			dialog.RequestWindowFeature((int)WindowFeatures.NoTitle);
 			dialog.SetContentView(Resource.Layout.EditComparableInfo);
 
+			// getting relevant views
 			var nameview = dialog.FindViewById<TextView>(Resource.Id.Text);
 			var infolist = dialog.FindViewById<ListView>(Resource.Id.InfoList);
 			var savebutton = dialog.FindViewById<Button>(Resource.Id.SaveButton);
 			var cancelbutton = dialog.FindViewById<Button>(Resource.Id.CancelButton);
 
-			nameview.Text = "Languages:";
-			infolist.Adapter = new ArrayAdapter<string>(Context, Resource.Layout.CheckedListViewItem, Enum.GetNames(typeof(Language)));
+			// setting header text info
+			if (dialogtype == typeof(Language))
+				nameview.Text = "Languages:";
+			else if (dialogtype == typeof(Interest))
+				nameview.Text = "Interests:";
+			else if (dialogtype == typeof(FoodHabit))
+				nameview.Text = "Food Habits:";
+			else 
+				throw new NotImplementedException();
 
+			// setting up list of info with checkboxes
+			infolist.Adapter = new ArrayAdapter<string>(Context, Resource.Layout.CheckedListViewItem, Enum.GetNames(dialogtype));
+			infolist.ChoiceMode = ChoiceMode.Multiple;
+
+			// selecting info that is already chosen by user
+			foreach (var item in info)
+				infolist.SetItemChecked((int)item, true);
+
+			// adding functionallity to save button
 			savebutton.Click += (s, e) => 
 				{
+					info.Clear();
+
+					// adding selected info to list
+					for (int i = 0; i < infolist.ChildCount; i++) 
+						if ((infolist.GetChildAt(i) as CheckBox).Checked)
+							info.Add(i);
+
+					// updating ui
+					UpdateLayout(layout, info);
+
+					// closing dialog
 					dialog.Dismiss();
 				};
 
+			// adding functionallity to cancelbutton
 			cancelbutton.Click += (s, e) => 
 				{
+					// closing dialog
 					dialog.Dismiss();
 				};
-
+			
 			dialog.Show();
 		}
 
-		private void EditInterests(object sender, EventArgs evntarg)
-		{
-			var dialog = new Dialog(Context);
-			dialog.RequestWindowFeature((int)WindowFeatures.NoTitle);
-			dialog.SetContentView(Resource.Layout.EditComparableInfo);
-
-			var nameview = dialog.FindViewById<TextView>(Resource.Id.Text);
-			var infolist = dialog.FindViewById<ListView>(Resource.Id.InfoList);
-			var savebutton = dialog.FindViewById<Button>(Resource.Id.SaveButton);
-			var cancelbutton = dialog.FindViewById<Button>(Resource.Id.CancelButton);
-
-			nameview.Text = "Interests:";
-			infolist.Adapter = new ArrayAdapter<string>(Context, Resource.Layout.CheckedListViewItem, Enum.GetNames(typeof(Interest)));
-
-			savebutton.Click += (s, e) => 
-				{
-					dialog.Dismiss();
-				};
-
-			cancelbutton.Click += (s, e) => 
-				{
-					dialog.Dismiss();
-				};
-
-			dialog.Show();
-		}
-
-		private void EditFoodHabits(object sender, EventArgs evntarg)
-		{
-			var dialog = new Dialog(Context);
-			dialog.RequestWindowFeature((int)WindowFeatures.NoTitle);
-			dialog.SetContentView(Resource.Layout.EditComparableInfo);
-
-			var nameview = dialog.FindViewById<TextView>(Resource.Id.Text);
-			var infolist = dialog.FindViewById<ListView>(Resource.Id.InfoList);
-			var savebutton = dialog.FindViewById<Button>(Resource.Id.SaveButton);
-			var cancelbutton = dialog.FindViewById<Button>(Resource.Id.CancelButton);
-
-			nameview.Text = "Food Habits:";
-			infolist.Adapter = new ArrayAdapter<string>(Context, Resource.Layout.CheckedListViewItem, Enum.GetNames(typeof(FoodHabit)));
-
-			savebutton.Click += (s, e) => 
-				{
-					dialog.Dismiss();
-				};
-
-			cancelbutton.Click += (s, e) => 
-				{
-					dialog.Dismiss();
-				};
-
-			dialog.Show();
-		}
 		#endregion
 	}
 }

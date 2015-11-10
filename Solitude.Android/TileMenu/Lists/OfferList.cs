@@ -16,6 +16,11 @@ namespace DineWithaDane.Android
 	public class OfferList : SortableTileList<Event>
 	{
 		#region Constructors
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DineWithaDane.Android.OfferList"/> class.
+		/// </summary>
+		/// <param name="context">Context.</param>
+		/// <param name="adapter">Adapter.</param>
 		public OfferList(Context context, OfferListAdapter adapter)
 			: base(context, adapter, new string[] 
 				{

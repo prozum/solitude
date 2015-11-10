@@ -20,19 +20,15 @@ namespace DineWithaDane.Android
 		protected override void OnCreate(Bundle bundle)
 		{
 			// Layout setup
-			LinearLayout settingsLayout = new LinearLayout(this);
+			var settingsLayout = new LinearLayout(this);
 			settingsLayout.Orientation = Orientation.Vertical;
 
 			// Button setup
-			Button testBtn = new Button(this);
-			testBtn.Text = "Delete Account";
-			testBtn.Click += (object sender, EventArgs e) => {
-				deletionDialog();
-			};
+			var deletbutton = new Button(this);
+			deletbutton.Text = "Delete Account";
+			deletbutton.Click += (sender, e) => deletionDialog();
 
-			settingsLayout.AddView(testBtn);
-
-
+			settingsLayout.AddView(deletbutton);
 
 			base.OnCreate(bundle);
 
@@ -50,14 +46,13 @@ namespace DineWithaDane.Android
 			cancelButton = (Button)dialog.FindViewById <Button>(Resource.Id.CancelDeletionBtn);
 			acceptButton = (Button)dialog.FindViewById <Button>(Resource.Id.deleteAccountBtn);
 
-			cancelButton.Click += (object sender, EventArgs e) => {
-				dialog.Dismiss();
-			};
+			cancelButton.Click += (sender, e) => dialog.Dismiss();
 
-			acceptButton.Click += (object sender, EventArgs e) => {
-				MainActivity.CIF.DeleteUser();
-				MainActivity.CIF.Logout(this);
-			};
+			acceptButton.Click += (sender, e) => 
+				{
+					MainActivity.CIF.DeleteUser();
+					MainActivity.CIF.Logout(this);
+				};
 
 			dialog.Show();
 		}

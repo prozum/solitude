@@ -32,7 +32,7 @@ namespace Dal
 		public async Task AddInterest (Interest ic)
 		{
 				await client.Cypher
-					.Create ("(interest:Interest {info})")
+					.Create ("(interest:Interest {val: info})")
 					.WithParam ("info", ic)
 					.ExecuteWithoutResultsAsync ();
 		}
@@ -47,7 +47,7 @@ namespace Dal
 		public async Task AddLanguage (Language lc)
 		{
 			await client.Cypher
-				.Create ("(language:Language {info})")
+				.Create ("(language:Language {val: info})")
 				.WithParam ("info", lc)
 				.ExecuteWithoutResultsAsync ();
 		}
@@ -62,7 +62,7 @@ namespace Dal
 		public async Task AddFoodHabit (FoodHabit fh)
 		{
 			await client.Cypher
-				.Create ("(foodhabit:FoodHabit {info})")
+				.Create ("(foodhabit:FoodHabit {val: info})")
 				.WithParam ("info", fh)
 				.ExecuteWithoutResultsAsync ();
 		}
@@ -117,15 +117,6 @@ namespace Dal
 				.Create ("user-[:GAVE_REVIEW]->(review:Review {data})")
 				.WithParam ("data", review)
 				.ExecuteWithoutResultsAsync ();
-
-//			await client.Cypher
-//				.Match ("(user:User)")
-//				.Where ("user.Id = {uid}")
-//				.WithParam ("uid", review.UserId)
-//				//creates a relation "HOSTING" between the created event 
-//				.Create ("user-[:HOSTING]->(review:Review {data})")
-//				.WithParam ("data", new { Text = review.Text, Rating = review.Rating })
-//				.ExecuteWithoutResultsAsync ();
 		}
 
 			
@@ -160,7 +151,7 @@ namespace Dal
 			var res = await client.Cypher
 				.Match ("(user:User)-[:WANTS]->(interest:Interest)")
 				.Where ((User user) => user.Id == uid)
-				.Return (() => Return.As<int> ("collect(interest)"))
+				.Return (() => Return.As<int> ("collect(interest.val)"))
 				.ResultsAsync;
 
 			return res;
@@ -197,7 +188,7 @@ namespace Dal
 			var res = await client.Cypher
 				.Match ("(user:User)-[:WANTS]->(language:Language)")
 				.Where ((User user) => user.Id == uid)
-				.Return (() => Return.As<int> ("collect(language)"))
+				.Return (() => Return.As<int> ("collect(language.val)"))
 				.ResultsAsync;
 
 			return res;
@@ -234,7 +225,7 @@ namespace Dal
 			var res = await client.Cypher
 				.Match ("(user:User)-[:WANTS]->(foodhabit:FoodHabit)")
 				.Where ((User user) => user.Id == uid)
-				.Return (() => Return.As<int> ("collect(foodhabit)"))
+				.Return (() => Return.As<int> ("collect(foodhabit.val)"))
 				.ResultsAsync;
 
 			return res;
@@ -249,7 +240,7 @@ namespace Dal
 				.ExecuteWithoutResultsAsync ();
 		}
 
-		public async Task MatchUser (string uid, int LIMIT = 5)
+		public async Task MatchUser(string uid, int LIMIT = 5)
 		{
 			await CleanMatches (uid);
 
@@ -266,22 +257,22 @@ namespace Dal
 			 * 15: create 'relationship' "MATCHED" from user to all the events that fits
 			 */
 
-			var res = await client.Cypher
-				.Match ("(user:User), (rest:User)-[:HOSTING]->(event:Event)")
-				.Where ("user.Id = {uid}")
-				.AndWhere ("rest.Id <> {uid}")
-				.AndWhere ("event.SlotsTotal > event.SlotsTaken")
+			await client.Cypher
+				.Match ("(user:User), (rest:User)-[:HOSTING]->(e:Event)")
+				.Where ((User user) => user.Id == uid )
+				.AndWhere ((User rest) => rest.Id != uid)
+				.AndWhere ((Event e) => e.SlotsTotal > e.SlotsTaken)
 				.WithParam ("uid", uid)
-				.Match ("user-[w1:WANTS]->(interest:Interest)<-[w2:WANTS]-rest")
-				.With ("user, rest, event, sum(w1.weight) + sum(w2.weight) as wt1")
-				.Match ("user-[w3:WANTS]->(language:Language)<-[w4:WANTS]-rest")
-				.With ("user, rest, event, wt1, sum(w3.weight) + sum(w4.weight) as wt2")
-				.Match ("user-[w5:WANTS]->(foodhabit:FoodHabit)<-[w6:WANTS]-rest")
-				.With ("user, event, wt1, wt2, sum(w5.weight) + sum(w6.weight) as wt3")
+				.OptionalMatch ("user-[w1:WANTS]->(interest:Interest)<-[w2:WANTS]-rest")
+				.With ("user, rest, e, sum(w1.weight) + sum(w2.weight) as wt1")
+				.OptionalMatch ("user-[w3:WANTS]->(language:Language)<-[w4:WANTS]-rest")
+				.With ("user, rest, e, wt1, sum(w3.weight) + sum(w4.weight) as wt2")
+				.OptionalMatch ("user-[w5:WANTS]->(foodhabit:FoodHabit)<-[w6:WANTS]-rest")
+				.With ("user, e, wt1, wt2, sum(w5.weight) + sum(w6.weight) as wt3")
 				.OrderBy ("(wt1+wt2+wt3) DESC")
 				.Limit (LIMIT)
-				.Create ("user-[m:MATCHED]->event")
-				.Return ((matches) => Return.As<int> ("count(m)")).ResultsAsync;
+				.Create ("user-[m:MATCHED]->e")
+				.ExecuteWithoutResultsAsync ();
 
 			/*
 			if (res.First().matches > 0)
@@ -302,34 +293,26 @@ namespace Dal
 			return res.First();
 		}
 
-		public async Task<IEnumerable<Event>> GetEvents (string uid, bool ATTENDING = true, int LIMIT = 10)
+		public async Task<IEnumerable<Event>> GetHostingEvents (string uid)
 		{
-			if (ATTENDING)
-			{
-				var res = await client.Cypher
-					.Match ("(user:User)-[:ATTENDING]->(event:Event)")
-					.Where((User user) => user.Id == uid)
-					.Return (() =>  Return.As<IEnumerable<Event>> ("collect(event)"))
-					.Union ()
-					.Match ("user-[:HOSTING]->(event:Event)")
-					.Where((User user) => user.Id == uid)
-					.Return (() => Return.As<IEnumerable<Event>> ("collect(event)"))
-					.Limit (LIMIT)
-					.ResultsAsync;
+			var hosting = await client.Cypher
+				.Match ("(user:User)-[:HOSTING]->(event:Event)")
+				.Where((User user) => user.Id == uid)
+				.Return (() => Return.As<IEnumerable<Event>> ("collect(event)"))
+				.ResultsAsync;
 
-				return res.First();
-			}
-			else
-			{
-				var res = await client.Cypher
-					.Match ("(user:User)-[:HOSTING]->(event:Event)")
-					.Where((User user) => user.Id == uid)
-					.Return (() => Return.As<IEnumerable<Event>> ("collect(event)"))
-					.Limit (LIMIT)
-					.ResultsAsync;
+			return hosting.First();
+		}
 
-				return res.First();
-			}
+		public async Task<IEnumerable<Event>> GetAttendingEvents (string uid)
+		{
+			var attending = await client.Cypher
+				.Match ("(user:User)-[:ATTENDING]->(event:Event)")
+				.Where ((User user) => user.Id == uid)
+				.Return (() => Return.As<IEnumerable<Event>> ("collect(event)"))
+				.ResultsAsync;
+
+			return attending.First();
 		}
 
 		public async Task UpdateEvent (Event @event)
@@ -363,7 +346,7 @@ namespace Dal
 				.Return ((@event) => @event.As<Event> ())
 				.ResultsAsync;
 
-			return res.Count() > 0;
+			return res.Any();
 		}
 
 		public async Task ReleaseSlot(int eid)
@@ -400,7 +383,7 @@ namespace Dal
 					return false;
 
 				await client.Cypher
-					.Match ("(user:User), (e:Event)")
+					.Match ("(user:User)-[:MATCHED]->(e:Event)")
 					.Where ((User user) => user.Id == uid)
 					.AndWhere ((Event e) => e.Id == eid)
 					.Create ("user-[:ATTENDS]->e")
@@ -412,7 +395,7 @@ namespace Dal
 			else
 			{
 				await client.Cypher
-					.Match ("(user:User), (e:Event)")
+					.Match ("(user:User)-[:MATCHED]->(e:Event)")
 					.Where((User user) => user.Id == uid)
 					.Where((Event e) => e.Id == eid)
 					.Delete ("user-[:MATCHED]->e")

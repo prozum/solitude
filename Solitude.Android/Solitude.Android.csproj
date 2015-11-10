@@ -92,12 +92,9 @@
     <Compile Include="Activities\EventActivity.cs" />
     <Compile Include="Activities\OfferActivity.cs" />
     <Compile Include="Activities\ProfileActivity.cs" />
-    <Compile Include="TileMenu\TestMaterial.cs" />
-    <Compile Include="TileMenu\InfoTest.cs" />
     <Compile Include="TileMenu\ProfileView.cs" />
     <Compile Include="Activities\SettingsActivitiy.cs" />
     <Compile Include="Activities\DrawerActivity.cs" />
-    <Compile Include="TileMenu\UserInfoEnums.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="TileMenu\Seperator.cs" />
     <Compile Include="Activities\HostEventActivity.cs" />

@@ -14,12 +14,7 @@ namespace DineWithaDane.Android
 	[Activity (Label = "Login", MainLauncher = true)]
 	public class MainActivity : Activity
 	{
-		private static ClientCommunication.CommunicationInterface _CIF;
-		public static ClientCommunication.CommunicationInterface CIF{
-			get { 
-				return _CIF;
-			}
-		}
+		public static ClientCommunication.CommunicationInterface CIF{ get; private set;}
 
 		protected override void OnCreate (Bundle bundle)
 		{
@@ -27,7 +22,7 @@ namespace DineWithaDane.Android
 
 			StartService (new Intent(this, typeof(BackgroundService)));
 
-			_CIF = new ClientCommunication.CommunicationInterface ();
+			CIF = new ClientCommunication.CommunicationInterface ();
 
 			// Set our view from the "main" layout resource
 			SetContentView (Resource.Layout.Main);
@@ -36,10 +31,11 @@ namespace DineWithaDane.Android
 
 			//Adds a delegates to the buttons
 			loginButton.Click += loginButtonClicked;
-			signUp.Click += (sender, e) => {
-				var signUpScreenIntent = new Intent(this, typeof(SignUpActivity));
-				StartActivity(signUpScreenIntent);
-			};
+			signUp.Click += (sender, e) => 
+				{
+					var signUpScreenIntent = new Intent(this, typeof(SignUpActivity));
+					StartActivity(signUpScreenIntent);
+				};
 		}
 
 		/// <summary>
@@ -60,7 +56,7 @@ namespace DineWithaDane.Android
 			if (String.IsNullOrEmpty(username.Text) && String.IsNullOrEmpty(password.Text))
 			{
 				username.Text = "test";
-				password.Text = "#Test123";
+				password.Text = "Test123%";
 			}
 			#endif
 
@@ -75,34 +71,36 @@ namespace DineWithaDane.Android
 				layout.AddView(pb);
 
 				//Does server communication on separate thread to avoid UI-freeze
-				ThreadPool.QueueUserWorkItem(o => {
-					loggedIn = _CIF.Login(username.Text, password.Text);
-
-					//Moves on to next activity, if login is succesful
-					if(loggedIn)
+				ThreadPool.QueueUserWorkItem(o => 
 					{
-						Intent toNotificationScreen = new Intent(this, typeof(NotificationActivity));
-						StartActivity(toNotificationScreen);
-					}
-					//Shows an error-messaage, if login was not succesful
-					else
-					{
-						var loginFailedDialog = new AlertDialog.Builder(this);
-						loginFailedDialog.SetMessage(_CIF.LatestError);
-						RunOnUiThread( () => {
-							loginFailedDialog.Show();
-						});
-					}
+						loggedIn = CIF.Login(username.Text, password.Text);
 
-					//Removes the spinner again
-					RunOnUiThread(() =>
+						//Moves on to next activity, if login is succesful
+						if(loggedIn)
 						{
-							layout.RemoveView(pb);
-							pb.Dispose();
-						});
+							Intent toNotificationScreen = new Intent(this, typeof(NotificationActivity));
+							StartActivity(toNotificationScreen);
+						}
+						//Shows an error-messaage, if login was not succesful
+						else
+						{
+							var loginFailedDialog = new AlertDialog.Builder(this);
+							loginFailedDialog.SetMessage(CIF.LatestError);
+							RunOnUiThread( () => 
+							{
+								loginFailedDialog.Show();
+							});
+						}
 
-					loginButton.Clickable = true;
-				});
+						//Removes the spinner again
+						RunOnUiThread(() =>
+							{
+								layout.RemoveView(pb);
+								pb.Dispose();
+							});
+
+						loginButton.Clickable = true;
+					});
 			}
 			//Displays an errormessage, if no username or password is entered
 			else
