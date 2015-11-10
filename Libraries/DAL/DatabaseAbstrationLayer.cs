@@ -329,10 +329,9 @@ namespace Dal
 		public async Task DeleteEvent (int eid)
 		{
 			await client.Cypher
-				.OptionalMatch ("(user:User)-[:HOSTING]->(event:Event)<-[r]-(rest:User)")
-				.Where ("event.eid = {eid}")
-				.WithParam ("eid", eid)
-				.Delete ("r, event")
+				.OptionalMatch ("(user:User)-[r1]->(e:Event)<-[r2]-()")
+				.Where ((Event e) => e.Id == eid)
+				.Delete ("r, e")
 				.ExecuteWithoutResultsAsync ();
 		}
 
