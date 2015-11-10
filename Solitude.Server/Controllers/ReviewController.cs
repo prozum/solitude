@@ -16,7 +16,7 @@ namespace Solitude.Server
         [Route("add")]
         public async Task<IHttpActionResult> Add(Review review)
         {
-            review.UserID = User.Identity.GetUserId();
+            review.UserId = User.Identity.GetUserId();
             
             await DB.AddReview(review);
 
