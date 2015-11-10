@@ -5,19 +5,13 @@ namespace DineWithaDane.Android
 	public class Event
 	{
 		#region Field
-		private int _id;
-
 		public string Title { get; set; }
 		public DateTime Date { get; set; }
 		public string Place { get; set; }
 		public string Description { get; set; }
 		public int MaxSlots { get; set; }
 		public int SlotsLeft { get; set; }
-		public int ID {
-			get {
-				return _id;
-			}
-		}
+		public int ID { get; set; }
 		#endregion
 
 		#region Constructor

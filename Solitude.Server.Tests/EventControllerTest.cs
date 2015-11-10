@@ -40,7 +40,7 @@ namespace Solitude.Server.Tests
 
 			var response = testClient.Execute (request);
 
-			Assert.AreSame (response.StatusCode, HttpStatusCode.OK, "The request was not executed correctly: " + response.Content);
+			Assert.AreSame (HttpStatusCode.OK, response.StatusCode, "The request was not executed correctly: " + response.Content);
 
 			dynamic dynObj = JsonConvert.DeserializeObject (response.Content);
 			eventID = dynObj.Id;
@@ -53,7 +53,7 @@ namespace Solitude.Server.Tests
 
 			var response = testClient.Execute (request);
 
-			Assert.AreSame (response.StatusCode, HttpStatusCode.OK, "The request was not executed correctly: " + response.Content);
+			Assert.AreSame (HttpStatusCode.OK, response.StatusCode, "The request was not executed correctly: " + response.Content);
 
 			Event receivedEvent = JsonConvert.DeserializeObject<Event> (response.Content);
 
@@ -68,14 +68,14 @@ namespace Solitude.Server.Tests
 
 			var response = testClient.Execute (request);
 
-			Assert.AreSame (response.StatusCode, HttpStatusCode.OK, "The request was not executed corrextly: " + response.Content);
+			Assert.AreSame (HttpStatusCode.OK, response.StatusCode, "The request was not executed corrextly: " + response.Content);
 
 			//Now get the event from the server again:
 			request = buildRequest (string.Format ("event/{0}", e.Id), Method.GET);
 
 			response = testClient.Execute (request);
 
-			Assert.AreSame (response.StatusCode, HttpStatusCode.OK, "The get-request was not executed correctly: " + response.Content);
+			Assert.AreSame (HttpStatusCode.OK, response.StatusCode, "The get-request was not executed correctly: " + response.Content);
 
 			Event receivedEvent = JsonConvert.DeserializeObject<Event> (response.Content);
 
@@ -89,14 +89,14 @@ namespace Solitude.Server.Tests
 
 			var response = testClient.Execute (request);
 
-			Assert.AreSame (response.StatusCode, HttpStatusCode.OK, "The request was not executed correctly: " + response.Content);
+			Assert.AreSame (HttpStatusCode.OK, response.StatusCode, "The request was not executed correctly: " + response.Content);
 
 			//Now try to get event:
 			request = buildRequest (string.Format ("event/{0}", e.Id), Method.GET);
 
 			response = testClient.Execute (request);
 
-			Assert.AreSame (response.StatusCode, HttpStatusCode.NotFound, "The event was found on server and thus not deleted.");
+			Assert.AreSame (HttpStatusCode.NotFound, response.StatusCode, "The event was found on server and thus not deleted.");
 		}
 
 		private RestRequest buildRequest(string resource, Method method)

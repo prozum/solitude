@@ -12,7 +12,7 @@ using Android.Widget;
 
 namespace DineWithaDane.Android
 {
-	[Activity (Label = "Notifications", MainLauncher = true)]			
+	[Activity (Label = "Notifications")]			
 	public class NotificationActivity : DrawerActivity
 	{
 		ObservableCollection<Notification> notificationList = new ObservableCollection<Notification>();
