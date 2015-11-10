@@ -9,8 +9,8 @@ namespace Solitude.Server.Tests
 	[TestFixture ()]
 	public class Test
 	{
-		RestClient testClient = new RestClient("http://prozum.dk:8080/api/");
-		Random r = new Random();
+		public RestClient testClient = new RestClient("http://prozum.dk:8080/api/");
+		public Random r = new Random();
 		public string testUsername, testToken = "", token_type = "";
 
 		public Test ()
@@ -58,7 +58,7 @@ namespace Solitude.Server.Tests
 
 			Assert.IsTrue (tokenResponse.StatusCode != 0, "[Login failed] Likely there's no internet connection.");
 
-			dynamic dynObj = JsonConvert.DeserializeObject (tokenResponse);
+			dynamic dynObj = JsonConvert.DeserializeObject (tokenResponse.Content);
 
 			Assert.IsTrue (tokenResponse.StatusCode == HttpStatusCode.OK);
 
