@@ -63,6 +63,8 @@ namespace DineWithaDane.Android
 			var dateTitle = new TextView(this);
 			dateTitle.Text = "Date";
 
+
+
 			var date = new DatePicker(this);
 			date.DateTime = DateTime.Now;
 			date.Id = 0x0005;
@@ -151,7 +153,7 @@ namespace DineWithaDane.Android
 				description.Text = Intent.GetStringExtra("description");
 				DateTime dateTime = new DateTime(Intent.GetIntExtra("date year", 0), Intent.GetIntExtra("date month", 0), Intent.GetIntExtra("date day", 0), Intent.GetIntExtra("date hour", 0), Intent.GetIntExtra("date minutte", 0), 0);
 				location.Text = Intent.GetStringExtra("place");
-				guests.Text = Intent.GetStringExtra("maxslots");
+				guests.Text = Intent.GetIntExtra("maxslots", 0).ToString();
 				date.DateTime = dateTime;
 				timePicker.CurrentHour = (Java.Lang.Integer)dateTime.Hour;
 				timePicker.CurrentMinute = (Java.Lang.Integer)dateTime.Minute;
@@ -160,7 +162,7 @@ namespace DineWithaDane.Android
 				buttonConfirm.Text = "Save changes";
 				buttonConfirm.Click += (object sender, EventArgs e) =>
 				{
-						Event @event = new Event(title.Text, new DateTime(date.DateTime.Year, date.DateTime.Month, date.DateTime.Day, (int)timePicker.CurrentHour, (int)timePicker.CurrentMinute, 0), location.Text, description.Text, int.Parse(guests.Text), Intent.GetIntExtra("leftslots", 0), Intent.GetIntExtra("id", 0));
+					Event @event = new Event(title.Text, new DateTime(date.DateTime.Year, date.DateTime.Month, date.DateTime.Day, (int)timePicker.CurrentHour, (int)timePicker.CurrentMinute, 0), location.Text, description.Text, int.Parse(guests.Text), Intent.GetIntExtra("leftslots", 0), Intent.GetIntExtra("id", 0));
 					MainActivity.CIF.UpdateEvent(@event);
 				};
 				

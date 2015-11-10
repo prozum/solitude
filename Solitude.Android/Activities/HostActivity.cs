@@ -119,6 +119,21 @@ namespace DineWithaDane.Android
 
 		protected void EditEvent(object sender, EventArgs e)
 		{
+			Event @event = Tilelist.GetFocus();
+			Intent intent = new Intent(this, typeof(HostEventActivity));
+			intent.PutExtra("type", "edit");
+			intent.PutExtra("title", @event.Title);
+			intent.PutExtra("description", @event.Description);
+			intent.PutExtra("date day", @event.Date.Day);
+			intent.PutExtra("date month", @event.Date.Month);
+			intent.PutExtra("date year", @event.Date.Year);
+			intent.PutExtra("date hour", @event.Date.Hour);
+			intent.PutExtra("date minutte", @event.Date.Minute);
+			intent.PutExtra("place", @event.Place);
+			intent.PutExtra("maxslots", @event.MaxSlots);
+			intent.PutExtra("leftslots", @event.SlotsLeft);
+			intent.PutExtra("id", @event.ID);
+			StartActivity(intent);
 		}
 	}
 }
