@@ -29,12 +29,7 @@ namespace DineWithaDane.Android
 			"Notifications", "Offer", "Events", "Host", "Profile", "Settings", "Logout"
 		};
 
-		public SetupDrawer (
-			//DrawerLayout drawer,
-			//ListView drawerlist,
-			int position,
-			DrawerActivity currentActivity
-		)
+		public SetupDrawer (int position, DrawerActivity currentActivity)
 		{
 
 			CurrentActivity = currentActivity;
