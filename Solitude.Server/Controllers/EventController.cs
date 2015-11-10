@@ -12,24 +12,9 @@ namespace Solitude.Server
         [Authorize]
         public async Task<IHttpActionResult> Get()
         {
-            var events = await DB.GetAttendingEvents(User.Identity.GetUserId());
+            var events = await DB.GetHostingEvents(User.Identity.GetUserId());
             return Ok(events);
 		}
-
-        [Authorize]
-        public IHttpActionResult Get(int id)
-		{
-            List<Event> OrderList = new List<Event> 
-                {
-                    new Event {Title = "Julefrokost", Id = 0, Address = "Everywhere", Description = "Julefrokost", Date = "21-12-12" },
-                    new Event {Title = "I-dag", Id = 1, Address = "DE-club", Description = "DE-club", Date = "Thursday" },
-                    new Event {Title = "FLAN", Id = 2, Address = "Cassiopeia", Description = "Cassiopeia", Date = "00-00-99" },
-                    new Event {Title = "J-dag", Id = 3, Address = "D-building", Description = "J-dag", Date = "05-11-15"},
-                    new Event {Title = "ØL", Id = 4, Address = "Cantina", Description = "Free beer", Date = "Always tomorrow"}
-                };
-
-            return Ok(OrderList[id]);
-   		}
 
         [Authorize]
         [Route("add")]
