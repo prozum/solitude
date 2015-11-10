@@ -62,22 +62,23 @@ namespace DineWithaDane.Android
 		/// Shows the spinner, indicating loading.
 		/// </summary>
 		/// <remarks>Must be run from the UI-thread</remarks>
-		protected void showSpinner()
+		protected void ShowSpinner()
 		{
 			ProgressBar pb = new ProgressBar(this);
-			this.Content.AddView(pb);
+			Content.AddView(pb);
 		}
 
 		/// <summary>
 		/// Removes the spinner.
 		/// </summary>
 		/// <remarks>Must be run in the UI-thread</remarks>
-		protected void clearLayout()
+		protected void ClearLayout()
 		{
-			this.Content.RemoveAllViews();
+			Content.RemoveAllViews();
 		}
 
-		protected void prepareLooper(){
+		protected void PrepareLooper()
+		{
 			if (Looper.MyLooper() == null)
 				Looper.Prepare();
 		}

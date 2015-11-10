@@ -28,45 +28,46 @@ namespace DineWithaDane.Android
 			//Hide the progress bar at first
 			pb.Visibility = global::Android.Views.ViewStates.Invisible;
 
-			submit.Click += (sender, e) => {
-				if(username.Text != "" && password.Text != "" && confirm.Text != "")
+			submit.Click += (sender, e) => 
 				{
-					submit.Clickable = false;
-					var CIF = new CommunicationInterface();
-					pb.Visibility = global::Android.Views.ViewStates.Visible;
-					bool success = false;
+					if(username.Text != "" && password.Text != "" && confirm.Text != "")
+					{
+						submit.Clickable = false;
+						var CIF = new CommunicationInterface();
+						pb.Visibility = global::Android.Views.ViewStates.Visible;
+						bool success = false;
 
-					ThreadPool.QueueUserWorkItem( o => {
-						success = CIF.CreateUser(username.Text, password.Text, confirm.Text);
+						ThreadPool.QueueUserWorkItem( o => {
+							success = CIF.CreateUser(username.Text, password.Text, confirm.Text);
 
-						RunOnUiThread(() => {
-							pb.Visibility = global::Android.Views.ViewStates.Invisible;
-						});
-
-						if(success)
-						{
-							var toLogin = new Intent(this, typeof(MainActivity));
-							StartActivity(toLogin);
-						}
-						else
-						{
-							var errorDialog = new AlertDialog.Builder(this);
-							errorDialog.SetMessage(CIF.LatestError);
 							RunOnUiThread(() => {
-								errorDialog.Show();
+								pb.Visibility = global::Android.Views.ViewStates.Invisible;
 							});
 
-							submit.Clickable = true;
-						}
-					});
-				}
-				else
-				{
-					var errorDialog = new AlertDialog.Builder(this);
-					errorDialog.SetMessage("Missing some information, please make sure all fields are filled correctly");
-					errorDialog.Show();
-				}
-			};
+							if(success)
+							{
+								var toLogin = new Intent(this, typeof(MainActivity));
+								StartActivity(toLogin);
+							}
+							else
+							{
+								var errorDialog = new AlertDialog.Builder(this);
+								errorDialog.SetMessage(CIF.LatestError);
+								RunOnUiThread(() => {
+									errorDialog.Show();
+								});
+
+								submit.Clickable = true;
+							}
+						});
+					}
+					else
+					{
+						var errorDialog = new AlertDialog.Builder(this);
+						errorDialog.SetMessage("Missing some information, please make sure all fields are filled correctly");
+						errorDialog.Show();
+					}
+				};
 		}
 	}
 }
