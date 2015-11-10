@@ -318,10 +318,10 @@ namespace Dal
 		public async Task UpdateEvent (Event @event)
 		{
 			await client.Cypher
-				.Match ("user-[:HOSTING]->(event:Event {info})")
+				.Match ("user-[:HOSTING]->(event:Event)")
 				.Where ("event.Id = {eid}")
 				.WithParam ("eid", @event.Id)
-				.Set ("info = {newinfo}")
+				.Set ("event = {newinfo}")
 				.WithParam ("newinfo", @event)
 				.ExecuteWithoutResultsAsync();
 		}
