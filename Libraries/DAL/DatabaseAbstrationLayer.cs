@@ -331,7 +331,7 @@ namespace Dal
 			await client.Cypher
 				.OptionalMatch ("(user:User)-[r1]->(e:Event)<-[r2]-()")
 				.Where ((Event e) => e.Id == eid)
-				.Delete ("r, e")
+				.Delete ("r1, e, r2")
 				.ExecuteWithoutResultsAsync ();
 		}
 
