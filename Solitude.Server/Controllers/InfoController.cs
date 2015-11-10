@@ -100,6 +100,21 @@ namespace Solitude.Server
 
             return Ok();
         }
+
+        public async Task<IHttpActionResult> Get(InfoType t)
+        {
+            switch (t)
+            {
+                case InfoType.INTEREST:
+                    return Ok(await DB.GetUserLanguage(User.Identity.GetUserId()));
+                case InfoType.LANGUAGE:
+                    return Ok(await DB.GetUserInterest(User.Identity.GetUserId()));
+                case InfoType.FOODHABIT:
+                    return Ok(await DB.GetUserFoodHabit(User.Identity.GetUserId()));
+                default:
+                    return BadRequest("Invalid information type.");
+            }
+        }
     }
 }
 
