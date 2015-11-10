@@ -120,7 +120,7 @@ namespace DineWithaDane.Android
 					}
 					else
 					{
-						DateTime @dateTime = new DateTime(date.Year, date.Month, date.DayOfMonth, (int)timePicker.CurrentHour, (int)timePicker.CurrentMinute, 0);
+						DateTime @dateTime = new DateTime(date.DateTime.Year, date.DateTime.Month, date.DateTime.Day, (int)timePicker.CurrentHour, (int)timePicker.CurrentMinute, 0);
 						Event @event = new Event(title.Text, @dateTime, location.Text, description.Text, int.Parse(guests.Text), 0);
 						bool completed = MainActivity.CIF.CreateEvent(@event);
 						if (completed)

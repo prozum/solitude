@@ -20,34 +20,8 @@ namespace DineWithaDane.Android
 			Position = 2;
 			base.OnCreate (savedInstanceState);
 
-			//Show spinner to indicate loading
-			ShowSpinner();
-
-			ThreadPool.QueueUserWorkItem(o =>
-				{
-					//Fetch events from server
-					PrepareLooper();
-
-					var events = MainActivity.CIF.GetOwnEvents(100);
-					var adapter = new EventListAdapter(this, MainActivity.CIF.GetOwnEvents(100));
-					var tilelist = new EventList(this, adapter);
-
-					//Clear screen and show found events
-					RunOnUiThread( () => 
-						{
-							ClearLayout();
-
-							//If no events are found display an error-message
-							if(events == null){
-								var dialog = new AlertDialog.Builder(this);
-								dialog.SetMessage("Sorry, couldn't fetch events:\n" + MainActivity.CIF.LatestError);
-								dialog.Show();
-							}
-
-							// adding tilelist to activity
-							Content.AddView(tilelist);
-						});
-				});
+			var adapter = new EventListAdapter(this, new List<Event>());
+			var tilelist = new EventList(this, adapter);
 		}
 	}
 }

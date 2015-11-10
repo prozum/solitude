@@ -62,10 +62,10 @@ namespace Solitude.Server.Tests
 			Assert.AreNotEqual (Values.testToken, "");
 			Assert.AreNotEqual (Values.token_type, "");
 		}
-		/*[Test ()]
+		[Test ()]
 		public void TestCaseAddReview ()
 		{
-			var request = new RestRequest ("review/add", Method.POST);
+			var request = new RestRequest ("review", Method.POST);
 			request.RequestFormat = DataFormat.Json;
 			request.AddHeader ("Authorization", "bearer " + Values.testToken);
 
@@ -76,9 +76,8 @@ namespace Solitude.Server.Tests
 			request.AddBody(review);
 
 			var response = Values.testClient.Execute (request);
-			Assert.IsTrue (true); //Not sure what to check
-			
-		} */
+			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request failed " + response.Content);
+		}
 	}
 }
 
