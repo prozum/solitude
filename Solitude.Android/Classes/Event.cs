@@ -25,13 +25,6 @@ namespace DineWithaDane.Android
 			SlotsLeft = left;
 		}
 		#endregion
-
-		#region Public Methods
-		#endregion
-
-		#region Privat Methods
-
-		#endregion
 	}
 }
 

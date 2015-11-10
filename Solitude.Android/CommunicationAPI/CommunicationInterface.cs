@@ -24,14 +24,11 @@ namespace ClientCommunication
 		private string token_type;
 
 		RestClient client = new RestClient (HttpStrings.SERVER_URL);
-		private string latestError;
 		/// <summary>
 		/// Gets the lastest error.
 		/// </summary>
 		/// <value>The lastest error.</value>
-		public string LatestError {
-			get { return latestError; }
-		}
+		public string LatestError { get; private set; }
 
 		#region parses
 		/// <summary>
@@ -42,7 +39,9 @@ namespace ClientCommunication
 		{
 			string errorContent = response.Content;
 			string[] splitErrorContent = errorContent.Split(':');
-			latestError = splitErrorContent [splitErrorContent.Length - 1].Trim('"', ':', '\\', '[', ']', '{', '}').Replace (".", ".\n");
+			LatestError = splitErrorContent [splitErrorContent.Length - 1]
+									.Trim('"', ':', '\\', '[', ']', '{', '}')
+									.Replace (".", ".\n");
 		}
 
 		/// <summary>
@@ -54,7 +53,8 @@ namespace ClientCommunication
 		{
 			var response = client.Execute (request);
 
-			if (response.StatusCode != HttpStatusCode.OK) {
+			if (response.StatusCode != HttpStatusCode.OK) 
+			{
 				parseErrorMessage (response);
 				return false;
 			} 
@@ -67,7 +67,8 @@ namespace ClientCommunication
 		/// </summary>
 		/// <returns>An int with same value as the JsonValue.</returns>
 		/// <param name="value">Value.</param>
-		private int parseToInt(JsonValue value){
+		private int parseToInt(JsonValue value)
+		{
 			try 
 			{
 				string strVal = value.ToString();
@@ -76,7 +77,7 @@ namespace ClientCommunication
 			}
 			catch (Exception e)
 			{
-				latestError = "Failed to parse event-id" + e.Message;
+				LatestError = "Failed to parse event-id" + e.Message;
 				return -1;
 			}
 		}
@@ -86,10 +87,12 @@ namespace ClientCommunication
 		/// </summary>
 		/// <returns>The DateTime specified in the string.</returns>
 		/// <param name="dt">DateTime as a string.</param>
-		private DateTime parseToDateTime(string dt){
+		private DateTime parseToDateTime(string dt)
+		{
 			string[] values = dt.Split('-');
 
-			try {
+			try 
+			{
 				int date = int.Parse(values[0]);
 				int month = int.Parse(values[1]);
 				int year = int.Parse(values[2]);
@@ -98,7 +101,7 @@ namespace ClientCommunication
 			}
 			catch (Exception e)
 			{
-				latestError = "Couldn't convert date " + e.Message;
+				LatestError = "Couldn't convert date " + e.Message;
 				return DateTime.Today;
 			}
 		}
@@ -115,14 +118,12 @@ namespace ClientCommunication
 			var offerRequest = new RestRequest ("offer", Method.GET);
 			offerRequest.RequestFormat = DataFormat.Json;
 
-			offerRequest.AddBody(new {
-				userToken = userToken
-			});
+			offerRequest.AddBody(new { userToken = userToken });
 
 			var response = client.Execute(offerRequest);
 
 			if (response.StatusCode == 0)
-				latestError = "No internet connection";
+				LatestError = "No internet connection";
 			else if (response.StatusCode != HttpStatusCode.OK)
 				parseErrorMessage(response);
 			else
@@ -141,11 +142,10 @@ namespace ClientCommunication
 			var request = new RestRequest ("offer", Method.PUT);
 			request.RequestFormat = DataFormat.Json;
 
-			var offerReply = new {
-				eventId = e.ID,
-				userToken = userToken,
-				reply = answer
-			};
+			var offerReply = new { eventId = e.ID, 
+								   userToken = userToken, 
+								   reply = answer 			};
+			
 			request.AddBody(offerReply);
 
 			executeAndParseResponse (request);
@@ -168,7 +168,7 @@ namespace ClientCommunication
 
 			//Parses the event if status code is OK else determine the error
 			if (serverResponse.StatusCode == 0)
-				latestError = "No internet connection";
+				LatestError = "No internet connection";
 			else if (serverResponse.StatusCode != HttpStatusCode.OK)
 				parseErrorMessage(serverResponse);
 			else
@@ -195,7 +195,8 @@ namespace ClientCommunication
 			for(int i = 0; i < matches.Count; i++)
 			{
 				//Generate Events from the JsonValues
-				try {
+				try 
+				{
 					JsonValue jVal = System.Json.JsonObject.Parse(matches[i].Value);
 					int ID = parseToInt(jVal["Id"]);
 					string title = jVal["Title"];
@@ -236,12 +237,9 @@ namespace ClientCommunication
 		{
 			//Build request and user
 			var request = new RestRequest ("user/register", Method.POST);
-			var user = new 
-			{
-				username = Username,
-				password = Password,
-				confirmPassword = ConfirmedPassword
-			};
+			var user = new { username = Username, 
+							 password = Password, 
+							 confirmPassword = ConfirmedPassword };
 
 			//Alters request format to json and add information
 			request.RequestFormat = DataFormat.Json;
@@ -294,9 +292,7 @@ namespace ClientCommunication
 			deleteRequest.AddHeader(HttpStrings.AUTHORIZATION, HttpStrings.BEARER + userToken);
 
 			//Adds body to the request
-			var body = new {
-				userToken = userToken
-			};
+			var body = new { userToken = userToken };
 			deleteRequest.AddBody(body);
 
 			executeAndParseResponse (deleteRequest);
@@ -325,7 +321,7 @@ namespace ClientCommunication
 
 			if (tokenResponse.StatusCode == 0)
 			{
-				latestError = "No internet connection, please connect before logging in.";
+				LatestError = "No internet connection, please connect before logging in.";
 				return false;
 			}
 
@@ -340,7 +336,7 @@ namespace ClientCommunication
 			}
 			else
 			{
-				latestError = o ["error_description"];
+				LatestError = o ["error_description"];
 				return false;
 			}
 		}
@@ -373,14 +369,12 @@ namespace ClientCommunication
 			request.AddHeader(HttpStrings.AUTHORIZATION, HttpStrings.BEARER + userToken);
 
 			//And the body containing event-informatino
-			var body = new {
-				Date = e.Date.ToString(),
-				Adress = e.Place,
-				Title = e.Title,
-				Description = e.Description,
-				SlotsTaken = 0,
-				SlotsTotal = e.MaxSlots
-			};
+			var body = new { Date = e.Date.ToString(), 
+							 Adress = e.Place,
+							 Title = e.Title,
+							 Description = e.Description,
+							 SlotsTaken = 0,
+							 SlotsTotal = e.MaxSlots      };
 
 			request.AddBody(body);
 
@@ -436,10 +430,8 @@ namespace ClientCommunication
 			request.RequestFormat = DataFormat.Json;
 
 			//Add body to request
-			var cancelBody = new {
-				eventId = e.ID,
-				userToken = userToken
-			};
+			var cancelBody = new { eventId = e.ID,
+								   userToken = userToken };
 			request.AddBody(cancelBody);
 
 			executeAndParseResponse (request);
@@ -457,11 +449,9 @@ namespace ClientCommunication
 			request.AddHeader(HttpStrings.AUTHORIZATION, HttpStrings.BEARER + userToken);
 
 			//Adds a body to the request containing the reciew
-			var review = new {
-				rating = r.Rating,
-				text = r.ReviewText,
-				eventId = r.Event.ID
-			};
+			var review = new { rating = r.Rating,
+							   text = r.ReviewText,
+							   eventId = r.Event.ID };
 			request.AddBody(review);
 
 			executeAndParseResponse (request);

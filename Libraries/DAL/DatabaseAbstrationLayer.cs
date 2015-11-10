@@ -263,12 +263,12 @@ namespace Dal
 				.AndWhere ((User rest) => rest.Id != uid)
 				.AndWhere ((Event e) => e.SlotsTotal > e.SlotsTaken)
 				.WithParam ("uid", uid)
-				.OptionalMatch ("user-[w1:WANTS]->(interest:Interest)<-[w2:WANTS]-rest")
-				.With ("user, rest, e, sum(w1.weight) + sum(w2.weight) as wt1")
-				.OptionalMatch ("user-[w3:WANTS]->(language:Language)<-[w4:WANTS]-rest")
-				.With ("user, rest, e, wt1, sum(w3.weight) + sum(w4.weight) as wt2")
-				.OptionalMatch ("user-[w5:WANTS]->(foodhabit:FoodHabit)<-[w6:WANTS]-rest")
-				.With ("user, e, wt1, wt2, sum(w5.weight) + sum(w6.weight) as wt3")
+				.Match ("user-[w1:WANTS]->(interest:Interest)<-[w2:WANTS]-rest")
+				.With ("user, rest, event, sum(w1.weight) + sum(w2.weight) as wt1")
+				.Match ("user-[w3:WANTS]->(language:Language)<-[w4:WANTS]-rest")
+				.With ("user, rest, event, wt1, sum(w3.weight) + sum(w4.weight) as wt2")
+				.Match ("user-[w5:WANTS]->(foodhabit:FoodHabit)<-[w6:WANTS]-rest")
+				.With ("user, event, wt1, wt2, sum(w5.weight) + sum(w6.weight) as wt3")
 				.OrderBy ("(wt1+wt2+wt3) DESC")
 				.Limit (LIMIT)
 				.Create ("user-[m:MATCHED]->e")
@@ -298,10 +298,10 @@ namespace Dal
 			var hosting = await client.Cypher
 				.Match ("(user:User)-[:HOSTING]->(event:Event)")
 				.Where((User user) => user.Id == uid)
-				.Return (() => Return.As<IEnumerable<Event>> ("collect(event)"))
+				.Return (() => Return.As<Event> ("collect(event)"))
 				.ResultsAsync;
 
-			return hosting.First();
+			return hosting;
 		}
 
 		public async Task<IEnumerable<Event>> GetAttendingEvents (string uid)
@@ -309,10 +309,10 @@ namespace Dal
 			var attending = await client.Cypher
 				.Match ("(user:User)-[:ATTENDING]->(event:Event)")
 				.Where ((User user) => user.Id == uid)
-				.Return (() => Return.As<IEnumerable<Event>> ("collect(event)"))
+				.Return (() => Return.As<Event> ("collect(event)"))
 				.ResultsAsync;
 
-			return attending.First();
+			return attending;
 		}
 
 		public async Task UpdateEvent (Event @event)
@@ -346,7 +346,7 @@ namespace Dal
 				.Return ((@event) => @event.As<Event> ())
 				.ResultsAsync;
 
-			return res.Any();
+			return res.Count() > 0;
 		}
 
 		public async Task ReleaseSlot(int eid)

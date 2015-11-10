@@ -4,6 +4,7 @@ using Xamarin.UITest;
 
 namespace DineWithaDane.Android.UITests
 {
+	/*
 	[TestFixture]
 	public class Repl
 	{
@@ -21,5 +22,6 @@ namespace DineWithaDane.Android.UITests
 			app.Repl();
 		}
 	}
+	/**/
 }
 

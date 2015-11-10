@@ -174,7 +174,7 @@ namespace DineWithaDane.Android.UITests
 		}
 
 		[Test]
-		public void _HostEvent()
+		public void HostEvent()
 		{
 			_Login();
 

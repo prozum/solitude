@@ -24,32 +24,30 @@ namespace DineWithaDane.Android
 			display.GetSize (displaySize);
 			this.notificationList = notificationList;
 
-			this.LayoutParameters = new ViewGroup.LayoutParams (displaySize.X / 3 * 2, WindowManagerLayoutParams.WrapContent);
+			LayoutParameters = new ViewGroup.LayoutParams (displaySize.X / 3 * 2, WindowManagerLayoutParams.WrapContent);
 
 			if (position == NotificationPosition.Right) 
-			{
 				this.SetX (displaySize.X / 3);
-			}
 
-			this.SetGravity (GravityFlags.Left);
-			this.Orientation = Orientation.Vertical;
+			SetGravity (GravityFlags.Left);
+			Orientation = Orientation.Vertical;
 
-			TextView textViewTitle = new TextView (activity);
+			var textViewTitle = new TextView (activity);
 			textViewTitle.Text = title;
 			textViewTitle.TextSize = 20;
 			textViewTitle.SetBackgroundColor (headerColor);
 
-			TextView textViewTime = new TextView (activity);
+			var textViewTime = new TextView (activity);
 			textViewTime.Text = time;
 			textViewTime.SetBackgroundColor (bodyColor);
 
-			TextView textViewText = new TextView (activity);
+			var textViewText = new TextView (activity);
 			textViewText.Text = text;
 			textViewText.SetBackgroundColor (bodyColor);
 
-			this.AddView (textViewTitle);
-			this.AddView (textViewTime);
-			this.AddView (textViewText);
+			AddView (textViewTitle);
+			AddView (textViewTime);
+			AddView (textViewText);
 		}
 	}
 }

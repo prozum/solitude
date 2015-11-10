@@ -11,11 +11,11 @@ namespace DineWithaDane.Android
 	{
 		public OfferNotification (string title, string text, string time, Activity activity, ObservableCollection<Notification> notificationList) : base(NotificationPosition.Left, title, text, time, Color.OrangeRed, Color.Orange, activity, notificationList)
 		{
-			LinearLayout buttonKeeper = new LinearLayout (activity);
+			var buttonKeeper = new LinearLayout (activity);
 			buttonKeeper.Orientation = Orientation.Horizontal;
 			buttonKeeper.SetBackgroundColor (Color.Orange);
 
-			Button buttonLeft = new Button (activity);
+			var buttonLeft = new Button (activity);
 			buttonLeft.Text = "View";
 			buttonLeft.Gravity = GravityFlags.Center;
 			buttonLeft.SetWidth (displaySize.X / 3);
@@ -23,11 +23,11 @@ namespace DineWithaDane.Android
 			//			buttonLeft.Click += 
 
 			buttonKeeper.AddView (buttonLeft);
-			this.AddView (buttonKeeper);
+			AddView (buttonKeeper);
 
-			Button filler = new Button (activity);
+			var filler = new Button (activity);
 			filler.Visibility = ViewStates.Invisible;
-			this.AddView (filler);
+			AddView (filler);
 		}
 	}
 }

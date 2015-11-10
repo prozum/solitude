@@ -74,7 +74,6 @@
     <Compile Include="Notifications\ReviewNotification.cs" />
     <Compile Include="Activities\SignUpActivity.cs" />
     <Compile Include="Activities\HostActivity.cs" />
-    <Compile Include="Drawer\DrawerToggle.cs" />
     <Compile Include="Drawer\SetupDrawer.cs" />
     <Compile Include="Classes\Review.cs" />
     <Compile Include="TileMenu\Items\EventItem.cs" />
@@ -93,11 +92,11 @@
     <Compile Include="Activities\OfferActivity.cs" />
     <Compile Include="Activities\ProfileActivity.cs" />
     <Compile Include="TileMenu\ProfileView.cs" />
-    <Compile Include="Activities\CreateEventActivity.cs" />
     <Compile Include="Activities\SettingsActivitiy.cs" />
     <Compile Include="Activities\DrawerActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="TileMenu\Seperator.cs" />
+    <Compile Include="Activities\HostEventActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -121,7 +120,6 @@
     <AndroidResource Include="Resources\layout\SpinnerItem.axml" />
     <AndroidResource Include="Resources\layout\Profile.axml" />
     <AndroidResource Include="Resources\layout\review_layout.axml" />
-    <AndroidResource Include="Resources\layout\EditInfo.axml" />
     <AndroidResource Include="Resources\layout\deletionDialog.axml" />
     <AndroidResource Include="Resources\layout\EditText.axml" />
     <AndroidResource Include="Resources\layout\CheckedListViewItem.axml" />

@@ -29,12 +29,7 @@ namespace DineWithaDane.Android
 			"Notifications", "Offer", "Events", "Host", "Profile", "Settings", "Logout"
 		};
 
-		public SetupDrawer (
-			//DrawerLayout drawer,
-			//ListView drawerlist,
-			int position,
-			DrawerActivity currentActivity
-		)
+		public SetupDrawer (int position, DrawerActivity currentActivity)
 		{
 
 			CurrentActivity = currentActivity;
@@ -75,35 +70,35 @@ namespace DineWithaDane.Android
 		{
 			switch (itemClickEventArgs.Position) 
 			{
-			case 0:
-				Intent NotificationIntent = new Intent (CurrentActivity, typeof(NotificationActivity));
-				CurrentActivity.StartActivity (NotificationIntent);
-				break;
-			case 1:
-				Intent OfferIntent = new Intent (CurrentActivity, typeof(OfferActivity));
-				CurrentActivity.StartActivity (OfferIntent);
-				break;
-			case 2:
-				Intent EventIntent = new Intent (CurrentActivity, typeof(EventActivity));
-				CurrentActivity.StartActivity (EventIntent);
-				break;
-			case 3:
-				Intent HostIntent = new Intent (CurrentActivity, typeof(HostActivity));
-				CurrentActivity.StartActivity (HostIntent);
-				break;
-			case 4:
-				Intent ProfileIntent = new Intent (CurrentActivity, typeof(ProfileActivity));
-				CurrentActivity.StartActivity (ProfileIntent);
-				break;
-			case 5:
-				Intent SettingsIntent = new Intent (CurrentActivity, typeof(SettingsActivitiy));
-				CurrentActivity.StartActivity (SettingsIntent);
-				break;
-			case 6:
-				MainActivity.CIF.Logout(CurrentActivity);
-				break;
-			default:
-				break;
+				case 0:
+					var notificationIntent = new Intent (CurrentActivity, typeof(NotificationActivity));
+					CurrentActivity.StartActivity (notificationIntent);
+					break;
+				case 1:
+					var offerIntent = new Intent (CurrentActivity, typeof(OfferActivity));
+					CurrentActivity.StartActivity (offerIntent);
+					break;
+				case 2:
+					var eventIntent = new Intent (CurrentActivity, typeof(EventActivity));
+					CurrentActivity.StartActivity (eventIntent);
+					break;
+				case 3:
+					var hostIntent = new Intent (CurrentActivity, typeof(HostActivity));
+					CurrentActivity.StartActivity (hostIntent);
+					break;
+				case 4:
+					var profileIntent = new Intent (CurrentActivity, typeof(ProfileActivity));
+					CurrentActivity.StartActivity (profileIntent);
+					break;
+				case 5:
+					var settingsIntent = new Intent (CurrentActivity, typeof(SettingsActivitiy));
+					CurrentActivity.StartActivity (settingsIntent);
+					break;
+				case 6:
+					MainActivity.CIF.Logout(CurrentActivity);
+					break;
+				default:
+					break;
 			}
 
 			DrawerList.SetItemChecked (itemClickEventArgs.Position, true);
