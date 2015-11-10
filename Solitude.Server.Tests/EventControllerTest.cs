@@ -1,9 +1,3 @@
-<<<<<<< Updated upstream
-﻿using System;
-using NUnit.Framework;
-using RestSharp;
-
-using Solitude.Server;
 ﻿using System;
 using NUnit.Framework;
 using RestSharp;
@@ -16,7 +10,7 @@ using Newtonsoft.Json;
 namespace Solitude.Server.Tests
 {
 	[TestFixture()]
-	public class EventControllerTest : Test
+	public class EventControllerTest
 	{
 		private int eventID;
 		Event e = new Event ();
@@ -29,8 +23,8 @@ namespace Solitude.Server.Tests
 			e.Description = "This is a test, never mind this!";
 			e.SlotsTaken = 0;
 			e.SlotsTotal = 100;
-			e.Title = "[Test]" + r.Next (0, 9999);
-			e.UserId = 0;
+			e.Title = "[Test]" + Values.r.Next (0, 9999);
+			e.UserId = "0";
 		}
 
 		[Test()]
@@ -38,9 +32,9 @@ namespace Solitude.Server.Tests
 		{
 			var request = buildRequest ("event/add", Method.POST);
 
-			var response = testClient.Execute (request);
+			var response = Values.testClient.Execute (request);
 
-			Assert.AreSame (HttpStatusCode.OK, response.StatusCode, "The request was not executed correctly: " + response.Content);
+			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request was not executed correctly: " + response.Content);
 
 			dynamic dynObj = JsonConvert.DeserializeObject (response.Content);
 			eventID = dynObj.Id;
@@ -51,9 +45,9 @@ namespace Solitude.Server.Tests
 		{
 			var request = buildRequest (string.Format ("event/{0}", e.Id), Method.GET);
 
-			var response = testClient.Execute (request);
+			var response = Values.testClient.Execute (request);
 
-			Assert.AreSame (HttpStatusCode.OK, response.StatusCode, "The request was not executed correctly: " + response.Content);
+			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request was not executed correctly: " + response.Content);
 
 			Event receivedEvent = JsonConvert.DeserializeObject<Event> (response.Content);
 
@@ -66,44 +60,44 @@ namespace Solitude.Server.Tests
 			e.Title = "[Modified Test Event]";
 			var request = buildRequest ("event/update", Method.PUT);
 
-			var response = testClient.Execute (request);
+			var response = Values.testClient.Execute (request);
 
-			Assert.AreSame (HttpStatusCode.OK, response.StatusCode, "The request was not executed corrextly: " + response.Content);
+			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request was not executed corrextly: " + response.Content);
 
 			//Now get the event from the server again:
 			request = buildRequest (string.Format ("event/{0}", e.Id), Method.GET);
 
-			response = testClient.Execute (request);
+			response = Values.testClient.Execute (request);
 
-			Assert.AreSame (HttpStatusCode.OK, response.StatusCode, "The get-request was not executed correctly: " + response.Content);
+			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The get-request was not executed correctly: " + response.Content);
 
 			Event receivedEvent = JsonConvert.DeserializeObject<Event> (response.Content);
 
 			Assert.AreEqual (e.Title, receivedEvent.Title, "The recieved event did not have the updated title.");
 		}
 
-		[TearDown()]
-		public void TestDeleteEvent()
+		[Test()]
+		public void zzTestDeleteEvent()
 		{
 			var request = buildRequest ("event/delete", Method.DELETE);
 
-			var response = testClient.Execute (request);
+			var response = Values.testClient.Execute (request);
 
-			Assert.AreSame (HttpStatusCode.OK, response.StatusCode, "The request was not executed correctly: " + response.Content);
+			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request was not executed correctly: " + response.Content);
 
 			//Now try to get event:
 			request = buildRequest (string.Format ("event/{0}", e.Id), Method.GET);
 
-			response = testClient.Execute (request);
+			response = Values.testClient.Execute (request);
 
-			Assert.AreSame (HttpStatusCode.NotFound, response.StatusCode, "The event was found on server and thus not deleted.");
+			Assert.AreEqual (HttpStatusCode.NotFound, response.StatusCode, "The event was found on server and thus not deleted.");
 		}
 
 		private RestRequest buildRequest(string resource, Method method)
 		{
 			var request = new RestRequest (resource, method);
 
-			request.AddHeader ("Authorization", "BEARER " + testToken);
+			request.AddHeader ("Authorization", "bearer " + Values.testToken);
 			request.RequestFormat = DataFormat.Json;
 
 			return request;
