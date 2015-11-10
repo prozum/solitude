@@ -24,6 +24,12 @@ namespace DineWithaDane.Android
 			MaxSlots = max;
 			SlotsLeft = left;
 		}
+
+		public Event (string title, DateTime date, string place, string desc, int max, int left, int ID)
+			:this(title, date, place, desc, max, left)
+		{
+			this.ID = ID;
+		}
 		#endregion
 	}
 }

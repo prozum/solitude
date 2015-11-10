@@ -13,7 +13,7 @@ using Android.Widget;
 
 namespace DineWithaDane.Android
 {
-	[Activity(Label = "CreateEventActivity")]			
+	[Activity(Label = "Host Event")]			
 	public class HostEventActivity : DrawerActivity
 	{
 		protected override void OnCreate(Bundle bundle)
@@ -160,31 +160,19 @@ namespace DineWithaDane.Android
 				buttonConfirm.Text = "Save changes";
 				buttonConfirm.Click += (object sender, EventArgs e) =>
 				{
-					throw new NotImplementedException("Can't tell server that event is changed");
+						Event @event = new Event(title.Text, new DateTime(date.DateTime.Year, date.DateTime.Month, date.DateTime.Day, (int)timePicker.CurrentHour, (int)timePicker.CurrentMinute, 0), location.Text, description.Text, int.Parse(guests.Text), Intent.GetIntExtra("leftslots", 0), Intent.GetIntExtra("id", 0));
+					MainActivity.CIF.UpdateEvent(@event);
 				};
 				
 				var buttonCancel = new Button(this);
 				buttonCancel.Text = "Back";
 				buttonCancel.Click += (object sender, EventArgs e) => Finish();
-				
-				var buttonDeleteEvent = new Button(this);
-				buttonDeleteEvent.Text = "Cancel Event";
-				buttonDeleteEvent.Click += (object sender, EventArgs e) =>
-				{
-					throw new NotImplementedException("Can't tell server that event is deleted");
-				};
 
 				var buttonKeeper = new LinearLayout(this);
-				buttonKeeper.Orientation = Orientation.Vertical;
-				var subButtonKeeper = new LinearLayout(this);
-				subButtonKeeper.Orientation = Orientation.Horizontal;
+				buttonKeeper.Orientation = Orientation.Horizontal;
 
-				subButtonKeeper.AddView(buttonCancel);
-				subButtonKeeper.AddView(buttonConfirm);
-
-				buttonKeeper.AddView(subButtonKeeper);
-
-				buttonKeeper.AddView(buttonDeleteEvent);
+				buttonKeeper.AddView(buttonCancel);
+				buttonKeeper.AddView(buttonConfirm);
 
 				content.AddView(buttonKeeper);
 			}
