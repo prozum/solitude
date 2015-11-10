@@ -10,7 +10,7 @@ namespace Solitude.Server.Tests
 	{
 		RestClient testClient = new RestClient("http://prozum.dk:8080/api/");
 		Random r = new Random();
-		string testUsername = "TestKurt" + r.Next(1, 100000);
+		string testUsername = "ServerTestUser" + r.Next(1, 100000) + r.Next(1, 100000) + r.Next(1, 100000);
 		[Test ()]
 		public void TestCase ()
 		{
