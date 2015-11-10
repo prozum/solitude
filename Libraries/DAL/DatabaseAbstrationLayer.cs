@@ -318,9 +318,9 @@ namespace Dal
 		public async Task UpdateEvent (Event @event)
 		{
 			await client.Cypher
-				.Match ("user-[:HOSTING]->(event:Event {info})")
-				.Where ("event.Id = {eid}")
-				.WithParam ("eid", @event.Id)
+				.Merge ("user-[:HOSTING]->(e:Event {info})")
+				.Where ((Event e) => e.Id == @event.Id)
+				.OnCreate ()
 				.Set ("info = {newinfo}")
 				.WithParam ("newinfo", @event)
 				.ExecuteWithoutResultsAsync();
