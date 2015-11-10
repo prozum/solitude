@@ -54,6 +54,7 @@ namespace DineWithaDane.Android
 			EditText username = FindViewById<EditText> (Resource.Id.editUsername);
 			EditText password = FindViewById<EditText> (Resource.Id.editPassword);
 
+			loginButton.Clickable = false;
 
 			#if DEBUG
 			if (String.IsNullOrEmpty(username.Text) && String.IsNullOrEmpty(password.Text))
@@ -68,11 +69,12 @@ namespace DineWithaDane.Android
 			{
 				bool loggedIn = false;
 
+				//Adds a spinner to indicate loading
 				ProgressBar pb = new ProgressBar(this);
 				LinearLayout layout = FindViewById<LinearLayout> (Resource.Id.layoutMain);
-
 				layout.AddView(pb);
 
+				//Does server communication on separate thread to avoid UI-freeze
 				ThreadPool.QueueUserWorkItem(o => {
 					loggedIn = _CIF.Login(username.Text, password.Text);
 
@@ -82,17 +84,24 @@ namespace DineWithaDane.Android
 						Intent toNotificationScreen = new Intent(this, typeof(NotificationActivity));
 						StartActivity(toNotificationScreen);
 					}
+					//Shows an error-messaage, if login was not succesful
 					else
 					{
 						var loginFailedDialog = new AlertDialog.Builder(this);
 						loginFailedDialog.SetMessage(_CIF.LatestError);
 						RunOnUiThread( () => {
 							loginFailedDialog.Show();
+						});
+					}
 
+					//Removes the spinner again
+					RunOnUiThread(() =>
+						{
 							layout.RemoveView(pb);
 							pb.Dispose();
 						});
-					}
+
+					loginButton.Clickable = true;
 				});
 			}
 			//Displays an errormessage, if no username or password is entered

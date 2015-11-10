@@ -15,8 +15,6 @@ namespace DineWithaDane.Android
 	{
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
-			var adapter = new ProfileInfoListAdapter(this, TestMaterial.Infos);
-			var tilelist = new InfoList(this, adapter);
 			var profile = new ProfileView(this, new User("Jimmi", "Jimmivej 12"));
 
 			// setting up drawer
