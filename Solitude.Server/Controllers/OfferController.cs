@@ -17,11 +17,11 @@ namespace Solitude.Server
 
         [Authorize]
         [Route("reply")]
-        public async Task<IHttpActionResult> ReplyOffer(bool answer, Event e)
+        public async Task<IHttpActionResult> Reply(Reply reply)
         {
-            await DB.ReplyOffer(User.Identity.GetUserId(), answer, e.Id);
+            var success = await DB.ReplyOffer(User.Identity.GetUserId(), reply.Value, reply.EventId);
 
-            return Ok();
+            return success ? Ok() : BadRequest();
         }
     }
 }
