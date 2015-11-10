@@ -293,34 +293,28 @@ namespace Dal
 			return res.First();
 		}
 
-		public async Task<IEnumerable<Event>> GetEvents (string uid, bool ATTENDING = true, int LIMIT = 10)
+		public async Task<IEnumerable<Event>> GetHostingEvents (string uid, int LIMIT = 10)
 		{
-			if (ATTENDING)
-			{
-				var res = await client.Cypher
-					.Match ("(user:User)-[:ATTENDING]->(event:Event)")
-					.Where((User user) => user.Id == uid)
-					.Return (() =>  Return.As<IEnumerable<Event>> ("collect(event)"))
-					.Union ()
-					.Match ("user-[:HOSTING]->(event:Event)")
-					.Where((User user) => user.Id == uid)
-					.Return (() => Return.As<IEnumerable<Event>> ("collect(event)"))
-					.Limit (LIMIT)
-					.ResultsAsync;
+			var hosting = await client.Cypher
+				.Match ("(user:User)-[:HOSTING]->(event:Event)")
+				.Where((User user) => user.Id == uid)
+				.Return (() => Return.As<Event> ("collect(event)"))
+				.Limit (LIMIT)
+				.ResultsAsync;
 
-				return res.First();
-			}
-			else
-			{
-				var res = await client.Cypher
-					.Match ("(user:User)-[:HOSTING]->(event:Event)")
-					.Where((User user) => user.Id == uid)
-					.Return (() => Return.As<IEnumerable<Event>> ("collect(event)"))
-					.Limit (LIMIT)
-					.ResultsAsync;
+			return hosting;
+		}
 
-				return res.First();
-			}
+		public async Task<IEnumerable<Event>> GetAttendingEvents (string uid, int LIMIT = 10)
+		{
+			var attending = await client.Cypher
+				.Match ("(user:User)-[:ATTENDING]->(event:Event)")
+				.Where ((User user) => user.Id == uid)
+				.Return (() => Return.As<Event> ("collect(event)"))
+				.Limit (LIMIT)
+				.ResultsAsync;
+
+			return attending;
 		}
 
 		public async Task UpdateEvent (Event @event)
