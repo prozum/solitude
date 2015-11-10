@@ -36,18 +36,21 @@ namespace DineWithaDane.Android
 
 			var title = new EditText(this);
 			title.Hint = "Title";
+			title.Id = 0x0001;
 
 			var descriptionTitle = new TextView(this);
 			descriptionTitle.Text = "Event Description";
 
 			var description = new EditText(this);
 			description.Hint = "Description!";
+			description.Id = 0x0002;
 
 			var locationTitle = new TextView(this);
 			locationTitle.Text = "Location/Address";
 
 			var location = new EditText(this);
 			location.Hint = "Location/Address";
+			location.Id = 0x0003;
 
 			var guestsTitle = new TextView(this);
 			guestsTitle.Text = "Guests";
@@ -55,21 +58,25 @@ namespace DineWithaDane.Android
 			var guests = new EditText(this);
 			guests.Hint = "Number of guests";
 			guests.InputType = global::Android.Text.InputTypes.ClassNumber;
+			guests.Id = 0x0004;
 
 			var dateTitle = new TextView(this);
 			dateTitle.Text = "Date";
 
 			var date = new DatePicker(this);
 			date.DateTime = DateTime.Now;
+			date.Id = 0x0005;
 
 			var timeTitle = new TextView(this);
 			timeTitle.Text = "Time";
 
 			var timePicker = new TimePicker(this);
+			timePicker.Id = 0x0006;
 
 			// Buttons for creating a new event or cancel.
 			var createEventButton = new Button(this);
 			createEventButton.Text = "Host Event";
+			createEventButton.Id = 0x0007;
 			createEventButton.Click += (object sender, EventArgs e) => 
 				{
 					// Check if all forms have been filled.
@@ -105,6 +112,7 @@ namespace DineWithaDane.Android
 				};
 			var cancelButton = new Button(this);
 			cancelButton.Text = "Cancel";
+			cancelButton.Id = 0x0008;
 			cancelButton.Click += (object sender, EventArgs e) => Finish();
 
 			var buttonKeeper = new LinearLayout(this);

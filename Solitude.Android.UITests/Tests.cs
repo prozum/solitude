@@ -172,6 +172,48 @@ namespace DineWithaDane.Android.UITests
 
 			Assert.IsTrue(result.Any(), "Settings");
 		}
+
+		[Test]
+		public void _HostEvent()
+		{
+			_Login();
+
+			app.Tap(c => c.Id("action_bar_container"));
+
+			app.Tap(c => c.Id("text1").Text("Host"));
+
+			app.Tap(c => c.Text("Host New Event"));
+
+			app.Tap(c => c.Id("NoResourceEntry-1"));
+
+			app.EnterText("Test title");
+
+			app.Tap(c => c.Id("NoResourceEntry-2"));
+
+			app.EnterText("Test description");
+
+			app.Tap(c => c.Id("NoResourceEntry-3"));
+
+			app.EnterText("Test address");
+
+			app.Tap(c => c.Id("NoResourceEntry-4"));
+
+			app.EnterText("3");
+
+			// Can't interact with date-picker
+
+			// Can't interact with time-picker
+
+			app.ScrollDownTo(c => c.Id("NoResourceEntry-7"));
+
+			app.Tap(c => c.Id("NoResourceEntry-7"));
+
+			System.Threading.Thread.Sleep(5000);
+
+			AppResult[] result = app.Query(c => c.Id("action_bar_title").Text("Host"));
+
+			Assert.IsTrue(result.Any(), "Host");
+		}
 	}
 }
 
