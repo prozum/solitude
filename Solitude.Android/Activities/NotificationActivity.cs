@@ -29,23 +29,23 @@ namespace DineWithaDane.Android
 			LinearLayout notificationLayout = new LinearLayout (this);
 			notificationLayout.Orientation = Orientation.Vertical;
 
-			notificationList.CollectionChanged += (object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e) =>
-			{
-				notificationLayout.RemoveAllViewsInLayout();
-				if(notificationList.Count > 0)
-				{	
-					foreach (var item in notificationList) {
-						notificationLayout.AddView(item);
-					}
-
-				}
-				else 
+			notificationList.CollectionChanged += (sender, e) =>
 				{
-					TextView nothingHere = new TextView(this);
-					nothingHere.Text = "Nothing Here";
-					notificationLayout.AddView(nothingHere);
-				}
-			};
+					notificationLayout.RemoveAllViewsInLayout();
+					if(notificationList.Count > 0)
+					{	
+						foreach (var item in notificationList) {
+							notificationLayout.AddView(item);
+						}
+
+					}
+					else 
+					{
+						TextView nothingHere = new TextView(this);
+						nothingHere.Text = "Nothing Here";
+						notificationLayout.AddView(nothingHere);
+					}
+				};
 
 			Event test1 = new Event("Flan", new DateTime(2015, 10, 27), "Cassiopeia", "Computer gaming and fapping", 20, 20);
 			Event test2 = new Event("I-dag", new DateTime(2015, 05, 11), "DE-klubben", "Alle brækker sig og er trælse", 50, 35);

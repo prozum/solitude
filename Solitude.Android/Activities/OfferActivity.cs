@@ -33,11 +33,11 @@ namespace DineWithaDane.Android
 					var tilelist = new OfferList(this, adapter);
 
 					//Clear screen and show the found offers
-					RunOnUiThread( () => {
-						ClearLayout();
-
-						Content.AddView(tilelist);
-					});
+					RunOnUiThread( () => 
+						{
+							ClearLayout();
+							Content.AddView(tilelist);
+						});
 				});
 		}
 	}

@@ -33,19 +33,20 @@ namespace DineWithaDane.Android
 					var tilelist = new EventList(this, adapter);
 
 					//Clear screen and show found events
-					RunOnUiThread( () => {
-						ClearLayout();
+					RunOnUiThread( () => 
+						{
+							ClearLayout();
 
-						//If no events are found display an error-message
-						if(events == null){
-							var dialog = new AlertDialog.Builder(this);
-							dialog.SetMessage("Sorry, couldn't fetch events:\n" + MainActivity.CIF.LatestError);
-							dialog.Show();
-						}
+							//If no events are found display an error-message
+							if(events == null){
+								var dialog = new AlertDialog.Builder(this);
+								dialog.SetMessage("Sorry, couldn't fetch events:\n" + MainActivity.CIF.LatestError);
+								dialog.Show();
+							}
 
-						// adding tilelist to activity
-						Content.AddView(tilelist);
-					});
+							// adding tilelist to activity
+							Content.AddView(tilelist);
+						});
 				});
 		}
 	}
