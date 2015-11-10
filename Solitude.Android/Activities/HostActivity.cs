@@ -38,7 +38,12 @@ namespace DineWithaDane.Android
 			var hostNewEventButton = new Button(this);
 			hostNewEventButton.Text = "Host New Event";
 
-			hostNewEventButton.Click += (object sender, EventArgs e) => StartActivity(typeof(CreateEventActivity));
+			hostNewEventButton.Click += (object sender, EventArgs e) => 
+				{
+					Intent intent = new Intent(this, typeof(HostEventActivity));
+					intent.PutExtra("type", "new");
+					StartActivity(intent);
+				};
 
 			hostedEventsList.CollectionChanged += (object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e) => 
 			{
@@ -51,7 +56,37 @@ namespace DineWithaDane.Android
 
 			foreach (var item in hostedEventsList)
 			{
-				// Add element with event
+				LinearLayout hostEventLayout = new LinearLayout(this);
+				hostEventLayout.Orientation = Orientation.Horizontal;
+
+				TextView eventTitle = new TextView(this);
+				eventTitle.Text = item.Title;
+
+				TextView eventDate = new TextView(this);
+				eventDate.Text = item.Date.ToString();
+
+				TextView eventDescription = new TextView(this);
+				eventDescription.Text = item.Description;
+
+				hostEventLayout.AddView(eventTitle);
+				hostEventLayout.AddView(eventDate);
+				hostEventLayout.AddView(eventDescription);
+
+				hostEventLayout.Click += (object sender, EventArgs e) => 
+					{
+						Intent intent = new Intent(this, typeof(HostEventActivity));
+						intent.PutExtra("type", "edit");
+						intent.PutExtra("title", item.Title);
+						intent.PutExtra("description", item.Description);
+						intent.PutExtra("date day", item.Date.Day);
+						intent.PutExtra("date month", item.Date.Month);
+						intent.PutExtra("date year", item.Date.Year);
+						intent.PutExtra("date hour", item.Date.Hour);
+						intent.PutExtra("date minutte", item.Date.Minute);
+						intent.PutExtra("place", item.Place);
+						intent.PutExtra("maxslots", item.MaxSlots);
+						StartActivity(intent);
+					};
 			}
 			internalContent.AddView(hostNewEventButton);
 		}
