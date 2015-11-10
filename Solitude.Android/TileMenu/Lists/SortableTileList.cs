@@ -22,6 +22,12 @@ namespace DineWithaDane.Android
 
 
 		#region Constructors
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DineWithaDane.Android.SortableTileList`1"/> class.
+		/// </summary>
+		/// <param name="context">Context.</param>
+		/// <param name="adabter">Adabter.</param>
+		/// <param name="spinneritems">Spinneritems.</param>
 		public SortableTileList(Context context, BaseTileListAdapter<T> adabter, string[] spinneritems)
 			: base(context, adabter)
 		{

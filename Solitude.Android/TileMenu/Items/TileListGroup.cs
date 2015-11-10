@@ -23,6 +23,10 @@ namespace DineWithaDane.Android
 
 
 		#region Constructors
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DineWithaDane.Android.TileListGroup"/> class.
+		/// </summary>
+		/// <param name="context">Context.</param>
 		public TileListGroup(Context context)
 			: base(context)
 		{
@@ -40,7 +44,11 @@ namespace DineWithaDane.Android
 
 
 		#region Public Methods
-		public void SeperatorVisibility(ViewStates state)
+		/// <summary>
+		/// Sets the seperator visibility.
+		/// </summary>
+		/// <param name="state">State.</param>
+		public void SetSeperatorVisibility(ViewStates state)
 		{
 			DotsView.Visibility = state;
 			SeperatorView.Visibility = state;
@@ -59,9 +67,5 @@ namespace DineWithaDane.Android
 			SeperatorView.LayoutParameters.Height = 1;
 		}
 		#endregion
-
-
-
-
 	}
 }

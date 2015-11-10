@@ -14,18 +14,39 @@ namespace DineWithaDane.Android
 	public class OfferListAdapter : BaseTileListAdapter<Event>
 	{
 		#region Fields
+		/// <summary>
+		/// Gets or sets the handler for the accept button of the views.
+		/// </summary>
 		public EventHandler OnAccept { get; set; }
+
+		/// <summary>
+		/// Gets or sets the handler for the decline button of the views.
+		/// </summary>
 		public EventHandler OnDecline { get; set; }
 		#endregion
 
 
 		#region Constructors
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DineWithaDane.Android.OfferListAdapter"/> class.
+		/// </summary>
+		/// <param name="context">Context.</param>
+		/// <param name="items">Items.</param>
 		public OfferListAdapter(Activity context, List<Event> items) 
 			: base(context, items) { }
 		#endregion
 
 
 		#region Public Methods
+		/// <param name="groupPosition">the position of the group for which the View is
+		///  returned</param>
+		/// <param name="isExpanded">whether the group is expanded or collapsed</param>
+		/// <summary>
+		/// Gets the group view.
+		/// </summary>
+		/// <returns>The group view.</returns>
+		/// <param name="convertView">Convert view.</param>
+		/// <param name="parent">Parent.</param>
 		public override View GetGroupView(int groupPosition, bool isExpanded, View convertView, ViewGroup parent)
 		{
 			var view = (convertView as EventGroup); // re-use an existing view, if one is available
@@ -48,6 +69,16 @@ namespace DineWithaDane.Android
 			return view;
 		}
 
+		/// <param name="groupPosition">the position of the group that contains the child</param>
+		/// <param name="childPosition">the position of the child (for which the View is
+		///  returned) within the group</param>
+		/// <param name="isLastChild">Whether the child is the last child within the group</param>
+		/// <summary>
+		/// Gets the child view.
+		/// </summary>
+		/// <returns>The child view.</returns>
+		/// <param name="convertView">Convert view.</param>
+		/// <param name="parent">Parent.</param>
 		public override View GetChildView(int groupPosition, int childPosition, bool isLastChild, View convertView, ViewGroup parent)
 		{
 			var view = (convertView as OfferItem); // re-use an existing view, if one is available
@@ -61,6 +92,10 @@ namespace DineWithaDane.Android
 			return view;
 		}
 
+		/// <summary>
+		/// Sort the specified context.
+		/// </summary>
+		/// <param name="context">The way in which the items should be sorted.</param>
 		public override void Sort(string context)
 		{
 			switch (context)
