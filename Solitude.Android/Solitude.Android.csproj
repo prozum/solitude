@@ -76,17 +76,14 @@
     <Compile Include="Activities\HostActivity.cs" />
     <Compile Include="Drawer\SetupDrawer.cs" />
     <Compile Include="Classes\Review.cs" />
-    <Compile Include="TileMenu\Items\EventItem.cs" />
     <Compile Include="TileMenu\Items\OfferItem.cs" />
     <Compile Include="TileMenu\Items\TileListGroup.cs" />
     <Compile Include="TileMenu\Items\TileListItem.cs" />
-    <Compile Include="TileMenu\Lists\EventList.cs" />
     <Compile Include="TileMenu\Lists\OfferList.cs" />
     <Compile Include="TileMenu\Items\EventGroup.cs" />
     <Compile Include="TileMenu\Lists\SortableTileList.cs" />
     <Compile Include="TileMenu\Lists\TileList.cs" />
     <Compile Include="TileMenu\Adapters\BaseTileListAdapter.cs" />
-    <Compile Include="TileMenu\Adapters\EventListAdapter.cs" />
     <Compile Include="TileMenu\Adapters\OfferListAdapter.cs" />
     <Compile Include="Activities\EventActivity.cs" />
     <Compile Include="Activities\OfferActivity.cs" />
@@ -97,6 +94,9 @@
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="TileMenu\Seperator.cs" />
     <Compile Include="Activities\HostEventActivity.cs" />
+    <Compile Include="TileMenu\Lists\HostedEventList.cs" />
+    <Compile Include="TileMenu\Adapters\HostedEventListAdapter.cs" />
+    <Compile Include="TileMenu\Items\HostedEventItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

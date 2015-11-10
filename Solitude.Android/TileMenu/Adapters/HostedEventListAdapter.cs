@@ -11,13 +11,14 @@ using Android.OS;
 
 namespace DineWithaDane.Android
 {
-	public class EventListAdapter : BaseTileListAdapter<Event>
+	public class HostedEventListAdapter : BaseTileListAdapter<Event>
 	{
 		#region Fields
 		/// <summary>
 		/// Gets or sets the handler for the cancel button of the views.
 		/// </summary>
 		public EventHandler OnCancel { get; set; }
+		public EventHandler OnEdit { get; set; }
 		#endregion
 
 
@@ -27,7 +28,7 @@ namespace DineWithaDane.Android
 		/// </summary>
 		/// <param name="context">Context.</param>
 		/// <param name="items">Items.</param>
-		public EventListAdapter(Activity context, List<Event> items) 
+		public HostedEventListAdapter(Activity context, List<Event> items) 
 			: base(context, items) { }
 		#endregion
 
@@ -76,10 +77,10 @@ namespace DineWithaDane.Android
 		/// <param name="parent">Parent.</param>
 		public override View GetChildView(int groupPosition, int childPosition, bool isLastChild, View convertView, ViewGroup parent)
 		{
-			var view = (convertView as EventItem); // re-use an existing view, if one is available
+			var view = (convertView as HostedEventItem); // re-use an existing view, if one is available
 
 			if (view == null) // otherwise create a new one
-				view = new EventItem(Context, OnCancel);
+				view = new HostedEventItem(Context, OnCancel, OnEdit);
 
 			// set view information
 			view.Descrition = Items[groupPosition].Description;

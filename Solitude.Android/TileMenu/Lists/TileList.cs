@@ -51,9 +51,14 @@ namespace DineWithaDane.Android
 
 
 		#region Private Methods
-		protected void RemoveFocus()
+		public void RemoveFocus()
 		{
 			Adapter.RemoveAt(Focus);
+		}
+
+		public T GetFocus()
+		{
+			return Adapter.Items[Focus];
 		}
 
 		protected virtual void Initialize()

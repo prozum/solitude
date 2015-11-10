@@ -18,7 +18,7 @@ namespace DineWithaDane.Android
 	[Activity (Label = "Host")]			
 	public class HostActivity : DrawerActivity
 	{
-		ObservableCollection<Event> hostedEventsList;
+		protected HostedEventList Tilelist { get; set; }
 
 		protected override void OnCreate (Bundle bundle)
 		{
@@ -33,8 +33,8 @@ namespace DineWithaDane.Android
 					PrepareLooper();
 
 					var events = MainActivity.CIF.GetOwnEvents(100);
-					var adapter = new EventListAdapter(this, events);
-					var tilelist = new EventList(this, adapter);
+					var adapter = new HostedEventListAdapter(this, events);
+					Tilelist = new HostedEventList(this, adapter, DeleteEvent, EditEvent);
 
 					var content = FindViewById<FrameLayout>(Resource.Id.content_frame);
 					var internalContent = new LinearLayout(this);
@@ -54,7 +54,7 @@ namespace DineWithaDane.Android
 							ClearLayout();
 							content.AddView(internalContent);
 							internalContent.AddView(hostNewEventButton);
-							internalContent.AddView(tilelist);
+							internalContent.AddView(Tilelist);
 						});
 
 					/*hostedEventsList.CollectionChanged += (sender, e) =>
@@ -107,6 +107,16 @@ namespace DineWithaDane.Android
 			//var metrics = new DisplayMetrics();
 			//WindowManager.DefaultDisplay.GetMetrics(metrics);
 
+		}
+
+		protected void DeleteEvent(object sender, EventArgs e)
+		{
+			MainActivity.CIF.DeleteEvent(Tilelist.GetFocus());
+			Tilelist.RemoveFocus();
+		}
+
+		protected void EditEvent(object sender, EventArgs e)
+		{
 		}
 	}
 }

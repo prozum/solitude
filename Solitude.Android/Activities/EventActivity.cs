@@ -20,8 +20,8 @@ namespace DineWithaDane.Android
 			Position = 2;
 			base.OnCreate (savedInstanceState);
 
-			var adapter = new EventListAdapter(this, new List<Event>());
-			var tilelist = new EventList(this, adapter);
+			var adapter = new HostedEventListAdapter(this, new List<Event>());
+			var tilelist = new HostedEventList(this, adapter, (s, e) => { }, (s, e) => { });
 		}
 	}
 }

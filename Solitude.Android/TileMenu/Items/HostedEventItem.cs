@@ -13,10 +13,11 @@ using Android.Widget;
 
 namespace DineWithaDane.Android
 {
-	public class EventItem : TileListItem
+	public class HostedEventItem : TileListItem
 	{
 		#region Fields
 		protected Button CancelButton { get; set; }
+		protected Button EditButton { get; set; }
 		#endregion
 
 		#region Contructors
@@ -25,13 +26,17 @@ namespace DineWithaDane.Android
 		/// </summary>
 		/// <param name="context">Context.</param>
 		/// <param name="onCancel">On cancel.</param>
-		public EventItem(Context context, EventHandler onCancel)
+		public HostedEventItem(Context context, EventHandler onCancel, EventHandler onEdit)
 			: base(context)
 		{
 			CancelButton = new Button(context);
+			EditButton = new Button(context);
 
 			CancelButton.Text = "Cancel";
 			CancelButton.Click += onCancel;
+
+			EditButton.Text = "Edit";
+			EditButton.Click += onEdit;
 
 			Initialize();
 		}
@@ -40,10 +45,16 @@ namespace DineWithaDane.Android
 		#region Private Methods
 		protected override void Initialize()
 		{
+			var buttonLayout = new LinearLayout(Context);
+			buttonLayout.Orientation = Orientation.Horizontal;
+
 			AddView(DescritionView);
-			AddView(CancelButton);
+			AddView(buttonLayout);
+			buttonLayout.AddView(CancelButton);
+			buttonLayout.AddView(EditButton);
 
 			CancelButton.LayoutParameters.Width = -2;
+			EditButton.LayoutParameters.Width = -2;
 
 			base.Initialize();
 		}
