@@ -10,14 +10,12 @@ using System;
 
 namespace Solitude.Server
 {
-    [RoutePrefix("api/info")]
     public class InfoController : SolitudeController
     {
         public InfoController() : base() {}
 
         [Authorize]
-        [Route("add")]
-        public async Task<IHttpActionResult> Add(InfoType t, int val)
+        public async Task<IHttpActionResult> Post(InfoType t, int val)
         {
             switch (t)
             {
@@ -59,7 +57,6 @@ namespace Solitude.Server
         }
             
         [Authorize]
-        [Route("delete")]
         public async Task<IHttpActionResult> Delete(InfoType t, int val)
         {
             switch (t)

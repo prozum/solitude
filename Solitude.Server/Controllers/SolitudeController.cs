@@ -16,7 +16,8 @@ namespace Solitude.Server
             }
         }
 
-        public IHttpActionResult GetErrorResult(IdentityResult result)
+
+        internal IHttpActionResult ErrorResult(IdentityResult result)
         {
             if (result == null)
             {

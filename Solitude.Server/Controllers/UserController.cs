@@ -9,7 +9,6 @@ using Model;
 
 namespace Solitude.Server
 {
-    [RoutePrefix("api/user")]
     public class UserController : SolitudeController
 	{
         private SolitudeUserManager manager;
@@ -33,8 +32,7 @@ namespace Solitude.Server
         }
 
 		[AllowAnonymous]
-		[Route("register")]
-		public async Task<IHttpActionResult> Register(User user)
+		public async Task<IHttpActionResult> Post(User user)
 		{
             if (!ModelState.IsValid)
             {
@@ -45,7 +43,7 @@ namespace Solitude.Server
 
             var result = await Manager.CreateAsync(appUser, user.Password);
 
-            IHttpActionResult errorResult = GetErrorResult(result);
+            IHttpActionResult errorResult = ErrorResult(result);
 
             if (errorResult != null)
             {
@@ -56,14 +54,13 @@ namespace Solitude.Server
 		}
 
         [Authorize]
-        [Route("delete")]
         public async Task<IHttpActionResult> Delete()
         {
             var user = await Manager.FindByIdAsync(User.Identity.GetUserId());
 
             var result = await Manager.DeleteAsync(user);
 
-            IHttpActionResult errorResult = GetErrorResult(result);
+            IHttpActionResult errorResult = ErrorResult(result);
 
             if (errorResult != null)
             {
