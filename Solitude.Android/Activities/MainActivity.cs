@@ -11,7 +11,7 @@ using System.Threading;
 
 namespace DineWithaDane.Android
 {
-	[Activity (Label = "Login", MainLauncher = true)]
+	[Activity (Label = "Login", MainLauncher = false)]
 	public class MainActivity : Activity
 	{
 		private static ClientCommunication.CommunicationInterface _CIF;
@@ -60,7 +60,7 @@ namespace DineWithaDane.Android
 			if (String.IsNullOrEmpty(username.Text) && String.IsNullOrEmpty(password.Text))
 			{
 				username.Text = "test";
-				password.Text = "#Test123";
+				password.Text = "Test123%";
 			}
 			#endif
 
