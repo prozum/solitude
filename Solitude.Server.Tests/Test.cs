@@ -77,6 +77,7 @@ namespace Solitude.Server.Tests
 			Assert.AreNotEqual (testToken, "");
 			Assert.AreNotEqual (token_type, "");
 		}
+			
 		[Test ()]
 		public void TestCaseAddReview ()
 		{
@@ -91,6 +92,7 @@ namespace Solitude.Server.Tests
 			var response = testClient.Execute (request);
 			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request failed " + response.Content);
 		}
+			
 		[Test ()]
 		public void TestCaseAddInterest ()
 		{
@@ -106,12 +108,12 @@ namespace Solitude.Server.Tests
 			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request failed " + response.Content);
 
 		}
+
 		[Test ()]
 		public void TestCaseGetInterest ()
 		{
 			var request = buildRequest ("info/1", Method.GET);
 
-			//request.AddBody(InfoType.INTEREST);
 			var response = testClient.Execute (request);
 
 			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request failed " + response.Content);
@@ -121,16 +123,23 @@ namespace Solitude.Server.Tests
 
 			Assert.AreEqual(5, receivedInterest, "Something went wrong " + response.Content);
 		}
-		/*[Test ()]
+
+		[Test ()]
 		public void TestCaseGetOffers ()
 		{
-			var request = buildRequest ();
-		}*/
+			var request = buildRequest ("offer", Method.GET);
+
+			var response = testClient.Execute (request);
+
+			var offer = parseEvents (response, true);
+
+			Assert.AreNotEqual (new Event(), offer);
+		}
 
 		[Test()]
 		public void TestCaseAddEvent()
 		{
-			var request = buildRequest ("event", Method.POST);
+			var request = buildRequest ("host", Method.POST);
 			request.AddBody (e);
 
 			var response = testClient.Execute (request);
@@ -145,13 +154,13 @@ namespace Solitude.Server.Tests
 		[Test()]
 		public void TestCaseGetEvent()
 		{
-			var request = buildRequest (string.Format ("event"), Method.GET);
+			var request = buildRequest (string.Format ("host"), Method.GET);
 
 			var response = testClient.Execute (request);
 
 			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request was not executed correctly: " + response.Content);
 
-			Event receivedEvent = parseEvents (response);
+			Event receivedEvent = parseEvents (response, false);
 
 			Assert.AreEqual (e.Id, receivedEvent.Id, "The received event was not equal to the one created");
 		}
@@ -163,11 +172,12 @@ namespace Solitude.Server.Tests
 
 			var response
 		}*/
+
 		[Test()]
 		public void TestCaseUpdateEventChangeTitle()
 		{
 			e.Title = "[Modified Test Event]";
-			var request = buildRequest ("event", Method.PUT);
+			var request = buildRequest ("host", Method.PUT);
 
 			request.AddBody (e);
 
@@ -176,13 +186,13 @@ namespace Solitude.Server.Tests
 			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request was not executed correctly: " + response.Content);
 
 			//Now get the event from the server again:
-			request = buildRequest (string.Format ("event"), Method.GET);
+			request = buildRequest (string.Format ("host"), Method.GET);
 
 			response = testClient.Execute (request);
 
 			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The get-request was not executed correctly: " + response.Content);
 
-			Event receivedEvent = parseEvents (response);
+			Event receivedEvent = parseEvents (response, false);
 
 			Assert.AreEqual (e.Title, receivedEvent.Title, "The recieved event did not have the updated title.");
 		} 
@@ -197,11 +207,11 @@ namespace Solitude.Server.Tests
 			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request was not executed correctly: " + response.Content); 
 
 			//Now try to get event:
-			request = buildRequest (string.Format ("event", e.Id), Method.GET);
+			request = buildRequest (string.Format ("host", e.Id), Method.GET);
 
 			response = testClient.Execute (request);
 
-			Event receivedEvent = parseEvents (response);
+			Event receivedEvent = parseEvents (response, false);
 
 			Assert.AreEqual (receivedEvent, null);
 		}
@@ -216,7 +226,7 @@ namespace Solitude.Server.Tests
 			return request;
 		}
 
-		private Event parseEvents(IRestResponse serverResponse){
+		private Event parseEvents(IRestResponse serverResponse, bool returnfirst){
 			//Tries to convert response to events
 			var events = new List<Event>();
 
@@ -253,9 +263,13 @@ namespace Solitude.Server.Tests
 				{
 				}
 			}
-
-			Event eRight = events.Find ((evnt) => evnt.Id == e.Id);
-			return eRight;
+			if (returnfirst)
+				return events[0];
+			else 
+			{
+				Event eRight = events.Find ((evnt) => evnt.Id == e.Id);
+				return eRight;
+			}
 		}
 		[Test ()]
 		public void zzzTestCaseDeleteUser ()

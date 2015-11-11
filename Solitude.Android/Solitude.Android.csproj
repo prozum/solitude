@@ -100,6 +100,7 @@
     <Compile Include="TileMenu\Adapters\JoinedEventListAdapter.cs" />
     <Compile Include="TileMenu\Items\JoinedEventItem.cs" />
     <Compile Include="TileMenu\Lists\JoinedEventList.cs" />
+    <Compile Include="TileMenu\Adapters\DrawerAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -118,7 +119,6 @@
     <AndroidResource Include="Resources\layout\HeaderLayout.axml" />
     <AndroidResource Include="Resources\layout\SignUp.axml" />
     <AndroidResource Include="Resources\layout\ActivityLayout.axml" />
-    <AndroidResource Include="Resources\layout\item_menu.axml" />
     <AndroidResource Include="Resources\drawable\ic_navigation_drawer.png" />
     <AndroidResource Include="Resources\layout\SpinnerItem.axml" />
     <AndroidResource Include="Resources\layout\Profile.axml" />
@@ -129,6 +129,17 @@
     <AndroidResource Include="Resources\layout\EditComparableInfo.axml" />
     <AndroidResource Include="Resources\layout\EditDetails.axml" />
     <AndroidResource Include="Resources\drawable\border_ui.xml" />
+    <AndroidResource Include="Resources\drawable\orange.xml" />
+    <AndroidResource Include="Resources\drawable\drawerselector.xml" />
+    <AndroidResource Include="Resources\drawable\Host_Icon.png" />
+    <AndroidResource Include="Resources\drawable\Logout_Icon.png" />
+    <AndroidResource Include="Resources\drawable\Main_Icon.png" />
+    <AndroidResource Include="Resources\drawable\Notification_Icon.png" />
+    <AndroidResource Include="Resources\drawable\Offer_Icon.png" />
+    <AndroidResource Include="Resources\drawable\Profile_Icon.png" />
+    <AndroidResource Include="Resources\drawable\Settings_Icon.png" />
+    <AndroidResource Include="Resources\drawable\Events_Icon.png" />
+    <AndroidResource Include="Resources\layout\DrawerItem.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
