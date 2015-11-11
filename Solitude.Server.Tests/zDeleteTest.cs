@@ -5,7 +5,7 @@ using System.Net;
 
 namespace Solitude.Server.Tests
 {
-	[TestFixture ()]
+	/*[TestFixture ()]
 	public class zDeleteTest
 	{
 		[Test ()]
@@ -34,7 +34,7 @@ namespace Solitude.Server.Tests
 			var tokenResponse = Values.testClient.Execute (request);
 
 			Assert.IsFalse (tokenResponse.StatusCode == HttpStatusCode.OK, "Login succeeded unexpectedly " + response.StatusCode.ToString());
-		} 
-	}
+		}
+	}*/
 }
 

@@ -56,7 +56,14 @@ namespace Solitude.Server.Tests
 
 			Assert.AreEqual (e.Id, receivedEvent.Id, "The received event was not equal to the one created");
 		}
+		/*[Test()]
+		 * This cannot be tested as of yet
+		public void TestGetAttendingEvents()
+		{
+			var request = buildRequest (string.Format ("user/event"), Method.GET);
 
+			var response
+		}*/
 		[Test()]
 		public void TestUpdateEventChangeTitle()
 		{
@@ -88,7 +95,7 @@ namespace Solitude.Server.Tests
 
 			var response = Values.testClient.Execute (request);
 
-			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request was not executed correctly: " + response.Content);
+			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request was not executed correctly: " + response.Content); 
 
 			//Now try to get event:
 			request = buildRequest (string.Format ("event", e.Id), Method.GET);
