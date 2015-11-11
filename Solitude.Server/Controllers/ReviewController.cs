@@ -10,7 +10,6 @@ namespace Solitude.Server
 {
     public class ReviewController : SolitudeController
     {
-        [Authorize]
         public async Task<IHttpActionResult> Post(Review review)
         {
             review.UserId = User.Identity.GetUserId();

@@ -52,8 +52,7 @@ namespace Solitude.Server
                 
             return Ok();
 		}
-
-        [Authorize]
+            
         public async Task<IHttpActionResult> Delete()
         {
             var user = await Manager.FindByIdAsync(User.Identity.GetUserId());
@@ -69,17 +68,15 @@ namespace Solitude.Server
 
             return Ok();
         }
-
-        [Authorize]
+            
         [Route("event")]
         public async Task<IHttpActionResult> Get()
         {
             var events = await DB.GetAttendingEvents(User.Identity.GetUserId());
             return Ok(events);
         }
-
-        [Authorize]
-        [Route("event/cancel/")]
+            
+        [Route("event/cancel")]
         public async Task<IHttpActionResult> Get(int id)
         {
             await DB.CancelRegistration(User.Identity.GetUserId(), id);

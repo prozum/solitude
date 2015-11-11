@@ -8,14 +8,12 @@ namespace Solitude.Server
 {
     public class EventController : SolitudeController
 	{
-        [Authorize]
         public async Task<IHttpActionResult> Get()
         {
             var events = await DB.GetHostingEvents(User.Identity.GetUserId());
             return Ok(events);
 		}
             
-        [Authorize]
         public async Task<IHttpActionResult> Post(Event e)
         {
             e.UserId = User.Identity.GetUserId();
@@ -25,7 +23,6 @@ namespace Solitude.Server
             return Ok(new { Id = e.Id});
         }
             
-        [Authorize]
         public async Task<IHttpActionResult> Delete(int id)
         {
             await DB.DeleteEvent(id);
@@ -33,7 +30,6 @@ namespace Solitude.Server
             return Ok();
         }
             
-        [Authorize]
         public async Task<IHttpActionResult> Put(Event e)
         {
             await DB.UpdateEvent(e);
