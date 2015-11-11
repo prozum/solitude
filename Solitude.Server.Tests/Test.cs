@@ -3,8 +3,6 @@ using System;
 using RestSharp;
 using System.Net;
 using Newtonsoft.Json;
-using System.Collections.Generic;
-using Model;
 
 namespace Solitude.Server.Tests
 {

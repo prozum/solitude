@@ -187,10 +187,10 @@ namespace Dal
 			var res = await client.Cypher
 				.Match ("(user:User)-[:WANTS]->(interest:Interest)")
 				.Where ((User user) => user.Id == uid)
-				.Return (() => Return.As<int> ("collect(interest.val)"))
+				.Return (() => Return.As<IEnumerable<int>> ("collect(interest.val)"))
 				.ResultsAsync;
 
-			return res;
+			return res.First();
 		}
 
 		/// <summary>
@@ -242,10 +242,10 @@ namespace Dal
 			var res = await client.Cypher
 				.Match ("(user:User)-[:WANTS]->(language:Language)")
 				.Where ((User user) => user.Id == uid)
-				.Return (() => Return.As<int> ("collect(language.val)"))
+				.Return (() => Return.As<IEnumerable<int>> ("collect(language.val)"))
 				.ResultsAsync;
 
-			return res;
+			return res.First();
 		}
 
 		/// <summary>
@@ -297,10 +297,10 @@ namespace Dal
 			var res = await client.Cypher
 				.Match ("(user:User)-[:WANTS]->(foodhabit:FoodHabit)")
 				.Where ((User user) => user.Id == uid)
-				.Return (() => Return.As<int> ("collect(foodhabit.val)"))
+				.Return (() => Return.As<IEnumerable<int>> ("collect(foodhabit.val)"))
 				.ResultsAsync;
 
-			return res;
+			return res.First();
 		}
 
 		/// <summary>

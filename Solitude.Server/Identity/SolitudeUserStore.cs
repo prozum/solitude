@@ -1,12 +1,7 @@
 ﻿using Neo4j.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using System.Net.Http;
 using Neo4jClient;
-using Neo4jClient.Cypher;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dal;
-using System.Linq;
 
 namespace Solitude.Server
 {
