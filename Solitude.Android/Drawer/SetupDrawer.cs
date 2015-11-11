@@ -24,14 +24,20 @@ namespace DineWithaDane.Android
 		public ActionBarDrawerToggle DrawerToggle { get; set; }
 
 
-		private static readonly string[] Sections = new[] 
+		private static readonly Tuple<string, int>[] Sections = new[] 
 		{
-			"Notifications", "Offer", "Events", "Host", "Profile", "Settings", "Logout"
+			new Tuple<string, int>("Notifications", Resource.Drawable.ic_navigation_drawer),
+			new Tuple<string, int>("Offer", Resource.Drawable.ic_navigation_drawer),
+			new Tuple<string, int>("Events", Resource.Drawable.ic_navigation_drawer),
+			new Tuple<string, int>("Host", Resource.Drawable.ic_navigation_drawer),
+			new Tuple<string, int>("Profile", Resource.Drawable.ic_navigation_drawer),
+			new Tuple<string, int>("Settings", Resource.Drawable.ic_navigation_drawer),
+			new Tuple<string, int>("Logout", Resource.Drawable.ic_navigation_drawer)
 		};
 
 		public SetupDrawer (int position, DrawerActivity currentActivity)
 		{
-
+			
 			CurrentActivity = currentActivity;
 			Position = position;
 		}
@@ -40,9 +46,11 @@ namespace DineWithaDane.Android
 		{
 			Drawer = CurrentActivity.FindViewById<DrawerLayout> (Resource.Id.drawer_layout);
 			DrawerList = CurrentActivity.FindViewById<ListView> (Resource.Id.left_drawer);
+			//DrawerList.SetSelector(Resource.Drawable.orange);
 
-			DrawerList.Adapter = new ArrayAdapter<string> (CurrentActivity, Resource.Layout.item_menu, Sections);
-			DrawerList.SetItemChecked (0, true);
+			DrawerList.Adapter = new DrawerAdapter(CurrentActivity, Sections);
+
+			//DrawerList.Adapter = new ArrayAdapter<string> (CurrentActivity, Resource.Layout.item_menu, Sections);
 			DrawerList.SetItemChecked (Position, true);
 
 			DrawerList.ItemClick += DrawerListOnItemClick;

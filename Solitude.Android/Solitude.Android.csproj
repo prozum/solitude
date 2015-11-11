@@ -100,6 +100,7 @@
     <Compile Include="TileMenu\Adapters\JoinedEventListAdapter.cs" />
     <Compile Include="TileMenu\Items\JoinedEventItem.cs" />
     <Compile Include="TileMenu\Lists\JoinedEventList.cs" />
+    <Compile Include="TileMenu\Adapters\DrawerAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -129,6 +130,8 @@
     <AndroidResource Include="Resources\layout\EditComparableInfo.axml" />
     <AndroidResource Include="Resources\layout\EditDetails.axml" />
     <AndroidResource Include="Resources\drawable\border_ui.xml" />
+    <AndroidResource Include="Resources\drawable\orange.xml" />
+    <AndroidResource Include="Resources\drawable\drawerselector.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
