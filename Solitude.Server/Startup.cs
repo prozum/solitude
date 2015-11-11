@@ -43,7 +43,7 @@ namespace Solitude.Server
             app.UseWebApi(config);
         }
 
-        private void ConfigureNeo4j(IAppBuilder app)
+        private void ConfigureNeo4j(IAppBuilder app, bool initiate = false)
         {
             var gc = new GraphClient(new Uri(ConfigurationManager.ConnectionStrings["neo4j"].ConnectionString));
             gc.Connect();
@@ -61,23 +61,27 @@ namespace Solitude.Server
             app.CreatePerOwinContext<SolitudeUserManager>(SolitudeUserManager.Create);
             app.CreatePerOwinContext<SolitudeSignInManager>(SolitudeSignInManager.Create);
 
-            // Add user info types
-            foreach (int i in Enum.GetValues(typeof(Interest)))
+            // Initiate DB
+            if (initiate)
             {
-                dal.AddInterest(i);
-            }
+                // Add user infotypes
+                foreach (int i in Enum.GetValues(typeof(Interest)))
+                {
+                    dal.AddInterest(i);
+                }
 
-            foreach (int l in Enum.GetValues(typeof(Language)))
-            {
-                dal.AddLanguage(l);
-            }
+                foreach (int l in Enum.GetValues(typeof(Language)))
+                {
+                    dal.AddLanguage(l);
+                }
 
-            foreach (int f in Enum.GetValues(typeof(FoodHabit)))
-            {
-                dal.AddFoodHabit(f);
-            }
+                foreach (int f in Enum.GetValues(typeof(FoodHabit)))
+                {
+                    dal.AddFoodHabit(f);
+                }
 
-            dal.SetEventIdCounter(0);
+                dal.SetEventIdCounter(0);
+            }
         }
 
         public void ConfigureOAuth(IAppBuilder app)
