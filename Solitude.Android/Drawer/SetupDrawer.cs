@@ -26,13 +26,13 @@ namespace DineWithaDane.Android
 
 		private static readonly Tuple<string, int>[] Sections = new[] 
 		{
-			new Tuple<string, int>("Notifications", Resource.Drawable.ic_navigation_drawer),
-			new Tuple<string, int>("Offer", Resource.Drawable.ic_navigation_drawer),
-			new Tuple<string, int>("Events", Resource.Drawable.ic_navigation_drawer),
-			new Tuple<string, int>("Host", Resource.Drawable.ic_navigation_drawer),
-			new Tuple<string, int>("Profile", Resource.Drawable.ic_navigation_drawer),
-			new Tuple<string, int>("Settings", Resource.Drawable.ic_navigation_drawer),
-			new Tuple<string, int>("Logout", Resource.Drawable.ic_navigation_drawer)
+			new Tuple<string, int>("Notifications", Resource.Drawable.Notification_Icon),
+			new Tuple<string, int>("Offer", Resource.Drawable.Offer_Icon),
+			new Tuple<string, int>("Events", Resource.Drawable.Events_Icon),
+			new Tuple<string, int>("Host", Resource.Drawable.Host_Icon),
+			new Tuple<string, int>("Profile", Resource.Drawable.Profile_Icon),
+			new Tuple<string, int>("Settings", Resource.Drawable.Settings_Icon),
+			new Tuple<string, int>("Logout", Resource.Drawable.Logout_Icon)
 		};
 
 		public SetupDrawer (int position, DrawerActivity currentActivity)

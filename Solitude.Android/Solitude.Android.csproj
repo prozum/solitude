@@ -119,7 +119,6 @@
     <AndroidResource Include="Resources\layout\HeaderLayout.axml" />
     <AndroidResource Include="Resources\layout\SignUp.axml" />
     <AndroidResource Include="Resources\layout\ActivityLayout.axml" />
-    <AndroidResource Include="Resources\layout\item_menu.axml" />
     <AndroidResource Include="Resources\drawable\ic_navigation_drawer.png" />
     <AndroidResource Include="Resources\layout\SpinnerItem.axml" />
     <AndroidResource Include="Resources\layout\Profile.axml" />
@@ -140,6 +139,7 @@
     <AndroidResource Include="Resources\drawable\Profile_Icon.png" />
     <AndroidResource Include="Resources\drawable\Settings_Icon.png" />
     <AndroidResource Include="Resources\drawable\Events_Icon.png" />
+    <AndroidResource Include="Resources\layout\DrawerItem.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

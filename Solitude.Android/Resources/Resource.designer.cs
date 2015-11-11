@@ -96,14 +96,14 @@ namespace DineWithaDane.Android
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f05000d
-			public const int AddressEditor = 2131034125;
+			// aapt resource value: 0x7f05000e
+			public const int AddressEditor = 2131034126;
 			
 			// aapt resource value: 0x7f05001d
 			public const int AgeView = 2131034141;
 			
-			// aapt resource value: 0x7f05000a
-			public const int CancelButton = 2131034122;
+			// aapt resource value: 0x7f05000b
+			public const int CancelButton = 2131034123;
 			
 			// aapt resource value: 0x7f050004
 			public const int CancelDeletionBtn = 2131034116;
@@ -111,11 +111,11 @@ namespace DineWithaDane.Android
 			// aapt resource value: 0x7f05001f
 			public const int EditProfileButton = 2131034143;
 			
-			// aapt resource value: 0x7f050011
-			public const int Image = 2131034129;
+			// aapt resource value: 0x7f050007
+			public const int Image = 2131034119;
 			
-			// aapt resource value: 0x7f050009
-			public const int InfoList = 2131034121;
+			// aapt resource value: 0x7f05000a
+			public const int InfoList = 2131034122;
 			
 			// aapt resource value: 0x7f05001e
 			public const int InfoView = 2131034142;
@@ -123,8 +123,8 @@ namespace DineWithaDane.Android
 			// aapt resource value: 0x7f050026
 			public const int InnerRelativeLayout = 2131034150;
 			
-			// aapt resource value: 0x7f05000c
-			public const int NameEditor = 2131034124;
+			// aapt resource value: 0x7f05000d
+			public const int NameEditor = 2131034125;
 			
 			// aapt resource value: 0x7f05001c
 			public const int NameView = 2131034140;
@@ -138,17 +138,17 @@ namespace DineWithaDane.Android
 			// aapt resource value: 0x7f05001b
 			public const int ProfilePictureView = 2131034139;
 			
-			// aapt resource value: 0x7f05000b
-			public const int SaveButton = 2131034123;
+			// aapt resource value: 0x7f05000c
+			public const int SaveButton = 2131034124;
 			
-			// aapt resource value: 0x7f050007
-			public const int Text = 2131034119;
+			// aapt resource value: 0x7f050008
+			public const int Text = 2131034120;
 			
 			// aapt resource value: 0x7f050017
 			public const int buttonLogin = 2131034135;
 			
-			// aapt resource value: 0x7f050010
-			public const int buttonMenu = 2131034128;
+			// aapt resource value: 0x7f050011
+			public const int buttonMenu = 2131034129;
 			
 			// aapt resource value: 0x7f050018
 			public const int buttonSignUp = 2131034136;
@@ -156,8 +156,8 @@ namespace DineWithaDane.Android
 			// aapt resource value: 0x7f05002d
 			public const int buttonSubmit = 2131034157;
 			
-			// aapt resource value: 0x7f050008
-			public const int buttons = 2131034120;
+			// aapt resource value: 0x7f050009
+			public const int buttons = 2131034121;
 			
 			// aapt resource value: 0x7f050027
 			public const int cancelReviewButton = 2131034151;
@@ -189,8 +189,8 @@ namespace DineWithaDane.Android
 			// aapt resource value: 0x7f050014
 			public const int editUsername = 2131034132;
 			
-			// aapt resource value: 0x7f05000e
-			public const int frameLayout1 = 2131034126;
+			// aapt resource value: 0x7f05000f
+			public const int frameLayout1 = 2131034127;
 			
 			// aapt resource value: 0x7f050012
 			public const int layoutMain = 2131034130;
@@ -198,8 +198,8 @@ namespace DineWithaDane.Android
 			// aapt resource value: 0x7f050002
 			public const int left_drawer = 2131034114;
 			
-			// aapt resource value: 0x7f05000f
-			public const int linearLayout1 = 2131034127;
+			// aapt resource value: 0x7f050010
+			public const int linearLayout1 = 2131034128;
 			
 			// aapt resource value: 0x7f050028
 			public const int postReviewButton = 2131034152;
@@ -260,19 +260,19 @@ namespace DineWithaDane.Android
 			public const int deletionDialog = 2130903042;
 			
 			// aapt resource value: 0x7f030003
-			public const int EditComparableInfo = 2130903043;
+			public const int DrawerItem = 2130903043;
 			
 			// aapt resource value: 0x7f030004
-			public const int EditDetails = 2130903044;
+			public const int EditComparableInfo = 2130903044;
 			
 			// aapt resource value: 0x7f030005
-			public const int EditText = 2130903045;
+			public const int EditDetails = 2130903045;
 			
 			// aapt resource value: 0x7f030006
-			public const int HeaderLayout = 2130903046;
+			public const int EditText = 2130903046;
 			
 			// aapt resource value: 0x7f030007
-			public const int item_menu = 2130903047;
+			public const int HeaderLayout = 2130903047;
 			
 			// aapt resource value: 0x7f030008
 			public const int Main = 2130903048;

@@ -53,7 +53,7 @@ namespace DineWithaDane.Android
 			var view = convertView; // re-use an existing view, if one is available
 
 			if (view == null) // otherwise create a new one
-				view = Context.LayoutInflater.Inflate(Resource.Layout.item_menu, null);
+				view = Context.LayoutInflater.Inflate(Resource.Layout.DrawerItem, null);
 
 			view.FindViewById<TextView>(Resource.Id.Text).Text = Items[position].Item1;
 			view.FindViewById<ImageView>(Resource.Id.Image).SetImageResource(Items[position].Item2);
