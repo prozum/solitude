@@ -23,6 +23,7 @@ namespace Solitude.Server.Tests
 		}
 		public void RegisterUser ()
 		{
+			testUsername = "ServerTestUser" + r.Next(1, 1000000);
 			var request = new RestRequest ("user/register", Method.POST);
 			var user = new 
 			{
@@ -159,6 +160,104 @@ namespace Solitude.Server.Tests
 			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request was not executed correctly: " + response.Content);
 		}
 
+		public void UpdateEventChangeTitle()
+		{
+			e.Title = "[Modified Test Event]";
+			var request = buildRequest ("host", Method.PUT);
+
+			request.AddBody (e);
+
+			var response = testClient.Execute (request);
+
+			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request was not executed correctly: " + response.Content);
+
+			//Now get the event from the server again:
+			request = buildRequest (string.Format ("host"), Method.GET);
+
+			response = testClient.Execute (request);
+
+			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The get-request was not executed correctly: " + response.Content);
+
+			Event receivedEvent = parseEvents (response, false);
+
+			Assert.AreEqual (e.Title, receivedEvent.Title, "The recieved event did not have the updated title.");
+		} 
+
+		public void DeleteInterest ()
+		{
+			var request = buildRequest ("info", Method.DELETE);
+
+			var InfoDelete = new {
+				Info = 1,
+				value = 5
+			};
+			request.AddBody(InfoDelete);	
+
+			var response = testClient.Execute (request);
+			//Testing if the request was executed properly
+			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request failed " + response.Content);
+		}
+
+		public void DeleteEvent()
+		{
+			var request = buildRequest ("host/" + e.Id, Method.DELETE);
+
+			request.AddBody (e.Id);
+
+			var response = testClient.Execute (request);
+
+			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request was not executed correctly: " + response.Content); 
+
+			//Now try to get event:
+			request = buildRequest ("host" /*+ e.Id*/, Method.GET);
+
+			response = testClient.Execute (request);
+
+			Event receivedEvent = parseEvents (response, false);
+
+			Assert.AreEqual (receivedEvent, null);
+		}
+
+		public void GetAttendingEvents()
+		{
+			var request = buildRequest ("event", Method.GET);
+
+			var response = testClient.Execute (request);
+
+			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request was not executed correctly " + response.Content);
+
+			var receivedEvent = parseEvents (response, true);
+
+			Assert.AreNotEqual (new Event ().Id, receivedEvent.Id, response.Content);
+		}
+
+		public void DeleteUser ()
+		{
+			var deleteRequest = new RestRequest ("user", Method.DELETE);
+			deleteRequest.RequestFormat = DataFormat.Json;
+
+			deleteRequest.AddHeader("Authorization", "bearer " + testToken);
+
+			//Adds body to the request
+			var body = new {
+				userToken = testToken
+			};
+			deleteRequest.AddBody(body);
+			var response = testClient.Execute (deleteRequest);
+
+			var request = new RestRequest("token", Method.POST);
+
+			request.AddHeader("content-type", "x-www-form-urlencoded");
+			request.AddHeader ("postman-token", "a4e85886-daf2-5856-b530-12ed21af5867");
+			request.AddHeader("cache-control", "no_cache");
+
+			request.AddParameter("x-www-form-urlencoded", String.Format("username={0}&password={1}&grant_type=password", testUsername, password), ParameterType.RequestBody);
+
+			var tokenResponse = testClient.Execute (request);
+
+			Assert.IsFalse (tokenResponse.StatusCode == HttpStatusCode.OK, "Login succeeded unexpectedly " + response.StatusCode.ToString());
+		}
+
 		public RestRequest buildRequest(string resource, Method method)
 		{
 			var request = new RestRequest (resource, method);
@@ -168,6 +267,7 @@ namespace Solitude.Server.Tests
 
 			return request;
 		}
+
 
 		public Event parseEvents(IRestResponse serverResponse, bool returnfirst){
 			//Tries to convert response to events

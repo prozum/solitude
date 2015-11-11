@@ -26,17 +26,16 @@ namespace Solitude.Server.Tests
 
 		public Tests ()
 		{
-			testUsername = "ServerTestUser" + r.Next(1, 1000000);
 		}
 
 		[Test()]
-		public void _1TestCaseRegisterUser ()
+		public void TestCaseRegisterUser ()
 		{
 			RegisterUser ();
 		}
 
 		[Test()]
-		public void _2TestCaseLogin()
+		public void TestCaseLogin()
 		{
 			RegisterUser ();
 			Login ();
@@ -83,24 +82,6 @@ namespace Solitude.Server.Tests
 			AddInterest ();
 			GetInterest ();
 		}
-			
-		[Test ()]
-		public void TestCasezDeleteInterest ()
-		{
-			var request = buildRequest ("info", Method.DELETE);
-
-			var InfoDelete = new {
-				Info = 1,
-				value = 5
-			};
-			request.AddBody(InfoDelete);	
-
-			var response = testClient.Execute (request);
-			//Testing if the request was executed properly
-			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request failed " + response.Content);
-
-
-		}
 
 		[Test ()]
 		public void TestCaseGetOffers ()
@@ -113,104 +94,53 @@ namespace Solitude.Server.Tests
 		[Test()]
 		public void TestCaseReplyOffer()
 		{
-			var request = buildRequest ("offer", Method.POST);
-
-			var reply = new {
-				Value = true,
-				EventID = 10
-			};
-			request.AddBody (reply);
-			var response = testClient.Execute(request);
-
-			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request was not executed correctly: " + response.Content);
-		}
-
-
-		[Test()]
-		public void TestCasexGetAttendingEvents()
-		{
-			var request = buildRequest ("event", Method.GET);
-
-			var response = testClient.Execute (request);
-
-			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request was not executed correctly " + response.Content);
-
-			var receivedEvent = parseEvents (response, true);
-
-			Assert.AreNotEqual (new Event ().Id, receivedEvent.Id, response.Content);
+			RegisterUser ();
+			Login ();
+			GetOffers ();
+			ReplyOffer ();
 		}
 
 		[Test()]
 		public void TestCaseUpdateEventChangeTitle()
 		{
-			e.Title = "[Modified Test Event]";
-			var request = buildRequest ("host", Method.PUT);
-
-			request.AddBody (e);
-
-			var response = testClient.Execute (request);
-
-			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request was not executed correctly: " + response.Content);
-
-			//Now get the event from the server again:
-			request = buildRequest (string.Format ("host"), Method.GET);
-
-			response = testClient.Execute (request);
-
-			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The get-request was not executed correctly: " + response.Content);
-
-			Event receivedEvent = parseEvents (response, false);
-
-			Assert.AreEqual (e.Title, receivedEvent.Title, "The recieved event did not have the updated title.");
+			RegisterUser ();
+			Login ();
+			AddEvent ();
+			UpdateEventChangeTitle ();
 		} 
 
 		[Test()]
-		public void TestCasezzDeleteEvent()
+		public void TestCaseGetAttendingEvents()
 		{
-			var request = buildRequest ("host/" + e.Id, Method.DELETE);
+			RegisterUser ();
+			Login ();
+			GetAttendingEvents ();
+		}
 
-			request.AddBody (e.Id);
+		[Test ()]
+		public void TestCaseDeleteInterest ()
+		{
+			RegisterUser ();
+			Login ();
+			AddInterest ();
+			DeleteInterest ();
+		}
 
-			var response = testClient.Execute (request);
-
-			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request was not executed correctly: " + response.Content); 
-
-			//Now try to get event:
-			request = buildRequest ("host" /*+ e.Id*/, Method.GET);
-
-			response = testClient.Execute (request);
-
-			Event receivedEvent = parseEvents (response, false);
-
-			Assert.AreEqual (receivedEvent, null);
+		[Test()]
+		public void TestCaseDeleteEvent()
+		{
+			RegisterUser ();
+			Login ();
+			AddEvent ();
+			DeleteEvent ();
 		}
 			
 		[Test ()]
-		public void TestCasezzzDeleteUser ()
+		public void TestCaseDeleteUser ()
 		{
-			var deleteRequest = new RestRequest ("user", Method.DELETE);
-			deleteRequest.RequestFormat = DataFormat.Json;
-
-			deleteRequest.AddHeader("Authorization", "bearer " + testToken);
-
-			//Adds body to the request
-			var body = new {
-				userToken = testToken
-			};
-			deleteRequest.AddBody(body);
-			var response = testClient.Execute (deleteRequest);
-
-			var request = new RestRequest("token", Method.POST);
-
-			request.AddHeader("content-type", "x-www-form-urlencoded");
-			request.AddHeader ("postman-token", "a4e85886-daf2-5856-b530-12ed21af5867");
-			request.AddHeader("cache-control", "no_cache");
-
-			request.AddParameter("x-www-form-urlencoded", String.Format("username={0}&password={1}&grant_type=password", testUsername, password), ParameterType.RequestBody);
-
-			var tokenResponse = testClient.Execute (request);
-
-			Assert.IsFalse (tokenResponse.StatusCode == HttpStatusCode.OK, "Login succeeded unexpectedly " + response.StatusCode.ToString());
+			RegisterUser ();
+			Login ();
+			DeleteUser ();
 		}
 	}
 }
