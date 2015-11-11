@@ -21,20 +21,26 @@ namespace DineWithaDane.Android
 		/// Initializes a new instance of the <see cref="DineWithaDane.Android.Seperator"/> class.
 		/// </summary>
 		/// <param name="context">Context.</param>
-		public Seperator(Context context)
-			: this(context, Color.Black) { }
-		
+		/// <param name="heigth">Heigth.</param>
+		/// <param name="width">Width.</param>
+		public Seperator(Context context, int heigth = 2, int width = 2)
+			: this(context, Color.Gray, heigth, width) { } 
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DineWithaDane.Android.Seperator"/> class.
 		/// </summary>
 		/// <param name="context">Context.</param>
 		/// <param name="color">Color.</param>
-		public Seperator(Context context, Color color)
+		/// <param name="heigth">Heigth.</param>
+		/// <param name="witdh">Witdh.</param>
+		public Seperator(Context context, Color color, int heigth = 2, int width = 2)
 			: base(context)
 		{
 			SetBackgroundColor(color);
-			SetMinHeight(2);
-			SetMaxHeight(2);
+			SetMinHeight(heigth);
+			SetMaxHeight(heigth);
+			SetMaxWidth(width);
+			SetMinWidth(width);
 		}
 	}
 }
