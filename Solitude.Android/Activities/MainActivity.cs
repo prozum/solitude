@@ -58,9 +58,6 @@ namespace DineWithaDane.Android
 				username.Text = "test";
 				password.Text = "Test123%";
 			}
-
-			Intent thing = new Intent(this, typeof(NotificationActivity));
-			StartActivity(thing);
 			#endif
 
 			//Tries to login if strings are present in the fields
