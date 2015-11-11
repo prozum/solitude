@@ -62,29 +62,19 @@ namespace Solitude.Server
             app.CreatePerOwinContext<SolitudeSignInManager>(SolitudeSignInManager.Create);
 
             // Add user info types
-            foreach (var i in Enum.GetValues(typeof(Interest)))
+            foreach (int i in Enum.GetValues(typeof(Interest)))
             {
-                Console.WriteLine(i);
-                dal.AddInterest((Interest)i);
+                dal.AddInterest(i);
             }
 
-            foreach (var l in Enum.GetValues(typeof(Language)))
+            foreach (int l in Enum.GetValues(typeof(Language)))
             {
-                Console.WriteLine(l);
-                dal.AddLanguage((Language)l);
+                dal.AddLanguage(l);
             }
 
-            foreach (var f in Enum.GetValues(typeof(FoodHabit)))
+            foreach (int f in Enum.GetValues(typeof(FoodHabit)))
             {
-                try
-                {
-                    Console.WriteLine(f);
-                    dal.AddFoodHabit((FoodHabit)f);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex);
-                }
+                dal.AddFoodHabit(f);
             }
 
             dal.SetEventIdCounter(0);

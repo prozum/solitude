@@ -26,44 +26,56 @@ namespace Dal
 		/// Adds an interest to the database
 		/// </summary>
 		/// <returns>Task</returns>
-		/// <param name="ic">The interest to add</param>
-		public async Task AddInterest (Interest ic)
+		/// <param name="i">The interest to add</param>
+		public async Task AddInterest (int i)
 		{
-			/*
-			var newInterest = new {value = ic};
+			var check = await client.Cypher
+				.Match ("(i:Interest)")
+				.Return (() => Return.As<int>("count(i)"))
+				.ResultsAsync;
 
-			await client.Cypher
-				.Merge ("(interest:Interest {val: {Val}})")
-				.OnCreate ()
-				.Set ("interest = {newInterest}")
-				.WithParams ( new {
-					Val = newInterest.value,
-					newInterest
-				})
-				.ExecuteWithoutResultsAsync ();
-				*/
+			if (check.First() == 0)
+			{
+				var newInterest = new {value = i};
+
+				await client.Cypher
+					.Merge ("(i:Interest {value: {val}})")
+					.OnCreate ()
+					.Set ("i = {newInterest}")
+					.WithParams ( new {
+						val = newInterest.value,
+						newInterest
+					})
+					.ExecuteWithoutResultsAsync ();
+			}
 		}
 
 		/// <summary>
 		/// Adds a language to the database
 		/// </summary>
 		/// <returns>Task</returns>
-		/// <param name="lc">The language to add</param>
-		public async Task AddLanguage (Language lc)
+		/// <param name="l">The language to add</param>
+		public async Task AddLanguage (int l)
 		{
-			/*
-			var newLanguage = new {value = lc};
+			var check = await client.Cypher
+				.Match ("(l:Language)")
+				.Return (() => Return.As<int>("count(l)"))
+				.ResultsAsync;
 
-			await client.Cypher
-				.Merge ("(language:Language {val: {Val}})")
-				.OnCreate ()
-				.Set ("language = {newLanguage}")
-				.WithParams ( new {
-					Val = newLanguage.value,
-					newLanguage
-				})
-				.ExecuteWithoutResultsAsync ();
-				*/
+			if (check.First() == 0)
+			{
+				var newLanguage = new {value = l};
+
+				await client.Cypher
+					.Merge ("(l:Language {value: {val}})")
+					.OnCreate ()
+					.Set ("l = {newLanguage}")
+					.WithParams ( new {
+						val = newLanguage.value,
+						newLanguage
+					})
+					.ExecuteWithoutResultsAsync ();
+			}
 		}
 
 		/// <summary>
@@ -71,27 +83,23 @@ namespace Dal
 		/// </summary>
 		/// <returns>Task</returns>
 		/// <param name="fh">The foodhabit to add</param>
-		public async Task AddFoodHabit (FoodHabit fh)
+		public async Task AddFoodHabit (int fh)
 		{
 			var check = await client.Cypher
-				.Match ("foodhabit:FoodHabit")
-				.Where ("foodhabit.value = value")
-				.WithParam ("value", (int)fh)
-				.Return (() => Return.As<FoodHabit>("foodhabit"))
+				.Match ("(fh:FoodHabit)")
+				.Return (() => Return.As<int>("count(fh)"))
 				.ResultsAsync;
 
-			var hi = check;
-
-			if (!check.Any())
+			if (check.First() == 0)
 			{
 				var newFoodHabit = new {value = fh};
 
 				await client.Cypher
-					.Merge ("(foodhabit:FoodHabit {value: {val}})")
+					.Merge ("(fh:FoodHabit {value: {val}})")
 					.OnCreate ()
-					.Set ("foodhabit = {newFoodHabit}")
+					.Set ("fh = {newFoodHabit}")
 					.WithParams ( new {
-						val = (int)(newFoodHabit.value),
+						val = newFoodHabit.value,
 						newFoodHabit
 					})
 					.ExecuteWithoutResultsAsync ();
