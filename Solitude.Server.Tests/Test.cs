@@ -79,18 +79,21 @@ namespace Solitude.Server.Tests
 			var response = Values.testClient.Execute (request);
 			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request failed " + response.Content);
 		}
-		/*[Test ()]
+		[Test ()]
 		public void TestCaseAddInterest ()
 		{
 			var request = new RestRequest ("info", Method.POST);
 			request.RequestFormat = DataFormat.Json;
 			request.AddHeader ("Authorization", "bearer " + Values.testToken);
-			request.AddBody (InfoType.INTEREST);
-			request.AddBody(4);
 
+			var InfoUpdate = new {
+				Info = 1,
+				val = 5
+			};
+			request.AddBody (InfoUpdate);
 			var response = Values.testClient.Execute (request);
 			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request failed " + response.Content);
-		}*/
+		}
 	}
 }
 
