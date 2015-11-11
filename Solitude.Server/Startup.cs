@@ -74,8 +74,15 @@ namespace Solitude.Server
 
             foreach (var f in Enum.GetValues(typeof(FoodHabit)))
             {
-                Console.WriteLine(f);
-                dal.AddFoodHabit((FoodHabit)f);
+                try
+                {
+                    Console.WriteLine(f);
+                    dal.AddFoodHabit((FoodHabit)f);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
             }
 
             dal.SetEventIdCounter(0);
