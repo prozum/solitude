@@ -326,7 +326,7 @@ namespace Dal
 			//make sure that the interest is related with the right user
 				.Match ("(user:User)-[w:WANTS]->(foodhabit:FoodHabit)")
 				.Where((User user) => user.Id == uid)
-				.AndWhere ("foodhabit.Id = {fh}")
+				.AndWhere ("foodhabit.value = {fh}")
 				.WithParam ("fh", fh)
 				.Delete("w")
 				.ExecuteWithoutResultsAsync ();
@@ -342,7 +342,7 @@ namespace Dal
 			var res = await client.Cypher
 				.Match ("(user:User)-[:WANTS]->(foodhabit:FoodHabit)")
 				.Where ((User user) => user.Id == uid)
-				.Return (() => Return.As<IEnumerable<int>> ("collect(foodhabit.val)"))
+				.Return (() => Return.As<IEnumerable<int>> ("collect(foodhabit.value)"))
 				.ResultsAsync;
 
 			return res.First();
