@@ -13,7 +13,7 @@ using Android.Widget;
 
 namespace DineWithaDane.Android
 {
-	public class HostedEventList : SortableTileList<Event>
+	public class JoinedEventList : SortableTileList<Event>
 	{
 		#region Constructor
 		/// <summary>
@@ -21,11 +21,10 @@ namespace DineWithaDane.Android
 		/// </summary>
 		/// <param name="context">Context.</param>
 		/// <param name="adapter">Adapter.</param>
-		public HostedEventList(Context context, HostedEventListAdapter adapter, EventHandler onCancel, EventHandler onEdit)
+		public JoinedEventList(Context context, JoinedEventListAdapter adapter, EventHandler onLeave)
 			: base(context, adapter, SortItems)
 		{
-			adapter.OnCancel = onCancel;
-			adapter.OnEdit = onEdit;
+			adapter.OnLeave = onLeave;;
 
 			Initialize();
 		}

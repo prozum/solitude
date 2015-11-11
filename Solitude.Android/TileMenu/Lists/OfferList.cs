@@ -21,28 +21,11 @@ namespace DineWithaDane.Android
 		/// </summary>
 		/// <param name="context">Context.</param>
 		/// <param name="adapter">Adapter.</param>
-		public OfferList(Context context, OfferListAdapter adapter)
-			: base(context, adapter, new string[] 
-				{
-					"Title (A-Z)",
-					"Title (Z-A)",
-					"Date (Soonest)",
-					"Date (Lastest)",
-					"Distance (Closest)",
-					"Distance (Farthest)"
-				})
+		public OfferList(Context context, OfferListAdapter adapter, EventHandler onAccept, EventHandler onDecline)
+			: base(context, adapter, SortItems)
 		{
-			adapter.OnAccept = (s, e) =>
-				{
-					ExpListView.CollapseGroup(Focus);
-					RemoveFocus();
-				};
-
-			adapter.OnDecline = (s, e) =>
-				{
-					ExpListView.CollapseGroup(Focus);
-					RemoveFocus();
-				};
+			adapter.OnAccept = onAccept;
+			adapter.OnDecline = onDecline;
 
 			Initialize();
 		}

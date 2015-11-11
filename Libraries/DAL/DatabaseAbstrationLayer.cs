@@ -23,12 +23,10 @@ namespace Dal
 		}
 
 		/// <summary>
-		/// function to add an interest to the database
-		/// the input is limited to an enum so it's not
-		/// possible to add something out of the supported range of interests
+		/// Adds an interest to the database
 		/// </summary>
-		/// <returns><c>true</c>, if interest was added, <c>false</c> otherwise.</returns>
-		/// <param name="ic">Ic.</param>
+		/// <returns>Task</returns>
+		/// <param name="ic">The interest to add</param>
 		public async Task AddInterest (Interest ic)
 		{
 				await client.Cypher
@@ -38,12 +36,10 @@ namespace Dal
 		}
 
 		/// <summary>
-		/// function to add a language to the database
-		/// the input is limited to an enum so it's not
-		/// possible to add something out of the supported range of languages
+		/// Adds a language to the database
 		/// </summary>
-		/// <returns><c>true</c>, if language was added, <c>false</c> otherwise.</returns>
-		/// <param name="lc">Lc.</param>
+		/// <returns>Task</returns>
+		/// <param name="lc">The language to add</param>
 		public async Task AddLanguage (Language lc)
 		{
 			await client.Cypher
@@ -53,12 +49,10 @@ namespace Dal
 		}
 
 		/// <summary>
-		/// function to add a foodhabit to the database
-		/// the input is limited to an enum so it's not
-		/// possible to add something out of the supported range of foodhabits
+		/// Adds a foodhabit to the database
 		/// </summary>
-		/// <returns><c>true</c>, if food habit was added, <c>false</c> otherwise.</returns>
-		/// <param name="fh">Fc.</param>
+		/// <returns>Task</returns>
+		/// <param name="fh">The foodhabit to add</param>
 		public async Task AddFoodHabit (FoodHabit fh)
 		{
 			await client.Cypher
@@ -67,6 +61,13 @@ namespace Dal
 				.ExecuteWithoutResultsAsync ();
 		}
 
+		/// <summary>
+		/// Sets the event id counter in the database
+		/// Should not be run if the database already
+		/// has an event id counter
+		/// </summary>
+		/// <returns>Task</returns>
+		/// <param name="startVal">The value which the event id counter is set to</param>
 		public async Task SetEventIdCounter (int startVal)
 		{
 			await client.Cypher
@@ -77,6 +78,10 @@ namespace Dal
 				.ExecuteWithoutResultsAsync();
 		}
 
+		/// <summary>
+		/// Access the event id counter (the id counter must exist)
+		/// </summary>
+		/// <returns>The event identifier counter as a Task<int></returns>
 		async Task<int> GetEventIdCounter ()
 		{
 			var res = await client.Cypher
@@ -87,6 +92,10 @@ namespace Dal
 			return res.First ();
 		}
 
+		/// <summary>
+		/// Increments the event id counter
+		/// </summary>
+		/// <returns>Task</returns>
 		async Task IncrementEventIdCounter ()
 		{
 			await client.Cypher
@@ -95,6 +104,11 @@ namespace Dal
 				.ExecuteWithoutResultsAsync ();
 		}
 
+		/// <summary>
+		/// Add an event to the database
+		/// </summary>
+		/// <returns>Task</returns>
+		/// <param name="event">The event that should be added</param>
 		public async Task AddEvent (Event @event)
 		{
 			@event.Id = await GetEventIdCounter ();
@@ -109,6 +123,11 @@ namespace Dal
 				.ExecuteWithoutResultsAsync ();
 		}
 
+		/// <summary>
+		/// Add a review to the database
+		/// </summary>
+		/// <returns>Task</returns>
+		/// <param name="review">The review that should be added</param>
 		public async Task AddReview(Review review)
 		{
 			await client.Cypher
@@ -119,7 +138,13 @@ namespace Dal
 				.ExecuteWithoutResultsAsync ();
 		}
 
-			
+		/// <summary>
+		/// Connects the user to an interest
+		/// </summary>
+		/// <returns>Task</returns>
+		/// <param name="uid">The user's id</param>
+		/// <param name="ic">The interest which the user should be connected to</param>
+		/// <param name="w">The weight of the relationship between the user and interest</param>
 		public async Task ConnectUserInterest (string uid, Interest ic, int w)
 		{
 			await client.Cypher
@@ -134,6 +159,12 @@ namespace Dal
 				.ExecuteWithoutResultsAsync ();
 		}
 
+		/// <summary>
+		/// Disconnects the user from an interest
+		/// </summary>
+		/// <returns>Task</returns>
+		/// <param name="uid">The user's id</param>
+		/// <param name="ic">The interest that the user should be disconnected from</param>
 		public async Task DisconnectUserInterest (string uid, Interest ic)
 		{
 			await client.Cypher
@@ -146,6 +177,11 @@ namespace Dal
 				.ExecuteWithoutResultsAsync ();
 		}
 
+		/// <summary>
+		/// Gets the user's interests
+		/// </summary>
+		/// <returns>Task<IEnumerable<int>> with the interest values the user has </returns>
+		/// <param name="uid">The user's id</param>
 		public async Task<IEnumerable<int>> GetUserInterest (string uid)
 		{
 			var res = await client.Cypher
@@ -157,6 +193,13 @@ namespace Dal
 			return res;
 		}
 
+		/// <summary>
+		/// Connects the user to a language
+		/// </summary>
+		/// <returns>Task</returns>
+		/// <param name="uid">The user's id</param>
+		/// <param name="lc">The language which the user should be connected to</param>
+		/// <param name="w">The weight of the relationship between the user and language</param>
 		public async Task ConnectUserLanguage (string uid, Language lc, int w)
 		{
 			await client.Cypher
@@ -171,6 +214,12 @@ namespace Dal
 				.ExecuteWithoutResultsAsync ();
 		}
 
+		/// <summary>
+		/// Disconnects the user from a language
+		/// </summary>
+		/// <returns>Task</returns>
+		/// <param name="uid">The user's id</param>
+		/// <param name="lc">The language that the user should be disconnected from</param>
 		public async Task DisconnectUserLanguage (string uid, Language lc)
 		{
 			await client.Cypher
@@ -183,6 +232,11 @@ namespace Dal
 				.ExecuteWithoutResultsAsync ();
 		}
 
+		/// <summary>
+		/// Gets the user's languages
+		/// </summary>
+		/// <returns>Task<IEnumerable<int>> with the language values the user has </returns>
+		/// <param name="uid">The user's id</param>
 		public async Task<IEnumerable<int>> GetUserLanguage (string uid)
 		{
 			var res = await client.Cypher
@@ -194,6 +248,13 @@ namespace Dal
 			return res;
 		}
 
+		/// <summary>
+		/// Connects the user to a foodhabit
+		/// </summary>
+		/// <returns>Task</returns>
+		/// <param name="uid">The user's id</param>
+		/// <param name="fh">The foodhabit which the user should be connected to</param>
+		/// <param name="w">The weight of the relationship between the user and foodhabit</param>
 		public async Task ConnectUserFoodHabit (string uid, FoodHabit fh, int w)
 		{
 			await client.Cypher
@@ -208,6 +269,12 @@ namespace Dal
 				.ExecuteWithoutResultsAsync ();
 		}
 
+		/// <summary>
+		/// Disconnects the user from a foodhabit
+		/// </summary>
+		/// <returns>Task</returns>
+		/// <param name="uid">The user's id</param>
+		/// <param name="fh">The foodhabit that the user should be disconnected from</param>
 		public async Task DisconnectUserFoodHabit (string uid, FoodHabit fh)
 		{
 			await client.Cypher
@@ -220,6 +287,11 @@ namespace Dal
 				.ExecuteWithoutResultsAsync ();
 		}
 
+		/// <summary>
+		/// Gets the user's foodhabits
+		/// </summary>
+		/// <returns>Task<IEnumerable<int>> with the foodhabit values the user has </returns>
+		/// <param name="uid">The user's id</param>
 		public async Task<IEnumerable<int>> GetUserFoodHabit (string uid)
 		{
 			var res = await client.Cypher
@@ -231,6 +303,11 @@ namespace Dal
 			return res;
 		}
 
+		/// <summary>
+		/// Cleans all matches for a given user
+		/// </summary>
+		/// <returns>Task</returns>
+		/// <param name="uid">The user's id</param>
 		async Task CleanMatches (string uid)
 		{
 			await client.Cypher
@@ -240,6 +317,12 @@ namespace Dal
 				.ExecuteWithoutResultsAsync ();
 		}
 
+		/// <summary>
+		/// Matchs the user against all users that are hosting an event
+		/// </summary>
+		/// <returns>Task</returns>
+		/// <param name="uid">The user's ID</param>
+		/// <param name="LIMIT">The maximum limit of matches created</param>
 		public async Task MatchUser(string uid, int LIMIT = 5)
 		{
 			await CleanMatches (uid);
@@ -282,6 +365,11 @@ namespace Dal
 			*/
 		}
 
+		/// <summary>
+		/// Gets the events a user has been offered
+		/// </summary>
+		/// <returns>Task<IEnumerable<Event>> with the offers(events)</returns>
+		/// <param name="uid">The user's id</param>
 		public async Task<IEnumerable<Event>> GetOffers (string uid)
 		{
 			var res = await client.Cypher
@@ -293,6 +381,11 @@ namespace Dal
 			return res.First();
 		}
 
+		/// <summary>
+		/// Gets the events that a user is hosting
+		/// </summary>
+		/// <returns>Task<IEnumerable<Event>> with the events the user is hosting</returns>
+		/// <param name="uid">The user's id</param>
 		public async Task<IEnumerable<Event>> GetHostingEvents (string uid)
 		{
 			var hosting = await client.Cypher
@@ -304,6 +397,11 @@ namespace Dal
 			return hosting.First();
 		}
 
+		/// <summary>
+		/// Gets the events that a user is attending
+		/// </summary>
+		/// <returns>Task<IEnumerable<Event>> with the events the user is attending</returns>
+		/// <param name="uid">The user's id</param>
 		public async Task<IEnumerable<Event>> GetAttendingEvents (string uid)
 		{
 			var attending = await client.Cypher
@@ -315,6 +413,11 @@ namespace Dal
 			return attending.First();
 		}
 
+		/// <summary>
+		/// Updates an event
+		/// </summary>
+		/// <returns>Task</returns>
+		/// <param name="event">The event which replaces the old event</param>
 		public async Task UpdateEvent (Event @event)
 		{
 			await client.Cypher
@@ -326,15 +429,25 @@ namespace Dal
 				.ExecuteWithoutResultsAsync();
 		}
 
+		/// <summary>
+		/// Deletes an event
+		/// </summary>
+		/// <returns>Task</returns>
+		/// <param name="eid">The event's id</param>
 		public async Task DeleteEvent (int eid)
 		{
 			await client.Cypher
-				.OptionalMatch("(e:Event)<-[r]-()")
+				.OptionalMatch ("(e:Event)<-[r]-())")
 				.Where ((Event e) => e.Id == eid)
-				.Delete ("r, e")
+				.Delete ("e, r")
 				.ExecuteWithoutResultsAsync ();
 		}
 
+		/// <summary>
+		/// Take a slot in an event
+		/// </summary>
+		/// <returns>Task<bool> whether or not it's possible to take the slot </returns>
+		/// <param name="eid">The event's id</param>
 		public async Task<bool> TakeSlot(int eid)
 		{
 			var res = await client.Cypher
@@ -348,6 +461,11 @@ namespace Dal
 			return res.Any();
 		}
 
+		/// <summary>
+		/// Release a slot in an event
+		/// </summary>
+		/// <returns>Task</returns>
+		/// <param name="eid">The event's id</param>
 		public async Task ReleaseSlot(int eid)
 		{
 			await client.Cypher
@@ -358,6 +476,11 @@ namespace Dal
 				.ExecuteWithoutResultsAsync();
 		}
 
+		/// <summary>
+		/// Cancels the registration for a user to an event
+		/// </summary>
+		/// <param name="uid">The user's id</param>
+		/// <param name="eid">The event's id</param>
 		public async Task CancelRegistration (string uid, int eid)
 		{
 			await client.Cypher
@@ -371,7 +494,14 @@ namespace Dal
 
 			//await AddNotification (@event.UserID, "A person has cancelled his/her registration for your event.");
 		}
-			
+
+		/// <summary>
+		/// Reply to an offer
+		/// </summary>
+		/// <returns>Returns a Task<bool> for whether it succeeds or not</returns>
+		/// <param name="uid">The user's id</param>
+		/// <param name="answer">true if the user wants to attend the event and false if vice versa</param>
+		/// <param name="eid">The event's id</param>
 		public async Task<bool> ReplyOffer (string uid, bool answer, int eid)
 		{
 			if (answer)
@@ -404,6 +534,7 @@ namespace Dal
 			}
 		}
 
+		/*
 		public async Task AddNotification (string uid, string msg)
 		{
 			await client.Cypher
@@ -435,12 +566,13 @@ namespace Dal
 
 			return res.First();
 		}
+		*/
 
 		/// <summary>
 		/// Deletes the user's data, used as a help function for user deletion
 		/// </summary>
 		/// <returns>Task</returns>
-		/// <param name="uid">Uid.</param>
+		/// <param name="uid">The user's id</param>
 		public async Task DeleteUserData(string uid)
 		{
 			var hostIds = await client.Cypher
@@ -472,6 +604,11 @@ namespace Dal
 				.ExecuteWithoutResultsAsync ();
 		}
 
+		/// <summary>
+		/// Deletes a user
+		/// </summary>
+		/// <returns>Task</returns>
+		/// <param name="uid">The user's id</param>
 		public async Task DeleteUser(string uid)
 		{
 			await client.Cypher

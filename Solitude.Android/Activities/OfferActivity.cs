@@ -14,6 +14,8 @@ namespace DineWithaDane.Android
 	[Activity (Label = "Offer")]
 	public class OfferActivity : DrawerActivity
 	{
+		protected OfferList Tilelist { get; set; }
+
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
 			// setting up and drawer
@@ -30,15 +32,27 @@ namespace DineWithaDane.Android
 					
 					var offers = MainActivity.CIF.RequestOffers();
 					var adapter = new OfferListAdapter(this, offers);
-					var tilelist = new OfferList(this, adapter);
+					Tilelist = new OfferList(this, adapter, AcceptOffer, DeclineOffer);
 
 					//Clear screen and show the found offers
 					RunOnUiThread( () => 
 						{
 							ClearLayout();
-							Content.AddView(tilelist);
+							Content.AddView(Tilelist);
 						});
 				});
+		}
+
+		protected void AcceptOffer(object sender, EventArgs e)
+		{
+			MainActivity.CIF.ReplyOffer(true, Tilelist.GetFocus());
+			Tilelist.RemoveFocus();
+		}
+
+		protected void DeclineOffer(object sender, EventArgs e)
+		{
+			MainActivity.CIF.ReplyOffer(false, Tilelist.GetFocus());
+			Tilelist.RemoveFocus();
 		}
 	}
 }

@@ -38,7 +38,6 @@ namespace DineWithaDane.Android
 		protected LinearLayout FoodhabitLayout { get; set; }
 		#endregion
 
-
 		#region Constructors
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DineWithaDane.Android.ProfileView"/> class.

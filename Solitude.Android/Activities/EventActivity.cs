@@ -14,14 +14,39 @@ namespace DineWithaDane.Android
 	[Activity (Label = "Events")]
 	public class EventActivity : DrawerActivity
 	{
+		protected JoinedEventList Tilelist { get; set; }
+
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
 			// setting up and drawer
 			Position = 2;
 			base.OnCreate (savedInstanceState);
 
-			var adapter = new HostedEventListAdapter(this, new List<Event>());
-			var tilelist = new HostedEventList(this, adapter, (s, e) => { }, (s, e) => { });
+			//Shows spinner to indicate loading
+			ShowSpinner();
+
+			ThreadPool.QueueUserWorkItem(o =>
+				{
+					//Fetch offers from server
+					PrepareLooper();
+
+					//var offers = MainActivity.CIF.RequestOffers();
+					var adapter = new JoinedEventListAdapter(this, new List<Event>());
+					Tilelist = new JoinedEventList(this, adapter, LeaveEvent);
+
+					//Clear screen and show the found offers
+					RunOnUiThread( () => 
+						{
+							ClearLayout();
+							Content.AddView(Tilelist);
+						});
+				});
+		}
+
+		protected void LeaveEvent(object sender, EventArgs e)
+		{
+			MainActivity.CIF.CancelReg(Tilelist.GetFocus());
+			Tilelist.RemoveFocus();
 		}
 	}
 }
