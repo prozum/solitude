@@ -10,7 +10,7 @@ using Android.OS;
 
 namespace DineWithaDane.Android
 {
-	[Activity (Label = "Profile")]
+	[Activity (Label = "Profile", Icon = "@drawable/Profile_Icon")]
 	public class ProfileActivity : DrawerActivity
 	{
 		protected override void OnCreate (Bundle savedInstanceState)

@@ -48,10 +48,34 @@ namespace DineWithaDane.Android
 			public const int border_ui = 2130837504;
 			
 			// aapt resource value: 0x7f020001
-			public const int ic_navigation_drawer = 2130837505;
+			public const int Events_Icon = 2130837505;
 			
 			// aapt resource value: 0x7f020002
-			public const int Icon = 2130837506;
+			public const int Host_Icon = 2130837506;
+			
+			// aapt resource value: 0x7f020003
+			public const int ic_navigation_drawer = 2130837507;
+			
+			// aapt resource value: 0x7f020004
+			public const int Icon = 2130837508;
+			
+			// aapt resource value: 0x7f020005
+			public const int Logout_Icon = 2130837509;
+			
+			// aapt resource value: 0x7f020006
+			public const int Main_Icon = 2130837510;
+			
+			// aapt resource value: 0x7f020007
+			public const int Notification_Icon = 2130837511;
+			
+			// aapt resource value: 0x7f020008
+			public const int Offer_Icon = 2130837512;
+			
+			// aapt resource value: 0x7f020009
+			public const int Profile_Icon = 2130837513;
+			
+			// aapt resource value: 0x7f02000a
+			public const int Settings_Icon = 2130837514;
 			
 			static Drawable()
 			{
