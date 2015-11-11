@@ -196,7 +196,7 @@ namespace Dal
 				//make sure that the interest is related with the right user
 				.Match ("(user:User), (interest:Interest)")
 				.Where((User user) => user.Id == uid)
-				.AndWhere ("interest.Id = {ic}")
+				.AndWhere ("interest.value = {ic}")
 				.WithParam ("ic", ic)
 				//create a unique relation "WANTS" with the weight 'w'
 				.CreateUnique (("user-[:WANTS {weight}]->interest"))
@@ -216,7 +216,7 @@ namespace Dal
 				//make sure that the interest is related with the right user
 				.Match ("(user:User)-[w:WANTS]->(interest:Interest)")
 				.Where((User user) => user.Id == uid)
-				.AndWhere ("interest.Id = {ic}")
+				.AndWhere ("interest.value = {ic}")
 				.WithParam ("ic", ic)
 				.Delete("w")
 				.ExecuteWithoutResultsAsync ();
@@ -232,7 +232,7 @@ namespace Dal
 			var res = await client.Cypher
 				.Match ("(user:User)-[:WANTS]->(interest:Interest)")
 				.Where ((User user) => user.Id == uid)
-				.Return (() => Return.As<IEnumerable<int>> ("collect(interest.val)"))
+				.Return (() => Return.As<IEnumerable<int>> ("collect(interest.value)"))
 				.ResultsAsync;
 
 			return res.First();
@@ -251,10 +251,10 @@ namespace Dal
 				//make sure that the interest is related with the right user
 				.Match ("(user:User), (language:Language)")
 				.Where((User user) => user.Id == uid)
-				.AndWhere ("interest.Id == {lc}")
+				.AndWhere ("language.value == {lc}")
 				.WithParam ("lc", lc)
 				//create a unique relation "WANTS" with the weight 'w'
-				.CreateUnique (("user-[:WANTS {weight}]->interest"))
+				.CreateUnique (("user-[:WANTS {weight}]->language"))
 				.WithParam ("weight", new {weight = w})
 				.ExecuteWithoutResultsAsync ();
 		}
@@ -271,7 +271,7 @@ namespace Dal
 			//make sure that the interest is related with the right user
 				.Match ("(user:User)-[w:WANTS]->(language:Language)")
 				.Where((User user) => user.Id == uid)
-				.AndWhere ("language.Id = {lc}")
+				.AndWhere ("language.value = {lc}")
 				.WithParam ("lc", lc)
 				.Delete("w")
 				.ExecuteWithoutResultsAsync ();
@@ -287,7 +287,7 @@ namespace Dal
 			var res = await client.Cypher
 				.Match ("(user:User)-[:WANTS]->(language:Language)")
 				.Where ((User user) => user.Id == uid)
-				.Return (() => Return.As<IEnumerable<int>> ("collect(language.val)"))
+				.Return (() => Return.As<IEnumerable<int>> ("collect(language.value)"))
 				.ResultsAsync;
 
 			return res.First();
@@ -306,10 +306,10 @@ namespace Dal
 				//make sure that the interest is related with the right user
 				.Match ("(user:User), (foodhabit:FoodHabit)")
 				.Where((User user) => user.Id == uid)
-				.AndWhere ("interest.Id == {fh}")
+				.AndWhere ("foodhabit.value == {fh}")
 				.WithParam ("fh", fh)
 				//create a unique relation "WANTS" with the weight 'w'
-				.CreateUnique (("user-[:WANTS {weight}]->interest"))
+				.CreateUnique (("user-[:WANTS {weight}]->foodhabit"))
 				.WithParam ("weight", new {weight = w})
 				.ExecuteWithoutResultsAsync ();
 		}
