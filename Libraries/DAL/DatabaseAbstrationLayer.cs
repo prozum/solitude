@@ -27,55 +27,33 @@ namespace Dal
 		/// </summary>
 		/// <returns>Task</returns>
 		/// <param name="i">The interest to add</param>
-		public async Task AddInterest (int i)
+		public async Task AddInterest (Interest i)
 		{
-			var check = await client.Cypher
-				.Match ("(i:Interest)")
-				.Return (() => Return.As<int>("count(i)"))
-				.ResultsAsync;
-
-			if (check.First() == 0)
-			{
-				var newInterest = new {value = i};
-
-				await client.Cypher
-					.Merge ("(i:Interest {value: {val}})")
-					.OnCreate ()
-					.Set ("i = {newInterest}")
-					.WithParams ( new {
-						val = newInterest.value,
-						newInterest
+			await client.Cypher
+				.Merge("(i:Interest { Id:{id}, Name:{name}})")
+				.WithParams(new 
+					{
+						id = i.Id,
+						name = i.Name
 					})
-					.ExecuteWithoutResultsAsync ();
-			}
+				.ExecuteWithoutResultsAsync();
 		}
 
 		/// <summary>
 		/// Adds a language to the database
 		/// </summary>
 		/// <returns>Task</returns>
-		/// <param name="l">The language to add</param>
-		public async Task AddLanguage (int l)
+		/// <param name="lang">The language to add</param>
+		public async Task AddLanguage (Language lang)
 		{
-			var check = await client.Cypher
-				.Match ("(l:Language)")
-				.Return (() => Return.As<int>("count(l)"))
-				.ResultsAsync;
-
-			if (check.First() == 0)
-			{
-				var newLanguage = new {value = l};
-
-				await client.Cypher
-					.Merge ("(l:Language {value: {val}})")
-					.OnCreate ()
-					.Set ("l = {newLanguage}")
-					.WithParams ( new {
-						val = newLanguage.value,
-						newLanguage
+			await client.Cypher
+				.Merge("(lang:Language { Id:{id}, Name:{name}})")
+				.WithParams(new 
+					{
+						id = lang.Id,
+						name = lang.Name
 					})
-					.ExecuteWithoutResultsAsync ();
-			}
+				.ExecuteWithoutResultsAsync();
 		}
 
 		/// <summary>
@@ -83,27 +61,16 @@ namespace Dal
 		/// </summary>
 		/// <returns>Task</returns>
 		/// <param name="fh">The foodhabit to add</param>
-		public async Task AddFoodHabit (int fh)
+		public async Task AddFoodHabit (FoodHabit fh)
 		{
-			var check = await client.Cypher
-				.Match ("(fh:FoodHabit)")
-				.Return (() => Return.As<int>("count(fh)"))
-				.ResultsAsync;
-
-			if (check.First() == 0)
-			{
-				var newFoodHabit = new {value = fh};
-
-				await client.Cypher
-					.Merge ("(fh:FoodHabit {value: {val}})")
-					.OnCreate ()
-					.Set ("fh = {newFoodHabit}")
-					.WithParams ( new {
-						val = newFoodHabit.value,
-						newFoodHabit
+			await client.Cypher
+				.Merge("(fb:FoodHabit { Id:{id}, Name:{name}})")
+				.WithParams(new 
+					{
+						id = fh.Id,
+						name = fh.Name
 					})
-					.ExecuteWithoutResultsAsync ();
-			}
+				.ExecuteWithoutResultsAsync();
 		}
 
 		/// <summary>
@@ -190,16 +157,16 @@ namespace Dal
 		/// <param name="uid">The user's id</param>
 		/// <param name="ic">The interest which the user should be connected to</param>
 		/// <param name="w">The weight of the relationship between the user and interest</param>
-		public async Task ConnectUserInterest (string uid, Interest ic, int w)
+		public async Task ConnectUserInterest (string uid, int ic, int w)
 		{
 			await client.Cypher
 				//make sure that the interest is related with the right user
 				.Match ("(user:User), (interest:Interest)")
 				.Where((User user) => user.Id == uid)
-				.AndWhere ("interest.value = {ic}")
+				.AndWhere ("interest.Id = {ic}")
 				.WithParam ("ic", ic)
 				//create a unique relation "WANTS" with the weight 'w'
-				.CreateUnique (("user-[:WANTS {weight}]->interest"))
+				.CreateUnique ("user-[:WANTS {weight}]->interest")
 				.WithParam ("weight", new {weight = w})
 				.ExecuteWithoutResultsAsync ();
 		}
@@ -210,13 +177,13 @@ namespace Dal
 		/// <returns>Task</returns>
 		/// <param name="uid">The user's id</param>
 		/// <param name="ic">The interest that the user should be disconnected from</param>
-		public async Task DisconnectUserInterest (string uid, Interest ic)
+		public async Task DisconnectUserInterest (string uid, int ic)
 		{
 			await client.Cypher
 				//make sure that the interest is related with the right user
 				.Match ("(user:User)-[w:WANTS]->(interest:Interest)")
 				.Where((User user) => user.Id == uid)
-				.AndWhere ("interest.value = {ic}")
+				.AndWhere ("interest.Id = {ic}")
 				.WithParam ("ic", ic)
 				.Delete("w")
 				.ExecuteWithoutResultsAsync ();
@@ -232,7 +199,7 @@ namespace Dal
 			var res = await client.Cypher
 				.Match ("(user:User)-[:WANTS]->(interest:Interest)")
 				.Where ((User user) => user.Id == uid)
-				.Return (() => Return.As<IEnumerable<int>> ("collect(interest.value)"))
+				.Return (() => Return.As<IEnumerable<int>> ("collect(interest.Id)"))
 				.ResultsAsync;
 
 			return res.First();
@@ -245,13 +212,13 @@ namespace Dal
 		/// <param name="uid">The user's id</param>
 		/// <param name="lc">The language which the user should be connected to</param>
 		/// <param name="w">The weight of the relationship between the user and language</param>
-		public async Task ConnectUserLanguage (string uid, Language lc, int w)
+		public async Task ConnectUserLanguage (string uid, int lc, int w)
 		{
 			await client.Cypher
 				//make sure that the interest is related with the right user
 				.Match ("(user:User), (language:Language)")
 				.Where((User user) => user.Id == uid)
-				.AndWhere ("language.value == {lc}")
+				.AndWhere ("language.Id == {lc}")
 				.WithParam ("lc", lc)
 				//create a unique relation "WANTS" with the weight 'w'
 				.CreateUnique (("user-[:WANTS {weight}]->language"))
@@ -265,13 +232,13 @@ namespace Dal
 		/// <returns>Task</returns>
 		/// <param name="uid">The user's id</param>
 		/// <param name="lc">The language that the user should be disconnected from</param>
-		public async Task DisconnectUserLanguage (string uid, Language lc)
+		public async Task DisconnectUserLanguage (string uid, int lc)
 		{
 			await client.Cypher
 			//make sure that the interest is related with the right user
 				.Match ("(user:User)-[w:WANTS]->(language:Language)")
 				.Where((User user) => user.Id == uid)
-				.AndWhere ("language.value = {lc}")
+				.AndWhere ("language.Id = {lc}")
 				.WithParam ("lc", lc)
 				.Delete("w")
 				.ExecuteWithoutResultsAsync ();
@@ -287,7 +254,7 @@ namespace Dal
 			var res = await client.Cypher
 				.Match ("(user:User)-[:WANTS]->(language:Language)")
 				.Where ((User user) => user.Id == uid)
-				.Return (() => Return.As<IEnumerable<int>> ("collect(language.value)"))
+				.Return (() => Return.As<IEnumerable<int>> ("collect(language.Id)"))
 				.ResultsAsync;
 
 			return res.First();
@@ -300,13 +267,13 @@ namespace Dal
 		/// <param name="uid">The user's id</param>
 		/// <param name="fh">The foodhabit which the user should be connected to</param>
 		/// <param name="w">The weight of the relationship between the user and foodhabit</param>
-		public async Task ConnectUserFoodHabit (string uid, FoodHabit fh, int w)
+		public async Task ConnectUserFoodHabit (string uid, int fh, int w)
 		{
 			await client.Cypher
 				//make sure that the interest is related with the right user
 				.Match ("(user:User), (foodhabit:FoodHabit)")
 				.Where((User user) => user.Id == uid)
-				.AndWhere ("foodhabit.value == {fh}")
+				.AndWhere ("foodhabit.Id == {fh}")
 				.WithParam ("fh", fh)
 				//create a unique relation "WANTS" with the weight 'w'
 				.CreateUnique (("user-[:WANTS {weight}]->foodhabit"))
@@ -320,13 +287,13 @@ namespace Dal
 		/// <returns>Task</returns>
 		/// <param name="uid">The user's id</param>
 		/// <param name="fh">The foodhabit that the user should be disconnected from</param>
-		public async Task DisconnectUserFoodHabit (string uid, FoodHabit fh)
+		public async Task DisconnectUserFoodHabit (string uid, int fh)
 		{
 			await client.Cypher
 			//make sure that the interest is related with the right user
 				.Match ("(user:User)-[w:WANTS]->(foodhabit:FoodHabit)")
 				.Where((User user) => user.Id == uid)
-				.AndWhere ("foodhabit.value = {fh}")
+				.AndWhere ("foodhabit.Id = {fh}")
 				.WithParam ("fh", fh)
 				.Delete("w")
 				.ExecuteWithoutResultsAsync ();
@@ -342,7 +309,7 @@ namespace Dal
 			var res = await client.Cypher
 				.Match ("(user:User)-[:WANTS]->(foodhabit:FoodHabit)")
 				.Where ((User user) => user.Id == uid)
-				.Return (() => Return.As<IEnumerable<int>> ("collect(foodhabit.value)"))
+				.Return (() => Return.As<IEnumerable<int>> ("collect(foodhabit.Id)"))
 				.ResultsAsync;
 
 			return res.First();

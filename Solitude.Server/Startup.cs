@@ -1,6 +1,7 @@
 ﻿using Dal;
 using Model;
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using Owin;
 using Owin.Security.AesDataProtectorProvider;
@@ -43,45 +44,41 @@ namespace Solitude.Server
             app.UseWebApi(config);
         }
 
-        private void ConfigureNeo4j(IAppBuilder app, bool initiate = false)
+        private void ConfigureNeo4j(IAppBuilder app, bool initiate = true)
         {
+            // Create and connect GraphClient for use in dal and identity framework
             var gc = new GraphClient(new Uri(ConfigurationManager.ConnectionStrings["neo4j"].ConnectionString));
             gc.Connect();
 
-            app.CreatePerOwinContext(() => {
-                return new GraphClientWrapper(gc);
-            });
+            // Create dal and initiate DB
+            var dal = new DatabaseAbstrationLayer(gc);
+            if (initiate)
+                InitiateDB(dal);
 
-            DatabaseAbstrationLayer dal = new DatabaseAbstrationLayer(gc);
-
+            // Create reference to dal in OwinContext, so it can be accessed by Controllers 
             app.CreatePerOwinContext(() => {
                 return dal;
             });
 
+            // Create reference to GraphClientWrapper in OwinContext, so it can be accessed by SolitudeUserStore
+            app.CreatePerOwinContext(() => {
+                return new GraphClientWrapper(gc);
+            });
+                
+            // Create Solitude UserManager and SignInManager to control users
             app.CreatePerOwinContext<SolitudeUserManager>(SolitudeUserManager.Create);
             app.CreatePerOwinContext<SolitudeSignInManager>(SolitudeSignInManager.Create);
+        }
 
-            // Initiate DB
-            if (initiate)
-            {
-                // Add user infotypes
-                foreach (int i in Enum.GetValues(typeof(Interest)))
-                {
-                    dal.AddInterest(i);
-                }
+        void InitiateDB(DatabaseAbstrationLayer dal)
+        {
+            // Create/reset Event Id Counter to 0
+            dal.SetEventIdCounter(0);
 
-                foreach (int l in Enum.GetValues(typeof(Language)))
-                {
-                    dal.AddLanguage(l);
-                }
-
-                foreach (int f in Enum.GetValues(typeof(FoodHabit)))
-                {
-                    dal.AddFoodHabit(f);
-                }
-
-                dal.SetEventIdCounter(0);
-            }
+            // Create User InfoTypes
+            Language.Get().ForEach((Language l) => dal.AddLanguage(l)); 
+            Interest.Get().ForEach((Interest i) => dal.AddInterest(i)); 
+            FoodHabit.Get().ForEach((FoodHabit f) => dal.AddFoodHabit(f)); 
         }
 
         public void ConfigureOAuth(IAppBuilder app)

@@ -19,7 +19,7 @@ namespace Solitude.Server
                 case InfoType.LANGUAGE:
                     if (Enum.IsDefined(typeof(Model.Language), u.Value))
                     {
-                        await DB.ConnectUserLanguage(User.Identity.GetUserId(), (Model.Language)u.Value, 1);
+                        await DB.ConnectUserLanguage(User.Identity.GetUserId(), u.Value, 1);
                     }
                     else
                     {
@@ -29,7 +29,7 @@ namespace Solitude.Server
                 case InfoType.INTEREST:
                     if (Enum.IsDefined(typeof(Model.Interest), u.Value))
                     {
-                        await DB.ConnectUserInterest(User.Identity.GetUserId(), (Model.Interest)u.Value, 1);
+                        await DB.ConnectUserInterest(User.Identity.GetUserId(), u.Value, 1);
                     }
                     else
                     {
@@ -39,7 +39,7 @@ namespace Solitude.Server
                 case InfoType.FOODHABIT:
                     if (Enum.IsDefined(typeof(Model.FoodHabit), u.Value))
                     {
-                        await DB.ConnectUserFoodHabit(User.Identity.GetUserId(), (Model.FoodHabit)u.Value, 1);
+                        await DB.ConnectUserFoodHabit(User.Identity.GetUserId(), u.Value, 1);
                     }
                     else
                     {
@@ -60,7 +60,7 @@ namespace Solitude.Server
                 case InfoType.LANGUAGE:
                     if (Enum.IsDefined(typeof(Model.Language), u.Value))
                     {
-                        await DB.DisconnectUserLanguage(User.Identity.GetUserId(), (Model.Language)u.Value);
+                        await DB.DisconnectUserLanguage(User.Identity.GetUserId(), u.Value);
                     }
                     else
                     {
@@ -70,7 +70,7 @@ namespace Solitude.Server
                 case InfoType.INTEREST:
                     if (Enum.IsDefined(typeof(Model.Interest), u.Value))
                     {
-                        await DB.DisconnectUserInterest(User.Identity.GetUserId(), (Model.Interest)u.Value);
+                        await DB.DisconnectUserInterest(User.Identity.GetUserId(), u.Value);
                     }
                     else
                     {
@@ -80,7 +80,7 @@ namespace Solitude.Server
                 case InfoType.FOODHABIT:
                     if (Enum.IsDefined(typeof(Model.FoodHabit), u.Value))
                     {
-                        await DB.DisconnectUserFoodHabit(User.Identity.GetUserId(), (Model.FoodHabit)u.Value);
+                        await DB.DisconnectUserFoodHabit(User.Identity.GetUserId(), u.Value);
                     }
                     else
                     {
