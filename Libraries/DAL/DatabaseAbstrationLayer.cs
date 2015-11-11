@@ -85,7 +85,7 @@ namespace Dal
 			await client.Cypher
 				.Merge("(sinfo:ServerInfo)")
 				.OnCreate()
-				.Set("sinfo.eid = {val}")
+				.Set("sinfo.EventCounter = {val}")
 				.WithParam("val", startVal)
 				.ExecuteWithoutResultsAsync();
 		}
@@ -98,7 +98,7 @@ namespace Dal
 		{
 			var res = await client.Cypher
 				.Match ("(sinfo:ServerInfo)")
-				.Return (() => Return.As<int>("sinfo.eid"))
+				.Return (() => Return.As<int>("sinfo.EventCounter"))
 				.ResultsAsync;
 
 			return res.First ();
@@ -112,7 +112,7 @@ namespace Dal
 		{
 			await client.Cypher
 				.Match ("(sinfo:ServerInfo)")
-				.Set ("sinfo.eid = sinfo.eid + 1")
+				.Set ("sinfo.EventCounter = sinfo.EventCounter + 1")
 				.ExecuteWithoutResultsAsync ();
 		}
 
