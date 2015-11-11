@@ -37,7 +37,7 @@ namespace Solitude.Server
             config.Formatters.Clear ();
             config.Formatters.Add (new JsonMediaTypeFormatter ());
 
-            // Autherize by default
+            // Authorize by default
             config.Filters.Add(new AuthorizeAttribute());
 
             app.UseWebApi(config);
