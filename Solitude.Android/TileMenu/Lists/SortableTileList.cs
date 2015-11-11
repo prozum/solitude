@@ -43,7 +43,6 @@ namespace DineWithaDane.Android
 		{
 			SortSpinnerView = new Spinner(context);
 
-			SortSpinnerView.SetBackgroundColor(new Color(255,255,255));
 			SortSpinnerView.Adapter = new ArrayAdapter<string>(context, Android.Resource.Layout.SpinnerItem,spinneritems);
 
 			#region Spinner Setup
@@ -63,19 +62,25 @@ namespace DineWithaDane.Android
 		#region Private Methods
 		protected override void Initialize()
 		{
-			var sortspinnerlayout = new RelativeLayout.LayoutParams(-1, -2);
-			var explistlayout = new RelativeLayout.LayoutParams(-1, -2);
+			var seperator = new Seperator(Context);
+			var seperatorparams = new RelativeLayout.LayoutParams(-1, -2);
+			var sortspinnerparams = new RelativeLayout.LayoutParams(-1, -2);
+			var explistparams = new RelativeLayout.LayoutParams(-1, -2);
 			SortSpinnerView.Id = 10;
+			seperator.Id = 11;
 
+			AddView(seperator);
 			AddView(SortSpinnerView);
 			AddView(ExpListView);
 
-			sortspinnerlayout.AddRule(LayoutRules.AlignParentBottom);
-			SortSpinnerView.LayoutParameters = sortspinnerlayout;
+			sortspinnerparams.AddRule(LayoutRules.AlignParentBottom);
+			seperatorparams.AddRule(LayoutRules.Above, SortSpinnerView.Id);
+			explistparams.AddRule(LayoutRules.Above, seperator.Id);
+			explistparams.AddRule(LayoutRules.AlignParentTop);
 
-			explistlayout.AddRule(LayoutRules.Above, SortSpinnerView.Id);
-			explistlayout.AddRule(LayoutRules.AlignParentTop);
-			ExpListView.LayoutParameters = explistlayout;
+			seperator.LayoutParameters = seperatorparams;
+			SortSpinnerView.LayoutParameters = sortspinnerparams;
+			ExpListView.LayoutParameters = explistparams;
 
 		}
 		#endregion

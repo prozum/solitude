@@ -21,18 +21,15 @@ namespace DineWithaDane.Android
 		/// </summary>
 		public Tuple<string, int>[] Items { get; private set; }
 
-		public override int Count
-		{
-			get
-			{
-				return Items.Length;
-			}
-		}
+		/// <summary>
+		/// How many items are in the data set represented by this Adapter.
+		/// </summary>
+		/// <value>To be added.</value>
+		public override int Count { get { return Items.Length; } }
 		#endregion
 
 
 		#region Constructors
-
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DineWithaDane.Android.BaseTileListAdapter`1"/> class.
 		/// </summary>
@@ -48,6 +45,14 @@ namespace DineWithaDane.Android
 
 
 		#region Public Methods
+		/// <param name="position">The position of the item within the adapter's data set of the item whose view
+		///  we want.</param>
+		/// <summary>
+		/// Gets the view.
+		/// </summary>
+		/// <returns>The view.</returns>
+		/// <param name="convertView">Convert view.</param>
+		/// <param name="parent">Parent.</param>
 		public override View GetView(int position, View convertView, ViewGroup parent)
 		{
 			var view = convertView; // re-use an existing view, if one is available
@@ -61,6 +66,9 @@ namespace DineWithaDane.Android
 			return view;
 		}
 
+		/// <summary>
+		/// Don't call this method.
+		/// </summary>
 		public override Java.Lang.Object GetItem(int position)
 		{
 			throw new NotImplementedException();

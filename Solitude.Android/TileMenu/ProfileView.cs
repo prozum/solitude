@@ -23,14 +23,14 @@ namespace DineWithaDane.Android
 {
 	public class ProfileView : LinearLayout
 	{
-		private static readonly string[] Titles = new string[]
+		public static readonly string[] Titles = new string[]
 			{
 				"Languages",
 				"Interests",
 				"Food Habits"
 			};
 
-		private static readonly string[][] Names = new string[][]
+		public static readonly string[][] Names = new string[][]
 			{
 				new string[]
 				{
