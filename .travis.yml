@@ -5,6 +5,7 @@ install:
   - nuget restore Solitude.sln
 
 script:
+  - cp Solitude.Server/App.config.sample Solitude.Server/App.config
   - xbuild /p:Configuration=Release Solitude.sln
 
 notifications:
