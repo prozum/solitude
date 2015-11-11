@@ -15,7 +15,7 @@ using System.Threading;
 
 namespace DineWithaDane.Android
 {
-	[Activity(Label = "Host")]			
+	[Activity(Label = "Host", Icon = "@drawable/Host_Icon")]			
 	public class HostActivity : DrawerActivity
 	{
 		protected HostedEventList Tilelist { get; set; }

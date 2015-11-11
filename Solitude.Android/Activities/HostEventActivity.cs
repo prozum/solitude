@@ -204,8 +204,14 @@ namespace DineWithaDane.Android
 				location.Text = Intent.GetStringExtra("place");
 				guests.Text = Intent.GetIntExtra("maxslots", 0).ToString();
 				date.DateTime = dateTime;
+				day = (string)date.DateTime.Day.ToString();
+				dateCurrent.Text = String.Format("{0}. {1} - {2}", day.Length == 1 ? "0" + day : day, MonthConverter(date.DateTime.Month), date.DateTime.Year);
 				timePicker.CurrentHour = (Java.Lang.Integer)dateTime.Hour;
 				timePicker.CurrentMinute = (Java.Lang.Integer)dateTime.Minute;
+				hour = (string)timePicker.CurrentHour;
+				minute = (string)timePicker.CurrentMinute;
+				timeCurrent.Text = String.Format("{0} : {1}", hour.Length == 1 ? "0" + hour : hour, minute.Length == 1 ? "0" + minute : minute);
+
 
 				var buttonConfirm = new Button(this);
 				buttonConfirm.Id = 0x0007;

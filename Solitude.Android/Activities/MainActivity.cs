@@ -11,7 +11,7 @@ using System.Threading;
 
 namespace DineWithaDane.Android
 {
-	[Activity (Label = "Login", MainLauncher = true)]
+	[Activity (Label = "Let's hangout", MainLauncher = true)]
 	public class MainActivity : Activity
 	{
 		public static ClientCommunication.CommunicationInterface CIF{ get; private set;}

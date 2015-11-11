@@ -26,7 +26,6 @@ namespace Solitude.Server
         {
             var config = new HttpConfiguration ();
 
-            // Allow
             config.MapHttpAttributeRoutes ();
 
             config.Routes.MapHttpRoute (
@@ -37,6 +36,9 @@ namespace Solitude.Server
             // Use json
             config.Formatters.Clear ();
             config.Formatters.Add (new JsonMediaTypeFormatter ());
+
+            // Authorize by default
+            config.Filters.Add(new AuthorizeAttribute());
 
             app.UseWebApi(config);
         }
@@ -62,16 +64,19 @@ namespace Solitude.Server
             // Add user info types
             foreach (var i in Enum.GetValues(typeof(Interest)))
             {
+                Console.WriteLine(i);
                 dal.AddInterest((Interest)i);
             }
 
             foreach (var l in Enum.GetValues(typeof(Language)))
             {
+                Console.WriteLine(l);
                 dal.AddLanguage((Language)l);
             }
 
-            foreach (var f in Enum.GetValues(typeof(Interest)))
+            foreach (var f in Enum.GetValues(typeof(FoodHabit)))
             {
+                Console.WriteLine(f);
                 dal.AddFoodHabit((FoodHabit)f);
             }
 

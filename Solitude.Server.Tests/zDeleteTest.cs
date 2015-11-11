@@ -4,12 +4,12 @@ using NUnit.Framework;
 using System.Net;
 
 namespace Solitude.Server.Tests
-{
-	/*[TestFixture ()]
+{/*
+	[TestFixture ()]
 	public class zDeleteTest
 	{
 		[Test ()]
-		public void DeleteTest ()
+		public void zzzDeleteTest ()
 		{
 			var deleteRequest = new RestRequest ("user", Method.DELETE);
 			deleteRequest.RequestFormat = DataFormat.Json;

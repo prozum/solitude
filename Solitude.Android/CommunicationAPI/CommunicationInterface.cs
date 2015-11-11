@@ -161,7 +161,7 @@ namespace ClientCommunication
 		public List<Event> GetOwnEvents (int n, bool NEWEST = true)
 		{
 			//Builds request
-			var eventRequest = new RestRequest ("event", Method.GET);
+			var eventRequest = new RestRequest ("host", Method.GET);
 			eventRequest.AddHeader(HttpStrings.AUTHORIZATION, HttpStrings.BEARER + userToken);
 
 			//Executes request and recieves response
@@ -359,7 +359,7 @@ namespace ClientCommunication
 		/// <param name="e">Event to create.</param>
 		public bool CreateEvent (Event e)
 		{
-			var request = new RestRequest ("event/add", Method.POST);
+			var request = new RestRequest ("host", Method.POST);
 
 			request.RequestFormat = DataFormat.Json;
 
@@ -399,7 +399,7 @@ namespace ClientCommunication
 		/// <param name="e">Event to update</param>
 		public void UpdateEvent (Event e)
 		{
-			var request = new RestRequest ("event", Method.PUT);
+			var request = new RestRequest ("host", Method.PUT);
 			request.AddHeader(HttpStrings.AUTHORIZATION, HttpStrings.BEARER + userToken);
 
 			request.RequestFormat = DataFormat.Json;
@@ -422,7 +422,7 @@ namespace ClientCommunication
 		/// <param name="e">Event to delete.</param>
 		public void DeleteEvent (Event e)
 		{
-			var request = new RestRequest ("event/" + e.ID, Method.DELETE);
+			var request = new RestRequest ("host/" + e.ID, Method.DELETE);
 			request.AddHeader(HttpStrings.AUTHORIZATION, HttpStrings.BEARER + userToken);
 
 			request.AddParameter ("id", e.ID);
