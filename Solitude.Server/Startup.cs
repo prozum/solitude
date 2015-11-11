@@ -62,16 +62,19 @@ namespace Solitude.Server
             // Add user info types
             foreach (var i in Enum.GetValues(typeof(Interest)))
             {
+                Console.WriteLine(i);
                 dal.AddInterest((Interest)i);
             }
 
             foreach (var l in Enum.GetValues(typeof(Language)))
             {
+                Console.WriteLine(l);
                 dal.AddLanguage((Language)l);
             }
 
-            foreach (var f in Enum.GetValues(typeof(Interest)))
+            foreach (var f in Enum.GetValues(typeof(FoodHabit)))
             {
+                Console.WriteLine(f);
                 dal.AddFoodHabit((FoodHabit)f);
             }
 
