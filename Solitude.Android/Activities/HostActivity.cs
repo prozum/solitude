@@ -81,7 +81,7 @@ namespace DineWithaDane.Android
 			alert.SetTitle("Cancel Event");
 			alert.SetMessage("Are you sure you want to cancel the event? You wont be able to recover the event afterwards.");
 			alert.SetButton2("No, Abort", (object senders, DialogClickEventArgs ev) => alert.Dismiss());
-			alert.SetButton1("Yes, Cancel", (object senders, DialogClickEventArgs ev) =>
+			alert.SetButton("Yes, Cancel", (object senders, DialogClickEventArgs ev) =>
 				{
 					MainActivity.CIF.DeleteEvent(Tilelist.GetFocus());
 					Tilelist.RemoveFocus();
