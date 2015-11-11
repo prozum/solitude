@@ -98,6 +98,7 @@ namespace Solitude.Server
             return Ok();
         }
 
+        [Authorize]
         public async Task<IHttpActionResult> Get(InfoType id)
         {
             switch (id)
