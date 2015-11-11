@@ -54,7 +54,7 @@ namespace Dal
 			await client.Cypher
 				.Merge ("(language:Language {val: {Val}})")
 				.OnCreate ()
-				.Set ("language = {Language}")
+				.Set ("language = {newLanguage}")
 				.WithParams ( new {
 					Val = newLanguage.value,
 					newLanguage
