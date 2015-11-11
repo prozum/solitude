@@ -64,17 +64,59 @@ namespace DineWithaDane.Android
 			var dateTitle = new TextView(this);
 			dateTitle.Text = "Date";
 
-
-
 			var date = new DatePicker(this);
 			date.DateTime = DateTime.Now;
 			date.Id = 0x0005;
+
+			var dateCurrent = new TextView(this);
+			dateCurrent.Gravity = GravityFlags.Center;
+			dateCurrent.TextSize = 24;
+			string day = date.DateTime.Day.ToString();
+			dateCurrent.Text = String.Format("{0}. {1} - {2}", day.Length == 1 ? "0" + day : day, MonthConverter(date.DateTime.Month), date.DateTime.Year);
+
+			var dateBuilder = new AlertDialog.Builder(this);
+			var dateDialog = dateBuilder.Create();
+			dateDialog.SetTitle("Date");
+			dateDialog.SetView(date);
+			dateDialog.SetButton("Close", (s, ev) =>
+				{
+					day = date.DateTime.Day.ToString();
+					dateCurrent.Text = String.Format("{0}. {1} - {2}", day.Length == 1 ? "0" + day : day, MonthConverter(date.DateTime.Month), date.DateTime.Year);
+					dateDialog.Dismiss();
+				});
+
+			var buttonDate = new Button(this);
+			buttonDate.Text = "Date";
+			buttonDate.Click += (object sender, EventArgs e) => dateDialog.Show();
 
 			var timeTitle = new TextView(this);
 			timeTitle.Text = "Time";
 
 			var timePicker = new TimePicker(this);
 			timePicker.Id = 0x0006;
+
+			var timeCurrent = new TextView(this);
+			timeCurrent.Gravity = GravityFlags.Center;
+			timeCurrent.TextSize = 24;
+			string hour = (string)timePicker.CurrentHour;
+			string minute = (string)timePicker.CurrentMinute;
+			timeCurrent.Text = String.Format("{0} : {1}", hour.Length == 1 ? "0" + hour : hour, minute.Length == 1 ? "0" + minute : minute);
+
+			var timeBuilder = new AlertDialog.Builder(this);
+			var timeDialog = timeBuilder.Create();
+			timeDialog.SetTitle("Title");
+			timeDialog.SetView(timePicker);
+			timeDialog.SetButton("Close", (s, ev) =>
+				{
+					hour = (string)timePicker.CurrentHour;
+					minute = (string)timePicker.CurrentMinute;
+					timeCurrent.Text = String.Format("{0} : {1}", hour.Length == 1 ? "0" + hour : hour, minute.Length == 1 ? "0" + minute : minute);
+					dateDialog.Dismiss();
+				});
+
+			var buttonTime = new Button(this);
+			buttonTime.Text = "Time";
+			buttonTime.Click += (object sender, EventArgs e) => timeDialog.Show();
 
 			// Build Activity Content
 			content.AddView(titleTitle);
@@ -86,9 +128,11 @@ namespace DineWithaDane.Android
 			content.AddView(guestsTitle);
 			content.AddView(guests);
 			content.AddView(dateTitle);
-			content.AddView(date);
+			content.AddView(dateCurrent);
+			content.AddView(buttonDate);
 			content.AddView(timeTitle);
-			content.AddView(timePicker);
+			content.AddView(timeCurrent);
+			content.AddView(buttonTime);
 
 			var typeString = Intent.GetStringExtra("type");
 
@@ -121,7 +165,7 @@ namespace DineWithaDane.Android
 								boolDescription ? "- No description\n" : "",
 								boolLocation ? "- No address\n" : "",
 								boolGuest ? "- No guest limit\n" : "",
-								(!boolGuestCount && boolGuest) ? "- Too many event guests." : ""));
+								(!boolGuestCount && !boolGuest) ? "- Too many event guests." : ""));
 						alertDialog.SetButton("OK", (s, ev) => alertDialog.Dismiss());
 						alertDialog.Show();
 					}
@@ -164,6 +208,7 @@ namespace DineWithaDane.Android
 				timePicker.CurrentMinute = (Java.Lang.Integer)dateTime.Minute;
 
 				var buttonConfirm = new Button(this);
+				buttonConfirm.Id = 0x0007;
 				buttonConfirm.Text = "Save changes";
 				buttonConfirm.Click += (object sender, EventArgs e) =>
 				{
@@ -200,6 +245,7 @@ namespace DineWithaDane.Android
 				};
 				
 				var buttonCancel = new Button(this);
+				buttonCancel.Id = 0x0008;
 				buttonCancel.Text = "Back";
 				buttonCancel.Click += (object sender, EventArgs e) => Finish();
 
@@ -215,6 +261,51 @@ namespace DineWithaDane.Android
 			{
 				throw new ArgumentOutOfRangeException();
 			}
+		}
+
+		private string MonthConverter(int month)
+		{
+			string ret = "";
+			switch (month)
+			{
+				case 1:
+					ret = "Jan";
+					break;
+				case 2:
+					ret = "Feb";
+					break;
+				case 3:
+					ret = "Mar";
+					break;
+				case 4:
+					ret = "Apr";
+					break;
+				case 5:
+					ret = "May";
+					break;
+				case 6:
+					ret = "Jun";
+					break;
+				case 7:
+					ret = "Jul";
+					break;
+				case 8:
+					ret = "Aug";
+					break;
+				case 9:
+					ret = "Sep";
+					break;
+				case 10:
+					ret = "Oct";
+					break;
+				case 11:
+					ret = "Nov";
+					break;
+				case 12:
+					ret = "Dec";
+					break;
+			}
+			return ret;
 		}
 	}
 }

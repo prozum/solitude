@@ -23,6 +23,46 @@ namespace DineWithaDane.Android
 {
 	public class ProfileView : LinearLayout
 	{
+		private static readonly string[] Titles = new string[]
+			{
+				"Languages",
+				"Interests",
+				"Food Habits"
+			};
+
+		private static readonly string[][] Names = new string[][]
+			{
+				new string[]
+				{
+					"Danish",
+					"English",
+					"German",
+					"French",
+					"Spanish",
+					"Chinese",
+					"Russian"
+				},
+				new string[]
+				{
+					"Nature",
+					"Fitness",
+					"Movies",
+					"Gaming",
+					"Electronics",
+					"Food",
+					"Drawing"
+				},
+				new string[]
+				{
+					"Halal",
+					"Kosher",
+					"Vegan",
+					"NoLactose",
+					"NoGluten",
+					"NoNuts"
+				}
+			};
+
 		#region Fields
 		protected User User { get; set; }
 		protected List<Language> Languages { get; set; }
@@ -37,7 +77,6 @@ namespace DineWithaDane.Android
 		protected LinearLayout InterestLayout { get; set; }
 		protected LinearLayout FoodhabitLayout { get; set; }
 		#endregion
-
 
 		#region Constructors
 		/// <summary>
@@ -91,13 +130,17 @@ namespace DineWithaDane.Android
 
 			NameView.Text = "Name: " + User.Name;
 			AddressView.Text = "Address: " + User.Address;
-			languagetext.Text = "Languages:";
-			intereststext.Text = "\nInterests:";
-			foodhabitstext.Text = "\nFood Habits:";
+			languagetext.Text = "Languages";
+			intereststext.Text = "\nInterests";
+			foodhabitstext.Text = "\nFood Habits";
 			editdetails.Text = "Edit";
 			editlanguage.Text = "Edit";
 			editinterests.Text = "Edit";
 			editfoodhabits.Text = "Edit";
+
+			languagetext.SetTypeface(null, TypefaceStyle.Bold);
+			intereststext.SetTypeface(null, TypefaceStyle.Bold);
+			foodhabitstext.SetTypeface(null, TypefaceStyle.Bold);
 
 			PictureView.SetImageResource(Resource.Drawable.Icon);
 			PictureView.SetMinimumHeight(100);
@@ -110,15 +153,15 @@ namespace DineWithaDane.Android
 			editdetails.Click += EditDetails;
 			editlanguage.Click += (sender, e) => 
 				{
-					SetupEditDialog(typeof(Language), Languages, LanguageLayout);
+					SetupEditDialog(InfoType.Language, Languages, LanguageLayout);
 				};
 			editinterests.Click += (sender, e) => 
 				{
-					SetupEditDialog(typeof(Interest), Interests, InterestLayout);
+					SetupEditDialog(InfoType.Interest, Interests, InterestLayout);
 				};
 			editfoodhabits.Click += (sender, e) => 
 				{
-					SetupEditDialog(typeof(FoodHabit), FoodHabits, FoodhabitLayout);
+					SetupEditDialog(InfoType.FoodHabit, FoodHabits, FoodhabitLayout);
 				};
 			#endregion
 
@@ -129,24 +172,24 @@ namespace DineWithaDane.Android
 			detailLayout.AddView(editdetails);
 
 			infolayout.AddView(languagetext);
-			infolayout.AddView(new Seperator(context, Color.Black));
+			infolayout.AddView(new Seperator(context));
 			infolayout.AddView(LanguageLayout);
 			infolayout.AddView(editlanguage);
 
 			infolayout.AddView(intereststext);
-			infolayout.AddView(new Seperator(context, Color.Black));
+			infolayout.AddView(new Seperator(context));
 			infolayout.AddView(InterestLayout);
 			infolayout.AddView(editinterests);
 
 			infolayout.AddView(foodhabitstext);
-			infolayout.AddView(new Seperator(context, Color.Black));
+			infolayout.AddView(new Seperator(context));
 			infolayout.AddView(FoodhabitLayout);
 			infolayout.AddView(editfoodhabits);
 
 			scrollview.AddView(infolayout);
 
 			AddView(detailLayout);
-			AddView(new Seperator(context, Color.Black));
+			AddView(new Seperator(context));
 			AddView(scrollview);
 			#endregion
 
@@ -178,14 +221,16 @@ namespace DineWithaDane.Android
 			throw new NotImplementedException();
 		}
 
-		private void UpdateLayout(LinearLayout layout, IEnumerable items)
+		private void UpdateLayout(InfoType type, LinearLayout layout, IEnumerable items)
 		{
+			string[] names;
+		
 			layout.RemoveAllViews();
 
 			foreach (var item in items)
 			{
 				var view = new TextView(Context);
-				view.Text = item.ToString();
+				view.Text = Names[(int)type][(int)item];
 				layout.AddView(view);
 			}
 		}
@@ -232,7 +277,7 @@ namespace DineWithaDane.Android
 			dialog.Show();
    		}
 
-		private void SetupEditDialog(Type dialogtype, IList info, LinearLayout layout)
+		private void SetupEditDialog(InfoType type, IList info, LinearLayout layout)
 		{
 			var dialog = new Dialog(Context);
 			dialog.RequestWindowFeature((int)WindowFeatures.NoTitle);
@@ -245,17 +290,10 @@ namespace DineWithaDane.Android
 			var cancelbutton = dialog.FindViewById<Button>(Resource.Id.CancelButton);
 
 			// setting header text info
-			if (dialogtype == typeof(Language))
-				nameview.Text = "Languages:";
-			else if (dialogtype == typeof(Interest))
-				nameview.Text = "Interests:";
-			else if (dialogtype == typeof(FoodHabit))
-				nameview.Text = "Food Habits:";
-			else 
-				throw new NotImplementedException();
+			nameview.Text = Titles[(int)type];
 
 			// setting up list of info with checkboxes
-			infolist.Adapter = new ArrayAdapter<string>(Context, Resource.Layout.CheckedListViewItem, Enum.GetNames(dialogtype));
+			infolist.Adapter = new ArrayAdapter<string>(Context, Resource.Layout.CheckedListViewItem, Names[(int)type]);
 			infolist.ChoiceMode = ChoiceMode.Multiple;
 
 			// selecting info that is already chosen by user
@@ -273,7 +311,7 @@ namespace DineWithaDane.Android
 							info.Add(i);
 
 					// updating ui
-					UpdateLayout(layout, info);
+					UpdateLayout(type, layout, info);
 
 					// closing dialog
 					dialog.Dismiss();
