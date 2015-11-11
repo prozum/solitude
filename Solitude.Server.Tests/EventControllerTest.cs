@@ -11,7 +11,7 @@ using System.Text.RegularExpressions;
 
 namespace Solitude.Server.Tests
 {
-	[TestFixture()]
+	/*[TestFixture()]
 	public class EventControllerTest
 	{
 		private int eventID;
@@ -63,13 +63,13 @@ namespace Solitude.Server.Tests
 			var request = buildRequest (string.Format ("user/event"), Method.GET);
 
 			var response
-		}*/
+		}//
 		[Test()]
 		public void TestUpdateEventChangeTitle()
 		{
 			e.Title = "[Modified Test Event]";
 			var request = buildRequest ("event", Method.PUT);
-
+				
 			request.AddBody (e);
 
 			var response = Values.testClient.Execute (request);
@@ -158,5 +158,5 @@ namespace Solitude.Server.Tests
 			Event eRight = events.Find ((evnt) => evnt.Id == e.Id);
 			return eRight;
 		}
-	}
+	} */
 }

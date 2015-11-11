@@ -26,7 +26,6 @@ namespace Solitude.Server
         {
             var config = new HttpConfiguration ();
 
-            // Allow
             config.MapHttpAttributeRoutes ();
 
             config.Routes.MapHttpRoute (
@@ -37,6 +36,9 @@ namespace Solitude.Server
             // Use json
             config.Formatters.Clear ();
             config.Formatters.Add (new JsonMediaTypeFormatter ());
+
+            // Authorize by default
+            config.Filters.Add(new AuthorizeAttribute());
 
             app.UseWebApi(config);
         }

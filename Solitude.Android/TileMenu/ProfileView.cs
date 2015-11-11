@@ -127,6 +127,7 @@ namespace DineWithaDane.Android
 			LanguageLayout.Orientation = Orientation.Vertical;
 			InterestLayout.Orientation = Orientation.Vertical;
 			FoodhabitLayout.Orientation = Orientation.Vertical;
+			detailLayout.SetBackgroundColor(Color.Orange);
 
 			NameView.Text = "Name: " + User.Name;
 			AddressView.Text = "Address: " + User.Address;

@@ -7,7 +7,6 @@ namespace Solitude.Server
 {
     public class OfferController : SolitudeController
     {
-        [Authorize]
         public async Task<IHttpActionResult> Get()
         {
             var uid = User.Identity.GetUserId();
@@ -18,8 +17,7 @@ namespace Solitude.Server
 
             return Ok(offers);
         }
-
-        [Authorize]
+            
         public async Task<IHttpActionResult> Post(Reply reply)
         {
             var success = await DB.ReplyOffer(User.Identity.GetUserId(), reply.Value, reply.EventId);

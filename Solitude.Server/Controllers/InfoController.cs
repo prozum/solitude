@@ -12,9 +12,6 @@ namespace Solitude.Server
 {
     public class InfoController : SolitudeController
     {
-        public InfoController() : base() {}
-
-        [Authorize]
         public async Task<IHttpActionResult> Post(InfoUpdate u)
         {
             switch (u.Info)
@@ -56,7 +53,6 @@ namespace Solitude.Server
             return Ok();
         }
             
-        [Authorize]
         public async Task<IHttpActionResult> Delete(InfoUpdate u)
         {
             switch (u.Info)
@@ -97,14 +93,14 @@ namespace Solitude.Server
 
             return Ok();
         }
-
+            
         public async Task<IHttpActionResult> Get(InfoType id)
         {
             switch (id)
             {
-                case InfoType.INTEREST:
-                    return Ok(await DB.GetUserLanguage(User.Identity.GetUserId()));
                 case InfoType.LANGUAGE:
+                    return Ok(await DB.GetUserLanguage(User.Identity.GetUserId()));
+                case InfoType.INTEREST:
                     return Ok(await DB.GetUserInterest(User.Identity.GetUserId()));
                 case InfoType.FOODHABIT:
                     return Ok(await DB.GetUserFoodHabit(User.Identity.GetUserId()));

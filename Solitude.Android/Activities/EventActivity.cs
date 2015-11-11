@@ -11,7 +11,7 @@ using System.Threading;
 
 namespace DineWithaDane.Android
 {
-	[Activity (Label = "Events")]
+	[Activity (Label = "Events", Icon = "@drawable/Events_Icon")]
 	public class EventActivity : DrawerActivity
 	{
 		protected JoinedEventList Tilelist { get; set; }
