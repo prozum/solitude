@@ -14,6 +14,7 @@ init:
 
 before_build:
   - nuget restore
+  - cp Solitude.Server/App.config.sample Solitude.Server/App.config
 
 build_script:
 - ps: |
