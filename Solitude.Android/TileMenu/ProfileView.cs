@@ -280,36 +280,13 @@ namespace DineWithaDane.Android
 
 		private void SetupEditDialog(InfoType type, IList info, LinearLayout layout)
 		{
-			var dialog = new Dialog(Context);
-			dialog.RequestWindowFeature((int)WindowFeatures.NoTitle);
-			dialog.SetContentView(Resource.Layout.EditComparableInfo);
-
-			// getting relevant views
-			var nameview = dialog.FindViewById<TextView>(Resource.Id.Text);
-			var infolist = dialog.FindViewById<ListView>(Resource.Id.InfoList);
-			var savebutton = dialog.FindViewById<Button>(Resource.Id.SaveButton);
-			var cancelbutton = dialog.FindViewById<Button>(Resource.Id.CancelButton);
-
-			// setting header text info
-			nameview.Text = Titles[(int)type];
-
-			// setting up list of info with checkboxes
-			infolist.Adapter = new ArrayAdapter<string>(Context, Resource.Layout.CheckedListViewItem, Names[(int)type]);
-			infolist.ChoiceMode = ChoiceMode.Multiple;
-
-			// selecting info that is already chosen by user
-			foreach (var item in info)
-				infolist.SetItemChecked((int)item, true);
+			var dialog = new InfoDialog(Context, type, info);
 
 			// adding functionallity to save button
-			savebutton.Click += (s, e) => 
+			dialog.SaveButton.Click += (s, e) => 
 				{
-					info.Clear();
-
 					// adding selected info to list
-					for (int i = 0; i < infolist.ChildCount; i++) 
-						if ((infolist.GetChildAt(i) as CheckBox).Checked)
-							info.Add(i);
+					dialog.ItemsChecked(info);
 
 					// updating ui
 					UpdateLayout(type, layout, info);
@@ -319,7 +296,7 @@ namespace DineWithaDane.Android
 				};
 
 			// adding functionallity to cancelbutton
-			cancelbutton.Click += (s, e) => 
+			dialog.CancelButton.Click += (s, e) => 
 				{
 					// closing dialog
 					dialog.Dismiss();

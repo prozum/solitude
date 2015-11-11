@@ -82,6 +82,7 @@ namespace ClientCommunication
 			}
 		}
 
+		/* Not in use
 		/// <summary>
 		/// Parses a string to DateTime object.
 		/// </summary>
@@ -105,6 +106,7 @@ namespace ClientCommunication
 				return DateTime.Today;
 			}
 		}
+		*/
 		#endregion
 
 		#region IClientCommunication implementation
@@ -245,6 +247,15 @@ namespace ClientCommunication
 
 			//Execute and await response
 			return executeAndParseResponse (request);
+		}
+
+		/// <summary>
+		/// Confirms that a user can be created with the following infomation
+		/// </summary>
+		/// <returns><c>true</c> if information is valid, <c>false</c> ordervise</returns>
+		public bool ConfirmUser(string Username, string Password, string ConfirmedPassword)
+		{
+			return true;
 		}
 
 

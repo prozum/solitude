@@ -18,21 +18,46 @@ namespace DineWithaDane.Android
 			SetContentView (Resource.Layout.SignUp);
 
 			//Finds all widgets on the SignUp-layout
-			EditText name = FindViewById<EditText> (Resource.Id.editName);
 			EditText username = FindViewById<EditText> (Resource.Id.editUsername);
 			EditText password = FindViewById<EditText> (Resource.Id.editPassword);
 			EditText confirm = FindViewById<EditText> (Resource.Id.editConfirm);
-			Button submit = FindViewById<Button> (Resource.Id.buttonSubmit);
+			Button @continue = FindViewById<Button> (Resource.Id.buttonContinue);
 			ProgressBar pb = FindViewById<ProgressBar> (Resource.Id.progressSignUp);
 
 			//Hide the progress bar at first
 			pb.Visibility = global::Android.Views.ViewStates.Invisible;
 
-			submit.Click += (sender, e) => 
+			@continue.Click += (sender, e) => 
 				{
 					if(username.Text != "" && password.Text != "" && confirm.Text != "")
 					{
-						submit.Clickable = false;
+						@continue.Clickable = false;
+
+						ThreadPool.QueueUserWorkItem( o => {
+							RunOnUiThread(() => {
+								pb.Visibility = global::Android.Views.ViewStates.Invisible;
+							});
+
+							if (MainActivity.CIF.ConfirmUser(username.Text, password.Text, confirm.Text)) 
+							{
+								var toInfo = new Intent(this, typeof(SignUpInfoActivity));
+								toInfo.PutExtra("username", username.Text);
+								toInfo.PutExtra("password", password.Text);
+								StartActivity(toInfo);
+							} 
+							else 
+							{
+								var errorDialog = new AlertDialog.Builder(this);
+								errorDialog.SetMessage(MainActivity.CIF.LatestError);
+								RunOnUiThread(() => {
+									errorDialog.Show();
+								});
+								@continue.Clickable = true;
+							}
+						});
+
+						/*
+						@continue.Clickable = false;
 						var CIF = new CommunicationInterface();
 						pb.Visibility = global::Android.Views.ViewStates.Visible;
 						bool success = false;
@@ -57,9 +82,10 @@ namespace DineWithaDane.Android
 									errorDialog.Show();
 								});
 
-								submit.Clickable = true;
+								@continue.Clickable = true;
 							}
 						});
+						*/
 					}
 					else
 					{

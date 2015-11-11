@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <TextView
+        android:text="Name:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold" />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editName"
+        android:hint="My name is Sven Larsen" />
+    <TextView
+        android:text="Address:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold" />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editAddress"
+        android:hint="I live on SvenLarsensvej 15" />
+    <TextView
+        android:text="Interests:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/interests" />
+    <Button
+        android:text="Add Interests"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editInterests" />
+    <TextView
+        android:text="Languages:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/languages" />
+    <Button
+        android:text="Add Languages"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editLanguages" />
+    <TextView
+        android:text="Food Habits:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/foodhabits" />
+    <Button
+        android:text="Add Food Habits"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editFoodHabits" />
+    <Button
+        android:text="Submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/submit" />
+</LinearLayout>

@@ -101,6 +101,8 @@
     <Compile Include="TileMenu\Items\JoinedEventItem.cs" />
     <Compile Include="TileMenu\Lists\JoinedEventList.cs" />
     <Compile Include="TileMenu\Adapters\DrawerAdapter.cs" />
+    <Compile Include="Activities\SignUpInfoActivity.cs" />
+    <Compile Include="TileMenu\InfoDialog.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -140,6 +142,7 @@
     <AndroidResource Include="Resources\drawable\Settings_Icon.png" />
     <AndroidResource Include="Resources\drawable\Events_Icon.png" />
     <AndroidResource Include="Resources\layout\DrawerItem.axml" />
+    <AndroidResource Include="Resources\layout\SignUpInfo.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
