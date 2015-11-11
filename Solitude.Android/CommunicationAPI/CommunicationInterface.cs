@@ -207,7 +207,7 @@ namespace ClientCommunication
 					int slotsTotal = parseToInt(jVal["SlotsTotal"]);
 					int slotsTaken = parseToInt(jVal["SlotsTaken"]);
 
-					events.Add(new Event(title, dt, adress, desc, slotsTotal, slotsTaken));
+					events.Add(new Event(title, dt, adress, desc, slotsTotal, slotsTaken, ID));
 				}
 				catch
 				{
@@ -369,7 +369,7 @@ namespace ClientCommunication
 			//And the body containing event-informatinon
 			var body = new { 
 				Date = e.Date.ToString(), 
-				Adress = e.Place,
+				Address = e.Place,
 				Title = e.Title,
 				Description = e.Description,
 				SlotsTaken = 0,
@@ -412,10 +412,8 @@ namespace ClientCommunication
 		/// <param name="e">Event to delete.</param>
 		public void DeleteEvent (Event e)
 		{
-			var request = new RestRequest (string.Format("event/{0}", e.ID), Method.DELETE);
+			var request = new RestRequest ("event/" + e.ID, Method.DELETE);
 			request.AddHeader(HttpStrings.AUTHORIZATION, HttpStrings.BEARER + userToken);
-
-			request.AddParameter ("id", e);
 
 			executeAndParseResponse (request);
 		}
