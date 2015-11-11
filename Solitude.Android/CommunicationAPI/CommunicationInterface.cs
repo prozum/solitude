@@ -400,8 +400,18 @@ namespace ClientCommunication
 		public void UpdateEvent (Event e)
 		{
 			var request = new RestRequest ("event", Method.PUT);
+			request.AddHeader(HttpStrings.AUTHORIZATION, HttpStrings.BEARER + userToken);
+
 			request.RequestFormat = DataFormat.Json;
-			request.AddBody (e);
+			request.AddBody(new {
+				Id = e.ID,
+				Date = e.Date.ToString(), 
+				Address = e.Place,
+				Title = e.Title,
+				Description = e.Description,
+				SlotsTaken = e.MaxSlots - e.SlotsLeft,
+				SlotsTotal = e.MaxSlots
+			});
 
 			executeAndParseResponse (request);
 		}
