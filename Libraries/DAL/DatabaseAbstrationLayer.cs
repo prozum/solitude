@@ -199,7 +199,7 @@ namespace Dal
 			var res = await client.Cypher
 				.Match ("(user:User)-[:WANTS]->(interest:Interest)")
 				.Where ((User user) => user.Id == uid)
-				.Return (() => Return.As<int> ("interest.value"))
+				.Return (() => Return.As<int> ("interest.Id"))
 				.ResultsAsync;
 
 			return res;
@@ -254,7 +254,7 @@ namespace Dal
 			var res = await client.Cypher
 				.Match ("(user:User)-[:WANTS]->(language:Language)")
 				.Where ((User user) => user.Id == uid)
-				.Return (() => Return.As<int> ("language.value"))
+				.Return (() => Return.As<int> ("language.Id"))
 				.ResultsAsync;
 
 			return res;
@@ -309,7 +309,7 @@ namespace Dal
 			var res = await client.Cypher
 				.Match ("(user:User)-[:WANTS]->(foodhabit:FoodHabit)")
 				.Where ((User user) => user.Id == uid)
-				.Return (() => Return.As<int> ("foodhabit.value"))
+				.Return (() => Return.As<int> ("foodhabit.Id"))
 				.ResultsAsync;
 
 			return res;
