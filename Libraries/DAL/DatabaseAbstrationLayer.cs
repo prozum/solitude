@@ -29,10 +29,17 @@ namespace Dal
 		/// <param name="ic">The interest to add</param>
 		public async Task AddInterest (Interest ic)
 		{
-				await client.Cypher
-					.Create ("(interest:Interest {val: info})")
-					.WithParam ("info", ic)
-					.ExecuteWithoutResultsAsync ();
+			var newInterest = new {value = ic};
+
+			await client.Cypher
+				.Merge ("(interest:Interest {val: {Val}})")
+				.OnCreate ()
+				.Set ("interest = {newInterest}")
+				.WithParams ( new {
+					Val = newInterest.value,
+					newInterest
+				})
+				.ExecuteWithoutResultsAsync ();
 		}
 
 		/// <summary>
@@ -42,9 +49,16 @@ namespace Dal
 		/// <param name="lc">The language to add</param>
 		public async Task AddLanguage (Language lc)
 		{
+			var newLanguage = new {value = lc};
+
 			await client.Cypher
-				.Create ("(language:Language {val: info})")
-				.WithParam ("info", lc)
+				.Merge ("(language:Language {val: {Val}})")
+				.OnCreate ()
+				.Set ("language = {Language}")
+				.WithParams ( new {
+					Val = newLanguage.value,
+					newLanguage
+				})
 				.ExecuteWithoutResultsAsync ();
 		}
 
@@ -55,9 +69,16 @@ namespace Dal
 		/// <param name="fh">The foodhabit to add</param>
 		public async Task AddFoodHabit (FoodHabit fh)
 		{
+			var newFoodHabit = new {value = fh};
+
 			await client.Cypher
-				.Create ("(foodhabit:FoodHabit {val: info})")
-				.WithParam ("info", fh)
+				.Merge ("(foodhabit:FoodHabit {val: {Val}})")
+				.OnCreate ()
+				.Set ("foodhabit = {newFoodHabit}")
+				.WithParams ( new {
+					Val = newFoodHabit.value,
+					newFoodHabit
+				})
 				.ExecuteWithoutResultsAsync ();
 		}
 
