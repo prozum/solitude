@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using Android.Graphics;
 
 namespace DineWithaDane.Android
 {
@@ -61,6 +62,8 @@ namespace DineWithaDane.Android
 			PlaceView = new TextView(context);
 			DateView = new TextView(context);
 			ParticipantsView = new TextView(context);
+
+			TitleView.SetTypeface(null, TypefaceStyle.Bold);
 
 			Initialize();
 		}

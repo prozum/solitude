@@ -36,7 +36,6 @@ namespace DineWithaDane.Android
 			Orientation = Orientation.Vertical;
 
 			DotsView.Text = "...";
-			SeperatorView.SetBackgroundColor(new Color(255,255,255));
 
 			DotsView.Gravity = GravityFlags.Center;
 		}
@@ -64,7 +63,6 @@ namespace DineWithaDane.Android
 
 			DotsView.LayoutParameters.Width = -1;
 			SeperatorView.LayoutParameters.Width = -1;
-			SeperatorView.LayoutParameters.Height = 1;
 		}
 		#endregion
 	}

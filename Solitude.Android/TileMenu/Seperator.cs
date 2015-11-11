@@ -22,7 +22,7 @@ namespace DineWithaDane.Android
 		/// </summary>
 		/// <param name="context">Context.</param>
 		public Seperator(Context context)
-			: this(context, new Color(255, 255, 255)) { }
+			: this(context, Color.Black) { }
 		
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DineWithaDane.Android.Seperator"/> class.
@@ -33,8 +33,8 @@ namespace DineWithaDane.Android
 			: base(context)
 		{
 			SetBackgroundColor(color);
-			SetMinHeight(1);
-			SetMaxHeight(1);
+			SetMinHeight(2);
+			SetMaxHeight(2);
 		}
 	}
 }

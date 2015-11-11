@@ -98,9 +98,9 @@ namespace Solitude.Server
             return Ok();
         }
 
-        public async Task<IHttpActionResult> Get(InfoType t)
+        public async Task<IHttpActionResult> Get(InfoType id)
         {
-            switch (t)
+            switch (id)
             {
                 case InfoType.INTEREST:
                     return Ok(await DB.GetUserLanguage(User.Identity.GetUserId()));

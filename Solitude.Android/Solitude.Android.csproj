@@ -97,6 +97,9 @@
     <Compile Include="TileMenu\Lists\HostedEventList.cs" />
     <Compile Include="TileMenu\Adapters\HostedEventListAdapter.cs" />
     <Compile Include="TileMenu\Items\HostedEventItem.cs" />
+    <Compile Include="TileMenu\Adapters\JoinedEventListAdapter.cs" />
+    <Compile Include="TileMenu\Items\JoinedEventItem.cs" />
+    <Compile Include="TileMenu\Lists\JoinedEventList.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

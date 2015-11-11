@@ -17,6 +17,16 @@ namespace DineWithaDane.Android
 	public abstract class SortableTileList<T> : TileList<T>
 	{
 		#region Fields
+		public static readonly string[] SortItems = new string[] 
+			{
+				"Title (A-Z)",
+				"Title (Z-A)",
+				"Date (Soonest)",
+				"Date (Lastest)",
+				"Distance (Closest)",
+				"Distance (Farthest)"
+			};
+
 		protected Spinner SortSpinnerView {	get; set; }
 		#endregion
 
@@ -64,6 +74,7 @@ namespace DineWithaDane.Android
 			SortSpinnerView.LayoutParameters = sortspinnerlayout;
 
 			explistlayout.AddRule(LayoutRules.Above, SortSpinnerView.Id);
+			explistlayout.AddRule(LayoutRules.AlignParentTop);
 			ExpListView.LayoutParameters = explistlayout;
 
 		}
