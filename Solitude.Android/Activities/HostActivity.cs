@@ -15,16 +15,23 @@ using System.Threading;
 
 namespace DineWithaDane.Android
 {
-	[Activity (Label = "Host")]			
+	[Activity(Label = "Host")]			
 	public class HostActivity : DrawerActivity
 	{
 		protected HostedEventList Tilelist { get; set; }
 
-		protected override void OnCreate (Bundle bundle)
+		protected override void OnCreate(Bundle bundle)
 		{
 			// setting up and drawer
 			Position = 3;
-			base.OnCreate (bundle);
+			base.OnCreate(bundle);
+
+			// See OnResume for rest of content
+		}
+
+		protected override void OnResume()
+		{
+			base.OnResume();
 
 			ShowSpinner();
 
@@ -37,27 +44,25 @@ namespace DineWithaDane.Android
 					Tilelist = new HostedEventList(this, adapter, DeleteEvent, EditEvent);
 					var tilelistparams = new RelativeLayout.LayoutParams(-1, -2);
 
-					// There is allready a Content property that does this
-					//var content = FindViewById<FrameLayout>(Resource.Id.content_frame);
 					var internalContent = new RelativeLayout(this);
 
 					var hostNewEventButton = new Button(this);
 					var hostbuttonparams = new RelativeLayout.LayoutParams(-1, -2);
 					hostNewEventButton.Text = "Host New Event";
 
-					hostNewEventButton.Click += (object sender, EventArgs e) => 
-						{
-							var intent = new Intent(this, typeof(HostEventActivity));
-							intent.PutExtra("type", "new");
-							StartActivity(intent);
-						};
+					hostNewEventButton.Click += (object sender, EventArgs e) =>
+					{
+						var intent = new Intent(this, typeof(HostEventActivity));
+						intent.PutExtra("type", "new");
+						StartActivity(intent);
+					};
 
 					hostNewEventButton.Id = 30;
 					tilelistparams.AddRule(LayoutRules.Above, hostNewEventButton.Id);
 					tilelistparams.AddRule(LayoutRules.AlignParentTop);
 					hostbuttonparams.AddRule(LayoutRules.AlignParentBottom);
 
-					RunOnUiThread (() =>
+					RunOnUiThread(() =>
 						{
 							ClearLayout();
 							Content.AddView(internalContent);
@@ -66,59 +71,7 @@ namespace DineWithaDane.Android
 							hostNewEventButton.LayoutParameters = hostbuttonparams;
 							Tilelist.LayoutParameters = tilelistparams;
 						});
-
-					/*hostedEventsList.CollectionChanged += (sender, e) =>
-					{
-						foreach (var item in hostedEventsList)
-						{
-							// Add element with event
-						}
-						content.AddView(hostNewEventButton);
-					};*/
-
-					/*foreach (var item in events)
-					{
-						LinearLayout hostEventLayout = new LinearLayout(this);
-						hostEventLayout.Orientation = Orientation.Horizontal;
-
-						TextView eventTitle = new TextView(this);
-						eventTitle.Text = item.Title;
-
-						TextView eventDate = new TextView(this);
-						eventDate.Text = item.Date.ToString();
-
-						TextView eventDescription = new TextView(this);
-						eventDescription.Text = item.Description;
-
-						RunOnUiThread( () => {
-							hostEventLayout.AddView(eventTitle);
-							hostEventLayout.AddView(eventDate);
-							hostEventLayout.AddView(eventDescription);
-						});
-
-						hostEventLayout.Click += (object sender, EventArgs e) =>
-						{
-							Intent intent = new Intent(this, typeof(HostEventActivity));
-							intent.PutExtra("type", "edit");
-							intent.PutExtra("title", item.Title);
-							intent.PutExtra("description", item.Description);
-							intent.PutExtra("date day", item.Date.Day);
-							intent.PutExtra("date month", item.Date.Month);
-							intent.PutExtra("date year", item.Date.Year);
-							intent.PutExtra("date hour", item.Date.Hour);
-							intent.PutExtra("date minutte", item.Date.Minute);
-							intent.PutExtra("place", item.Place);
-							intent.PutExtra("maxslots", item.MaxSlots);
-							intent.PutExtra("leftslots", item.SlotsLeft);
-							intent.PutExtra("id", item.ID);
-							StartActivity(intent);
-						};
-					}*/
 				});
-
-			//var metrics = new DisplayMetrics();
-			//WindowManager.DefaultDisplay.GetMetrics(metrics);
-
 		}
 
 		protected void DeleteEvent(object sender, EventArgs e)
@@ -131,6 +84,8 @@ namespace DineWithaDane.Android
 		{
 			Event @event = Tilelist.GetFocus();
 			Intent intent = new Intent(this, typeof(HostEventActivity));
+			// All event information must be passed to the intent.
+			// Only alternative is a static var with a reference to the event.
 			intent.PutExtra("type", "edit");
 			intent.PutExtra("title", @event.Title);
 			intent.PutExtra("description", @event.Description);
