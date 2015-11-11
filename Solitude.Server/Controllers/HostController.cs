@@ -6,7 +6,7 @@ using Model;
 
 namespace Solitude.Server
 {
-    public class EventController : SolitudeController
+    public class HostController : SolitudeController
 	{
         public async Task<IHttpActionResult> Get()
         {

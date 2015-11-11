@@ -1,9 +1,6 @@
 ﻿using System.Web.Http;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Dal;
 using Model;
 
 namespace Solitude.Server
