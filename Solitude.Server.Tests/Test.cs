@@ -4,6 +4,7 @@ using RestSharp;
 using System.Net;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using Model;
 
 namespace Solitude.Server.Tests
 {
@@ -75,6 +76,21 @@ namespace Solitude.Server.Tests
 			};
 			request.AddBody(review);
 
+			var response = Values.testClient.Execute (request);
+			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request failed " + response.Content);
+		}
+		[Test ()]
+		public void TestCaseAddInterest ()
+		{
+			var request = new RestRequest ("info", Method.POST);
+			request.RequestFormat = DataFormat.Json;
+			request.AddHeader ("Authorization", "bearer " + Values.testToken);
+
+			var InfoUpdate = new {
+				Info = 1,
+				val = 5
+			};
+			request.AddBody (InfoUpdate);
 			var response = Values.testClient.Execute (request);
 			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request failed " + response.Content);
 		}

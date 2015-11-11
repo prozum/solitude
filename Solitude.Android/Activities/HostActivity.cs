@@ -35,26 +35,36 @@ namespace DineWithaDane.Android
 					var events = MainActivity.CIF.GetOwnEvents(100);
 					var adapter = new HostedEventListAdapter(this, events);
 					Tilelist = new HostedEventList(this, adapter, DeleteEvent, EditEvent);
+					var tilelistparams = new RelativeLayout.LayoutParams(-1, -2);
 
-					var content = FindViewById<FrameLayout>(Resource.Id.content_frame);
-					var internalContent = new LinearLayout(this);
-					internalContent.Orientation = Orientation.Vertical;
+					// There is allready a Content property that does this
+					//var content = FindViewById<FrameLayout>(Resource.Id.content_frame);
+					var internalContent = new RelativeLayout(this);
 
 					var hostNewEventButton = new Button(this);
+					var hostbuttonparams = new RelativeLayout.LayoutParams(-1, -2);
 					hostNewEventButton.Text = "Host New Event";
 
-					hostNewEventButton.Click += (object sender, EventArgs e) => {
-						var intent = new Intent(this, typeof(HostEventActivity));
-						intent.PutExtra("type", "new");
-						StartActivity(intent);
-					};
+					hostNewEventButton.Click += (object sender, EventArgs e) => 
+						{
+							var intent = new Intent(this, typeof(HostEventActivity));
+							intent.PutExtra("type", "new");
+							StartActivity(intent);
+						};
+
+					hostNewEventButton.Id = 30;
+					tilelistparams.AddRule(LayoutRules.Above, hostNewEventButton.Id);
+					tilelistparams.AddRule(LayoutRules.AlignParentTop);
+					hostbuttonparams.AddRule(LayoutRules.AlignParentBottom);
 
 					RunOnUiThread (() =>
 						{
 							ClearLayout();
-							content.AddView(internalContent);
-							internalContent.AddView(hostNewEventButton);
+							Content.AddView(internalContent);
 							internalContent.AddView(Tilelist);
+							internalContent.AddView(hostNewEventButton);
+							hostNewEventButton.LayoutParameters = hostbuttonparams;
+							Tilelist.LayoutParameters = tilelistparams;
 						});
 
 					/*hostedEventsList.CollectionChanged += (sender, e) =>

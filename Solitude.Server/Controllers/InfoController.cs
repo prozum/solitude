@@ -15,14 +15,14 @@ namespace Solitude.Server
         public InfoController() : base() {}
 
         [Authorize]
-        public async Task<IHttpActionResult> Post(InfoType t, int val)
+        public async Task<IHttpActionResult> Post(InfoUpdate u)
         {
-            switch (t)
+            switch (u.Info)
             {
                 case InfoType.LANGUAGE:
-                    if (Enum.IsDefined(typeof(Model.Language), val))
+                    if (Enum.IsDefined(typeof(Model.Language), u.val))
                     {
-                        await DB.ConnectUserLanguage(User.Identity.GetUserId(), (Model.Language)val, 1);
+                        await DB.ConnectUserLanguage(User.Identity.GetUserId(), (Model.Language)u.val, 1);
                     }
                     else
                     {
@@ -30,9 +30,9 @@ namespace Solitude.Server
                     }
                     break;
                 case InfoType.INTEREST:
-                    if (Enum.IsDefined(typeof(Model.Interest), val))
+                    if (Enum.IsDefined(typeof(Model.Interest), u.val))
                     {
-                        await DB.ConnectUserInterest(User.Identity.GetUserId(), (Model.Interest)val, 1);
+                        await DB.ConnectUserInterest(User.Identity.GetUserId(), (Model.Interest)u.val, 1);
                     }
                     else
                     {
@@ -40,9 +40,9 @@ namespace Solitude.Server
                     }
                     break;
                 case InfoType.FOODHABIT:
-                    if (Enum.IsDefined(typeof(Model.FoodHabit), val))
+                    if (Enum.IsDefined(typeof(Model.FoodHabit), u.val))
                     {
-                        await DB.ConnectUserFoodHabit(User.Identity.GetUserId(), (Model.FoodHabit)val, 1);
+                        await DB.ConnectUserFoodHabit(User.Identity.GetUserId(), (Model.FoodHabit)u.val, 1);
                     }
                     else
                     {
@@ -57,14 +57,14 @@ namespace Solitude.Server
         }
             
         [Authorize]
-        public async Task<IHttpActionResult> Delete(InfoType t, int val)
+        public async Task<IHttpActionResult> Delete(InfoUpdate u)
         {
-            switch (t)
+            switch (u.Info)
             {
                 case InfoType.LANGUAGE:
-                    if (Enum.IsDefined(typeof(Model.Language), val))
+                    if (Enum.IsDefined(typeof(Model.Language), u.val))
                     {
-                        await DB.DisconnectUserLanguage(User.Identity.GetUserId(), (Model.Language)val);
+                        await DB.DisconnectUserLanguage(User.Identity.GetUserId(), (Model.Language)u.val);
                     }
                     else
                     {
@@ -72,9 +72,9 @@ namespace Solitude.Server
                     }
                     break;
                 case InfoType.INTEREST:
-                    if (Enum.IsDefined(typeof(Model.Interest), val))
+                    if (Enum.IsDefined(typeof(Model.Interest), u.val))
                     {
-                        await DB.DisconnectUserInterest(User.Identity.GetUserId(), (Model.Interest)val);
+                        await DB.DisconnectUserInterest(User.Identity.GetUserId(), (Model.Interest)u.val);
                     }
                     else
                     {
@@ -82,9 +82,9 @@ namespace Solitude.Server
                     }
                     break;
                 case InfoType.FOODHABIT:
-                    if (Enum.IsDefined(typeof(Model.FoodHabit), val))
+                    if (Enum.IsDefined(typeof(Model.FoodHabit), u.val))
                     {
-                        await DB.DisconnectUserFoodHabit(User.Identity.GetUserId(), (Model.FoodHabit)val);
+                        await DB.DisconnectUserFoodHabit(User.Identity.GetUserId(), (Model.FoodHabit)u.val);
                     }
                     else
                     {
