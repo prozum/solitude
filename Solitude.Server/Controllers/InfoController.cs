@@ -17,34 +17,13 @@ namespace Solitude.Server
             switch (u.Info)
             {
                 case InfoType.LANGUAGE:
-                    if (Enum.IsDefined(typeof(Model.Language), u.Value))
-                    {
-                        await DB.ConnectUserLanguage(User.Identity.GetUserId(), u.Value, 1);
-                    }
-                    else
-                    {
-                         return BadRequest("Invalid information.");
-                    }
+                    await DB.ConnectUserLanguage(User.Identity.GetUserId(), u.Value, 1);
                     break;
                 case InfoType.INTEREST:
-                    if (Enum.IsDefined(typeof(Model.Interest), u.Value))
-                    {
-                        await DB.ConnectUserInterest(User.Identity.GetUserId(), u.Value, 1);
-                    }
-                    else
-                    {
-                        return BadRequest("Invalid information.");
-                    }
+                    await DB.ConnectUserInterest(User.Identity.GetUserId(), u.Value, 1);
                     break;
                 case InfoType.FOODHABIT:
-                    if (Enum.IsDefined(typeof(Model.FoodHabit), u.Value))
-                    {
-                        await DB.ConnectUserFoodHabit(User.Identity.GetUserId(), u.Value, 1);
-                    }
-                    else
-                    {
-                        return BadRequest("Invalid information.");
-                    }
+                    await DB.ConnectUserFoodHabit(User.Identity.GetUserId(), u.Value, 1);
                     break;
                 default:
                     return BadRequest("Invalid information type.");
@@ -58,34 +37,13 @@ namespace Solitude.Server
             switch (u.Info)
             {
                 case InfoType.LANGUAGE:
-                    if (Enum.IsDefined(typeof(Model.Language), u.Value))
-                    {
-                        await DB.DisconnectUserLanguage(User.Identity.GetUserId(), u.Value);
-                    }
-                    else
-                    {
-                        return BadRequest("Invalid information.");
-                    }
+                    await DB.DisconnectUserLanguage(User.Identity.GetUserId(), u.Value);
                     break;
-                case InfoType.INTEREST:
-                    if (Enum.IsDefined(typeof(Model.Interest), u.Value))
-                    {
-                        await DB.DisconnectUserInterest(User.Identity.GetUserId(), u.Value);
-                    }
-                    else
-                    {
-                        return BadRequest("Invalid information.");
-                    }
+                case InfoType.INTEREST: 
+                    await DB.DisconnectUserInterest(User.Identity.GetUserId(), u.Value);
                     break;
                 case InfoType.FOODHABIT:
-                    if (Enum.IsDefined(typeof(Model.FoodHabit), u.Value))
-                    {
-                        await DB.DisconnectUserFoodHabit(User.Identity.GetUserId(), u.Value);
-                    }
-                    else
-                    {
-                        return BadRequest("Invalid information.");
-                    }
+                    await DB.DisconnectUserFoodHabit(User.Identity.GetUserId(), u.Value);
                     break;
                 default:
                     return BadRequest("Invalid information type.");
