@@ -68,20 +68,6 @@ namespace Solitude.Server
 
             return Ok();
         }
-            
-        [Route("event")]
-        public async Task<IHttpActionResult> Get()
-        {
-            var events = await DB.GetAttendingEvents(User.Identity.GetUserId());
-            return Ok(events);
-        }
-            
-        [Route("event/cancel")]
-        public async Task<IHttpActionResult> Get(int id)
-        {
-            await DB.CancelRegistration(User.Identity.GetUserId(), id);
-            return Ok();
-        }
 	}
 }
 
