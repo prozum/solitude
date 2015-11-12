@@ -3,8 +3,6 @@ using Microsoft.AspNet.Identity.Owin;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Neo4j.AspNet.Identity;
-using Neo4jClient;
 using Model;
 
 namespace Solitude.Server
@@ -31,10 +29,12 @@ namespace Solitude.Server
             }
         }
 
-//        public async Task<IHttpActionResult> Get()
-//        {
-//            
-//        }
+        public async Task<IHttpActionResult> Get()
+        {
+            var data = await DB.GetUserData(User.Identity.GetUserId());
+
+            return Ok(data);
+        }
 
 		[AllowAnonymous]
 		public async Task<IHttpActionResult> Post(User userModel)
