@@ -106,7 +106,7 @@ namespace DineWithaDane.Android
 				case"Date (Soonest)":
 					Items.Sort(CompareDate);
 					break;
-				case"Date (Lastest)":
+				case"Date (Last)":
 					Items.Sort(CompareDate);
 					Items.Reverse();
 					break;

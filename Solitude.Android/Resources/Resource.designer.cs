@@ -135,8 +135,8 @@ namespace DineWithaDane.Android
 			// aapt resource value: 0x7f050008
 			public const int Text = 2131034120;
 			
-			// aapt resource value: 0x7f050028
-			public const int buttonContinue = 2131034152;
+			// aapt resource value: 0x7f05002f
+			public const int buttonContinue = 2131034159;
 			
 			// aapt resource value: 0x7f050017
 			public const int buttonLogin = 2131034135;
@@ -165,11 +165,17 @@ namespace DineWithaDane.Android
 			// aapt resource value: 0x7f050000
 			public const int drawer_layout = 2131034112;
 			
-			// aapt resource value: 0x7f050027
-			public const int editConfirm = 2131034151;
+			// aapt resource value: 0x7f050028
+			public const int editAddress = 2131034152;
+			
+			// aapt resource value: 0x7f05002e
+			public const int editConfirm = 2131034158;
 			
 			// aapt resource value: 0x7f050016
 			public const int editPassword = 2131034134;
+			
+			// aapt resource value: 0x7f050026
+			public const int editSignUpName = 2131034150;
 			
 			// aapt resource value: 0x7f050006
 			public const int editText1 = 2131034118;
@@ -192,8 +198,8 @@ namespace DineWithaDane.Android
 			// aapt resource value: 0x7f050025
 			public const int postReviewButton = 2131034149;
 			
-			// aapt resource value: 0x7f050029
-			public const int progressSignUp = 2131034153;
+			// aapt resource value: 0x7f050030
+			public const int progressSignUp = 2131034160;
 			
 			// aapt resource value: 0x7f050020
 			public const int ratingbar = 2131034144;
@@ -207,8 +213,8 @@ namespace DineWithaDane.Android
 			// aapt resource value: 0x7f05001a
 			public const int sep = 2131034138;
 			
-			// aapt resource value: 0x7f050026
-			public const int textConfirm = 2131034150;
+			// aapt resource value: 0x7f05002a
+			public const int signupBirthday = 2131034154;
 			
 			// aapt resource value: 0x7f050015
 			public const int textPassword = 2131034133;
@@ -221,6 +227,21 @@ namespace DineWithaDane.Android
 			
 			// aapt resource value: 0x7f050021
 			public const int textView2 = 2131034145;
+			
+			// aapt resource value: 0x7f050027
+			public const int textView3 = 2131034151;
+			
+			// aapt resource value: 0x7f050029
+			public const int textView5 = 2131034153;
+			
+			// aapt resource value: 0x7f05002b
+			public const int textView6 = 2131034155;
+			
+			// aapt resource value: 0x7f05002c
+			public const int textView7 = 2131034156;
+			
+			// aapt resource value: 0x7f05002d
+			public const int textView8 = 2131034157;
 			
 			// aapt resource value: 0x7f05001e
 			public const int underscore = 2131034142;

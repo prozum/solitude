@@ -19,6 +19,9 @@ namespace DineWithaDane.Android
 			SetContentView (Resource.Layout.SignUp);
 
 			//Finds all widgets on the SignUp-layout
+			var name = FindViewById<EditText> (Resource.Id.editSignUpName);
+			var birthday = FindViewById<DatePicker>(Resource.Id.signupBirthday);
+			var address = FindViewById<EditText>(Resource.Id.editAddress);
 			var username = FindViewById<EditText> (Resource.Id.editUsername);
 			var password = FindViewById<EditText> (Resource.Id.editPassword);
 			var confirm = FindViewById<EditText> (Resource.Id.editConfirm);
@@ -30,14 +33,14 @@ namespace DineWithaDane.Android
 
 			@continue.Click += (sender, e) => 
 				{
-					if(username.Text != "" && password.Text != "" && confirm.Text != "")
+					if(username.Text != "" && password.Text != "" && confirm.Text != "" && name.Text != "" && address.Text != "")
 					{
 						@continue.Clickable = false;
 
 						ThreadPool.QueueUserWorkItem( o => {
 							RunOnUiThread(() => pb.Visibility = ViewStates.Visible);
 
-							if (MainActivity.CIF.CreateUser(username.Text, password.Text, confirm.Text) &&
+							if (MainActivity.CIF.CreateUser(name.Text, address.Text, birthday.DateTime, username.Text, password.Text, confirm.Text) &&
 								MainActivity.CIF.Login(username.Text, password.Text)) 
 							{
 								var toProfile = new Intent(this, typeof(ProfileActivity));

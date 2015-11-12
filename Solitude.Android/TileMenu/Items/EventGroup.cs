@@ -20,17 +20,17 @@ namespace DineWithaDane.Android
 		/// <summary>
 		/// Sets the title of the view.
 		/// </summary>
-		public string Title { set { TitleView.Text = "Title: " + value; } }
+		public string Title { set { TitleView.Text = /*"Title: " +*/ value; } }
 
 		/// <summary>
 		/// Sets the place of the view.
 		/// </summary>
-		public string Place	{ set { PlaceView.Text = "Place: " + value;	} }
+		public string Place	{ set { PlaceView.Text = /*"Place: " +*/ value;	} }
 
 		/// <summary>
 		/// Sets the date of the view.
 		/// </summary>
-		public DateTime Date { set { DateView.Text = "Date: " + value; } }
+		public DateTime Date { set { DateView.Text = /*"Date: " +*/ value.ToString("dd/MM/yyyy - hh:mm"); } }
 
 		/// <summary>
 		/// Sets the slots taken and total stols of the view. Item1 is slots taken. Item2 is totals slots.
@@ -64,6 +64,7 @@ namespace DineWithaDane.Android
 			ParticipantsView = new TextView(context);
 
 			TitleView.SetTypeface(null, TypefaceStyle.Bold);
+			DateView.SetTypeface(null, TypefaceStyle.Italic);
 
 			Initialize();
 		}
