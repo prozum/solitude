@@ -24,7 +24,7 @@ namespace Solitude.Server.Tests
 		}
 		public void RegisterUser ()
 		{
-			testUsername = "ServerTestUser" + r.Next(1, 1000000);
+			testUsername = "Testkurt" + r.Next(1, 1000000);
 			var request = new RestRequest ("user/register", Method.POST);
 			var user = new 
 			{
@@ -120,21 +120,20 @@ namespace Solitude.Server.Tests
 			Assert.AreEqual (e.Id, receivedEvent.Id, "The received event was not equal to the one created");
 		}
 
-		public void GetInterest (int interest)
+		public void GetCharacteristica (int Characteristica, int Value)
 		{
-			var request = buildRequest ("info/1", Method.GET);
+			var request = buildRequest ("info/" + Characteristica, Method.GET);
 
 			var response = testClient.Execute (request);
 
-			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request failed " + response.Content);
+			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The get-request failed " + response.Content);
 
-			//Testing if this interest is the same as the one added previously
+			//Testing if the received characteristica is the same as the one added earlier
+			dynamic receivedCharacteristica = JsonConvert.DeserializeObject (response.Content);
 
-			dynamic receivedInterest = JsonConvert.DeserializeObject (response.Content);
-
-			Assert.AreEqual(interest.ToString(), receivedInterest.ToString().Trim('[', '\r', '\n', ']').Trim(), "Something went wrong " + receivedInterest);
+			Assert.AreEqual(Value.ToString(), receivedCharacteristica.ToString().Trim('[', '\r', '\n', ']').Trim(), "Something went wrong " + receivedCharacteristica);
 		}
-
+			
 		public void GetOffers ()
 		{
 			var request = buildRequest ("offer", Method.GET);
@@ -185,19 +184,31 @@ namespace Solitude.Server.Tests
 			Assert.AreEqual (e.Title, receivedEvent.Title, "The recieved event did not have the updated title.");
 		} 
 
-		public void DeleteInterest ()
+		public void DeleteCharacteristica (int Characteristica, int Value) 
 		{
 			var request = buildRequest ("info", Method.DELETE);
 
-			var InfoDelete = new {
-				Info = 1,
-				value = 5
+			var InfoToDelete = new {
+				Info = Characteristica,
+				Value = Value
 			};
-			request.AddBody(InfoDelete);	
+			request.AddBody (InfoToDelete);
 
 			var response = testClient.Execute (request);
-			//Testing if the request was executed properly
+
+			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The delete-request failed " + response.Content);
+
+			//Testing if the characteristica is still present
+			request = buildRequest ("info/" + Characteristica, Method.GET);
+
+			response = testClient.Execute (request);
+
 			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request failed " + response.Content);
+
+
+			dynamic receivedCharacteristica = JsonConvert.DeserializeObject (response.Content);
+
+			Assert.AreNotEqual(Value.ToString(), receivedCharacteristica.ToString().Trim('[', '\r', '\n', ']').Trim(), "Characteristica was not deleted correctly " + receivedCharacteristica);
 		}
 
 		public void DeleteEvent()
@@ -258,6 +269,25 @@ namespace Solitude.Server.Tests
 			var tokenResponse = testClient.Execute (request);
 
 			Assert.IsFalse (tokenResponse.StatusCode == HttpStatusCode.OK, "Login succeeded unexpectedly " + response.StatusCode.ToString());
+		}
+
+		public void CancelRegistration ()
+		{
+			var request = buildRequest ("event/" + Offers.Id, Method.DELETE);
+
+			var response = testClient.Execute (request);
+
+			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The delete-request was not executed correctly: " + response.Content);
+
+			request = buildRequest ("event", Method.GET);
+
+			response = testClient.Execute (request);
+
+			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The get-request was not executed correctly " + response.Content);
+
+			var receivedEvent = parseEvents (response, true);
+
+			Assert.AreNotEqual (Offers.Id, receivedEvent.Id, "The Registration was not cancelled correctly: " + response.Content);
 		}
 
 		public RestRequest buildRequest(string resource, Method method)

@@ -31,17 +31,19 @@ namespace Solitude.Server.Tests
 		/*[Test()]
 		public void TestUsers ()
 		{
-			for (int i = 0; i < 5; i++) {
+			for (int i = 0; i < 1; i++) {
 				RegisterUser ();
 				Login ();
 				if (i % 5 == 0) {
 					AddEvent ();
 				}
 				for (int j = 0; j < 2; j++) {
-					AddFoodHabit (r.Next(0, 5);
-					AddInterest (r.Next(0, 6);
-					AddCharacteristica(2, r.Next(0, 6);
+					AddCharacteristica (0, r.Next(0, 5));
+					AddCharacteristica (1, r.Next(0, 6));
+					AddCharacteristica(2, r.Next(0, 6));
 				}
+				GetOffers ();
+				ReplyOffer ();
 			}
 		}*/
 
@@ -107,12 +109,30 @@ namespace Solitude.Server.Tests
 		}
 
 		[Test ()]
+		public void TestCaseGetFoodHabit ()
+		{
+			RegisterUser ();
+			Login ();
+			AddCharacteristica (0, 5);
+			GetCharacteristica (0, 5);
+		}
+
+		[Test ()]
 		public void TestCaseGetInterest ()
 		{
 			RegisterUser ();
 			Login ();
 			AddCharacteristica (1, 5);
-			GetInterest (5);
+			GetCharacteristica (1, 5);
+		}
+
+		[Test ()]
+		public void TestCaseGetLanguage ()
+		{
+			RegisterUser ();
+			Login ();
+			AddCharacteristica (2, 5);
+			GetCharacteristica (2, 5);
 		}
 
 		[Test ()]
@@ -152,12 +172,30 @@ namespace Solitude.Server.Tests
 		}
 
 		[Test ()]
+		public void TestCaseDeleteFoodHabit ()
+		{
+			RegisterUser ();
+			Login ();
+			AddCharacteristica (0, 5);
+			DeleteCharacteristica (0, 5);
+		}
+
+		[Test ()]
 		public void TestCaseDeleteInterest ()
 		{
 			RegisterUser ();
 			Login ();
 			AddCharacteristica (1, 5);
-			DeleteInterest ();
+			DeleteCharacteristica (1, 5);
+		}
+
+		[Test ()]
+		public void TestCaseDeleteLanguage ()
+		{
+			RegisterUser ();
+			Login ();
+			AddCharacteristica (2, 5);
+			DeleteCharacteristica (2, 5);
 		}
 
 		[Test()]
@@ -176,6 +214,16 @@ namespace Solitude.Server.Tests
 			Login ();
 			DeleteUser ();
 		}
+		[Test ()]
+		public void TestCaseCancelRegistration ()
+		{
+			RegisterUser ();
+			Login ();
+			GetOffers ();
+			ReplyOffer ();
+			CancelRegistration ();
+		}
+
 	}
 }
 
