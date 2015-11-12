@@ -11,16 +11,12 @@ namespace Solitude.Server.Tests
 {
 	public class TestMethods
 	{		
-		public int eventID;
 		public Event e = new Event ();		
 		public static RestClient testClient = new RestClient("http://prozum.dk:8080/api/");
 		public static Random r = new Random();
 		public static string testUsername, testToken = "", token_type = "", testName = "Kurt Von Egelund", password = "Testkurt123!";
 		Event Offers;
-		public TestMethods ()
-		{
 
-		}
 		public void RegisterUser ()
 		{
 			testUsername = "testkurt" + r.Next(1, 1000000);
@@ -28,7 +24,7 @@ namespace Solitude.Server.Tests
 			var user = new 
 			{
 				name = testName,
-				birthdate = "1751/05/27",
+				birthdate = "1751/05/27-14:41:17",
 				address = "Fiskegade",
 				username = testUsername,
 				password = password,
@@ -38,7 +34,7 @@ namespace Solitude.Server.Tests
 			request.RequestFormat = DataFormat.Json;
 			request.AddBody (user);
 			var response = testClient.Execute (request);
-			Assert.IsTrue (response.StatusCode == HttpStatusCode.OK, response.Content); //Test something else
+			Assert.IsTrue (response.StatusCode == HttpStatusCode.OK, response.Content);
 		}
 
 		public void Login()
@@ -82,17 +78,18 @@ namespace Solitude.Server.Tests
 
 		public void AddEvent()
 		{
+			e.Title = "Test " + r.Next (0, 9999);
+
 			var request = buildRequest ("host", Method.POST);
+
 			request.AddBody (e);
 
 			var response = testClient.Execute (request);
 
-			dynamic jVal = JsonConvert.DeserializeObject(response.Content);
-			e.Id = jVal.Id;
 			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request was not executed correctly: " + response.Content);
 
-			dynamic dynObj = JsonConvert.DeserializeObject (response.Content);
-			eventID = dynObj.Id;
+			dynamic jVal = JsonConvert.DeserializeObject(response.Content);
+			e.Id = jVal.Id;
 		}
 
 		public void AddCharacteristica (int Characteristica, int Value)
@@ -166,7 +163,7 @@ namespace Solitude.Server.Tests
 
 		public void UpdateEventChangeTitle()
 		{
-			e.Title = "[Modified Test Event]";
+			e.Title = "Modified Test Event";
 			var request = buildRequest ("host", Method.PUT);
 
 			request.AddBody (e);
@@ -175,7 +172,7 @@ namespace Solitude.Server.Tests
 
 			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request was not executed correctly: " + response.Content);
 
-			//Now get the event from the server again:
+			//Getting the event from the server again:
 			request = buildRequest (string.Format ("host"), Method.GET);
 
 			response = testClient.Execute (request);
@@ -225,7 +222,7 @@ namespace Solitude.Server.Tests
 			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request was not executed correctly: " + response.Content); 
 
 			//Now try to get event:
-			request = buildRequest ("host" /*+ e.Id*/, Method.GET);
+			request = buildRequest ("host", Method.GET);
 
 			response = testClient.Execute (request);
 
