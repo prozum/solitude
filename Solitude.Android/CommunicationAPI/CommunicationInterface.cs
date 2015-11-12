@@ -29,6 +29,12 @@ namespace ClientCommunication
 		/// <value>The lastest error.</value>
 		public string LatestError { get; private set; }
 
+		/// <summary>
+		/// Builds a request, complete with authorization, DataFormat and method.
+		/// </summary>
+		/// <returns>The complete request.</returns>
+		/// <param name="resource">Resource.</param>
+		/// <param name="method">Method.</param>
 		private RestRequest buildRequest (string resource, Method method)
 		{
 			var req = new RestRequest(resource, method);
@@ -48,8 +54,8 @@ namespace ClientCommunication
 			string errorContent = response.Content;
 			string[] splitErrorContent = errorContent.Split(':');
 			LatestError = splitErrorContent [splitErrorContent.Length - 1]
-									.Trim('"', ':', '\\', '[', ']', '{', '}')
-									.Replace (".", ".\n");
+				.Trim('"', ':', '\\', '[', ']', '{', '}')
+				.Replace (".", ".\n");
 		}
 
 		/// <summary>
@@ -129,15 +135,26 @@ namespace ClientCommunication
 			return events;
 		}
 
-		private void parseInfoResponse(IRestResponse response, List<int> infoList)
+		/// <summary>
+		/// Parses the info response.
+		/// </summary>
+		/// <param name="response">Response from server.</param>
+		/// <param name="infoList">Info list.</param>
+		/// <param name="type">Type of information to parse.</param>
+		private void parseInfoResponse(IRestResponse response, List<Tuple<InfoType, int>> infoList, InfoType type)
 		{
 			try
 			{
+				//Trim and split result to get single values
 				string trimmed = response.Content.Trim('[', ']');
 				string[] choises = trimmed.Split(',');
 
+				//Parse each and add to information type
 				foreach (var choise in choises)
-					infoList.Add(int.Parse(choise));
+				{
+					infoList.Add(new Tuple<InfoType, int>(type, int.Parse(choise)));
+				}
+
 			}
 			catch
 			{
@@ -168,123 +185,6 @@ namespace ClientCommunication
 				return parseEvents(response);
 
 			return new List<Event>();
-		}
-
-		/// <summary>
-		/// Replies the offer.
-		/// </summary>
-		/// <param name="answer">If set to <c>true</c> the user wants to join.</param>
-		/// <param name="e">Event which is being replied to.</param>
-		public void ReplyOffer (bool answer, Event e)
-		{
-			var request = buildRequest ("offer", Method.PUT);
-
-			var offerReply = new { 
-				eventId = e.ID, 
-				userToken = userToken, 
-				reply = answer 
-			};
-			
-			request.AddBody(offerReply);
-
-			executeAndParseResponse (request);
-		}
-		#endregion
-		#region Event fetching
-		/// <summary>
-		/// Gets the users own events.
-		/// </summary>
-		/// <returns>A list of the users events.</returns>
-		/// <param name="n">Amount of events to find.</param>
-		/// <param name="NEWEST">If set to <c>true</c> returns the newest events.</param>
-		public List<Event> GetOwnEvents (int n, bool NEWEST = true)
-		{
-			//Builds request
-			var eventRequest = buildRequest ("host", Method.GET);
-
-			//Executes request and recieves response
-			var serverResponse = client.Execute(eventRequest);
-
-			//Parses the event if status code is OK else determine the error
-			if (serverResponse.StatusCode == 0)
-				LatestError = "No internet connection";
-			else if (serverResponse.StatusCode != HttpStatusCode.OK)
-				parseErrorMessage(serverResponse);
-			else
-				return parseEvents(serverResponse);
-
-			return new List<Event>();
-
-		}
-		#endregion
-		#region User-handling
-
-		/// <summary>
-		/// Creates a new user on the server.
-		/// </summary>
-		/// <param name="u">User to create.</param>
-		public bool CreateUser (string Username, string Password, string ConfirmedPassword)
-		{
-			//Build request and user
-			var request = new RestRequest("user/register", Method.POST);
-			var user = new { username = Username, 
-							 password = Password, 
-							 confirmPassword = ConfirmedPassword };
-
-			//Alters request format to json and add information
-			request.RequestFormat = DataFormat.Json;
-			request.AddBody(user);
-
-			//Execute and await response
-			return executeAndParseResponse(request);
-		}
-
-		/// <summary>
-		/// Updates the user specified by id.
-		/// </summary>
-		/// <param name="i">A reference to a <see cref="DineWithaDane.InfoChange"/> containing Key and Value of the change.</param>
-		public void AddInformation (InfoChange i)
-		{
-			var request = buildRequest ("info", Method.POST);
-
-			request.AddBody(i);
-
-			executeAndParseResponse (request);
-		}
-
-		/// <summary>
-		/// Deletes the information from the server.
-		/// </summary>
-		/// <param name="i">A reference to a <see cref="DineWithaDane.InfoChange"/> containing Key and Value of the change.</param>
-		public void DeleteInformation (InfoChange i)
-		{
-			var request = buildRequest("info", Method.DELETE);
-
-			request.AddBody(i);
-
-			executeAndParseResponse(request);
-		}
-
-		public List<List<int>> GetInformation ()
-		{
-			var foodRequest = buildRequest (string.Format("info/{0}", InfoType.FoodHabit.ToString()), Method.GET);
-			var interestRequest = buildRequest(string.Format("info/{0}", InfoType.Interest), Method.GET);
-			var langRequest = buildRequest(string.Format("info/{0}", InfoType.Language), Method.GET);
-
-			var interestList = new List<List<int>>();
-
-			for (int i = 0; i <Enum.GetValues(typeof(InfoType)).Length; i++)
-				interestList.Add(new List<int>());
-
-			var foodReponse = client.Execute(foodRequest);
-			var interestResponse = client.Execute(interestRequest);
-			var langResponse = client.Execute(langRequest);
-
-			parseInfoResponse(foodReponse, interestList[(int)InfoType.FoodHabit]);
-			parseInfoResponse(interestResponse, interestList[(int)InfoType.Interest]);
-			parseInfoResponse(langResponse, interestList[(int)InfoType.Language]);
-
-			return interestList;
 		}
 
 		/// <summary>
@@ -358,6 +258,128 @@ namespace ClientCommunication
 		}
 
 		#endregion
+
+		#region Information-handling
+		/// <summary>
+		/// Replies the offer.
+		/// </summary>
+		/// <param name="answer">If set to <c>true</c> the user wants to join.</param>
+		/// <param name="e">Event which is being replied to.</param>
+		public void ReplyOffer (bool answer, Event e)
+		{
+			var request = buildRequest ("offer", Method.PUT);
+
+			var offerReply = new { 
+				eventId = e.ID, 
+				userToken = userToken, 
+				reply = answer 
+			};
+
+			request.AddBody(offerReply);
+
+			executeAndParseResponse (request);
+		}
+		#endregion
+		#region Event fetching
+		/// <summary>
+		/// Gets the users own events.
+		/// </summary>
+		/// <returns>A list of the users events.</returns>
+		/// <param name="n">Amount of events to find.</param>
+		/// <param name="NEWEST">If set to <c>true</c> returns the newest events.</param>
+		public List<Event> GetHostedEvents (int n, bool NEWEST = true)
+		{
+			//Builds request
+			var eventRequest = buildRequest ("host", Method.GET);
+
+			//Executes request and recieves response
+			var serverResponse = client.Execute(eventRequest);
+
+			//Parses the event if status code is OK else determine the error
+			if (serverResponse.StatusCode == 0)
+				LatestError = "No internet connection";
+			else if (serverResponse.StatusCode != HttpStatusCode.OK)
+				parseErrorMessage(serverResponse);
+			else
+				return parseEvents(serverResponse);
+
+			return new List<Event>();
+		}
+		#endregion
+		#region User-handling
+
+		/// <summary>
+		/// Creates a new user on the server.
+		/// </summary>
+		/// <param name="u">User to create.</param>
+		public bool CreateUser (string Username, string Password, string ConfirmedPassword)
+		{
+			//Build request and user
+			var request = new RestRequest("user/register", Method.POST);
+			var user = new { username = Username, 
+				password = Password, 
+				confirmPassword = ConfirmedPassword };
+
+			//Alters request format to json and add information
+			request.RequestFormat = DataFormat.Json;
+			request.AddBody(user);
+
+			//Execute and await response
+			return executeAndParseResponse(request);
+		}
+		#endregion
+
+		#region Information-handling
+		/// <summary>
+		/// Updates the user specified by id.
+		/// </summary>
+		/// <param name="i">A reference to a <see cref="DineWithaDane.InfoChange"/> containing Key and Value of the change.</param>
+		public void AddInformation (InfoChange i)
+		{
+			var request = buildRequest ("info", Method.POST);
+
+			request.AddBody(i);
+
+			executeAndParseResponse (request);
+		}
+
+		/// <summary>
+		/// Deletes the information from the server.
+		/// </summary>
+		/// <param name="i">A reference to a <see cref="DineWithaDane.InfoChange"/> containing Key and Value of the change.</param>
+		public void DeleteInformation (InfoChange i)
+		{
+			var request = buildRequest("info", Method.DELETE);
+
+			request.AddBody(i);
+
+			executeAndParseResponse(request);
+		}
+
+		/// <summary>
+		/// Gets the information of current user.
+		/// </summary>
+		/// <returns>The information.</returns>
+		public List<Tuple<InfoType, int>> GetInformation ()
+		{
+			var foodRequest = buildRequest (string.Format("info/{0}", InfoType.FoodHabit.ToString()), Method.GET);
+			var interestRequest = buildRequest(string.Format("info/{0}", InfoType.Interest), Method.GET);
+			var langRequest = buildRequest(string.Format("info/{0}", InfoType.Language), Method.GET);
+
+			var interestList = new List<Tuple<InfoType, int>>();
+
+			var foodReponse = client.Execute(foodRequest);
+			var interestResponse = client.Execute(interestRequest);
+			var langResponse = client.Execute(langRequest);
+
+			parseInfoResponse(foodReponse, interestList, InfoType.FoodHabit);
+			parseInfoResponse(interestResponse, interestList, InfoType.Interest);
+			parseInfoResponse(langResponse, interestList, InfoType.Language);
+
+			return interestList;
+		}
+		#endregion
+
 		#region Event-handling
 		/// <summary>
 		/// Creates an event on the server.
@@ -425,6 +447,31 @@ namespace ClientCommunication
 
 			executeAndParseResponse (request);
 		}
+
+		/// <summary>
+		/// Gets the users own events.
+		/// </summary>
+		/// <returns>A list of the users events.</returns>
+		/// <param name="n">Amount of events to find.</param>
+		/// <param name="NEWEST">If set to <c>true</c> returns the newest events.</param>
+		public List<Event> GetJoinedEvents (int n, bool NEWEST = true)
+		{
+			//Builds request
+			var eventRequest = buildRequest ("event", Method.GET);
+
+			//Executes request and recieves response
+			var serverResponse = client.Execute(eventRequest);
+
+			//Parses the event if status code is OK else determine the error
+			if (serverResponse.StatusCode == 0)
+				LatestError = "No internet connection";
+			else if (serverResponse.StatusCode != HttpStatusCode.OK)
+				parseErrorMessage(serverResponse);
+			else
+				return parseEvents(serverResponse);
+
+			return new List<Event>();
+		}
 		#endregion
 		#region Offer-replies and registration cancelling
 		/// <summary>
@@ -436,7 +483,7 @@ namespace ClientCommunication
 
 			//Add body to request
 			var cancelBody = new { eventId = e.ID,
-								   userToken = userToken };
+				userToken = userToken };
 			request.AddBody(cancelBody);
 
 			executeAndParseResponse (request);
@@ -453,8 +500,8 @@ namespace ClientCommunication
 
 			//Adds a body to the request containing the reciew
 			var review = new { rating = r.Rating,
-							   text = r.ReviewText,
-							   eventId = r.Event.ID };
+				text = r.ReviewText,
+				eventId = r.Event.ID };
 			request.AddBody(review);
 
 			executeAndParseResponse (request);
