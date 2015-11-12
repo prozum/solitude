@@ -483,7 +483,7 @@ namespace Dal
 				.Match("(e:Event)")
 				.Where((Event e) => e.Id == eid)
 				.AndWhere((Event e) => e.SlotsTaken > 0)
-				.Set("event.SlotsTaken = event.SlotsTaken - 1")
+				.Set("e.SlotsTaken = e.SlotsTaken - 1")
 				.ExecuteWithoutResultsAsync();
 		}
 
