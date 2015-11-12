@@ -464,7 +464,7 @@ namespace Dal
 			var res = await client.Cypher
 				.Match ("(e:Event)")
 				.Where ((Event e) => e.Id == eid)
-				.AndWhere ((Event e) => e.SlotsTaken > e.SlotsTotal)
+				.AndWhere ((Event e) => e.SlotsTotal > e.SlotsTaken)
 				.Set ("event.SlotsTaken = event.SlotsTaken + 1")
 				.Return ((@event) => @event.As<Event> ())
 				.ResultsAsync;
