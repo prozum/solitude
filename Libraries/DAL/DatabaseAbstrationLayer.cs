@@ -523,11 +523,11 @@ namespace Dal
 					return false;
 
 				await client.Cypher
-					.Match ("(user:User)-[:MATCHED]->(e:Event)")
+					.Match ("(user:User)-[m:MATCHED]->(e:Event)")
 					.Where ((User user) => user.Id == uid)
 					.AndWhere ((Event e) => e.Id == eid)
 					.Create ("user-[:ATTENDS]->e")
-					.Delete ("user-[:MATCHED]->e")
+					.Delete ("m")
 					.ExecuteWithoutResultsAsync();
 
 				return true;
@@ -535,10 +535,10 @@ namespace Dal
 			else
 			{
 				await client.Cypher
-					.Match ("(user:User)-[:MATCHED]->(e:Event)")
+					.Match ("(user:User)-[m:MATCHED]->(e:Event)")
 					.Where((User user) => user.Id == uid)
 					.Where((Event e) => e.Id == eid)
-					.Delete ("user-[:MATCHED]->e")
+					.Delete ("m")
 					.ExecuteWithoutResultsAsync();
 
 				return true;
