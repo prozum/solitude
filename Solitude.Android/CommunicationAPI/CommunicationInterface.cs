@@ -325,6 +325,13 @@ namespace ClientCommunication
 			//Execute and await response
 			return executeAndParseResponse(request);
 		}
+
+		public void GetUserData()
+		{
+			var request = buildRequest ("user", Method.GET);
+
+			var response = executeAndParseResponse (request);
+		}
 		#endregion
 
 		#region Information-handling
