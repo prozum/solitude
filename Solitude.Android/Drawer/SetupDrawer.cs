@@ -24,16 +24,16 @@ namespace DineWithaDane.Android
 		public ActionBarDrawerToggle DrawerToggle { get; set; }
 
 
-		private static readonly Tuple<string, int>[] Sections = new[] 
-		{
-			new Tuple<string, int>("Notifications", Resource.Drawable.Notification_Icon),
-			new Tuple<string, int>("Offer", Resource.Drawable.Offer_Icon),
-			new Tuple<string, int>("Events", Resource.Drawable.Events_Icon),
-			new Tuple<string, int>("Host", Resource.Drawable.Host_Icon),
-			new Tuple<string, int>("Profile", Resource.Drawable.Profile_Icon),
-			new Tuple<string, int>("Settings", Resource.Drawable.Settings_Icon),
-			new Tuple<string, int>("Logout", Resource.Drawable.Logout_Icon)
-		};
+		private static readonly Tuple<string, int, Type>[] Sections = new[] 
+			{
+				new Tuple<string, int, Type>("Profile", Resource.Drawable.Profile_Icon, typeof(ProfileActivity)),
+				//new Tuple<string, int, Type>("Notifications", Resource.Drawable.Notification_Icon, typeof(NotificationActivity)),
+				new Tuple<string, int, Type>("Offer", Resource.Drawable.Offer_Icon, typeof(OfferActivity)),
+				new Tuple<string, int, Type>("Events", Resource.Drawable.Events_Icon, typeof(EventActivity)),
+				new Tuple<string, int, Type>("Host", Resource.Drawable.Host_Icon, typeof(HostActivity)),
+				new Tuple<string, int, Type>("Settings", Resource.Drawable.Settings_Icon, typeof(SettingsActivitiy)),
+				new Tuple<string, int, Type>("Logout", Resource.Drawable.Logout_Icon, typeof(MainActivity))
+			};
 
 		public SetupDrawer (int position, DrawerActivity currentActivity)
 		{
@@ -76,37 +76,16 @@ namespace DineWithaDane.Android
 		/// <param name="itemClickEventArgs">The ${ParameterType} instance containing the event data.</param>
 		private void DrawerListOnItemClick (object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)
 		{
-			switch (itemClickEventArgs.Position) 
+
+			if (itemClickEventArgs.Position == Sections.Length - 1)
 			{
-				case 0:
-					var notificationIntent = new Intent (CurrentActivity, typeof(NotificationActivity));
-					CurrentActivity.StartActivity (notificationIntent);
-					break;
-				case 1:
-					var offerIntent = new Intent (CurrentActivity, typeof(OfferActivity));
-					CurrentActivity.StartActivity (offerIntent);
-					break;
-				case 2:
-					var eventIntent = new Intent (CurrentActivity, typeof(EventActivity));
-					CurrentActivity.StartActivity (eventIntent);
-					break;
-				case 3:
-					var hostIntent = new Intent (CurrentActivity, typeof(HostActivity));
-					CurrentActivity.StartActivity (hostIntent);
-					break;
-				case 4:
-					var profileIntent = new Intent (CurrentActivity, typeof(ProfileActivity));
-					CurrentActivity.StartActivity (profileIntent);
-					break;
-				case 5:
-					var settingsIntent = new Intent (CurrentActivity, typeof(SettingsActivitiy));
-					CurrentActivity.StartActivity (settingsIntent);
-					break;
-				case 6:
-					MainActivity.CIF.Logout(CurrentActivity);
-					break;
-				default:
-					break;
+				MainActivity.CIF.Logout(CurrentActivity);
+			}
+			else
+			{
+				var nextIntent = new Intent (CurrentActivity, Sections[itemClickEventArgs.Position].Item3);
+				nextIntent.PutExtra("index", itemClickEventArgs.Position);
+				CurrentActivity.StartActivity (nextIntent);
 			}
 
 			DrawerList.SetItemChecked (itemClickEventArgs.Position, true);

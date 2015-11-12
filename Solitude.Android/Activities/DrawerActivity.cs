@@ -25,6 +25,8 @@ namespace DineWithaDane.Android
 
 			SetContentView(Resource.Layout.ActivityLayout);
 
+			Position = Intent.GetIntExtra("index", 0);
+
 			DrawerSetup = new SetupDrawer (Position, this);
 
 			DrawerSetup.Configure ();

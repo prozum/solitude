@@ -23,7 +23,6 @@ namespace DineWithaDane.Android
 		protected override void OnCreate(Bundle bundle)
 		{
 			// setting up and drawer
-			Position = 3;
 			base.OnCreate(bundle);
 
 			// See OnResume for rest of content

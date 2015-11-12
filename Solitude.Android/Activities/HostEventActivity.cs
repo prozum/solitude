@@ -34,7 +34,6 @@ namespace DineWithaDane.Android
 
 		protected override void OnCreate(Bundle bundle)
 		{
-			Position = 3;
 			base.OnCreate(bundle);
 
 			Build();

@@ -5,6 +5,7 @@ using Android.Widget;
 using ClientCommunication;
 using System.Threading;
 using Android.Content;
+using Android.Views;
 
 namespace DineWithaDane.Android
 {
@@ -18,14 +19,14 @@ namespace DineWithaDane.Android
 			SetContentView (Resource.Layout.SignUp);
 
 			//Finds all widgets on the SignUp-layout
-			EditText username = FindViewById<EditText> (Resource.Id.editUsername);
-			EditText password = FindViewById<EditText> (Resource.Id.editPassword);
-			EditText confirm = FindViewById<EditText> (Resource.Id.editConfirm);
-			Button @continue = FindViewById<Button> (Resource.Id.buttonContinue);
-			ProgressBar pb = FindViewById<ProgressBar> (Resource.Id.progressSignUp);
+			var username = FindViewById<EditText> (Resource.Id.editUsername);
+			var password = FindViewById<EditText> (Resource.Id.editPassword);
+			var confirm = FindViewById<EditText> (Resource.Id.editConfirm);
+			var @continue = FindViewById<Button> (Resource.Id.buttonContinue);
+			var pb = FindViewById<ProgressBar> (Resource.Id.progressSignUp);
 
 			//Hide the progress bar at first
-			pb.Visibility = global::Android.Views.ViewStates.Invisible;
+			pb.Visibility = ViewStates.Invisible;
 
 			@continue.Click += (sender, e) => 
 				{
@@ -34,24 +35,21 @@ namespace DineWithaDane.Android
 						@continue.Clickable = false;
 
 						ThreadPool.QueueUserWorkItem( o => {
-							RunOnUiThread(() => {
-								pb.Visibility = global::Android.Views.ViewStates.Invisible;
-							});
+							RunOnUiThread(() => pb.Visibility = ViewStates.Visible);
 
-							if (MainActivity.CIF.ConfirmUser(username.Text, password.Text, confirm.Text)) 
+							if (MainActivity.CIF.CreateUser(username.Text, password.Text, confirm.Text) &&
+								MainActivity.CIF.Login(username.Text, password.Text)) 
 							{
-								var toInfo = new Intent(this, typeof(SignUpInfoActivity));
-								toInfo.PutExtra("username", username.Text);
-								toInfo.PutExtra("password", password.Text);
-								StartActivity(toInfo);
+								var toProfile = new Intent(this, typeof(ProfileActivity));
+								StartActivity(toProfile);
 							} 
 							else 
 							{
 								var errorDialog = new AlertDialog.Builder(this);
 								errorDialog.SetMessage(MainActivity.CIF.LatestError);
-								RunOnUiThread(() => {
-									errorDialog.Show();
-								});
+								RunOnUiThread(() => errorDialog.Show());
+
+								pb.Visibility = ViewStates.Invisible;
 								@continue.Clickable = true;
 							}
 						});

@@ -19,7 +19,7 @@ namespace DineWithaDane.Android
 		/// <summary>
 		/// The values the adapter will populate views with.
 		/// </summary>
-		public Tuple<string, int>[] Items { get; private set; }
+		public Tuple<string, int, Type>[] Items { get; private set; }
 
 		/// <summary>
 		/// How many items are in the data set represented by this Adapter.
@@ -35,7 +35,7 @@ namespace DineWithaDane.Android
 		/// </summary>
 		/// <param name="context">Context.</param>
 		/// <param name="items">Items.</param>
-		public DrawerAdapter(Activity context, Tuple<string, int>[] items) 
+		public DrawerAdapter(Activity context, Tuple<string, int, Type>[] items) 
 			: base()
 		{
 			Context = context;
