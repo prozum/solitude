@@ -31,7 +31,7 @@ namespace DineWithaDane.Android
 					
 					var offers = MainActivity.CIF.RequestOffers();
 					var adapter = new OfferListAdapter(this, offers);
-					Tilelist = new OfferList(this, adapter, AcceptOffer, DeclineOffer);
+					Tilelist = new OfferList(this, adapter, (s, e) => AcceptOffer(), (s, e) => DeclineOffer());
 
 					//Clear screen and show the found offers
 					RunOnUiThread( () => 
@@ -42,16 +42,14 @@ namespace DineWithaDane.Android
 				});
 		}
 
-		protected void AcceptOffer(object sender, EventArgs e)
+		protected void AcceptOffer()
 		{
-			MainActivity.CIF.ReplyOffer(true, Tilelist.GetFocus());
-			Tilelist.RemoveFocus();
+			MainActivity.CIF.ReplyOffer(true, Tilelist.PopFocus());
 		}
 
-		protected void DeclineOffer(object sender, EventArgs e)
+		protected void DeclineOffer()
 		{
-			MainActivity.CIF.ReplyOffer(false, Tilelist.GetFocus());
-			Tilelist.RemoveFocus();
+			MainActivity.CIF.ReplyOffer(false, Tilelist.PopFocus());
 		}
 	}
 }

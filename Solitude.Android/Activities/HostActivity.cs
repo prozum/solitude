@@ -40,7 +40,7 @@ namespace DineWithaDane.Android
 
 					var events = MainActivity.CIF.GetHostedEvents(100);
 					var adapter = new HostedEventListAdapter(this, events);
-					Tilelist = new HostedEventList(this, adapter, DeleteEvent, EditEvent);
+					Tilelist = new HostedEventList(this, adapter, (s, e) => DeleteEvent(), (s, e) => EditEvent());
 					var tilelistparams = new RelativeLayout.LayoutParams(-1, -2);
 
 					var internalContent = new RelativeLayout(this);
@@ -73,7 +73,7 @@ namespace DineWithaDane.Android
 				});
 		}
 
-		protected void DeleteEvent(object sender, EventArgs e)
+		protected void DeleteEvent()
 		{
 			var alertBuilder = new AlertDialog.Builder(this);
 			var alert = alertBuilder.Create();
@@ -82,13 +82,12 @@ namespace DineWithaDane.Android
 			alert.SetButton2("No, Abort", (object senders, DialogClickEventArgs ev) => alert.Dismiss());
 			alert.SetButton("Yes, Cancel", (object senders, DialogClickEventArgs ev) =>
 				{
-					MainActivity.CIF.DeleteEvent(Tilelist.GetFocus());
-					Tilelist.RemoveFocus();
+					MainActivity.CIF.DeleteEvent(Tilelist.PopFocus());
 				});
 			alert.Show();
 		}
 
-		protected void EditEvent(object sender, EventArgs e)
+		protected void EditEvent()
 		{
 			Event @event = Tilelist.GetFocus();
 			Intent intent = new Intent(this, typeof(HostEventActivity));

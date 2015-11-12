@@ -31,7 +31,7 @@ namespace DineWithaDane.Android
 
 					var events = MainActivity.CIF.GetJoinedEvents(100);
 					var adapter = new JoinedEventListAdapter(this, events);
-					Tilelist = new JoinedEventList(this, adapter, LeaveEvent);
+					Tilelist = new JoinedEventList(this, adapter, (s, e) => LeaveEvent());
 
 					//Clear screen and show the found offers
 					RunOnUiThread( () => 
@@ -42,7 +42,7 @@ namespace DineWithaDane.Android
 				});
 		}
 
-		protected void LeaveEvent(object sender, EventArgs e)
+		protected void LeaveEvent()
 		{
 			MainActivity.CIF.CancelReg(Tilelist.GetFocus());
 			Tilelist.RemoveFocus();
