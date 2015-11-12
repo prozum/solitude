@@ -43,7 +43,7 @@ namespace DineWithaDane.Android
 					PrepareLooper();
 
 					User = new User("Jimmi", "Jimmivej 12");
-					//Info = MainActivity.CIF.GetInformation();
+					Info = MainActivity.CIF.GetInformation();
 
 					//Clear screen and show the found offers
 					RunOnUiThread( () => 
