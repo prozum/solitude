@@ -15,8 +15,7 @@ namespace Solitude.Server.Tests
 		public Event e = new Event ();		
 		public static RestClient testClient = new RestClient("http://prozum.dk:8080/api/");
 		public static Random r = new Random();
-		public static string testUsername, testToken = "", token_type = "";
-		public static string password = "Testkurt123!";
+		public static string testUsername, testToken = "", token_type = "", testName = "Kurt Von Egelund", password = "Testkurt123!";
 		Event Offers;
 		public TestMethods ()
 		{
@@ -24,10 +23,13 @@ namespace Solitude.Server.Tests
 		}
 		public void RegisterUser ()
 		{
-			testUsername = "Testkurt" + r.Next(1, 1000000);
+			testUsername = "testkurt" + r.Next(1, 1000000);
 			var request = new RestRequest ("user/register", Method.POST);
 			var user = new 
 			{
+				name = testName,
+				birthdate = "1751/05/27",
+				address = "Fiskegade",
 				username = testUsername,
 				password = password,
 				confirmPassword = password
@@ -69,8 +71,8 @@ namespace Solitude.Server.Tests
 			var request = buildRequest ("review", Method.POST);
 
 			var review = new {
-				rating = 3,
-				reviewTect = "Koldt"//, eventID = 1234
+				rating = 5,
+				reviewTect = "Han er bare så hot"//, eventID = 1234
 			};
 			request.AddBody(review);
 
@@ -84,6 +86,7 @@ namespace Solitude.Server.Tests
 			request.AddBody (e);
 
 			var response = testClient.Execute (request);
+
 			dynamic jVal = JsonConvert.DeserializeObject(response.Content);
 			e.Id = jVal.Id;
 			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request was not executed correctly: " + response.Content);
@@ -288,6 +291,19 @@ namespace Solitude.Server.Tests
 			var receivedEvent = parseEvents (response, true);
 
 			Assert.AreNotEqual (Offers.Id, receivedEvent.Id, "The Registration was not cancelled correctly: " + response.Content);
+		}
+
+		public void GetUserData()
+		{
+			var request = buildRequest ("user", Method.GET);
+
+			var response = testClient.Execute (request);
+
+			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request failed: " + response.Content);
+
+			dynamic receivedUserData = JsonConvert.DeserializeObject (response.Content);
+
+			Assert.AreEqual (testUsername, receivedUserData.UserName.ToString(), "The received username is not the same as the actual: " + response.Content);
 		}
 
 		public RestRequest buildRequest(string resource, Method method)

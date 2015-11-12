@@ -545,6 +545,17 @@ namespace Dal
 			}
 		}
 
+		public async Task<UserData> GetUserData(string uid)
+		{
+			var res = await client.Cypher
+				.Match ("(user:User)")
+				.Where((User user) => user.Id == uid)
+				.Return (() => Return.As<UserData> ("user"))
+				.ResultsAsync;
+
+			return res.First();
+		}
+
 		/*
 		public async Task AddNotification (string uid, string msg)
 		{
