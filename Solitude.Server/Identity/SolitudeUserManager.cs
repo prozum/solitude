@@ -9,7 +9,7 @@ using Dal;
 namespace Solitude.Server
 {
     // Configure the application user manager used in this application. UserManager is defined in ASP.NET Identity and is used by the application.
-    public class SolitudeUserManager : UserManager<ApplicationUser>
+    public class SolitudeUserManager : UserManager<SolitudeUser>
     {
         private SolitudeUserStore _store;
 
@@ -23,7 +23,7 @@ namespace Solitude.Server
         {
             var manager = new SolitudeUserManager(new SolitudeUserStore(context.Get<GraphClientWrapper>().GraphClient, context.Get<DatabaseAbstrationLayer>()));
             // Configure validation logic for usernames
-            manager.UserValidator = new UserValidator<ApplicationUser>(manager)
+            manager.UserValidator = new UserValidator<SolitudeUser>(manager)
                 {
                     AllowOnlyAlphanumericUserNames = false
                 };
@@ -47,12 +47,12 @@ namespace Solitude.Server
             if (dataProtectionProvider != null)
             {
                 manager.UserTokenProvider = 
-                    new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
+                    new DataProtectorTokenProvider<SolitudeUser>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
             return manager;
         }
 
-        public override async Task<IdentityResult> DeleteAsync(ApplicationUser user)
+        public override async Task<IdentityResult> DeleteAsync(SolitudeUser user)
         {
             if (user == null)
                 return IdentityResult.Failed("User does not exist!");
