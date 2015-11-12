@@ -465,8 +465,8 @@ namespace Dal
 				.Match ("(e:Event)")
 				.Where ((Event e) => e.Id == eid)
 				.AndWhere ((Event e) => e.SlotsTaken > e.SlotsTotal)
-				.Set ("event.SlotsTaken = event.SlotsTaken + 1")
-				.Return ((@event) => @event.As<Event> ())
+				.Set ("e.SlotsTaken = e.SlotsTaken + 1")
+				.Return ((e) => e.As<Event> ())
 				.ResultsAsync;
 
 			return res.Any();
