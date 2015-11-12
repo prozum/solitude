@@ -92,9 +92,8 @@ namespace DineWithaDane.Android
 			buttonChangeLanguage.Click += (object sender, EventArgs e) =>
 			{
 				buttonChangeLanguage.SetBackgroundColor(Color.Orange);
-				var languagesview = FindViewById<TextView>(Resource.Id.Languages);
 				Languages = new List<Language>();
-				SetupEditDialog(InfoType.Language, languagesview, Languages);
+				SetupEditDialog(InfoType.Language, Languages);
 			};
 
 			buttonChangeFoodHabits = new TextView(this);
@@ -106,9 +105,8 @@ namespace DineWithaDane.Android
 			buttonChangeFoodHabits.Click += (object sender, EventArgs e) =>
 			{
 				buttonChangeFoodHabits.SetBackgroundColor(Color.Orange);
-				var foodhabitsview = FindViewById<TextView>(Resource.Id.FoodHabits);
 				FoodHabits = new List<FoodHabit>();
-				SetupEditDialog(InfoType.FoodHabit, foodhabitsview, FoodHabits);
+				SetupEditDialog(InfoType.FoodHabit, FoodHabits);
 			};
 
 			buttonChangeInterests = new TextView(this);
@@ -120,9 +118,8 @@ namespace DineWithaDane.Android
 			buttonChangeInterests.Click += (object sender, EventArgs e) =>
 			{
 				buttonChangeInterests.SetBackgroundColor(Color.Orange);
-				var editinterests = FindViewById<Button>(Resource.Id.EditInterests);
 				Interests = new List<Interest>();
-				SetupEditDialog(InfoType.Interest, editinterests, Interests);
+				SetupEditDialog(InfoType.Interest, Interests);
 			};
 
 			buttonDeleteAccount = new TextView(this);
@@ -178,7 +175,7 @@ namespace DineWithaDane.Android
 			dialog.Show();
 		}
 
-		private void SetupEditDialog(InfoType type, TextView layout, IList info)
+		private void SetupEditDialog(InfoType type, IList info)
 		{
 			var dialog = new InfoDialog(this, type, info);
 
@@ -186,7 +183,7 @@ namespace DineWithaDane.Android
 			dialog.SaveButton.Click += (s, e) =>
 			{
 				// adding selected info to list
-				dialog.ItemsChecked(info);
+				dialog.ItemsChecked();
 
 				// closing dialog
 				dialog.Dismiss();
