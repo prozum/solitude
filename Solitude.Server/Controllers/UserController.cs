@@ -31,17 +31,28 @@ namespace Solitude.Server
             }
         }
 
+//        public async Task<IHttpActionResult> Get()
+//        {
+//            
+//        }
+
 		[AllowAnonymous]
-		public async Task<IHttpActionResult> Post(User user)
+		public async Task<IHttpActionResult> Post(User userModel)
 		{
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var appUser = new ApplicationUser() { UserName = user.UserName };
+            var user = new SolitudeUser() 
+                { 
+                    Name = userModel.Name, 
+                    UserName = userModel.UserName, 
+                    Address = userModel.Address,
+                    Birthdate = userModel.Birthdate
+                };
 
-            var result = await Manager.CreateAsync(appUser, user.Password);
+            var result = await Manager.CreateAsync(user, userModel.Password);
 
             IHttpActionResult errorResult = ErrorResult(result);
 

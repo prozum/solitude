@@ -9,6 +9,19 @@ namespace Model
 		public string Id { set; get; }
 
 		[Required]
+		[Display(Name = "Name")]
+		public string Name { set; get; }
+
+		[Required]
+		[Display(Name = "Address")]
+		public string Address { set; get; }
+
+		[Required]
+		[Display(Name = "Birthdate")]
+		[DataType(DataType.DateTime)]
+		public string Birthdate { set; get; }
+
+		[Required]
 		[Display(Name = "User name")]
 		public string UserName { set; get; }
 

@@ -54,8 +54,8 @@ namespace ClientCommunication
 			string errorContent = response.Content;
 			string[] splitErrorContent = errorContent.Split(':');
 			LatestError = splitErrorContent [splitErrorContent.Length - 1]
-									.Trim('"', ':', '\\', '[', ']', '{', '}')
-									.Replace (".", ".\n");
+				.Trim('"', ':', '\\', '[', ']', '{', '}')
+				.Replace (".", ".\n");
 		}
 
 		/// <summary>
@@ -154,7 +154,7 @@ namespace ClientCommunication
 				{
 					infoList.Add(new Tuple<InfoType, int>(type, int.Parse(choise)));
 				}
-				
+
 			}
 			catch
 			{
@@ -483,7 +483,7 @@ namespace ClientCommunication
 
 			//Add body to request
 			var cancelBody = new { eventId = e.ID,
-								   userToken = userToken };
+				userToken = userToken };
 			request.AddBody(cancelBody);
 
 			executeAndParseResponse (request);
@@ -500,8 +500,8 @@ namespace ClientCommunication
 
 			//Adds a body to the request containing the reciew
 			var review = new { rating = r.Rating,
-							   text = r.ReviewText,
-							   eventId = r.Event.ID };
+				text = r.ReviewText,
+				eventId = r.Event.ID };
 			request.AddBody(review);
 
 			executeAndParseResponse (request);

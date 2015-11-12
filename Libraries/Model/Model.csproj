@@ -46,6 +46,7 @@
     <Compile Include="InfoType.cs" />
     <Compile Include="Reply.cs" />
     <Compile Include="InfoUpdate.cs" />
+    <Compile Include="UserData.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

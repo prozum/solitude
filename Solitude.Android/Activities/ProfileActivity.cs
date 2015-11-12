@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 
 using Android;
 using Android.App;
@@ -24,55 +25,8 @@ namespace DineWithaDane.Android
 	[Activity (Label = "Profile", Icon = "@drawable/Profile_Icon")]
 	public class ProfileActivity : DrawerActivity
 	{
-		public static readonly string[] Titles = new string[]
-			{
-				"Languages",
-				"Interests",
-				"Food Habits"
-			};
-
-		public static readonly string[][] Names = new string[][]
-			{
-				new string[]
-				{
-					"Danish",
-					"English",
-					"German",
-					"French",
-					"Spanish",
-					"Chinese",
-					"Russian"
-				},
-				new string[]
-				{
-					"Nature",
-					"Fitness",
-					"Movies",
-					"Gaming",
-					"Electronics",
-					"Food",
-					"Drawing"
-				},
-				new string[]
-				{
-					"Halal",
-					"Kosher",
-					"Vegan",
-					"Lactose Intolerance",
-					"Gluten Intolerance",
-					"Nut Allergy"
-				}
-			};
-
-
 		protected User User { get; set; }
-		protected List<Language> Languages { get; set; }
-		protected List<Interest> Interests { get; set; }
-		protected List<FoodHabit> FoodHabits { get; set; }
-
-		protected ImageView PictureView { get; set; }
-		protected TextView NameView { get; set; }
-		protected TextView AddressView { get; set; }
+		protected List<List<int>> Info { get; set; }
 
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
@@ -81,41 +35,65 @@ namespace DineWithaDane.Android
 			// setting up drawer
 			base.OnCreate (savedInstanceState);
 
+			ShowSpinner();
+
+			ThreadPool.QueueUserWorkItem(o =>
+				{
+					//Fetch offers from server
+					PrepareLooper();
+
+					User = new User("Jimmi", "Jimmivej 12");
+					//Info = MainActivity.CIF.GetInformation();
+
+					//Clear screen and show the found offers
+					RunOnUiThread( () => 
+					{
+						ClearLayout();
+						SetupUI();
+					});
+				});
+
+		}
+
+		private void SetupUI()
+		{
 			// add profile to activity
 			var profile = LayoutInflater.Inflate(Resource.Layout.Profile, null);
 			Content.AddView(profile);
 
-			var languagesview = FindViewById<TextView>(Resource.Id.Languages);
-			var interestsview = FindViewById<TextView>(Resource.Id.Interests);
-			var foodhabitsview = FindViewById<TextView>(Resource.Id.FoodHabits);
-			var editdetails = FindViewById<Button>(Resource.Id.EditDetails);
-			var editlanguages = FindViewById<Button>(Resource.Id.EditLanguages);
-			var editinterests = FindViewById<Button>(Resource.Id.EditInterests);
-			var editfoodhabits = FindViewById<Button>(Resource.Id.EditFoodHabits);
+			var picture  = FindViewById<ImageView>(Resource.Id.Image);
+			var name = FindViewById<TextView>(Resource.Id.Name);
+			var address = FindViewById<TextView>(Resource.Id.Address);
+			var layout = FindViewById<LinearLayout>(Resource.Id.Layout);
+			
+			var adapter = new InfoAdapter(this, Info);
+			var tilemenu = new InfoList(this, adapter);
 
-			User = new User("Jimmi", "Jimmivej 12");
-			Languages = new List<Language>();
-			Interests = new List<Interest>();
-			FoodHabits = new List<FoodHabit>();
+			layout.AddView(tilemenu);
 
-			PictureView = FindViewById<ImageView>(Resource.Id.Image);
-			NameView = FindViewById<TextView>(Resource.Id.Name);
-			AddressView = FindViewById<TextView>(Resource.Id.Address);
-
-			editdetails.Click += (sender, e) => EditDetails();
-			editlanguages.Click += (sender, e) => SetupEditDialog(InfoType.Language, languagesview, Languages);
-			editinterests.Click += (sender, e) => SetupEditDialog(InfoType.Interest, interestsview, Interests);
-			editfoodhabits.Click += (sender, e) => SetupEditDialog(InfoType.FoodHabit, foodhabitsview, FoodHabits);
-
-			UpdateDetails();
-			UpdateInfo(InfoType.Language, languagesview, Languages);
-			UpdateInfo(InfoType.Interest, interestsview, Interests);
-			UpdateInfo(InfoType.FoodHabit, foodhabitsview, FoodHabits);
-
+			name.Text = User.Name;
+			address.Text = User.Address;
 		}
 
-		private void UpdateInfo(InfoType type, TextView layout, IList items)
+		private void UpdateInfo(InfoType type, TextView layout, List<int> changes)
 		{
+			/*
+			foreach (var item in Info)
+			{
+				if (item.Item1 == type)
+				{
+					if (!changes.Contains(item.Item2))
+						MainActivity.CIF.DeleteInformation(new InfoChange(type, item.Item2));
+
+					if (true)
+					{
+						
+					}
+				}
+				
+			}
+			*/
+			/*
 			var text = "";
 
 			for (int i = 0; i < items.Count - 1; i++)
@@ -125,13 +103,7 @@ namespace DineWithaDane.Android
 				text += items[items.Count - 1].ToString();
 
 			layout.Text = text;
-				
-		}
-
-		private void UpdateDetails()
-		{
-			NameView.Text = User.Name;
-			AddressView.Text = User.Address;
+			*/
 		}
 
 		private void EditDetails()
@@ -173,7 +145,7 @@ namespace DineWithaDane.Android
 					User.Address = addressview.Text;
 
 					// updating ui
-					UpdateDetails();
+					//UpdateDetails();
 
 					// closing dialog
 					dialog.Dismiss();
@@ -190,18 +162,15 @@ namespace DineWithaDane.Android
 			dialog.Show();
 		}
 
-		private void SetupEditDialog(InfoType type, TextView layout, IList info)
+		private void SetupEditDialog(InfoType type, TextView layout)
 		{
-			var dialog = new InfoDialog(this, type, info);
+			var dialog = new InfoDialog(this, type, Info);
 
 			// adding functionallity to save button
 			dialog.SaveButton.Click += (s, e) => 
 				{
-					// adding selected info to list
-					dialog.ItemsChecked(info);
-
 					// updating ui
-					UpdateInfo(type, layout, info);
+					UpdateInfo(type, layout, dialog.ItemsChecked());
 
 					// closing dialog
 					dialog.Dismiss();

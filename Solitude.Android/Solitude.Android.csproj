@@ -101,6 +101,10 @@
     <Compile Include="TileMenu\Adapters\DrawerAdapter.cs" />
     <Compile Include="TileMenu\InfoDialog.cs" />
     <Compile Include="Classes\InfoChange.cs" />
+    <Compile Include="TileMenu\Items\InfoGroup.cs" />
+    <Compile Include="TileMenu\Items\InfoItem.cs" />
+    <Compile Include="TileMenu\Adapters\InfoAdapter.cs" />
+    <Compile Include="TileMenu\Lists\InfoList.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -121,7 +125,6 @@
     <AndroidResource Include="Resources\layout\ActivityLayout.axml" />
     <AndroidResource Include="Resources\drawable\ic_navigation_drawer.png" />
     <AndroidResource Include="Resources\layout\SpinnerItem.axml" />
-    <AndroidResource Include="Resources\layout\Profile.axml" />
     <AndroidResource Include="Resources\layout\review_layout.axml" />
     <AndroidResource Include="Resources\layout\deletionDialog.axml" />
     <AndroidResource Include="Resources\layout\EditText.axml" />
@@ -141,6 +144,7 @@
     <AndroidResource Include="Resources\drawable\Events_Icon.png" />
     <AndroidResource Include="Resources\layout\DrawerItem.axml" />
     <AndroidResource Include="Resources\drawable\Event_Inv.png" />
+    <AndroidResource Include="Resources\layout\Profile.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

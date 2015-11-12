@@ -21,7 +21,7 @@ namespace DineWithaDane.Android
 		/// Sets the descrition of the view.
 		/// </summary>
 		/// <value>The descrition.</value>
-		public string Descrition { set { DescritionView.Text = "Description: " + value; } }
+		public virtual string Descrition { set { DescritionView.Text = "Description: " + value; } }
 
 		protected TextView DescritionView {	get; set; }
 		protected TextView SeperatorView { get; set; }
