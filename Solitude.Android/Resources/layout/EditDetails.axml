@@ -19,6 +19,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/AddressEditor" />
+<!--
+    <ImageView
+        android:src="@android:drawable/ic_menu_gallery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/Image" />
+    <Button
+        android:text="New Profile Picture"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/EditImage" />
+-->
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
