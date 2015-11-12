@@ -35,7 +35,6 @@ namespace DineWithaDane.Android
 
 			ExpListView = new ExpandableListView(Context);
 			ExpListView.SetAdapter(Adapter);
-			ExpListView.SetGroupIndicator(null);
 
 			// focus selfcollapse, when another item expands
 			ExpListView.GroupExpand += (sender, e) => 
@@ -76,6 +75,13 @@ namespace DineWithaDane.Android
 			AddView(ExpListView);
 
 			ExpListView.LayoutParameters.Width = -1;
+
+			SetGroupIndicator();
+		}
+
+		protected virtual void SetGroupIndicator()
+		{
+			ExpListView.SetGroupIndicator(null);
 		}
 		#endregion
 
