@@ -24,9 +24,9 @@ namespace ClientCommunication
 
 		RestClient client = new RestClient (HttpStrings.SERVER_URL);
 		/// <summary>
-		/// Gets the lastest error.
+		/// Gets the latest error.
 		/// </summary>
-		/// <value>The lastest error.</value>
+		/// <value>The latest error.</value>
 		public string LatestError { get; private set; }
 
 		/// <summary>
@@ -119,7 +119,7 @@ namespace ClientCommunication
 					int ID = parseToInt(jVal["Id"]);
 					string title = jVal["Title"];
 					string desc = jVal["Description"];
-					DateTime dt = DateTime.Parse(jVal["Date"]);
+					DateTime dt = ParseDate(jVal["Date"]);
 					string adress = jVal["Address"];
 					int slotsTotal = parseToInt(jVal["SlotsTotal"]);
 					int slotsTaken = parseToInt(jVal["SlotsTaken"]);
@@ -133,6 +133,18 @@ namespace ClientCommunication
 			}
 
 			return events;
+		}
+
+		public DateTime ParseDate(string s)
+		{
+			try
+			{
+				return DateTime.ParseExact(s, "yyyy/MM/dd-hh:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+			}
+			catch
+			{
+				return DateTime.Parse(s);
+			}
 		}
 
 		/// <summary>
@@ -227,9 +239,19 @@ namespace ClientCommunication
 				return false;
 			}
 
-			JsonValue o = System.Json.JsonObject.Parse(tokenResponse.Content);
+			//Tries to parse the response
+			JsonValue o;
+			try
+			{
+				o = System.Json.JsonObject.Parse(tokenResponse.Content);
+			}
+			catch
+			{
+				LatestError = "Sorry, could not login:\nUnknown server reponse";
+				return false;
+			}
 
-			//Saves the user and return true, if the login was successful and false otherwise
+			//Saves the token value and type and return true, if the login was successful and false otherwise
 			if (tokenResponse.StatusCode == HttpStatusCode.OK)
 			{
 				userToken = o ["access_token"];
@@ -305,16 +327,28 @@ namespace ClientCommunication
 		}
 		#endregion
 		#region User-handling
+		public List<Dictionary<string, string>> GetGeneralInformation()
+		{
+			var request = buildRequest("user", Method.GET);
+
+			client.Execute(request);
+
+			return null;
+		}
 
 		/// <summary>
 		/// Creates a new user on the server.
 		/// </summary>
 		/// <param name="u">User to create.</param>
-		public bool CreateUser (string Username, string Password, string ConfirmedPassword)
+		public bool CreateUser (string Name, string address, DateTime birthday, string Username, string Password, string ConfirmedPassword)
 		{
 			//Build request and user
 			var request = new RestRequest("user/register", Method.POST);
-			var user = new { username = Username, 
+			var user = new {
+				name = Name,
+				address = address,
+				birthdate = birthday.ToString("yyyy/MM/dd-hh:mm:ss"), 
+				username = Username, 
 				password = Password, 
 				confirmPassword = ConfirmedPassword };
 
@@ -324,6 +358,24 @@ namespace ClientCommunication
 
 			//Execute and await response
 			return executeAndParseResponse(request);
+		}
+
+		public List<string[]> GetUserData()
+		{
+			var request = buildRequest ("user", Method.GET);
+
+			var response = client.Execute (request);
+
+			List<string[]> CleanUserData = new List<string[]>();
+
+			string[] UserData = response.Content.Trim('{', '}').Split(',');
+
+			foreach (string Datapoint in UserData)
+			{
+				string[] CleanDataPoint = Datapoint.Trim('"').Split(':');
+				CleanUserData.Add(CleanDataPoint);
+			}
+			return CleanUserData;
 		}
 		#endregion
 
@@ -392,7 +444,7 @@ namespace ClientCommunication
 
 			//And the body containing event-informatinon
 			var body = new { 
-				Date = e.Date.ToString(), 
+				Date = e.Date.ToString("yyyy/MM/dd-hh:mm:ss"), 
 				Address = e.Place,
 				Title = e.Title,
 				Description = e.Description,
@@ -480,7 +532,7 @@ namespace ClientCommunication
 		/// </summary>
 		public void CancelReg (Event e)
 		{
-			var request = buildRequest ("event", Method.DELETE);
+			var request = buildRequest (string.Format("event/{0}", e.ID), Method.DELETE);
 
 			//Add body to request
 			var cancelBody = new { eventId = e.ID,

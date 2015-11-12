@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using Android.Graphics;
 
 namespace DineWithaDane.Android
 {
@@ -35,6 +36,8 @@ namespace DineWithaDane.Android
 
 			AcceptButton.Text = "Accept";
 			DeclineButton.Text = "Decline";
+
+
 			AcceptButton.Click += onAccept;
 			DeclineButton.Click += onDecline;
 

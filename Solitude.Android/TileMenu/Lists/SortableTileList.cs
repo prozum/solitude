@@ -22,7 +22,7 @@ namespace DineWithaDane.Android
 				"Title (A-Z)",
 				"Title (Z-A)",
 				"Date (Soonest)",
-				"Date (Lastest)",
+				"Date (Last)",
 				"Distance (Closest)",
 				"Distance (Farthest)"
 			};
