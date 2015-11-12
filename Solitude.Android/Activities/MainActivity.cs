@@ -78,8 +78,8 @@ namespace DineWithaDane.Android
 						//Moves on to next activity, if login is succesful
 						if(loggedIn)
 						{
-							Intent toNotificationScreen = new Intent(this, typeof(NotificationActivity));
-							StartActivity(toNotificationScreen);
+							Intent toProfile = new Intent(this, typeof(ProfileActivity));
+							StartActivity(toProfile);
 						}
 						//Shows an error-messaage, if login was not succesful
 						else

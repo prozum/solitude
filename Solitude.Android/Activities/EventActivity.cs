@@ -19,7 +19,6 @@ namespace DineWithaDane.Android
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
 			// setting up and drawer
-			Position = 2;
 			base.OnCreate (savedInstanceState);
 
 			//Shows spinner to indicate loading
