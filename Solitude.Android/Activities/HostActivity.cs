@@ -38,7 +38,7 @@ namespace DineWithaDane.Android
 				{
 					PrepareLooper();
 
-					var events = MainActivity.CIF.GetOwnEvents(100);
+					var events = MainActivity.CIF.GetHostedEvents(100);
 					var adapter = new HostedEventListAdapter(this, events);
 					Tilelist = new HostedEventList(this, adapter, DeleteEvent, EditEvent);
 					var tilelistparams = new RelativeLayout.LayoutParams(-1, -2);

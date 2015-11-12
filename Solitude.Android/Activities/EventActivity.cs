@@ -29,8 +29,8 @@ namespace DineWithaDane.Android
 					//Fetch offers from server
 					PrepareLooper();
 
-					//var offers = MainActivity.CIF.RequestOffers();
-					var adapter = new JoinedEventListAdapter(this, new List<Event>());
+					var events = MainActivity.CIF.GetJoinedEvents(100);
+					var adapter = new JoinedEventListAdapter(this, events);
 					Tilelist = new JoinedEventList(this, adapter, LeaveEvent);
 
 					//Clear screen and show the found offers
