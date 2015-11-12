@@ -402,10 +402,10 @@ namespace Dal
 			var hosting = await client.Cypher
 				.Match ("(user:User)-[:HOSTING]->(event:Event)")
 				.Where((User user) => user.Id == uid)
-				.Return (() => Return.As<IEnumerable<Event>> ("collect(event)"))
+				.Return (() => Return.As<Event> ("event"))
 				.ResultsAsync;
 
-			return hosting.First();
+			return hosting;
 		}
 
 		/// <summary>
@@ -418,10 +418,10 @@ namespace Dal
 			var attending = await client.Cypher
 				.Match ("(user:User)-[:ATTENDING]->(event:Event)")
 				.Where ((User user) => user.Id == uid)
-				.Return (() => Return.As<IEnumerable<Event>> ("collect(event)"))
+				.Return (() => Return.As<Event> ("event"))
 				.ResultsAsync;
 
-			return attending.First();
+			return attending;
 		}
 
 		/// <summary>
@@ -526,7 +526,7 @@ namespace Dal
 					.Match ("(user:User)-[m:MATCHED]->(e:Event)")
 					.Where ((User user) => user.Id == uid)
 					.AndWhere ((Event e) => e.Id == eid)
-					.Create ("user-[:ATTENDS]->e")
+					.CreateUnique ("user-[:ATTENDS]->e")
 					.Delete ("m")
 					.ExecuteWithoutResultsAsync();
 
