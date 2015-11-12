@@ -17,6 +17,7 @@ namespace Solitude.Server.Tests
 		public static Random r = new Random();
 		public static string testUsername, testToken = "", token_type = "";
 		public static string password = "Testkurt123!";
+		Event Offers;
 		public TestMethods ()
 		{
 
@@ -91,18 +92,19 @@ namespace Solitude.Server.Tests
 			eventID = dynObj.Id;
 		}
 
-		public void AddInterest ()
+		public void AddCharacteristica (int Characteristica, int Value)
 		{
-			//Adding an interest
 			var request = buildRequest ("info", Method.POST);
 
 			var InfoUpdate = new {
-				Info = 1,
-				Value = 5
+				Info = Characteristica,
+				Value = Value
 			};
 			request.AddBody (InfoUpdate);
 			var response = testClient.Execute (request);
+
 			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request failed " + response.Content);
+
 		}
 
 		public void GetEvent()
@@ -118,7 +120,7 @@ namespace Solitude.Server.Tests
 			Assert.AreEqual (e.Id, receivedEvent.Id, "The received event was not equal to the one created");
 		}
 
-		public void GetInterest ()
+		public void GetInterest (int interest)
 		{
 			var request = buildRequest ("info/1", Method.GET);
 
@@ -130,7 +132,7 @@ namespace Solitude.Server.Tests
 
 			dynamic receivedInterest = JsonConvert.DeserializeObject (response.Content);
 
-			Assert.AreEqual(5, receivedInterest, "Something went wrong " + response.Content);
+			Assert.AreEqual(interest.ToString(), receivedInterest.ToString().Trim('[', '\r', '\n', ']').Trim(), "Something went wrong " + receivedInterest);
 		}
 
 		public void GetOffers ()
@@ -141,20 +143,20 @@ namespace Solitude.Server.Tests
 			//Testing if the request was executed
 			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request was not executed correctly: " + response.Content);
 
-			var offer = parseEvents (response, true);
+			Offers = parseEvents (response, true);
 			//Testing if the returned event has an Id. Will later test if it is the correct Id
-			Assert.AreNotEqual (new Event().Id, offer.Id, "An error has occured, it is likely no offers were returned");
+			Assert.AreNotEqual (new Event().Id, Offers.Id, "An error has occured, it is likely no offers were returned");
 		}
 
 		public void ReplyOffer()
 		{
 			var request = buildRequest ("offer", Method.POST);
 
-			var reply = new {
+			var Reply = new {
 				Value = true,
-				EventID = 10
+				EventId = Offers.Id
 			};
-			request.AddBody (reply);
+			request.AddBody (Reply);
 			var response = testClient.Execute(request);
 
 			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request was not executed correctly: " + response.Content);

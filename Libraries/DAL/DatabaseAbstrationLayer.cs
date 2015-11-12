@@ -218,7 +218,7 @@ namespace Dal
 				//make sure that the interest is related with the right user
 				.Match ("(user:User), (language:Language)")
 				.Where((User user) => user.Id == uid)
-				.AndWhere ("language.Id == {lc}")
+				.AndWhere ("language.Id = {lc}")
 				.WithParam ("lc", lc)
 				//create a unique relation "WANTS" with the weight 'w'
 				.CreateUnique (("user-[:WANTS {weight}]->language"))
@@ -273,7 +273,7 @@ namespace Dal
 				//make sure that the interest is related with the right user
 				.Match ("(user:User), (foodhabit:FoodHabit)")
 				.Where((User user) => user.Id == uid)
-				.AndWhere ("foodhabit.Id == {fh}")
+				.AndWhere ("foodhabit.Id = {fh}")
 				.WithParam ("fh", fh)
 				//create a unique relation "WANTS" with the weight 'w'
 				.CreateUnique (("user-[:WANTS {weight}]->foodhabit"))
@@ -416,7 +416,7 @@ namespace Dal
 		public async Task<IEnumerable<Event>> GetAttendingEvents (string uid)
 		{
 			var attending = await client.Cypher
-				.Match ("(user:User)-[:ATTENDING]->(event:Event)")
+				.Match ("(user:User)-[:ATTENDS]->(event:Event)")
 				.Where ((User user) => user.Id == uid)
 				.Return (() => Return.As<Event> ("event"))
 				.ResultsAsync;
