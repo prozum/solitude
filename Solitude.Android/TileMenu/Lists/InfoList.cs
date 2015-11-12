@@ -27,10 +27,18 @@ namespace DineWithaDane.Android
 			ExpListView.GroupClick += (sender, e) => 
 				{
 					if (Adapter.Items[e.GroupPosition].Count != 0)
-						ExpListView.ExpandGroup(e.GroupPosition);
+						if (ExpListView.IsGroupExpanded(e.GroupPosition)) 
+							ExpListView.CollapseGroup(e.GroupPosition);
+						else
+							ExpListView.ExpandGroup(e.GroupPosition);
 				};
 
 			Initialize();
+		}
+
+		protected override void SetGroupIndicator()
+		{
+			ExpListView.SetGroupIndicator(null);
 		}
 	}
 }
