@@ -54,8 +54,8 @@ namespace ClientCommunication
 			string errorContent = response.Content;
 			string[] splitErrorContent = errorContent.Split(':');
 			LatestError = splitErrorContent [splitErrorContent.Length - 1]
-									.Trim('"', ':', '\\', '[', ']', '{', '}')
-									.Replace (".", ".\n");
+				.Trim('"', ':', '\\', '[', ']', '{', '}')
+				.Replace (".", ".\n");
 		}
 
 		/// <summary>
@@ -141,7 +141,7 @@ namespace ClientCommunication
 		/// <param name="response">Response from server.</param>
 		/// <param name="infoList">Info list.</param>
 		/// <param name="type">Type of information to parse.</param>
-		private void parseInfoResponse(IRestResponse response, List<Tuple<InfoType, int>> infoList, InfoType type)
+		private void parseInfoResponse(IRestResponse response, List<int> infoList)
 		{
 			try
 			{
@@ -151,10 +151,8 @@ namespace ClientCommunication
 
 				//Parse each and add to information type
 				foreach (var choise in choises)
-				{
-					infoList.Add(new Tuple<InfoType, int>(type, int.Parse(choise)));
-				}
-				
+					infoList.Add(int.Parse(choise));
+
 			}
 			catch
 			{
@@ -360,21 +358,24 @@ namespace ClientCommunication
 		/// Gets the information of current user.
 		/// </summary>
 		/// <returns>The information.</returns>
-		public List<Tuple<InfoType, int>> GetInformation ()
+		public List<List<int>> GetInformation ()
 		{
 			var foodRequest = buildRequest (string.Format("info/{0}", InfoType.FoodHabit.ToString()), Method.GET);
 			var interestRequest = buildRequest(string.Format("info/{0}", InfoType.Interest), Method.GET);
 			var langRequest = buildRequest(string.Format("info/{0}", InfoType.Language), Method.GET);
 
-			var interestList = new List<Tuple<InfoType, int>>();
+			var interestList = new List<List<int>>();
+
+			for (int i = 0; i < Enum.GetValues(typeof(InfoType)).Length; i++)
+				interestList.Add(new List<int>());
 
 			var foodReponse = client.Execute(foodRequest);
 			var interestResponse = client.Execute(interestRequest);
 			var langResponse = client.Execute(langRequest);
 
-			parseInfoResponse(foodReponse, interestList, InfoType.FoodHabit);
-			parseInfoResponse(interestResponse, interestList, InfoType.Interest);
-			parseInfoResponse(langResponse, interestList, InfoType.Language);
+			parseInfoResponse(foodReponse, interestList[(int)InfoType.FoodHabit]);
+			parseInfoResponse(interestResponse, interestList[(int)InfoType.Interest]);
+			parseInfoResponse(langResponse, interestList[(int)InfoType.Language]);
 
 			return interestList;
 		}
@@ -483,7 +484,7 @@ namespace ClientCommunication
 
 			//Add body to request
 			var cancelBody = new { eventId = e.ID,
-								   userToken = userToken };
+				userToken = userToken };
 			request.AddBody(cancelBody);
 
 			executeAndParseResponse (request);
@@ -500,8 +501,8 @@ namespace ClientCommunication
 
 			//Adds a body to the request containing the reciew
 			var review = new { rating = r.Rating,
-							   text = r.ReviewText,
-							   eventId = r.Event.ID };
+				text = r.ReviewText,
+				eventId = r.Event.ID };
 			request.AddBody(review);
 
 			executeAndParseResponse (request);
