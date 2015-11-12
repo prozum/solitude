@@ -44,8 +44,7 @@ namespace DineWithaDane.Android
 
 		protected void LeaveEvent()
 		{
-			MainActivity.CIF.CancelReg(Tilelist.GetFocus());
-			Tilelist.RemoveFocus();
+			MainActivity.CIF.CancelReg(Tilelist.PopFocus());
 		}
 	}
 }

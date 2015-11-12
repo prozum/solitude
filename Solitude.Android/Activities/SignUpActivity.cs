@@ -26,13 +26,13 @@ namespace DineWithaDane.Android
 			var password = FindViewById<EditText> (Resource.Id.editPassword);
 			var confirm = FindViewById<EditText> (Resource.Id.editConfirm);
 			var @continue = FindViewById<Button> (Resource.Id.buttonContinue);
-			var pb = FindViewById<ProgressBar> (Resource.Id.progressSignUp);
-
-			//Hide the progress bar at first
-			pb.Visibility = ViewStates.Invisible;
+			var layout = FindViewById<LinearLayout> (Resource.Id.layout);
 
 			@continue.Click += (sender, e) => 
 				{
+					var pb = new ProgressBar(this);
+					layout.AddView(pb);
+
 					if(username.Text != "" && password.Text != "" && confirm.Text != "" && name.Text != "" && address.Text != "")
 					{
 						@continue.Clickable = false;
@@ -51,10 +51,16 @@ namespace DineWithaDane.Android
 								var errorDialog = new AlertDialog.Builder(this);
 								errorDialog.SetMessage(MainActivity.CIF.LatestError);
 								RunOnUiThread(() => errorDialog.Show());
-
-								pb.Visibility = ViewStates.Invisible;
-								@continue.Clickable = true;
 							}
+
+							//Removes the spinner again
+							RunOnUiThread(() =>
+								{
+									layout.RemoveView(pb);
+									pb.Dispose();
+								});
+
+							@continue.Clickable = true;
 						});
 
 						/*
