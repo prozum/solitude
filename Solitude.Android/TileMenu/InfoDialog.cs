@@ -18,10 +18,12 @@ namespace DineWithaDane.Android
 	public class InfoDialog : Dialog
 	{
 		public Button SaveButton { get; set; }
+
 		public Button CancelButton { get; set; }
+
 		public ListView InfoList { get; set; }
 
-		public InfoDialog(Context context, InfoType type, IList info)
+		public InfoDialog(Context context, InfoType type, List<int> info)
 			: base(context)
 		{
 			RequestWindowFeature((int)WindowFeatures.NoTitle);
@@ -49,11 +51,20 @@ namespace DineWithaDane.Android
 		{
 			var res = new List<int>();
 
-			for (int i = 0; i < InfoList.ChildCount; i++) 
+			for (int i = 0; i < InfoList.ChildCount; i++)
 				if ((InfoList.GetChildAt(i) as CheckBox).Checked)
 					res.Add(i);
 
 			return res;
+		}
+
+		public void ItemsChecked(List<int> item)
+		{
+			item.Clear();
+
+			for (int i = 0; i < InfoList.ChildCount; i++)
+				if ((InfoList.GetChildAt(i) as CheckBox).Checked)
+					item.Add(i);
 		}
 	}
 }

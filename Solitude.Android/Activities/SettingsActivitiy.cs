@@ -63,17 +63,16 @@ namespace DineWithaDane.Android
 		TextView buttonChangeFoodHabits;
 		TextView buttonChangeInterests;
 
-		protected List<Language> Languages { get; set; }
-
-		protected List<Interest> Interests { get; set; }
-
-		protected List<FoodHabit> FoodHabits { get; set; }
+		protected List<List<int>> info { get; set; }
 
 		protected override void OnCreate(Bundle bundle)
 		{
 			// Layout setup
 			var settingsLayout = new LinearLayout(this);
 			settingsLayout.Orientation = Orientation.Vertical;
+
+			info = MainActivity.CIF.GetInformation();
+
 			/*
 			// Button setup
 			var deletbutton = new Button(this);
@@ -92,8 +91,7 @@ namespace DineWithaDane.Android
 			buttonChangeLanguage.Click += (object sender, EventArgs e) =>
 			{
 				buttonChangeLanguage.SetBackgroundColor(Color.Orange);
-				Languages = new List<Language>();
-				SetupEditDialog(InfoType.Language, Languages);
+				SetupEditDialog(InfoType.Language, info[(int)InfoType.Language]);
 			};
 
 			buttonChangeFoodHabits = new TextView(this);
@@ -105,8 +103,7 @@ namespace DineWithaDane.Android
 			buttonChangeFoodHabits.Click += (object sender, EventArgs e) =>
 			{
 				buttonChangeFoodHabits.SetBackgroundColor(Color.Orange);
-				FoodHabits = new List<FoodHabit>();
-				SetupEditDialog(InfoType.FoodHabit, FoodHabits);
+				SetupEditDialog(InfoType.FoodHabit, info[(int)InfoType.FoodHabit]);
 			};
 
 			buttonChangeInterests = new TextView(this);
@@ -118,8 +115,7 @@ namespace DineWithaDane.Android
 			buttonChangeInterests.Click += (object sender, EventArgs e) =>
 			{
 				buttonChangeInterests.SetBackgroundColor(Color.Orange);
-				Interests = new List<Interest>();
-				SetupEditDialog(InfoType.Interest, Interests);
+				SetupEditDialog(InfoType.Interest, info[(int)InfoType.Interest]);
 			};
 
 			buttonDeleteAccount = new TextView(this);
@@ -175,15 +171,14 @@ namespace DineWithaDane.Android
 			dialog.Show();
 		}
 
-		private void SetupEditDialog(InfoType type, IList info)
+		private void SetupEditDialog(InfoType type, List<int> info)
 		{
 			var dialog = new InfoDialog(this, type, info);
 
 			// adding functionallity to save button
 			dialog.SaveButton.Click += (s, e) =>
 			{
-				// adding selected info to list
-				dialog.ItemsChecked();
+				UpdateInfo(type, dialog.ItemsChecked());
 
 				// closing dialog
 				dialog.Dismiss();
@@ -205,6 +200,32 @@ namespace DineWithaDane.Android
 			};
 
 			dialog.Show();
+		}
+
+		private void UpdateInfo(InfoType type, List<int> changes)
+		{
+			//foreach (var item in info[(int)type])
+			for (int i = 0; i < info[(int)type].Count;)
+			{
+				if (!changes.Contains(info[(int)type][i]))
+				{
+					MainActivity.CIF.DeleteInformation(new InfoChange(type, info[(int)type][i]));
+					info[(int)type].Remove(info[(int)type][i]);
+				}
+				else
+				{
+					i++;
+				}
+			}
+
+			foreach (var item in changes)
+			{
+				if (!info[(int)type].Contains(item))
+				{
+					MainActivity.CIF.AddInformation(new InfoChange(type, item));
+					info[(int)type].Add(item);
+				}
+			}
 		}
 	}
 }

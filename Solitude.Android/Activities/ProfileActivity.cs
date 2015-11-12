@@ -22,18 +22,19 @@ using Uri = Android.Net.Uri;
 
 namespace DineWithaDane.Android
 {
-	[Activity (Label = "Profile", Icon = "@drawable/Profile_Icon")]
+	[Activity(Label = "Profile", Icon = "@drawable/Profile_Icon")]
 	public class ProfileActivity : DrawerActivity
 	{
 		protected User User { get; set; }
+
 		protected List<List<int>> Info { get; set; }
 
-		protected override void OnCreate (Bundle savedInstanceState)
+		protected override void OnCreate(Bundle savedInstanceState)
 		{
 			///var profile = new ProfileView(this, new User("Jimmi", "Jimmivej 12"));
 
 			// setting up drawer
-			base.OnCreate (savedInstanceState);
+			base.OnCreate(savedInstanceState);
 
 			ShowSpinner();
 
@@ -46,11 +47,11 @@ namespace DineWithaDane.Android
 					Info = MainActivity.CIF.GetInformation();
 
 					//Clear screen and show the found offers
-					RunOnUiThread( () => 
-					{
-						ClearLayout();
-						SetupUI();
-					});
+					RunOnUiThread(() =>
+						{
+							ClearLayout();
+							SetupUI();
+						});
 				});
 
 		}
@@ -61,7 +62,7 @@ namespace DineWithaDane.Android
 			var profile = LayoutInflater.Inflate(Resource.Layout.Profile, null);
 			Content.AddView(profile);
 
-			var picture  = FindViewById<ImageView>(Resource.Id.Image);
+			var picture = FindViewById<ImageView>(Resource.Id.Image);
 			var name = FindViewById<TextView>(Resource.Id.Name);
 			var address = FindViewById<TextView>(Resource.Id.Address);
 			var layout = FindViewById<LinearLayout>(Resource.Id.Layout);
@@ -104,86 +105,6 @@ namespace DineWithaDane.Android
 
 			layout.Text = text;
 			*/
-		}
-
-		private void EditDetails()
-		{
-			var dialog = new Dialog(this);
-			dialog.RequestWindowFeature((int)WindowFeatures.NoTitle);
-			dialog.SetContentView(Resource.Layout.EditDetails);
-
-			// getting relevant views
-			var nameview = dialog.FindViewById<AutoCompleteTextView>(Resource.Id.NameEditor);
-			var addressview = dialog.FindViewById<AutoCompleteTextView>(Resource.Id.AddressEditor);
-			//var imageview = dialog.FindViewById<ImageView>(Resource.Id.Image);
-			//var editimage = dialog.FindViewById<Button>(Resource.Id.EditImage);
-			var savebutton = dialog.FindViewById<Button>(Resource.Id.SaveButton);
-			var cancelbutton = dialog.FindViewById<Button>(Resource.Id.CancelButton);
-
-			// setting textbox info
-			nameview.Text = User.Name;
-			addressview.Text = User.Address;
-
-			/*
-			editimage.Click += (s, e) => 
-				{
-					var file = new File("profilepic.png");
-					Intent intent = new Intent(MediaStore.ActionImageCapture);
-
-					intent.PutExtra(MediaStore.ExtraOutput, Uri.FromFile(file));
-					StartActivityForResult(intent, 0);
-
-					imageview.SetImageURI(Uri.FromFile(file));
-				};
-				*/
-
-			// adding functionallity to save button
-			savebutton.Click += (s, e) => 
-				{
-					// updating user name and address
-					User.Name = nameview.Text;
-					User.Address = addressview.Text;
-
-					// updating ui
-					//UpdateDetails();
-
-					// closing dialog
-					dialog.Dismiss();
-				};
-
-			// adding functionallity to cancelbutton
-			cancelbutton.Click += (s, e) => 
-				{
-					// closing dialog
-					dialog.Dismiss();
-				};
-
-			// show dialog
-			dialog.Show();
-		}
-
-		private void SetupEditDialog(InfoType type, TextView layout)
-		{
-			var dialog = new InfoDialog(this, type, Info);
-
-			// adding functionallity to save button
-			dialog.SaveButton.Click += (s, e) => 
-				{
-					// updating ui
-					UpdateInfo(type, layout, dialog.ItemsChecked());
-
-					// closing dialog
-					dialog.Dismiss();
-				};
-
-			// adding functionallity to cancelbutton
-			dialog.CancelButton.Click += (s, e) => 
-				{
-					// closing dialog
-					dialog.Dismiss();
-				};
-
-			dialog.Show();
 		}
 	}
 }
