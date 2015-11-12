@@ -326,11 +326,22 @@ namespace ClientCommunication
 			return executeAndParseResponse(request);
 		}
 
-		public void GetUserData()
+		public List<string[]> GetUserData()
 		{
 			var request = buildRequest ("user", Method.GET);
 
-			var response = executeAndParseResponse (request);
+			var response = client.Execute (request);
+
+			List<string[]> CleanUserData = new List<string[]>();
+
+			string[] UserData = response.Content.Trim('{', '}').Split(',');
+
+			foreach (string Datapoint in UserData)
+			{
+				string[] CleanDataPoint = Datapoint.Trim('"').Split(':');
+				CleanUserData.Add(CleanDataPoint);
+			}
+			return CleanUserData;
 		}
 		#endregion
 
