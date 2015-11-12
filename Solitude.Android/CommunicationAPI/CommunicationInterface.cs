@@ -8,7 +8,6 @@ using System.Threading;
 
 using DineWithaDane.Android;
 
-
 using Newtonsoft.Json;
 using RestSharp;
 using RestSharp.Authenticators;
@@ -29,6 +28,15 @@ namespace ClientCommunication
 		/// </summary>
 		/// <value>The lastest error.</value>
 		public string LatestError { get; private set; }
+
+		private RestRequest buildRequest (string resource, Method method)
+		{
+			var req = new RestRequest(resource, method);
+			req.RequestFormat = DataFormat.Json;
+			req.AddHeader(HttpStrings.AUTHORIZATION, HttpStrings.BEARER + userToken);
+
+			return req;
+		}
 
 		#region parses
 		/// <summary>
@@ -82,105 +90,6 @@ namespace ClientCommunication
 			}
 		}
 
-		/* Not in use
-		/// <summary>
-		/// Parses a string to DateTime object.
-		/// </summary>
-		/// <returns>The DateTime specified in the string.</returns>
-		/// <param name="dt">DateTime as a string.</param>
-		private DateTime parseToDateTime(string dt)
-		{
-			string[] values = dt.Split('/', ' ');
-
-			try 
-			{
-				int date = int.Parse(values[0]);
-				int month = int.Parse(values[1]);
-				int year = int.Parse(values[2]);
-
-				return new DateTime(year, month, date);
-			}
-			catch (Exception e)
-			{
-				LatestError = "Couldn't convert date " + e.Message;
-				return DateTime.Today;
-			}
-		}
-		*/
-		#endregion
-
-		#region IClientCommunication implementation
-		#region OfferFetching
-		/// <summary>
-		/// Request the list of matches found by the server.
-		/// </summary>
-		/// <returns>A list of all Offers.</returns>
-		public List<Event> RequestOffers ()
-		{
-			var offerRequest = new RestRequest ("offer", Method.GET);
-			offerRequest.RequestFormat = DataFormat.Json;
-
-			offerRequest.AddBody(new { userToken = userToken });
-
-			var response = client.Execute(offerRequest);
-
-			if (response.StatusCode == 0)
-				LatestError = "No internet connection";
-			else if (response.StatusCode != HttpStatusCode.OK)
-				parseErrorMessage(response);
-			else
-				return parseEvents(response);
-
-			return new List<Event>();
-		}
-
-		/// <summary>
-		/// Replies the offer.
-		/// </summary>
-		/// <param name="answer">If set to <c>true</c> the user wants to join.</param>
-		/// <param name="e">Event which is being replied to.</param>
-		public void ReplyOffer (bool answer, Event e)
-		{
-			var request = new RestRequest ("offer", Method.PUT);
-			request.RequestFormat = DataFormat.Json;
-
-			var offerReply = new { eventId = e.ID, 
-								   userToken = userToken, 
-								   reply = answer 			};
-			
-			request.AddBody(offerReply);
-
-			executeAndParseResponse (request);
-		}
-		#endregion
-		#region Event fetching
-		/// <summary>
-		/// Gets the users own events.
-		/// </summary>
-		/// <returns>A list of the users events.</returns>
-		/// <param name="n">Amount of events to find.</param>
-		/// <param name="NEWEST">If set to <c>true</c> returns the newest events.</param>
-		public List<Event> GetOwnEvents (int n, bool NEWEST = true)
-		{
-			//Builds request
-			var eventRequest = new RestRequest ("host", Method.GET);
-			eventRequest.AddHeader(HttpStrings.AUTHORIZATION, HttpStrings.BEARER + userToken);
-
-			//Executes request and recieves response
-			var serverResponse = client.Execute(eventRequest);
-
-			//Parses the event if status code is OK else determine the error
-			if (serverResponse.StatusCode == 0)
-				LatestError = "No internet connection";
-			else if (serverResponse.StatusCode != HttpStatusCode.OK)
-				parseErrorMessage(serverResponse);
-			else
-				return parseEvents(serverResponse);
-
-			return new List<Event>();
-
-		}
-
 		/// <summary>
 		/// Parses the events from the server response.
 		/// </summary>
@@ -219,13 +128,97 @@ namespace ClientCommunication
 
 			return events;
 		}
+
+		private void parseInfoResponse(IRestResponse response, List<Tuple<InfoType, int>> infoList, InfoType type)
+		{
+			try
+			{
+				string trimmed = response.Content.Trim('[', ']');
+				string[] choises = trimmed.Split(',');
+
+				foreach (var choise in choises)
+				{
+					infoList.Add(new Tuple<InfoType, int>(type, int.Parse(choise)));
+				}
+				
+			}
+			catch
+			{
+				LatestError = "Could not parse interests";
+			}
+		}
+		#endregion
+
+		#region IClientCommunication implementation
+		#region OfferFetching
+		/// <summary>
+		/// Request the list of matches found by the server.
+		/// </summary>
+		/// <returns>A list of all Offers.</returns>
+		public List<Event> RequestOffers ()
+		{
+			var offerRequest = buildRequest ("offer", Method.GET);
+
+			offerRequest.AddBody(new { userToken = userToken });
+
+			var response = client.Execute(offerRequest);
+
+			if (response.StatusCode == 0)
+				LatestError = "No internet connection";
+			else if (response.StatusCode != HttpStatusCode.OK)
+				parseErrorMessage(response);
+			else
+				return parseEvents(response);
+
+			return new List<Event>();
+		}
+
+		/// <summary>
+		/// Replies the offer.
+		/// </summary>
+		/// <param name="answer">If set to <c>true</c> the user wants to join.</param>
+		/// <param name="e">Event which is being replied to.</param>
+		public void ReplyOffer (bool answer, Event e)
+		{
+			var request = buildRequest ("offer", Method.PUT);
+
+			var offerReply = new { 
+				eventId = e.ID, 
+				userToken = userToken, 
+				reply = answer 
+			};
 			
-//		#region Notification fetching
-//		public void GetNotification()
-//		{
-//			throw new NotImplementedException ();
-//		}
-//		#endregion
+			request.AddBody(offerReply);
+
+			executeAndParseResponse (request);
+		}
+		#endregion
+		#region Event fetching
+		/// <summary>
+		/// Gets the users own events.
+		/// </summary>
+		/// <returns>A list of the users events.</returns>
+		/// <param name="n">Amount of events to find.</param>
+		/// <param name="NEWEST">If set to <c>true</c> returns the newest events.</param>
+		public List<Event> GetOwnEvents (int n, bool NEWEST = true)
+		{
+			//Builds request
+			var eventRequest = buildRequest ("host", Method.GET);
+
+			//Executes request and recieves response
+			var serverResponse = client.Execute(eventRequest);
+
+			//Parses the event if status code is OK else determine the error
+			if (serverResponse.StatusCode == 0)
+				LatestError = "No internet connection";
+			else if (serverResponse.StatusCode != HttpStatusCode.OK)
+				parseErrorMessage(serverResponse);
+			else
+				return parseEvents(serverResponse);
+
+			return new List<Event>();
+
+		}
 		#endregion
 		#region User-handling
 
@@ -236,28 +229,18 @@ namespace ClientCommunication
 		public bool CreateUser (string Username, string Password, string ConfirmedPassword)
 		{
 			//Build request and user
-			var request = new RestRequest ("user/register", Method.POST);
+			var request = new RestRequest("user/register", Method.POST);
 			var user = new { username = Username, 
 							 password = Password, 
 							 confirmPassword = ConfirmedPassword };
 
 			//Alters request format to json and add information
 			request.RequestFormat = DataFormat.Json;
-			request.AddBody (user);
+			request.AddBody(user);
 
 			//Execute and await response
-			return executeAndParseResponse (request);
+			return executeAndParseResponse(request);
 		}
-
-		/// <summary>
-		/// Confirms that a user can be created with the following infomation
-		/// </summary>
-		/// <returns><c>true</c> if information is valid, <c>false</c> ordervise</returns>
-		public bool ConfirmUser(string Username, string Password, string ConfirmedPassword)
-		{
-			return true;
-		}
-
 
 		/// <summary>
 		/// Updates the user specified by id.
@@ -265,9 +248,7 @@ namespace ClientCommunication
 		/// <param name="i">A reference to a <see cref="DineWithaDane.InfoChange"/> containing Key and Value of the change.</param>
 		public void AddInformation (InfoChange i)
 		{
-			var request = new RestRequest ("info/add", Method.POST);
-
-			request.AddHeader(HttpStrings.AUTHORIZATION, HttpStrings.BEARER + userToken);
+			var request = buildRequest ("info", Method.POST);
 
 			request.AddBody(i);
 
@@ -280,13 +261,30 @@ namespace ClientCommunication
 		/// <param name="i">A reference to a <see cref="DineWithaDane.InfoChange"/> containing Key and Value of the change.</param>
 		public void DeleteInformation (InfoChange i)
 		{
-			var request = new RestRequest("info/delete", Method.DELETE);
-
-			request.AddHeader(HttpStrings.AUTHORIZATION, HttpStrings.BEARER + userToken);
+			var request = buildRequest("info", Method.DELETE);
 
 			request.AddBody(i);
 
 			executeAndParseResponse(request);
+		}
+
+		public List<Tuple<InfoType, int>> GetInformation ()
+		{
+			var foodRequest = buildRequest (string.Format("info/{0}", InfoType.FoodHabit.ToString()), Method.GET);
+			var interestRequest = buildRequest(string.Format("info/{0}", InfoType.Interest), Method.GET);
+			var langRequest = buildRequest(string.Format("info/{0}", InfoType.Language), Method.GET);
+
+			var interestList = new List<Tuple<InfoType, int>>();
+
+			var foodReponse = client.Execute(foodRequest);
+			var interestResponse = client.Execute(interestRequest);
+			var langResponse = client.Execute(langRequest);
+
+			parseInfoResponse(foodReponse, interestList, InfoType.FoodHabit);
+			parseInfoResponse(interestResponse, interestList, InfoType.Interest);
+			parseInfoResponse(langResponse, interestList, InfoType.Language);
+
+			return interestList;
 		}
 
 		/// <summary>
@@ -295,10 +293,7 @@ namespace ClientCommunication
 		/// <param name="u">User to delete.</param>
 		public void DeleteUser ()
 		{
-			var deleteRequest = new RestRequest ("user/delete", Method.DELETE);
-			deleteRequest.RequestFormat = DataFormat.Json;
-
-			deleteRequest.AddHeader(HttpStrings.AUTHORIZATION, HttpStrings.BEARER + userToken);
+			var deleteRequest = buildRequest ("user", Method.DELETE);
 
 			//Adds body to the request
 			var body = new { userToken = userToken };
@@ -370,12 +365,7 @@ namespace ClientCommunication
 		/// <param name="e">Event to create.</param>
 		public bool CreateEvent (Event e)
 		{
-			var request = new RestRequest ("host", Method.POST);
-
-			request.RequestFormat = DataFormat.Json;
-
-			//Add authorization header:
-			request.AddHeader(HttpStrings.AUTHORIZATION, HttpStrings.BEARER + userToken);
+			var request = buildRequest ("host", Method.POST);
 
 			//And the body containing event-informatinon
 			var body = new { 
@@ -410,10 +400,8 @@ namespace ClientCommunication
 		/// <param name="e">Event to update</param>
 		public void UpdateEvent (Event e)
 		{
-			var request = new RestRequest ("host", Method.PUT);
-			request.AddHeader(HttpStrings.AUTHORIZATION, HttpStrings.BEARER + userToken);
+			var request = buildRequest ("host", Method.PUT);
 
-			request.RequestFormat = DataFormat.Json;
 			request.AddBody(new {
 				Id = e.ID,
 				Date = e.Date.ToString(), 
@@ -433,10 +421,7 @@ namespace ClientCommunication
 		/// <param name="e">Event to delete.</param>
 		public void DeleteEvent (Event e)
 		{
-			var request = new RestRequest ("host/" + e.ID, Method.DELETE);
-			request.AddHeader(HttpStrings.AUTHORIZATION, HttpStrings.BEARER + userToken);
-
-			request.AddParameter ("id", e.ID);
+			var request = buildRequest ("host/" + e.ID, Method.DELETE);
 
 			executeAndParseResponse (request);
 		}
@@ -447,9 +432,7 @@ namespace ClientCommunication
 		/// </summary>
 		public void CancelReg (Event e)
 		{
-			//Generate request and set DataFormat
-			var request = new RestRequest ("event", Method.DELETE);
-			request.RequestFormat = DataFormat.Json;
+			var request = buildRequest ("event", Method.DELETE);
 
 			//Add body to request
 			var cancelBody = new { eventId = e.ID,
@@ -466,9 +449,7 @@ namespace ClientCommunication
 		/// <param name="r">The review to post.</param>
 		public void PostReview(Review r)
 		{
-			var request = new RestRequest("review/add", Method.POST);
-			request.RequestFormat = DataFormat.Json;
-			request.AddHeader(HttpStrings.AUTHORIZATION, HttpStrings.BEARER + userToken);
+			var request = buildRequest("review/add", Method.POST);
 
 			//Adds a body to the request containing the reciew
 			var review = new { rating = r.Rating,

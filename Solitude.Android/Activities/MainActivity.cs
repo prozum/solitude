@@ -90,6 +90,7 @@ namespace DineWithaDane.Android
 						//Moves on to next activity, if login is succesful
 						if(loggedIn)
 						{
+							CIF.GetInformation();
 							Intent toProfile = new Intent(this, typeof(ProfileActivity));
 							StartActivity(toProfile);
 						}

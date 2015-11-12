@@ -9,41 +9,21 @@ namespace DineWithaDane.Android
 {
 	public class ReviewNotification : Notification
 	{
-		public ReviewNotification (NotificationPosition position, Event evnt, string title, string text, string time, Activity activity, ObservableCollection<Notification> notificationList) : base(position, title, text, time, Color.IndianRed, Color.Red, activity, notificationList)
+		public ReviewNotification (Event evnt, Activity activity, ObservableCollection<Notification> notificationList) 
+			: base(evnt.Title, evnt.Description, evnt.Date.ToString(), activity, notificationList)
 		{
-			this.notificationList = notificationList;
+			//Initialize the two buttons
+			RightButton.Text = "Review";
 
-			var buttonKeeper = new LinearLayout (activity);
-			buttonKeeper.Orientation = Orientation.Horizontal;
-			buttonKeeper.SetBackgroundColor (Color.Red);
+			LeftButton.Text = "Dismiss";
 
-			var buttonReview = new Button (activity);
-			buttonReview.Text = "Review";
-			buttonReview.Gravity = GravityFlags.Center;
-			buttonReview.SetWidth (displaySize.X / 3);
-
-			var buttonDismiss = new Button (activity);
-			buttonDismiss.Text = "Dismiss";
-			buttonDismiss.Gravity = GravityFlags.Center;
-			buttonDismiss.SetWidth (displaySize.X / 3);
-
-			buttonReview.Click += (object sender, EventArgs e) => new Review(evnt, activity, notificationList, this);
-
-			buttonDismiss.Click += (object sender, EventArgs e) => 
+			//Add functionality to buttons
+			this.Click /*buttonReview.Click*/ += (object sender, EventArgs e) => new Review(evnt, activity, notificationList, this);
+			LeftButton.Click += (object sender, EventArgs e) => 
 				{
 					Review newReview = new Review (evnt, activity);
+					notificationList.Remove(this);
 				};
-
-			buttonDismiss.Click += (object sender, EventArgs e) => notificationList.Remove(this);
-
-			buttonKeeper.AddView (buttonReview);
-			buttonKeeper.AddView (buttonDismiss);
-
-			AddView (buttonKeeper);
-
-			var filler = new Button (activity);
-			filler.Visibility = ViewStates.Invisible;
-			AddView (filler);
 		}
 	}
 }
