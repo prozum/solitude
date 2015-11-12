@@ -51,37 +51,40 @@ namespace DineWithaDane.Android
 			public const int drawerselector = 2130837505;
 			
 			// aapt resource value: 0x7f020002
-			public const int Events_Icon = 2130837506;
+			public const int Event_Inv = 2130837506;
 			
 			// aapt resource value: 0x7f020003
-			public const int Host_Icon = 2130837507;
+			public const int Events_Icon = 2130837507;
 			
 			// aapt resource value: 0x7f020004
-			public const int ic_navigation_drawer = 2130837508;
+			public const int Host_Icon = 2130837508;
 			
 			// aapt resource value: 0x7f020005
-			public const int Icon = 2130837509;
+			public const int ic_navigation_drawer = 2130837509;
 			
 			// aapt resource value: 0x7f020006
-			public const int Logout_Icon = 2130837510;
+			public const int Icon = 2130837510;
 			
 			// aapt resource value: 0x7f020007
-			public const int Main_Icon = 2130837511;
+			public const int Logout_Icon = 2130837511;
 			
 			// aapt resource value: 0x7f020008
-			public const int Notification_Icon = 2130837512;
+			public const int Main_Icon = 2130837512;
 			
 			// aapt resource value: 0x7f020009
-			public const int Offer_Icon = 2130837513;
+			public const int Notification_Icon = 2130837513;
 			
 			// aapt resource value: 0x7f02000a
-			public const int orange = 2130837514;
+			public const int Offer_Icon = 2130837514;
 			
 			// aapt resource value: 0x7f02000b
-			public const int Profile_Icon = 2130837515;
+			public const int orange = 2130837515;
 			
 			// aapt resource value: 0x7f02000c
-			public const int Settings_Icon = 2130837516;
+			public const int Profile_Icon = 2130837516;
+			
+			// aapt resource value: 0x7f02000d
+			public const int Settings_Icon = 2130837517;
 			
 			static Drawable()
 			{
@@ -96,11 +99,11 @@ namespace DineWithaDane.Android
 		public partial class Id
 		{
 			
+			// aapt resource value: 0x7f05001c
+			public const int Address = 2131034140;
+			
 			// aapt resource value: 0x7f05000e
 			public const int AddressEditor = 2131034126;
-			
-			// aapt resource value: 0x7f05001d
-			public const int AgeView = 2131034141;
 			
 			// aapt resource value: 0x7f05000b
 			public const int CancelButton = 2131034123;
@@ -108,8 +111,20 @@ namespace DineWithaDane.Android
 			// aapt resource value: 0x7f050004
 			public const int CancelDeletionBtn = 2131034116;
 			
-			// aapt resource value: 0x7f05001f
-			public const int EditProfileButton = 2131034143;
+			// aapt resource value: 0x7f05001a
+			public const int EditDetails = 2131034138;
+			
+			// aapt resource value: 0x7f050022
+			public const int EditFoodHabits = 2131034146;
+			
+			// aapt resource value: 0x7f050020
+			public const int EditInterests = 2131034144;
+			
+			// aapt resource value: 0x7f05001e
+			public const int EditLanguages = 2131034142;
+			
+			// aapt resource value: 0x7f050021
+			public const int FoodHabits = 2131034145;
 			
 			// aapt resource value: 0x7f050007
 			public const int Image = 2131034119;
@@ -117,26 +132,20 @@ namespace DineWithaDane.Android
 			// aapt resource value: 0x7f05000a
 			public const int InfoList = 2131034122;
 			
-			// aapt resource value: 0x7f05001e
-			public const int InfoView = 2131034142;
+			// aapt resource value: 0x7f050029
+			public const int InnerRelativeLayout = 2131034153;
 			
-			// aapt resource value: 0x7f050026
-			public const int InnerRelativeLayout = 2131034150;
+			// aapt resource value: 0x7f05001f
+			public const int Interests = 2131034143;
+			
+			// aapt resource value: 0x7f05001d
+			public const int Languages = 2131034141;
+			
+			// aapt resource value: 0x7f05001b
+			public const int Name = 2131034139;
 			
 			// aapt resource value: 0x7f05000d
 			public const int NameEditor = 2131034125;
-			
-			// aapt resource value: 0x7f05001c
-			public const int NameView = 2131034140;
-			
-			// aapt resource value: 0x7f05001a
-			public const int ProfileDataLayout = 2131034138;
-			
-			// aapt resource value: 0x7f050019
-			public const int ProfileLayout = 2131034137;
-			
-			// aapt resource value: 0x7f05001b
-			public const int ProfilePictureView = 2131034139;
 			
 			// aapt resource value: 0x7f05000c
 			public const int SaveButton = 2131034124;
@@ -144,8 +153,8 @@ namespace DineWithaDane.Android
 			// aapt resource value: 0x7f050008
 			public const int Text = 2131034120;
 			
-			// aapt resource value: 0x7f05002b
-			public const int buttonContinue = 2131034155;
+			// aapt resource value: 0x7f05002e
+			public const int buttonContinue = 2131034158;
 			
 			// aapt resource value: 0x7f050017
 			public const int buttonLogin = 2131034135;
@@ -159,8 +168,8 @@ namespace DineWithaDane.Android
 			// aapt resource value: 0x7f050009
 			public const int buttons = 2131034121;
 			
-			// aapt resource value: 0x7f050027
-			public const int cancelReviewButton = 2131034151;
+			// aapt resource value: 0x7f05002a
+			public const int cancelReviewButton = 2131034154;
 			
 			// aapt resource value: 0x7f050003
 			public const int checkBox1 = 2131034115;
@@ -174,8 +183,8 @@ namespace DineWithaDane.Android
 			// aapt resource value: 0x7f050000
 			public const int drawer_layout = 2131034112;
 			
-			// aapt resource value: 0x7f05002a
-			public const int editConfirm = 2131034154;
+			// aapt resource value: 0x7f05002d
+			public const int editConfirm = 2131034157;
 			
 			// aapt resource value: 0x7f050016
 			public const int editPassword = 2131034134;
@@ -198,23 +207,26 @@ namespace DineWithaDane.Android
 			// aapt resource value: 0x7f050010
 			public const int linearLayout1 = 2131034128;
 			
-			// aapt resource value: 0x7f050028
-			public const int postReviewButton = 2131034152;
+			// aapt resource value: 0x7f05002b
+			public const int postReviewButton = 2131034155;
 			
-			// aapt resource value: 0x7f05002c
-			public const int progressSignUp = 2131034156;
+			// aapt resource value: 0x7f05002f
+			public const int progressSignUp = 2131034159;
+			
+			// aapt resource value: 0x7f050026
+			public const int ratingbar = 2131034150;
 			
 			// aapt resource value: 0x7f050023
-			public const int ratingbar = 2131034147;
+			public const int reviewTitle = 2131034147;
 			
-			// aapt resource value: 0x7f050020
-			public const int reviewTitle = 2131034144;
+			// aapt resource value: 0x7f050028
+			public const int reviewUserInput = 2131034152;
 			
-			// aapt resource value: 0x7f050025
-			public const int reviewUserInput = 2131034149;
+			// aapt resource value: 0x7f050019
+			public const int sep = 2131034137;
 			
-			// aapt resource value: 0x7f050029
-			public const int textConfirm = 2131034153;
+			// aapt resource value: 0x7f05002c
+			public const int textConfirm = 2131034156;
 			
 			// aapt resource value: 0x7f050015
 			public const int textPassword = 2131034133;
@@ -222,14 +234,14 @@ namespace DineWithaDane.Android
 			// aapt resource value: 0x7f050013
 			public const int textUsername = 2131034131;
 			
-			// aapt resource value: 0x7f050022
-			public const int textView1 = 2131034146;
+			// aapt resource value: 0x7f050025
+			public const int textView1 = 2131034149;
+			
+			// aapt resource value: 0x7f050027
+			public const int textView2 = 2131034151;
 			
 			// aapt resource value: 0x7f050024
-			public const int textView2 = 2131034148;
-			
-			// aapt resource value: 0x7f050021
-			public const int underscore = 2131034145;
+			public const int underscore = 2131034148;
 			
 			static Id()
 			{

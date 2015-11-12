@@ -28,6 +28,7 @@ namespace DineWithaDane.Android
 			SetContentView (Resource.Layout.Main);
 			Button loginButton = FindViewById<Button> (Resource.Id.buttonLogin);
 			Button signUp = FindViewById<Button> (Resource.Id.buttonSignUp);
+			var layout = FindViewById<LinearLayout> (Resource.Id.layoutMain);
 
 			//Adds a delegates to the buttons
 			loginButton.Click += loginButtonClicked;
@@ -36,6 +37,17 @@ namespace DineWithaDane.Android
 					var signUpScreenIntent = new Intent(this, typeof(SignUpActivity));
 					StartActivity(signUpScreenIntent);
 				};
+
+			#if DEBUG
+			var skip = new Button(this);
+			skip.Text = "Skip";
+			skip.Click += (sender, e) =>
+				{
+					var toProfile = new Intent(this, typeof(ProfileActivity));
+					StartActivity(toProfile);
+				};
+			layout.AddView(skip);
+			#endif
 		}
 
 		/// <summary>
@@ -46,9 +58,9 @@ namespace DineWithaDane.Android
 		private void loginButtonClicked(object sender, EventArgs e)
 		{
 			//Finds the views from the layout
-			Button loginButton = FindViewById<Button> (Resource.Id.buttonLogin);
-			EditText username = FindViewById<EditText> (Resource.Id.editUsername);
-			EditText password = FindViewById<EditText> (Resource.Id.editPassword);
+			var loginButton = FindViewById<Button> (Resource.Id.buttonLogin);
+			var username = FindViewById<EditText> (Resource.Id.editUsername);
+			var password = FindViewById<EditText> (Resource.Id.editPassword);
 
 			loginButton.Clickable = false;
 
@@ -78,6 +90,7 @@ namespace DineWithaDane.Android
 						//Moves on to next activity, if login is succesful
 						if(loggedIn)
 						{
+							CIF.GetInformation();
 							Intent toProfile = new Intent(this, typeof(ProfileActivity));
 							StartActivity(toProfile);
 						}

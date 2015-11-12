@@ -9,25 +9,14 @@ namespace DineWithaDane.Android
 {
 	public class OfferNotification : Notification
 	{
-		public OfferNotification (string title, string text, string time, Activity activity, ObservableCollection<Notification> notificationList) : base(NotificationPosition.Left, title, text, time, Color.OrangeRed, Color.Orange, activity, notificationList)
+		public OfferNotification (Event e, Activity activity, ObservableCollection<Notification> notificationList)
+			: base(e.Title, string.Format("{0}/{1} participants", e.MaxSlots - e.SlotsLeft, e.MaxSlots), e.Date.ToString(), activity, notificationList)
 		{
-			var buttonKeeper = new LinearLayout (activity);
-			buttonKeeper.Orientation = Orientation.Horizontal;
-			buttonKeeper.SetBackgroundColor (Color.Orange);
+			LeftButton.Text = "Decline";
 
-			var buttonLeft = new Button (activity);
-			buttonLeft.Text = "View";
-			buttonLeft.Gravity = GravityFlags.Center;
-			buttonLeft.SetWidth (displaySize.X / 3);
 
-			//			buttonLeft.Click += 
+			RightButton.Text = "Accept";
 
-			buttonKeeper.AddView (buttonLeft);
-			AddView (buttonKeeper);
-
-			var filler = new Button (activity);
-			filler.Visibility = ViewStates.Invisible;
-			AddView (filler);
 		}
 	}
 }

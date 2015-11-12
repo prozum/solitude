@@ -40,14 +40,13 @@ namespace DineWithaDane.Android
 
 	public class InfoChange
 	{
-		public InfoType t { get; private set; }
-		public int val { get; private set; }
+		public InfoType Info { get; private set; }
+		public int Value { get; private set; }
 
 		public InfoChange (InfoType key, int value)
 		{
-			t = key;
-			val = value;
+			Info = key;
+			Value = value;
 		}
 	}
 }
-
