@@ -416,7 +416,7 @@ namespace Dal
 		public async Task<IEnumerable<Event>> GetAttendingEvents (string uid)
 		{
 			var attending = await client.Cypher
-				.Match ("(user:User)-[:ATTENDING]->(event:Event)")
+				.Match ("(user:User)-[:ATTENDS]->(event:Event)")
 				.Where ((User user) => user.Id == uid)
 				.Return (() => Return.As<Event> ("event"))
 				.ResultsAsync;
