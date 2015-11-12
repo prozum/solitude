@@ -386,10 +386,10 @@ namespace Dal
 			var res = await client.Cypher
 				.Match ("(user:User)-[:MATCHED]->(event:Event)")
 				.Where((User user) => user.Id == uid)
-				.Return (() => Return.As<IEnumerable<Event>> ("collect(event)"))
+				.Return (() => Return.As<Event> ("event"))
 				.ResultsAsync;
 
-			return res.First();
+			return res;
 		}
 
 		/// <summary>
