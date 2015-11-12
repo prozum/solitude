@@ -4,7 +4,7 @@ obj/
 
 Solitude.Server/App.config
 
-Solitude.Android/Resources/Resource.designer.cs
+Resource.designer.cs
 *~
 *.userprefs
 *.suo
