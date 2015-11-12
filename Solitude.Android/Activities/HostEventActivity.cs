@@ -99,6 +99,7 @@ namespace DineWithaDane.Android
 
 			date = new DatePicker(this);
 			date.DateTime = DateTime.Now;
+			date.CalendarViewShown = false;
 			date.Id = 0x0005;
 
 			dateCurrent = new TextView(this);
