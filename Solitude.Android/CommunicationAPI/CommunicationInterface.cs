@@ -129,7 +129,7 @@ namespace ClientCommunication
 			return events;
 		}
 
-		private void parseInfoResponse(IRestResponse response, List<Tuple<InfoType, int>> infoList, InfoType type)
+		private void parseInfoResponse(IRestResponse response, List<int> infoList)
 		{
 			try
 			{
@@ -137,10 +137,7 @@ namespace ClientCommunication
 				string[] choises = trimmed.Split(',');
 
 				foreach (var choise in choises)
-				{
-					infoList.Add(new Tuple<InfoType, int>(type, int.Parse(choise)));
-				}
-				
+					infoList.Add(int.Parse(choise));
 			}
 			catch
 			{
@@ -268,21 +265,24 @@ namespace ClientCommunication
 			executeAndParseResponse(request);
 		}
 
-		public List<Tuple<InfoType, int>> GetInformation ()
+		public List<List<int>> GetInformation ()
 		{
 			var foodRequest = buildRequest (string.Format("info/{0}", InfoType.FoodHabit.ToString()), Method.GET);
 			var interestRequest = buildRequest(string.Format("info/{0}", InfoType.Interest), Method.GET);
 			var langRequest = buildRequest(string.Format("info/{0}", InfoType.Language), Method.GET);
 
-			var interestList = new List<Tuple<InfoType, int>>();
+			var interestList = new List<List<int>>();
+
+			for (int i = 0; i <Enum.GetValues(typeof(InfoType)).Length; i++)
+				interestList.Add(new List<int>());
 
 			var foodReponse = client.Execute(foodRequest);
 			var interestResponse = client.Execute(interestRequest);
 			var langResponse = client.Execute(langRequest);
 
-			parseInfoResponse(foodReponse, interestList, InfoType.FoodHabit);
-			parseInfoResponse(interestResponse, interestList, InfoType.Interest);
-			parseInfoResponse(langResponse, interestList, InfoType.Language);
+			parseInfoResponse(foodReponse, interestList[(int)InfoType.FoodHabit]);
+			parseInfoResponse(interestResponse, interestList[(int)InfoType.Interest]);
+			parseInfoResponse(langResponse, interestList[(int)InfoType.Language]);
 
 			return interestList;
 		}
