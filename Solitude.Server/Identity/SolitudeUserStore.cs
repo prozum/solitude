@@ -5,16 +5,16 @@ using Dal;
 
 namespace Solitude.Server
 {
-    public class SolitudeUserStore : Neo4jUserStore<ApplicationUser>
+    public class SolitudeUserStore : Neo4jUserStore<SolitudeUser>
     {
         private readonly DatabaseAbstrationLayer _dal;
 
-        public SolitudeUserStore(IGraphClient graphClient, DatabaseAbstrationLayer DAL) : base(graphClient)
+        public SolitudeUserStore(IGraphClient graphClient, DatabaseAbstrationLayer dal) : base(graphClient)
         {
-            _dal = DAL;
+            _dal = dal;
         }
 
-        public async Task DeleteAsyncFixed(ApplicationUser user)
+        public async Task DeleteAsyncFixed(SolitudeUser user)
         {
             Throw.ArgumentException.IfNull(user, "user");
 

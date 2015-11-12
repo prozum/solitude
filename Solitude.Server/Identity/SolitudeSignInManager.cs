@@ -8,16 +8,16 @@ using Neo4j.AspNet.Identity;
 namespace Solitude.Server
 {
     // Configure the application sign-in manager which is used in this application.
-    public class SolitudeSignInManager : SignInManager<ApplicationUser, string>
+    public class SolitudeSignInManager : SignInManager<SolitudeUser, string>
     {
         public SolitudeSignInManager(SolitudeUserManager userManager, IAuthenticationManager authenticationManager)
             : base(userManager, authenticationManager)
         {
         }
 
-        public override Task<ClaimsIdentity> CreateUserIdentityAsync(ApplicationUser user)
+        public override Task<ClaimsIdentity> CreateUserIdentityAsync(SolitudeUser user)
         {
-            return user.GenerateUserIdentityAsync((SolitudeUserManager)UserManager);
+            return user.GenerateUserIdentityAsyncFixed((SolitudeUserManager)UserManager);
         }
 
         public static SolitudeSignInManager Create(IdentityFactoryOptions<SolitudeSignInManager> options, IOwinContext context)

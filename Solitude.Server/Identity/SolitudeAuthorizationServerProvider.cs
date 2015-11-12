@@ -23,7 +23,7 @@ namespace Solitude.Server
 
             var userManager = context.OwinContext.GetUserManager<SolitudeUserManager>();
 
-            ApplicationUser user = await userManager.FindAsync(context.UserName, context.Password);
+            var user = await userManager.FindAsync(context.UserName, context.Password);
 
             if (user == null)
             {
@@ -31,7 +31,7 @@ namespace Solitude.Server
                 return;
             }
 
-            ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(userManager);
+            ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsyncFixed(userManager);
 
             var ticket = new AuthenticationTicket(oAuthIdentity, null);
 
