@@ -47,7 +47,6 @@ namespace DineWithaDane.Android
 								if (MainActivity.CIF.CreateUser(name.Text, address.Text, birthday.DateTime, username.Text, password.Text, confirm.Text) &&
 								    MainActivity.CIF.Login(username.Text, password.Text))
 								{
-
 									var dialog = new AlertDialog.Builder(this);
 									dialog.SetTitle("Profile was successfully created.");
 									dialog.SetMessage("Do you want to set your profile information now?");
@@ -73,7 +72,6 @@ namespace DineWithaDane.Android
 								}
 
 								//Removes the spinner again
-
 								RunOnUiThread(() => pb.Dismiss());
 
 								@continue.Clickable = true;
