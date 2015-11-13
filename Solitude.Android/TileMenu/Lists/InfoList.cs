@@ -24,14 +24,6 @@ namespace DineWithaDane.Android
 		public InfoList(Context context, InfoAdapter adapter)
 			: base(context, adapter)
 		{
-			ExpListView.GroupClick += (sender, e) => 
-				{
-					if (Adapter.Items[e.GroupPosition].Count != 0)
-						if (ExpListView.IsGroupExpanded(e.GroupPosition)) 
-							ExpListView.CollapseGroup(e.GroupPosition);
-						else
-							ExpListView.ExpandGroup(e.GroupPosition);
-				};
 
 			Initialize();
 		}

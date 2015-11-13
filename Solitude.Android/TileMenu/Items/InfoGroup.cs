@@ -23,6 +23,7 @@ namespace DineWithaDane.Android
 		public string Title { set { TitleView.Text = value; } }
 
 		protected TextView TitleView { get; set; }
+		protected ImageView Arrow { get; set; }
 		#endregion
 
 
@@ -35,6 +36,7 @@ namespace DineWithaDane.Android
 			: base(context)
 		{
 			TitleView = new TextView(context);
+			Arrow = new ImageView(context);
 
 			TitleView.SetTypeface(null, TypefaceStyle.Bold);
 
@@ -42,20 +44,51 @@ namespace DineWithaDane.Android
 		}
 		#endregion
 
+		#region Public Methods
+		public void SetArrowDirection(Direction direction)
+		{
+			switch (direction)
+			{
+				case Direction.Down:
+					Arrow.SetImageResource(Resource.Drawable.ArrowDown);
+					break;
+				case Direction.Up:
+					Arrow.SetImageResource(Resource.Drawable.ArrowUp);
+					break;
+				default:
+					throw new NotImplementedException();
+			}
+		}
+		#endregion
 
 		#region Private Methods
 		protected override void Initialize()
 		{
-			AddView(TitleView);
-			AddView(SeperatorView);
+			var layout = new RelativeLayout(Context);
+			var titleparams = new RelativeLayout.LayoutParams(-2, -2);
+			var arrowparmas = new RelativeLayout.LayoutParams(100, -2);
 
-			TitleView.LayoutParameters.Width = -1;
-			SeperatorView.LayoutParameters.Width = -1;
+			layout.AddView(TitleView);
+			layout.AddView(Arrow);
+			AddView(layout);
+			AddView(SeperatorView);
 
 			TitleView.TextSize = 20;
 			TitleView.SetPadding(0, 8, 0, 8);
 			TitleView.SetTypeface(null, TypefaceStyle.Bold);
 
+			Arrow.Id = 22;
+			TitleView.Id = 23;
+			SeperatorView.LayoutParameters.Width = -1;
+			titleparams.AddRule(LayoutRules.LeftOf, Arrow.Id);
+			titleparams.AddRule(LayoutRules.AlignParentLeft);
+			arrowparmas.AddRule(LayoutRules.AlignParentRight);
+			arrowparmas.AddRule(LayoutRules.AlignTop, TitleView.Id);
+			arrowparmas.AddRule(LayoutRules.AlignBottom, TitleView.Id);
+			Arrow.SetPadding(0, 12, 0, 12);
+
+			TitleView.LayoutParameters = titleparams;
+			Arrow.LayoutParameters = arrowparmas;
 		}
 		#endregion
 	}

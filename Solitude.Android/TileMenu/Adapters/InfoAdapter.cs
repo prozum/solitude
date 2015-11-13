@@ -90,6 +90,11 @@ namespace DineWithaDane.Android
 			// set view information
 			view.Title = Titles[groupPosition];
 
+			if (isExpanded)
+				view.SetArrowDirection(Direction.Up);
+			else
+				view.SetArrowDirection(Direction.Down);
+
 			return view;
 		}
 
