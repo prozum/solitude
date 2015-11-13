@@ -49,8 +49,15 @@ namespace DineWithaDane.Android
 		}
 		#endregion
 
+		#region Public Methods
+		public T PopFocus()
+		{
+			var res = GetFocus();
+			RemoveFocus();
 
-		#region Private Methods
+			return res;
+		}
+
 		public void RemoveFocus()
 		{
 			Adapter.RemoveAt(Focus);
@@ -60,6 +67,9 @@ namespace DineWithaDane.Android
 		{
 			return Adapter.Items[Focus];
 		}
+		#endregion
+
+		#region Private Methods
 
 		protected virtual void Initialize()
 		{

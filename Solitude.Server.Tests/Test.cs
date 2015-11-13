@@ -3,7 +3,6 @@ using System;
 using RestSharp;
 using System.Net;
 using Newtonsoft.Json;
-using Model;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
@@ -13,28 +12,27 @@ namespace Solitude.Server.Tests
 	public class Tests : TestMethods
 	{
 
+		public Tests ()
+		{
+		}
 		[TestFixtureSetUp()]
 		public void StartUp()
 		{
 			e.Address = "Test Street 101";
-			e.Date = "2016-11-10";
+			e.Date = "2016/11/10-12:12:12";
 			e.Description = "Literally the greatest event ever";
 			e.SlotsTaken = 0;
 			e.SlotsTotal = 10;
-			e.Title = "[Test]" + r.Next (0, 9999);
-		}
-
-		public Tests ()
-		{
+			e.Title = "[You should not see this]";
 		}
 
 		/*[Test()]
 		public void TestUsers ()
 		{
-			for (int i = 0; i < 5000; i++) {
+			for (int i = 0; i < 500; i++) {
 				RegisterUser ();
 				Login ();
-				if (i % 5 == 0) {
+				if (i % 4 == 0) {
 					AddEvent ();
 				}
 				for (int j = 0; j < 2; j++) {
@@ -45,7 +43,7 @@ namespace Solitude.Server.Tests
 				if (i % 50 == 0)
 				{
 					GetOffers ();
-					ReplyOffer ();
+					//ReplyOffer ();
 				}
 			}
 		}*/
@@ -155,12 +153,21 @@ namespace Solitude.Server.Tests
 		}
 
 		[Test()]
-		public void TestCaseReplyOffer()
+		public void TestCaseAcceptOffer()
 		{
 			RegisterUser ();
 			Login ();
 			GetOffers ();
-			ReplyOffer ();
+			ReplyOffer (true);
+		}
+
+		[Test()]
+		public void TestCaseDeclineOffer()
+		{
+			RegisterUser ();
+			Login ();
+			GetOffers ();
+			ReplyOffer (false);
 		}
 
 		[Test()]
@@ -178,7 +185,7 @@ namespace Solitude.Server.Tests
 			RegisterUser ();
 			Login ();
 			GetOffers ();
-			ReplyOffer ();
+			ReplyOffer (true);
 			GetAttendingEvents ();
 		}
 
@@ -231,7 +238,7 @@ namespace Solitude.Server.Tests
 			RegisterUser ();
 			Login ();
 			GetOffers ();
-			ReplyOffer ();
+			ReplyOffer (true);
 			CancelRegistration ();
 		}
 

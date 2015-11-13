@@ -105,6 +105,7 @@
     <Compile Include="TileMenu\Items\InfoItem.cs" />
     <Compile Include="TileMenu\Adapters\InfoAdapter.cs" />
     <Compile Include="TileMenu\Lists\InfoList.cs" />
+    <Compile Include="Classes\Direction.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -145,6 +146,8 @@
     <AndroidResource Include="Resources\layout\DrawerItem.axml" />
     <AndroidResource Include="Resources\drawable\Event_Inv.png" />
     <AndroidResource Include="Resources\layout\Profile.axml" />
+    <AndroidResource Include="Resources\drawable\ArrowDown.png" />
+    <AndroidResource Include="Resources\drawable\ArrowUp.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

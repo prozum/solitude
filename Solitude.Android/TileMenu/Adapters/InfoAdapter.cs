@@ -20,8 +20,8 @@ namespace DineWithaDane.Android
 		public static readonly string[] Titles = new string[]
 			{
 				"Languages",
-				"Interests",
-				"Food Habits"
+				"Interested in",
+				"Food Preferences"
 			};
 		
 		public static readonly string[][] Names = new string[][]
@@ -90,11 +90,10 @@ namespace DineWithaDane.Android
 			// set view information
 			view.Title = Titles[groupPosition];
 
-			// set seperator visibility
 			if (isExpanded)
-				view.SetSeperatorVisibility(ViewStates.Gone);
+				view.SetArrowDirection(Direction.Up);
 			else
-				view.SetSeperatorVisibility(ViewStates.Visible);
+				view.SetArrowDirection(Direction.Down);
 
 			return view;
 		}
