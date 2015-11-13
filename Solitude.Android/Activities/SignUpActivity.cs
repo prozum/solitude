@@ -28,80 +28,62 @@ namespace DineWithaDane.Android
 			var @continue = FindViewById<Button>(Resource.Id.buttonContinue);
 			var layout = FindViewById<LinearLayout>(Resource.Id.layout);
 
+			birthday.MaxDate = new Java.Util.Date().Time;
+
 			@continue.Click += (sender, e) =>
-			{
-				var pb = new ProgressBar(this);
-				layout.AddView(pb);
-
-				if (username.Text != "" && password.Text != "" && confirm.Text != "" && name.Text != "" && address.Text != "")
 				{
-					@continue.Clickable = false;
 
-					ThreadPool.QueueUserWorkItem(o =>
-						{
-							RunOnUiThread(() => pb.Visibility = ViewStates.Visible);
+					if (username.Text != "" && password.Text != "" && confirm.Text != "" && name.Text != "" && address.Text != "")
+					{
+						var pb = new AlertDialog.Builder(this).Create();
+						pb.SetView(new ProgressBar(this));
+						pb.SetCancelable(false);
+						RunOnUiThread(() => pb.Show());
 
-							if (MainActivity.CIF.CreateUser(name.Text, address.Text, birthday.DateTime, username.Text, password.Text, confirm.Text) &&
-							    MainActivity.CIF.Login(username.Text, password.Text))
-							{
-								var toProfile = new Intent(this, typeof(ProfileActivity));
-								StartActivity(toProfile);
-							}
-							else
-							{
-								var errorDialog = new AlertDialog.Builder(this);
-								errorDialog.SetMessage(MainActivity.CIF.LatestError);
-								RunOnUiThread(() => errorDialog.Show());
-							}
-
-							//Removes the spinner again
-							RunOnUiThread(() =>
-								{
-									layout.RemoveView(pb);
-									pb.Dispose();
-								});
-
-							@continue.Clickable = true;
-						});
-
-					/*
 						@continue.Clickable = false;
-						var CIF = new CommunicationInterface();
-						pb.Visibility = global::Android.Views.ViewStates.Visible;
-						bool success = false;
 
-						ThreadPool.QueueUserWorkItem( o => {
-							success = CIF.CreateUser(username.Text, password.Text, confirm.Text);
-
-							RunOnUiThread(() => {
-								pb.Visibility = global::Android.Views.ViewStates.Invisible;
-							});
-
-							if(success)
+						ThreadPool.QueueUserWorkItem(o =>
 							{
-								var toLogin = new Intent(this, typeof(MainActivity));
-								StartActivity(toLogin);
-							}
-							else
-							{
-								var errorDialog = new AlertDialog.Builder(this);
-								errorDialog.SetMessage(CIF.LatestError);
-								RunOnUiThread(() => {
-									errorDialog.Show();
-								});
+								if (MainActivity.CIF.CreateUser(name.Text, address.Text, birthday.DateTime, username.Text, password.Text, confirm.Text) &&
+								    MainActivity.CIF.Login(username.Text, password.Text))
+								{
+									var dialog = new AlertDialog.Builder(this);
+									dialog.SetTitle("Profile was successfully created.");
+									dialog.SetMessage("Do you want to set your profile information now?");
+									dialog.SetCancelable(false);
+									dialog.SetNegativeButton("No", delegate
+											{ 
+												var toProfile = new Intent(this, typeof(ProfileActivity));
+												StartActivity(toProfile);
+											});
+									dialog.SetNeutralButton("Yes", delegate
+											{
+												var toSettings = new Intent(this, typeof(SettingsActivitiy));
+												StartActivity(toSettings);
+											});
+									RunOnUiThread(() => dialog.Show());
+
+								}
+								else
+								{
+									var errorDialog = new AlertDialog.Builder(this);
+									errorDialog.SetMessage(MainActivity.CIF.LatestError);
+									RunOnUiThread(() => errorDialog.Show());
+								}
+
+								//Removes the spinner again
+								RunOnUiThread(() => pb.Dismiss());
 
 								@continue.Clickable = true;
-							}
-						});
-						*/
-				}
-				else
-				{
-					var errorDialog = new AlertDialog.Builder(this);
-					errorDialog.SetMessage("Missing some information, please make sure all fields are filled correctly");
-					errorDialog.Show();
-				}
-			};
+							});
+					}
+					else
+					{
+						var errorDialog = new AlertDialog.Builder(this);
+						errorDialog.SetMessage("Missing some information, please make sure all fields are filled correctly");
+						errorDialog.Show();
+					}
+				};
 		}
 	}
 }

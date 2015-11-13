@@ -106,6 +106,7 @@
     <Compile Include="TileMenu\Adapters\InfoAdapter.cs" />
     <Compile Include="TileMenu\Lists\InfoList.cs" />
     <Compile Include="TileMenu\AlertDialog.cs" />
+    <Compile Include="Classes\Direction.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -132,7 +133,6 @@
     <AndroidResource Include="Resources\layout\CheckedListViewItem.axml" />
     <AndroidResource Include="Resources\layout\EditComparableInfo.axml" />
     <AndroidResource Include="Resources\layout\EditDetails.axml" />
-    <AndroidResource Include="Resources\drawable\border_ui.xml" />
     <AndroidResource Include="Resources\drawable\orange.xml" />
     <AndroidResource Include="Resources\drawable\drawerselector.xml" />
     <AndroidResource Include="Resources\drawable\Host_Icon.png" />
@@ -146,6 +146,10 @@
     <AndroidResource Include="Resources\layout\DrawerItem.axml" />
     <AndroidResource Include="Resources\drawable\Event_Inv.png" />
     <AndroidResource Include="Resources\layout\Profile.axml" />
+    <AndroidResource Include="Resources\drawable\ArrowDown.png" />
+    <AndroidResource Include="Resources\drawable\ArrowUp.png" />
+    <AndroidResource Include="Resources\values\styles.xml" />
+    <AndroidResource Include="Resources\drawable\buttonstyle.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

@@ -1,4 +1,9 @@
-﻿
+﻿/*
+ * I'm a dumbass.
+ * 			- Jimmi
+ */
+
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -90,6 +95,18 @@ namespace DineWithaDane.Android
 			// set view information
 			view.Title = Titles[groupPosition];
 
+			if (isExpanded)
+			{
+				view.SetArrowDirection(Direction.Up);
+				if (Items[groupPosition].Count != 0)
+					view.SetSeperatorVisibility(ViewStates.Gone);
+			}
+			else
+			{
+				view.SetArrowDirection(Direction.Down);
+				view.SetSeperatorVisibility(ViewStates.Visible);
+			}
+
 			return view;
 		}
 
@@ -112,6 +129,12 @@ namespace DineWithaDane.Android
 
 			// set view information
 			view.Descrition = Names[groupPosition][Items[groupPosition][childPosition]];
+
+			if (Items[groupPosition].Count - 1 == childPosition)
+				view.SetSeperatorVisibility(ViewStates.Visible);
+			else
+				view.SetSeperatorVisibility(ViewStates.Invisible);
+				
 
 			return view;
 		}
