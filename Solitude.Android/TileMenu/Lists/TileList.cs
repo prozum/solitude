@@ -16,6 +16,8 @@ namespace DineWithaDane.Android
 	public abstract class TileList<T> : RelativeLayout
 	{
 		#region Fields
+		public int Count { get { return Adapter.GroupCount; } }
+
 		protected ExpandableListView ExpListView { get; set; }
 		protected BaseTileListAdapter<T> Adapter { get;	set; }
 		protected int Focus	{ get; set;	}
@@ -61,6 +63,7 @@ namespace DineWithaDane.Android
 		public void RemoveFocus()
 		{
 			Adapter.RemoveAt(Focus);
+			ExpListView.CollapseGroup(Focus);
 		}
 
 		public T GetFocus()

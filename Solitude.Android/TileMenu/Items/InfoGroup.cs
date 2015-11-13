@@ -38,8 +38,6 @@ namespace DineWithaDane.Android
 			TitleView = new TextView(context);
 			Arrow = new ImageView(context);
 
-			TitleView.SetTypeface(null, TypefaceStyle.Bold);
-
 			Initialize();
 		}
 		#endregion
@@ -66,7 +64,7 @@ namespace DineWithaDane.Android
 		{
 			var layout = new RelativeLayout(Context);
 			var titleparams = new RelativeLayout.LayoutParams(-2, -2);
-			var arrowparmas = new RelativeLayout.LayoutParams(100, -2);
+			var arrowparmas = new RelativeLayout.LayoutParams(80, -2);
 
 			layout.AddView(TitleView);
 			layout.AddView(Arrow);
@@ -75,7 +73,6 @@ namespace DineWithaDane.Android
 
 			TitleView.TextSize = 20;
 			TitleView.SetPadding(0, 8, 0, 8);
-			TitleView.SetTypeface(null, TypefaceStyle.Bold);
 
 			Arrow.Id = 22;
 			TitleView.Id = 23;
@@ -85,7 +82,7 @@ namespace DineWithaDane.Android
 			arrowparmas.AddRule(LayoutRules.AlignParentRight);
 			arrowparmas.AddRule(LayoutRules.AlignTop, TitleView.Id);
 			arrowparmas.AddRule(LayoutRules.AlignBottom, TitleView.Id);
-			Arrow.SetPadding(0, 12, 0, 12);
+			Arrow.SetPadding(0, 20, 0, 20);
 
 			TitleView.LayoutParameters = titleparams;
 			Arrow.LayoutParameters = arrowparmas;

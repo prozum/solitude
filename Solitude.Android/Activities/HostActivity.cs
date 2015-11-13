@@ -19,6 +19,7 @@ namespace DineWithaDane.Android
 	public class HostActivity : DrawerActivity
 	{
 		protected HostedEventList Tilelist { get; set; }
+		protected RelativeLayout InternalContent { get; set; }
 
 		protected override void OnCreate(Bundle bundle)
 		{
@@ -39,11 +40,24 @@ namespace DineWithaDane.Android
 					PrepareLooper();
 
 					var events = MainActivity.CIF.GetHostedEvents(100);
-					var adapter = new HostedEventListAdapter(this, events);
-					Tilelist = new HostedEventList(this, adapter, (s, e) => DeleteEvent(), (s, e) => EditEvent());
-					var tilelistparams = new RelativeLayout.LayoutParams(-1, -2);
 
-					var internalContent = new RelativeLayout(this);
+					View view;
+					var viewparams = new RelativeLayout.LayoutParams(-1, -2);
+
+					if (events.Count != 0) 
+					{
+						var adapter = new HostedEventListAdapter(this, events);
+						Tilelist = new HostedEventList(this, adapter, (s, e) => DeleteEvent(), (s, e) => EditEvent());
+						view = Tilelist;
+					}
+					else 
+					{
+						view = new TextView(this);
+						(view as TextView).Text = "You are hosting no events. To host an event, click the \"Host New Event\" button.";
+					}
+
+
+					InternalContent = new RelativeLayout(this);
 
 					var hostNewEventButton = new Button(this);
 					var hostbuttonparams = new RelativeLayout.LayoutParams(-1, -2);
@@ -57,18 +71,18 @@ namespace DineWithaDane.Android
 					};
 
 					hostNewEventButton.Id = 30;
-					tilelistparams.AddRule(LayoutRules.Above, hostNewEventButton.Id);
-					tilelistparams.AddRule(LayoutRules.AlignParentTop);
+					viewparams.AddRule(LayoutRules.Above, hostNewEventButton.Id);
+					viewparams.AddRule(LayoutRules.AlignParentTop);
 					hostbuttonparams.AddRule(LayoutRules.AlignParentBottom);
 
 					RunOnUiThread(() =>
 						{
 							ClearLayout();
-							Content.AddView(internalContent);
-							internalContent.AddView(Tilelist);
-							internalContent.AddView(hostNewEventButton);
+							Content.AddView(InternalContent);
+							InternalContent.AddView(view);
+							InternalContent.AddView(hostNewEventButton);
 							hostNewEventButton.LayoutParameters = hostbuttonparams;
-							Tilelist.LayoutParameters = tilelistparams;
+							view.LayoutParameters = viewparams;
 						});
 				});
 		}
@@ -83,6 +97,15 @@ namespace DineWithaDane.Android
 			alert.SetButton("Yes, Cancel", (object senders, DialogClickEventArgs ev) =>
 				{
 					MainActivity.CIF.DeleteEvent(Tilelist.PopFocus());
+
+					if (Tilelist.Count == 0)
+					{
+						var text = new TextView(this);
+						text.Text = "You are hosting no events. To host an event, click the \"Host New Event\" button.";
+
+						InternalContent.RemoveView(Tilelist);
+						InternalContent.AddView(text);
+					}
 				});
 			alert.Show();
 		}

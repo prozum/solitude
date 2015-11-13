@@ -30,14 +30,26 @@ namespace DineWithaDane.Android
 					PrepareLooper();
 
 					var events = MainActivity.CIF.GetJoinedEvents(100);
-					var adapter = new JoinedEventListAdapter(this, events);
-					Tilelist = new JoinedEventList(this, adapter, (s, e) => LeaveEvent());
+
+					View view;
+
+					if (events.Count != 0) 
+					{
+						var adapter = new JoinedEventListAdapter(this, events);
+						Tilelist = new JoinedEventList(this, adapter, (s, e) => LeaveEvent());
+						view = Tilelist;
+					}
+					else 
+					{
+						view = new TextView(this);
+						(view as TextView).Text = "There is nothing here. Go to Offers to find new events.";
+					}
 
 					//Clear screen and show the found offers
 					RunOnUiThread( () => 
 						{
 							ClearLayout();
-							Content.AddView(Tilelist);
+							Content.AddView(view);
 						});
 				});
 		}

@@ -46,17 +46,16 @@ namespace DineWithaDane.Android
 		{
 			Drawer = CurrentActivity.FindViewById<DrawerLayout> (Resource.Id.drawer_layout);
 			DrawerList = CurrentActivity.FindViewById<ListView> (Resource.Id.left_drawer);
-			//DrawerList.SetSelector(Resource.Drawable.orange);
 
 			DrawerList.Adapter = new DrawerAdapter(CurrentActivity, Sections);
 
-			//DrawerList.Adapter = new ArrayAdapter<string> (CurrentActivity, Resource.Layout.item_menu, Sections);
 			DrawerList.SetItemChecked (Position, true);
 
 			DrawerList.ItemClick += DrawerListOnItemClick;
 		}
 
-		public void DrawerToggleSetup () {
+		public void DrawerToggleSetup () 
+		{
 			DrawerToggle = new ActionBarDrawerToggle (
 				CurrentActivity, 
 				Drawer, 

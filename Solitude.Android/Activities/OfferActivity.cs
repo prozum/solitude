@@ -30,14 +30,26 @@ namespace DineWithaDane.Android
 					PrepareLooper();
 					
 					var offers = MainActivity.CIF.RequestOffers();
-					var adapter = new OfferListAdapter(this, offers);
-					Tilelist = new OfferList(this, adapter, (s, e) => AcceptOffer(), (s, e) => DeclineOffer());
+
+					View view;
+
+					if (offers.Count != 0) 
+					{
+						var adapter = new OfferListAdapter(this, offers);
+						Tilelist = new OfferList(this, adapter, (s, e) => AcceptOffer(), (s, e) => DeclineOffer());
+						view = Tilelist;
+					} 
+					else 
+					{
+						view = new TextView(this);
+						(view as TextView).Text = "No offers where found.";
+					}
 
 					//Clear screen and show the found offers
 					RunOnUiThread( () => 
 						{
 							ClearLayout();
-							Content.AddView(Tilelist);
+							Content.AddView(view);
 						});
 				});
 		}
@@ -45,11 +57,25 @@ namespace DineWithaDane.Android
 		protected void AcceptOffer()
 		{
 			MainActivity.CIF.ReplyOffer(true, Tilelist.PopFocus());
+			NoMoreOffers();
 		}
 
 		protected void DeclineOffer()
 		{
 			MainActivity.CIF.ReplyOffer(false, Tilelist.PopFocus());
+			NoMoreOffers();
+		}
+
+		protected void NoMoreOffers()
+		{
+			if (Tilelist.Count == 0)
+			{
+				var text = new TextView(this);
+				text.Text = "You have no more offers.";
+
+				Content.RemoveAllViews();
+				Content.AddView(text);
+			}
 		}
 	}
 }
