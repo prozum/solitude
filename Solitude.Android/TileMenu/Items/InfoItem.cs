@@ -33,6 +33,13 @@ namespace DineWithaDane.Android
 		}
 		#endregion
 
+		#region Public Methods
+		public void SetSeperatorVisibility(ViewStates state)
+		{
+			SeperatorView.Visibility = state;
+		}
+		#endregion
+
 		#region Private Methods
 		protected override void Initialize()
 		{

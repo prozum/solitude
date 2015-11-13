@@ -24,7 +24,6 @@ namespace DineWithaDane.Android
 		public InfoList(Context context, InfoAdapter adapter)
 			: base(context, adapter)
 		{
-
 			Initialize();
 		}
 	}
