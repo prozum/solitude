@@ -117,7 +117,7 @@ namespace Solitude.Server.Tests
 
 			Event receivedEvent = parseEvents (response, false);
 
-			Assert.AreEqual (e.Id, receivedEvent.Id, "The received event was not equal to the one created");
+			Assert.AreEqual (e.Id, receivedEvent.Id, "The received event was not equal to the one created", receivedEvent);
 		}
 
 		public void GetCharacteristica (int Characteristica, int Value)
@@ -147,12 +147,12 @@ namespace Solitude.Server.Tests
 			Assert.AreNotEqual (new Event().Id, Offers.Id, "An error has occured, it is likely no offers were returned");
 		}
 
-		public void ReplyOffer()
+		public void ReplyOffer(bool answer)
 		{
 			var request = buildRequest ("offer", Method.POST);
 
 			var Reply = new {
-				Value = true,
+				Value = answer,
 				EventId = Offers.Id
 			};
 			request.AddBody (Reply);
@@ -302,6 +302,7 @@ namespace Solitude.Server.Tests
 
 			Assert.AreEqual (testUsername, receivedUserData.UserName.ToString(), "The received username is not the same as the actual: " + response.Content);
 		}
+			
 
 		public RestRequest buildRequest(string resource, Method method)
 		{
