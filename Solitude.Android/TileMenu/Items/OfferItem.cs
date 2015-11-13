@@ -17,6 +17,9 @@ namespace DineWithaDane.Android
 	public class OfferItem : TileListItem
 	{
 		#region Fields
+		public string MatchedBy { set{ MatchedByView.Text = value; } }
+
+		protected TextView MatchedByView { get; set; }
 		protected Button AcceptButton {	get; set; }
 		protected Button DeclineButton { get; set; }
 		#endregion
@@ -31,12 +34,10 @@ namespace DineWithaDane.Android
 		public OfferItem(Context context, EventHandler onAccept, EventHandler onDecline)
 			: base(context)
 		{
-			AcceptButton = new Button(context);
-			DeclineButton = new Button(context);
+			MatchedByView = new TextView(context);
 
-			AcceptButton.Text = "Accept";
-			DeclineButton.Text = "Decline";
-
+			AcceptButton = new Button(context) { Text = "Accept" };
+			DeclineButton = new Button(context) { Text = "Decline" };
 
 			AcceptButton.Click += onAccept;
 			DeclineButton.Click += onDecline;
@@ -52,6 +53,8 @@ namespace DineWithaDane.Android
 			buttonlayout.Orientation = Orientation.Horizontal;
 
 			AddView(DescritionView);
+			AddView(new TextView(Context) { Text = "Matched by:" });
+			AddView(MatchedByView);
 			AddView(buttonlayout);
 			buttonlayout.AddView(AcceptButton);
 			buttonlayout.AddView(DeclineButton);

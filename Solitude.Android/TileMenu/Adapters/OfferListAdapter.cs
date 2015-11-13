@@ -88,6 +88,7 @@ namespace DineWithaDane.Android
 
 			// set view information
 			view.Descrition = Items[groupPosition].Description;
+			//view.MatchedBy = Items[groupPosition]
 
 			return view;
 		}
