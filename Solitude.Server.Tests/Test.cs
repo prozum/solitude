@@ -153,12 +153,21 @@ namespace Solitude.Server.Tests
 		}
 
 		[Test()]
-		public void TestCaseReplyOffer()
+		public void TestCaseAcceptOffer()
 		{
 			RegisterUser ();
 			Login ();
 			GetOffers ();
-			ReplyOffer ();
+			ReplyOffer (true);
+		}
+
+		[Test()]
+		public void TestCaseDeclineOffer()
+		{
+			RegisterUser ();
+			Login ();
+			GetOffers ();
+			ReplyOffer (false);
 		}
 
 		[Test()]
@@ -176,7 +185,7 @@ namespace Solitude.Server.Tests
 			RegisterUser ();
 			Login ();
 			GetOffers ();
-			ReplyOffer ();
+			ReplyOffer (true);
 			GetAttendingEvents ();
 		}
 
@@ -229,7 +238,7 @@ namespace Solitude.Server.Tests
 			RegisterUser ();
 			Login ();
 			GetOffers ();
-			ReplyOffer ();
+			ReplyOffer (true);
 			CancelRegistration ();
 		}
 
