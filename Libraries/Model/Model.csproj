@@ -47,6 +47,8 @@
     <Compile Include="Reply.cs" />
     <Compile Include="InfoUpdate.cs" />
     <Compile Include="UserData.cs" />
+    <Compile Include="Offer.cs" />
+    <Compile Include="Match.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

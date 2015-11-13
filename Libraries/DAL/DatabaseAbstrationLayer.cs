@@ -358,14 +358,14 @@ namespace Dal
 				.AndWhere ((User rest) => rest.Id != uid)
 				.AndWhere ((Event e) => e.SlotsTotal > e.SlotsTaken)
 				.OptionalMatch ("user-[w1:WANTS]->(interest:Interest)<-[w2:WANTS]-rest")
-				.With ("user, rest, e, sum(w1.weight) + sum(w2.weight) as wt1")
+				.With ("user, rest, e, sum(w1.weight) + sum(w2.weight) as wt1, collect(interest.Id) as int")
 				.OptionalMatch ("user-[w3:WANTS]->(language:Language)<-[w4:WANTS]-rest")
-				.With ("user, rest, e, wt1, sum(w3.weight) + sum(w4.weight) as wt2")
+				.With ("user, rest, e, wt1, sum(w3.weight) + sum(w4.weight) as wt2, int, collect(language.Id) as lang")
 				.OptionalMatch ("user-[w5:WANTS]->(foodhabit:FoodHabit)<-[w6:WANTS]-rest")
-				.With ("user, e, wt1, wt2, sum(w5.weight) + sum(w6.weight) as wt3")
+				.With ("user, e, wt1, wt2, sum(w5.weight) + sum(w6.weight) as wt3, int, lang, collect(foodhabit.Id) as food")
 				.OrderBy ("(wt1+wt2+wt3) DESC")
 				.Limit (LIMIT)
-				.Create ("user-[m:MATCHED]->e")
+				.CreateUnique("user-[m:MATCHED { Interests:int,Languages:lang,FoodHabits:food}]->e")
 				.ExecuteWithoutResultsAsync ();
 
 			/*
@@ -381,15 +381,27 @@ namespace Dal
 		/// </summary>
 		/// <returns>Task<IEnumerable<Event>> with the offers(events)</returns>
 		/// <param name="uid">The user's id</param>
-		public async Task<IEnumerable<Event>> GetOffers (string uid)
+		public async Task<IEnumerable<Offer>> GetOffers (string uid)
 		{
 			var res = await client.Cypher
-				.Match ("(user:User)-[:MATCHED]->(event:Event)")
+				.Match ("(user:User)-[m:MATCHED]->(e:Event)")
 				.Where((User user) => user.Id == uid)
-				.Return (() => Return.As<Event> ("event"))
+				.Return((e, m) => new
+					{
+						Offer = e.As<Offer>(),
+						Match = m.As<Match>()
+					})
 				.ResultsAsync;
 
-			return res;
+			// Combine Match and Offer
+			var offers = new List<Offer> ();
+			foreach (var pair in res) 
+			{
+				pair.Offer.Match = pair.Match;
+				offers.Add(pair.Offer);
+			}
+				
+			return offers.AsEnumerable();
 		}
 
 		/// <summary>
