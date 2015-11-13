@@ -105,6 +105,7 @@
     <Compile Include="TileMenu\Items\InfoItem.cs" />
     <Compile Include="TileMenu\Adapters\InfoAdapter.cs" />
     <Compile Include="TileMenu\Lists\InfoList.cs" />
+    <Compile Include="TileMenu\AlertDialog.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
