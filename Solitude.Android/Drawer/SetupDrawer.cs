@@ -59,7 +59,7 @@ namespace DineWithaDane.Android
 			DrawerToggle = new ActionBarDrawerToggle (
 				CurrentActivity, 
 				Drawer, 
-				Resource.Drawable.ic_navigation_drawer, 
+				Resource.Drawable.ic_view_headline_black_36dp, 
 				Resource.String.open_drawer, 
 				Resource.String.close_drawer);
 
