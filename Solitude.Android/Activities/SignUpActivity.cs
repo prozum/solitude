@@ -9,44 +9,45 @@ using Android.Views;
 
 namespace DineWithaDane.Android
 {
-	[Activity (Label = "Solitude.Android")]
+	[Activity(Label = "Solitude.Android")]
 	public class SignUpActivity : Activity
 	{
-		protected override void OnCreate (Bundle savedInstanceState)
+		protected override void OnCreate(Bundle savedInstanceState)
 		{
 			//Setup
-			base.OnCreate (savedInstanceState);
-			SetContentView (Resource.Layout.SignUp);
+			base.OnCreate(savedInstanceState);
+			SetContentView(Resource.Layout.SignUp);
 
 			//Finds all widgets on the SignUp-layout
-			var name = FindViewById<EditText> (Resource.Id.editSignUpName);
+			var name = FindViewById<EditText>(Resource.Id.editSignUpName);
 			var birthday = FindViewById<DatePicker>(Resource.Id.signupBirthday);
 			var address = FindViewById<EditText>(Resource.Id.editAddress);
-			var username = FindViewById<EditText> (Resource.Id.editUsername);
-			var password = FindViewById<EditText> (Resource.Id.editPassword);
-			var confirm = FindViewById<EditText> (Resource.Id.editConfirm);
-			var @continue = FindViewById<Button> (Resource.Id.buttonContinue);
-			var layout = FindViewById<LinearLayout> (Resource.Id.layout);
+			var username = FindViewById<EditText>(Resource.Id.editUsername);
+			var password = FindViewById<EditText>(Resource.Id.editPassword);
+			var confirm = FindViewById<EditText>(Resource.Id.editConfirm);
+			var @continue = FindViewById<Button>(Resource.Id.buttonContinue);
+			var layout = FindViewById<LinearLayout>(Resource.Id.layout);
 
-			@continue.Click += (sender, e) => 
+			@continue.Click += (sender, e) =>
+			{
+				var pb = new ProgressBar(this);
+				layout.AddView(pb);
+
+				if (username.Text != "" && password.Text != "" && confirm.Text != "" && name.Text != "" && address.Text != "")
 				{
-					var pb = new ProgressBar(this);
-					layout.AddView(pb);
+					@continue.Clickable = false;
 
-					if(username.Text != "" && password.Text != "" && confirm.Text != "" && name.Text != "" && address.Text != "")
-					{
-						@continue.Clickable = false;
-
-						ThreadPool.QueueUserWorkItem( o => {
+					ThreadPool.QueueUserWorkItem(o =>
+						{
 							RunOnUiThread(() => pb.Visibility = ViewStates.Visible);
 
 							if (MainActivity.CIF.CreateUser(name.Text, address.Text, birthday.DateTime, username.Text, password.Text, confirm.Text) &&
-								MainActivity.CIF.Login(username.Text, password.Text)) 
+							    MainActivity.CIF.Login(username.Text, password.Text))
 							{
 								var toProfile = new Intent(this, typeof(ProfileActivity));
 								StartActivity(toProfile);
-							} 
-							else 
+							}
+							else
 							{
 								var errorDialog = new AlertDialog.Builder(this);
 								errorDialog.SetMessage(MainActivity.CIF.LatestError);
@@ -63,7 +64,7 @@ namespace DineWithaDane.Android
 							@continue.Clickable = true;
 						});
 
-						/*
+					/*
 						@continue.Clickable = false;
 						var CIF = new CommunicationInterface();
 						pb.Visibility = global::Android.Views.ViewStates.Visible;
@@ -93,14 +94,14 @@ namespace DineWithaDane.Android
 							}
 						});
 						*/
-					}
-					else
-					{
-						var errorDialog = new AlertDialog.Builder(this);
-						errorDialog.SetMessage("Missing some information, please make sure all fields are filled correctly");
-						errorDialog.Show();
-					}
-				};
+				}
+				else
+				{
+					var errorDialog = new AlertDialog.Builder(this);
+					errorDialog.SetMessage("Missing some information, please make sure all fields are filled correctly");
+					errorDialog.Show();
+				}
+			};
 		}
 	}
 }
