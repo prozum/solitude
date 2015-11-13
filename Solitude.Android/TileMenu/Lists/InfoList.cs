@@ -27,11 +27,6 @@ namespace DineWithaDane.Android
 
 			Initialize();
 		}
-
-		protected override void SetGroupIndicator()
-		{
-			ExpListView.SetGroupIndicator(null);
-		}
 	}
 }
 
