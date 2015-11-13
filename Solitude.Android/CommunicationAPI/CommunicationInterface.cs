@@ -119,7 +119,7 @@ namespace ClientCommunication
 					int ID = parseToInt(jVal["Id"]);
 					string title = jVal["Title"];
 					string desc = jVal["Description"];
-					DateTime dt = ParseDate(jVal["Date"]);
+					DateTime dt = parseDate(jVal["Date"]);
 					string adress = jVal["Address"];
 					int slotsTotal = parseToInt(jVal["SlotsTotal"]);
 					int slotsTaken = parseToInt(jVal["SlotsTaken"]);
@@ -135,15 +135,15 @@ namespace ClientCommunication
 			return events;
 		}
 
-		public DateTime ParseDate(string s)
+		public DateTime parseDate(string s)
 		{
 			try
 			{
-				return DateTime.ParseExact(s, "yyyy/MM/dd-hh:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+				return DateTime.ParseExact(s, "yyyy/M/dd-hh:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
 			}
 			catch
 			{
-				return DateTime.Parse(s);
+				return DateTime.ParseExact(s, "yyyy/MM/dd-hh:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
 			}
 		}
 
@@ -287,12 +287,11 @@ namespace ClientCommunication
 		/// <param name="e">Event which is being replied to.</param>
 		public void ReplyOffer (bool answer, Event e)
 		{
-			var request = buildRequest ("offer", Method.PUT);
+			var request = buildRequest ("offer", Method.POST);
 
 			var offerReply = new { 
-				eventId = e.ID, 
-				userToken = userToken, 
-				reply = answer 
+				EventId = e.ID, 
+				Value = answer 
 			};
 
 			request.AddBody(offerReply);
@@ -327,15 +326,6 @@ namespace ClientCommunication
 		}
 		#endregion
 		#region User-handling
-		public List<Dictionary<string, string>> GetGeneralInformation()
-		{
-			var request = buildRequest("user", Method.GET);
-
-			client.Execute(request);
-
-			return null;
-		}
-
 		/// <summary>
 		/// Creates a new user on the server.
 		/// </summary>
@@ -347,7 +337,7 @@ namespace ClientCommunication
 			var user = new {
 				name = Name,
 				address = address,
-				birthdate = birthday.ToString("yyyy/MM/dd-hh:mm:ss"), 
+				birthdate = string.Format("{0}/{1}/{2}-12:00:00", birthday.Year, birthday.Month, birthday.Day), 
 				username = Username, 
 				password = Password, 
 				confirmPassword = ConfirmedPassword };
@@ -360,22 +350,41 @@ namespace ClientCommunication
 			return executeAndParseResponse(request);
 		}
 
-		public List<string[]> GetUserData()
+		public User GetUserData()
 		{
 			var request = buildRequest ("user", Method.GET);
 
 			var response = client.Execute (request);
 
-			List<string[]> CleanUserData = new List<string[]>();
-
-			string[] UserData = response.Content.Trim('{', '}').Split(',');
-
-			foreach (string Datapoint in UserData)
+			if (response.StatusCode == 0)
 			{
-				string[] CleanDataPoint = Datapoint.Trim('"').Split(':');
-				CleanUserData.Add(CleanDataPoint);
+				LatestError = "No connection to server";
+				return new User("Sample name", "Sample address", DateTime.Today);
 			}
-			return CleanUserData;
+			else if (response.StatusCode == HttpStatusCode.OK)
+			{
+				JsonValue jVal = System.Json.JsonObject.Parse(response.Content);
+
+				try
+				{
+					string name = jVal["Name"];
+					string adr = jVal["Address"];
+					DateTime birthday = parseDate(jVal["Birthdate"]);
+
+					return new User(name, adr, birthday);
+				}
+				catch
+				{
+					LatestError = "Could not find user data";
+				}
+
+				return new User("Sample name", "Sample address", DateTime.Today);
+			}
+			else
+			{
+				parseErrorMessage(response);
+				return new User("Sample name", "Sample address", DateTime.Today);
+			}
 		}
 		#endregion
 

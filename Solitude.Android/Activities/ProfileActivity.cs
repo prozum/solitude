@@ -43,8 +43,8 @@ namespace DineWithaDane.Android
 					//Fetch offers from server
 					PrepareLooper();
 
-					User = new User("Jimmi", "Jimmivej 12");
 					Info = MainActivity.CIF.GetInformation();
+					User = MainActivity.CIF.GetUserData();
 
 					//Clear screen and show the found offers
 					RunOnUiThread(() =>
@@ -65,6 +65,7 @@ namespace DineWithaDane.Android
 			var picture = FindViewById<ImageView>(Resource.Id.Image);
 			var name = FindViewById<TextView>(Resource.Id.Name);
 			var address = FindViewById<TextView>(Resource.Id.Address);
+			var age = FindViewById<TextView>(Resource.Id.Age);
 			var layout = FindViewById<LinearLayout>(Resource.Id.Layout);
 			
 			var adapter = new InfoAdapter(this, Info);
@@ -72,39 +73,16 @@ namespace DineWithaDane.Android
 
 			layout.AddView(tilemenu);
 
+			name.SetTypeface(null, TypefaceStyle.Bold);
+			name.TextSize = 20;
 			name.Text = User.Name;
+
 			address.Text = User.Address;
-		}
-
-		private void UpdateInfo(InfoType type, TextView layout, List<int> changes)
-		{
-			/*
-			foreach (var item in Info)
-			{
-				if (item.Item1 == type)
-				{
-					if (!changes.Contains(item.Item2))
-						MainActivity.CIF.DeleteInformation(new InfoChange(type, item.Item2));
-
-					if (true)
-					{
-						
-					}
-				}
-				
-			}
-			*/
-			/*
-			var text = "";
-
-			for (int i = 0; i < items.Count - 1; i++)
-				text += items[i].ToString() + "\n";
-
-			if (items.Count > 0)
-				text += items[items.Count - 1].ToString();
-
-			layout.Text = text;
-			*/
+			DateTime today = DateTime.Today;
+			int iAge = today.Year - User.Birthday.Year;
+			if (User.Birthday > today.AddYears(-iAge))
+				iAge--;
+			age.Text = iAge + " years old";
 		}
 	}
 }
