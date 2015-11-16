@@ -15,6 +15,11 @@ namespace DineWithaDane.Android
 		#endregion
 
 		#region Constructor
+		public Event()
+		{
+			
+		}
+
 		public Event (string title, DateTime date, string place, string desc, int max, int left)
 		{
 			Title = title;

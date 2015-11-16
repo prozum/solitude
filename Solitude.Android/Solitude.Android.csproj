@@ -107,6 +107,8 @@
     <Compile Include="TileMenu\Lists\InfoList.cs" />
     <Compile Include="TileMenu\AlertDialog.cs" />
     <Compile Include="Classes\Direction.cs" />
+    <Compile Include="Classes\Offer.cs" />
+    <Compile Include="Classes\Match.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

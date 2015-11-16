@@ -13,7 +13,7 @@ using Android.Widget;
 
 namespace DineWithaDane.Android
 {
-	public class OfferList : SortableTileList<Event>
+	public class OfferList : SortableTileList<Offer>
 	{
 		#region Constructors
 		/// <summary>

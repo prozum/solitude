@@ -179,7 +179,7 @@ namespace ClientCommunication
 		/// Request the list of matches found by the server.
 		/// </summary>
 		/// <returns>A list of all Offers.</returns>
-		public List<Event> RequestOffers ()
+		public List<Offer> RequestOffers ()
 		{
 			var offerRequest = buildRequest ("offer", Method.GET);
 
@@ -192,9 +192,9 @@ namespace ClientCommunication
 			else if (response.StatusCode != HttpStatusCode.OK)
 				parseErrorMessage(response);
 			else
-				return parseEvents(response);
+				return JsonConvert.DeserializeObject<List<Offer>>(response.Content); //parseEvents(response);
 
-			return new List<Event>();
+			return new List<Offer>();
 		}
 
 		/// <summary>

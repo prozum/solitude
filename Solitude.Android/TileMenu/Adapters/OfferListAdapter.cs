@@ -11,7 +11,7 @@ using Android.OS;
 
 namespace DineWithaDane.Android
 {
-	public class OfferListAdapter : BaseTileListAdapter<Event>
+	public class OfferListAdapter : BaseTileListAdapter<Offer>
 	{
 		#region Fields
 		/// <summary>
@@ -32,7 +32,7 @@ namespace DineWithaDane.Android
 		/// </summary>
 		/// <param name="context">Context.</param>
 		/// <param name="items">Items.</param>
-		public OfferListAdapter(Activity context, List<Event> items) 
+		public OfferListAdapter(Activity context, List<Offer> items) 
 			: base(context, items) { }
 		#endregion
 
@@ -86,8 +86,11 @@ namespace DineWithaDane.Android
 			if (view == null)// otherwise create a new one
 				view = new OfferItem(Context, OnAccept, OnDecline);
 
+			var item = Items[groupPosition];
+
 			// set view information
-			view.Descrition = Items[groupPosition].Description;
+			view.Descrition = item.Description;
+			view.MatchedBy = GetMatchedByString(item);
 			//view.MatchedBy = Items[groupPosition]
 
 			return view;
@@ -133,6 +136,34 @@ namespace DineWithaDane.Android
 
 
 		#region Private Methods
+		private string GetMatchedByString(Offer item)
+		{
+			var res = "";
+			var interestlast = item.Match.Interests.Count() - 1;
+			var languagelast = item.Match.Languages.Count() - 1;
+			var foodhabitlast = item.Match.FoodHabits.Count() - 1;
+
+			for (int i = 0; i < interestlast; i++)
+				res += InfoAdapter.Names[1][item.Match.Interests[i]] + ", ";
+
+			if (interestlast <= 0)
+				res += InfoAdapter.Names[1][interestlast] + "\n";
+			
+			for (int i = 0; i < languagelast; i++)
+				res += InfoAdapter.Names[0][item.Match.Languages[i]] + ", ";
+
+			if (languagelast <= 0)
+				res += InfoAdapter.Names[0][languagelast] + "\n";
+
+			for (int i = 0; i < foodhabitlast; i++)
+				res += InfoAdapter.Names[2][item.Match.FoodHabits[i]] + ", ";
+
+			if (foodhabitlast <= 0)
+				res += InfoAdapter.Names[2][foodhabitlast] + "\n";
+
+			return res;
+		}
+
 		private int CompareTitle(Event x, Event y)
 		{
 			return x.Title.CompareTo(y.Title);
