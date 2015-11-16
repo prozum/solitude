@@ -15,6 +15,10 @@ namespace DineWithaDane.Android
 	public class MainActivity : Activity
 	{
 		public static ClientCommunication.CommunicationInterface CIF{ get; private set;}
+		public static string[][] InfoNames { get; private set; }
+		public static string[] InfoTitles { get; private set; }
+		public static Tuple<int, Type>[] DrawerActivities { get; private set; }
+		public static string[] DrawerNames { get; private set; }
 
 		protected override void OnCreate (Bundle bundle)
 		{
@@ -23,6 +27,32 @@ namespace DineWithaDane.Android
 			StartService (new Intent(this, typeof(BackgroundService)));
 
 			CIF = new ClientCommunication.CommunicationInterface ();
+
+			if (InfoNames == null)
+				InfoNames = new string[][]
+					{
+						Resources.GetStringArray(Resource.Array.languages),
+						Resources.GetStringArray(Resource.Array.interests),
+						Resources.GetStringArray(Resource.Array.foodhabits)
+					};
+
+			if (InfoTitles == null)
+				InfoTitles = Resources.GetStringArray(Resource.Array.info_titles);
+
+			if (DrawerActivities == null)
+				DrawerActivities = new Tuple<int, Type>[]
+					{
+						new Tuple<int, Type>(Resource.Drawable.Profile_Icon, typeof(ProfileActivity)),
+						new Tuple<int, Type>(Resource.Drawable.Offer_Icon, typeof(OfferActivity)),
+						new Tuple<int, Type>(Resource.Drawable.Events_Icon, typeof(EventActivity)),
+						new Tuple<int, Type>(Resource.Drawable.Host_Icon, typeof(HostActivity)),
+						new Tuple<int, Type>(Resource.Drawable.Settings_Icon, typeof(SettingsActivitiy)),
+						new Tuple<int, Type>(Resource.Drawable.Logout_Icon, typeof(MainActivity))
+					};
+
+			if (DrawerNames == null)
+				DrawerNames = Resources.GetStringArray(Resource.Array.drawer_items);
+			
 
 			// Set our view from the "main" layout resource
 			SetContentView (Resource.Layout.Main);

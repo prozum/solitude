@@ -19,13 +19,14 @@ namespace DineWithaDane.Android
 		/// <summary>
 		/// The values the adapter will populate views with.
 		/// </summary>
-		public Tuple<string, int, Type>[] Items { get; private set; }
+		public Tuple<int, Type>[] Activities { get; private set; }
+		public string[] Names { get; private set; }
 
 		/// <summary>
 		/// How many items are in the data set represented by this Adapter.
 		/// </summary>
 		/// <value>To be added.</value>
-		public override int Count { get { return Items.Length; } }
+		public override int Count { get { return Activities.Length; } }
 		#endregion
 
 
@@ -35,11 +36,15 @@ namespace DineWithaDane.Android
 		/// </summary>
 		/// <param name="context">Context.</param>
 		/// <param name="items">Items.</param>
-		public DrawerAdapter(Activity context, Tuple<string, int, Type>[] items) 
+		public DrawerAdapter(Activity context, Tuple<int, Type>[] activities, string[] names) 
 			: base()
 		{
 			Context = context;
-			Items = items;
+			Activities = activities;
+			Names = names;
+
+			if (Activities.Length != Names.Length)
+				throw new ArgumentException("Names and Activites must be of sames length");
 		}
 		#endregion
 
@@ -60,8 +65,8 @@ namespace DineWithaDane.Android
 			if (view == null) // otherwise create a new one
 				view = Context.LayoutInflater.Inflate(Resource.Layout.DrawerItem, null);
 
-			view.FindViewById<TextView>(Resource.Id.Text).Text = Items[position].Item1;
-			view.FindViewById<ImageView>(Resource.Id.Image).SetImageResource(Items[position].Item2);
+			view.FindViewById<TextView>(Resource.Id.Text).Text = Names[position];
+			view.FindViewById<ImageView>(Resource.Id.Image).SetImageResource(Activities[position].Item1);
 
 			return view;
 		}

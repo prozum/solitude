@@ -21,49 +21,6 @@ namespace DineWithaDane.Android
 {
 	public class InfoAdapter : BaseTileListAdapter<List<int>>
 	{
-		#region Fields
-		public static readonly string[] Titles = new string[]
-			{
-				"Languages",
-				"Interested in",
-				"Food Preferences"
-			};
-		
-		public static readonly string[][] Names = new string[][]
-			{
-				new string[]
-				{
-					"Danish",
-					"English",
-					"German",
-					"French",
-					"Spanish",
-					"Chinese",
-					"Russian"
-				},
-				new string[]
-				{
-					"Nature",
-					"Fitness",
-					"Movies",
-					"Gaming",
-					"Electronics",
-					"Cooking",
-					"Drawing"
-				},
-				new string[]
-				{
-					"Halal",
-					"Kosher",
-					"Vegan",
-					"Lactose Intolerance",
-					"Gluten Intolerance",
-					"Nut Allergy"
-				}
-			};
-		#endregion
-
-
 		#region Constructors
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DineWithaDane.Android.EventListAdapter"/> class.
@@ -93,7 +50,7 @@ namespace DineWithaDane.Android
 				view = new InfoGroup(Context);
 
 			// set view information
-			view.Title = Titles[groupPosition];
+			view.Title = MainActivity.InfoTitles[groupPosition];
 
 			if (isExpanded)
 			{
@@ -128,7 +85,7 @@ namespace DineWithaDane.Android
 				view = new InfoItem(Context);
 
 			// set view information
-			view.Descrition = Names[groupPosition][Items[groupPosition][childPosition]];
+			view.Descrition = MainActivity.InfoNames[groupPosition][Items[groupPosition][childPosition]];
 
 			if (Items[groupPosition].Count - 1 == childPosition)
 				view.SetSeperatorVisibility(ViewStates.Visible);
