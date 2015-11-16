@@ -10,7 +10,7 @@ using System.Threading;
 
 namespace DineWithaDane.Android
 {
-	[Activity(Label = "Offer", Icon = "@drawable/Invitation_Icon")]
+	[Activity(Label = "Invites", Icon = "@drawable/Invitation_Icon")]
 	public class OfferActivity : DrawerActivity
 	{
 		protected OfferList Tilelist { get; set; }
