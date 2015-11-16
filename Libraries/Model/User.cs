@@ -20,7 +20,7 @@ namespace Model
 		[Required]
 		[Display(Name = "Birthdate")]
 		[DataType(DataType.DateTime)]
-		public DateTime Birthdate { set; get; }
+		public DateTimeOffset Birthdate { set; get; }
 
 		[Required]
 		[Display(Name = "User name")]

@@ -24,7 +24,7 @@ namespace Solitude.Server.Tests
 			var user = new 
 			{
 				name = testName,
-				birthdate = DateTime.Now,
+				birthdate = DateTimeOffset.UtcNow,
 				address = "Fiskegade",
 				username = testUsername,
 				password = password,
@@ -44,7 +44,7 @@ namespace Solitude.Server.Tests
 			var user = new 
 			{
 				name = testName,
-				birthdate = DateTime.Now,
+				birthdate = DateTimeOffset.UtcNow,
 				address = "Fiskegade",
 				username = testUsername,
 				password = password,
@@ -65,7 +65,7 @@ namespace Solitude.Server.Tests
 			var user = new 
 			{
 				name = testName,
-				birthdate = DateTime.Now,
+				birthdate = DateTimeOffset.UtcNow,
 				address = "Fiskegade",
 				username = testUsername,
 				password = password,
@@ -252,7 +252,7 @@ namespace Solitude.Server.Tests
 
 		public void UpdateEventSlotsTaken()
 		{
-			e.Description = "Fiske fisk";
+			e.SlotsTaken = 1234;
 			var request = buildRequest ("host", Method.PUT);
 
 			request.AddBody (e);

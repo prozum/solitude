@@ -127,7 +127,7 @@ namespace DineWithaDane.Android
 			intent.PutExtra("place", @event.Address);
 			intent.PutExtra("maxslots", @event.SlotsTotal);
 			intent.PutExtra("leftslots", @event.SlotsLeft);
-			intent.PutExtra("id", @event.ID);
+			intent.PutExtra("id", @event.Id);
 			StartActivity(intent);
 		}
 	}

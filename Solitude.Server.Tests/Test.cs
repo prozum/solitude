@@ -285,14 +285,14 @@ namespace Solitude.Server.Tests
 			RegisterUserWrongDateTime ("userModel.birthdate");
 		}
 
-		[Test ()]
+		/*[Test ()]
 		public void aTestCaseInvalidEventUpdate ()
 		{
 			RegisterUser ();
 			Login ();
 			AddEvent ();
 			UpdateEventSlotsTaken ();
-		}
+		} To be reimplemented at a later date */
 	}
 }
 

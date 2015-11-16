@@ -6,12 +6,12 @@ namespace DineWithaDane.Android
 	{
 		#region Field
 		public string Title { get; set; }
-		public DateTime Date { get; set; }
+		public DateTimeOffset Date { get; set; }
 		public string Address { get; set; }
 		public string Description { get; set; }
 		public int SlotsTotal { get; set; }
 		public int SlotsLeft { get; set; }
-		public int ID { get; set; }
+		public int Id { get; set; }
 		#endregion
 
 		#region Constructor
@@ -20,7 +20,7 @@ namespace DineWithaDane.Android
 			
 		}
 
-		public Event (string title, DateTime date, string place, string desc, int max, int left)
+		public Event (string title, DateTimeOffset date, string place, string desc, int max, int left)
 		{
 			Title = title;
 			Date = date;
@@ -30,10 +30,10 @@ namespace DineWithaDane.Android
 			SlotsLeft = left;
 		}
 
-		public Event (string title, DateTime date, string place, string desc, int max, int left, int ID)
+		public Event (string title, DateTimeOffset date, string place, string desc, int max, int left, int ID)
 			:this(title, date, place, desc, max, left)
 		{
-			this.ID = ID;
+			this.Id = ID;
 		}
 		#endregion
 	}

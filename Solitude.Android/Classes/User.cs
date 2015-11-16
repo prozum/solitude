@@ -7,7 +7,7 @@ namespace DineWithaDane.Android
 		public string Id { get; set; }
 		public string Name { get; set; }
 		public string Address { get; set; }
-		public DateTime Birthdate { get; set; }
+		public DateTimeOffset Birthdate { get; set; }
 
 		public string UserName { get; set; }
 		private string password;
@@ -36,7 +36,7 @@ namespace DineWithaDane.Android
 			this.password = password;
 		}
 
-		public User (string name, string address, DateTime birthday)
+		public User (string name, string address, DateTimeOffset birthday)
 			: this (name, address)
 		{
 			this.Birthdate = birthday;

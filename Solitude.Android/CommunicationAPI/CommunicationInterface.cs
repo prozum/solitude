@@ -307,7 +307,7 @@ namespace ClientCommunication
 			var request = buildRequest ("offer", Method.POST);
 
 			var offerReply = new { 
-				EventId = e.ID, 
+				EventId = e.Id, 
 				Value = answer 
 			};
 
@@ -358,7 +358,7 @@ namespace ClientCommunication
 		/// Creates a new user on the server.
 		/// </summary>
 		/// <param name="u">User to create.</param>
-		public bool CreateUser (string Name, string address, DateTime birthday, string Username, string Password, string ConfirmedPassword)
+		public bool CreateUser (string Name, string address, DateTimeOffset birthday, string Username, string Password, string ConfirmedPassword)
 		{
 			//Build request and user
 			var request = new RestRequest("user/register", Method.POST);
@@ -387,7 +387,7 @@ namespace ClientCommunication
 			if (response.StatusCode == 0)
 			{
 				LatestError = "No connection to server";
-				return new User("Sample name", "Sample address", DateTime.Today);
+				return new User("Sample name", "Sample address", DateTimeOffset.Today);
 			}
 			else if (response.StatusCode == HttpStatusCode.OK)
 			{
@@ -410,12 +410,12 @@ namespace ClientCommunication
 					LatestError = "Could not find user data";
 				}
 
-				return new User("Sample name", "Sample address", DateTime.Today);
+				return new User("Sample name", "Sample address", DateTimeOffset.Today);
 			}
 			else
 			{
 				parseErrorMessage(response);
-				return new User("Sample name", "Sample address", DateTime.Today);
+				return new User("Sample name", "Sample address", DateTimeOffset.Today);
 			}
 		}
 		#endregion
@@ -505,7 +505,7 @@ namespace ClientCommunication
 			if (response.StatusCode == HttpStatusCode.OK)
 			{
 				JsonValue jVal = System.Json.JsonValue.Parse(response.Content);
-				e.ID = parseToInt(jVal);
+				e.Id = parseToInt(jVal);
 				return true;
 			}
 			else
@@ -524,7 +524,7 @@ namespace ClientCommunication
 			var request = buildRequest ("host", Method.PUT);
 
 			request.AddBody(new {
-				Id = e.ID,
+				Id = e.Id,
 				Date = e.Date, 
 				Address = e.Address,
 				Title = e.Title,
@@ -542,7 +542,7 @@ namespace ClientCommunication
 		/// <param name="e">Event to delete.</param>
 		public void DeleteEvent (Event e)
 		{
-			var request = buildRequest ("host/" + e.ID, Method.DELETE);
+			var request = buildRequest ("host/" + e.Id, Method.DELETE);
 
 			executeAndParseResponse (request);
 		}
@@ -587,10 +587,10 @@ namespace ClientCommunication
 		/// </summary>
 		public void CancelReg (Event e)
 		{
-			var request = buildRequest (string.Format("event/{0}", e.ID), Method.DELETE);
+			var request = buildRequest (string.Format("event/{0}", e.Id), Method.DELETE);
 
 			//Add body to request
-			var cancelBody = new { eventId = e.ID,
+			var cancelBody = new { eventId = e.Id,
 				userToken = userToken };
 			request.AddBody(cancelBody);
 
@@ -609,7 +609,7 @@ namespace ClientCommunication
 			//Adds a body to the request containing the reciew
 			var review = new { rating = r.Rating,
 				text = r.ReviewText,
-				eventId = r.Event.ID };
+				eventId = r.Event.Id };
 			request.AddBody(review);
 
 			executeAndParseResponse (request);
