@@ -252,8 +252,7 @@ namespace Solitude.Server.Tests
 
 		public void UpdateEventSlotsTaken()
 		{
-			e.Id = 106;
-			e.SlotsTaken = 74859;
+			e.Description = "Fiske fisk";
 			var request = buildRequest ("host", Method.PUT);
 
 			request.AddBody (e);

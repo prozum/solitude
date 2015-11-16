@@ -446,8 +446,9 @@ namespace Dal
 		{
 			await client.Cypher
 				.Match ("user:User-[:HOSTING]->(e:Event)")
-				.Where ((Event e) => e.Id == @event.Id)
+				.Where ("event.Id = {eid}")
 				.AndWhere ((User user) => user.Id == uid)
+				.WithParam("eid", @event.Id)
 				.Set ("e = {newinfo}")
 				.WithParam ("newinfo", @event)
 				.ExecuteWithoutResultsAsync();

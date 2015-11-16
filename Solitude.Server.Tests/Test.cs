@@ -286,7 +286,7 @@ namespace Solitude.Server.Tests
 		}
 
 		[Test ()]
-		public void TestCaseInvalidEventUpdate ()
+		public void aTestCaseInvalidEventUpdate ()
 		{
 			RegisterUser ();
 			Login ();
