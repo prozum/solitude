@@ -357,6 +357,7 @@ namespace Dal
 				.Where ((User user) => user.Id == uid )
 				.AndWhere ((User rest) => rest.Id != uid)
 				.AndWhere ((Event e) => e.SlotsTotal > e.SlotsTaken)
+				.AndWhere ("NOT user-[]->e")
 				.OptionalMatch ("user-[w1:WANTS]->(interest:Interest)<-[w2:WANTS]-rest")
 				.With ("user, rest, e, sum(w1.weight) + sum(w2.weight) as wt1, collect(interest.Id) as int")
 				.OptionalMatch ("user-[w3:WANTS]->(language:Language)<-[w4:WANTS]-rest")
