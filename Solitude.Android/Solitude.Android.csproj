@@ -18,6 +18,7 @@
     <TargetFrameworkVersion>v4.4</TargetFrameworkVersion>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
+    <AndroidLinkMode>None</AndroidLinkMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -28,7 +29,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <AndroidLinkMode>None</AndroidLinkMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -58,7 +58,6 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CommunicationAPI\CommunicationInterface.cs" />
-    <Compile Include="CommunicationAPI\IClientCommunication.cs" />
     <Compile Include="CommunicationAPI\HttpStrings.cs" />
     <Compile Include="CommunicationAPI\ErrorCodes.cs" />
     <Compile Include="BackgroundService.cs" />
@@ -141,7 +140,6 @@
     <AndroidResource Include="Resources\drawable\Logout_Icon.png" />
     <AndroidResource Include="Resources\drawable\Main_Icon.png" />
     <AndroidResource Include="Resources\drawable\Notification_Icon.png" />
-    <AndroidResource Include="Resources\drawable\Offer_Icon.png" />
     <AndroidResource Include="Resources\drawable\Profile_Icon.png" />
     <AndroidResource Include="Resources\drawable\Settings_Icon.png" />
     <AndroidResource Include="Resources\drawable\Events_Icon.png" />
@@ -153,6 +151,8 @@
     <AndroidResource Include="Resources\values\styles.xml" />
     <AndroidResource Include="Resources\drawable\buttonstyle.xml" />
     <AndroidResource Include="Resources\drawable\ic_view_headline_black_36dp.png" />
+    <AndroidResource Include="Resources\values\Arrays.xml" />
+    <AndroidResource Include="Resources\drawable\Invitation_Icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

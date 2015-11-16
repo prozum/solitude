@@ -19,12 +19,16 @@ namespace DineWithaDane.Android
 	public class HostActivity : DrawerActivity
 	{
 		protected HostedEventList Tilelist { get; set; }
+
 		protected RelativeLayout InternalContent { get; set; }
 
 		protected override void OnCreate(Bundle bundle)
 		{
 			// setting up and drawer
 			base.OnCreate(bundle);
+
+			Button b = new Button(this);
+			b.Text = Resources.GetString(Resource.String.app_name);
 
 			// See OnResume for rest of content
 		}
@@ -44,16 +48,16 @@ namespace DineWithaDane.Android
 					View view;
 					var viewparams = new RelativeLayout.LayoutParams(-1, -2);
 
-					if (events.Count != 0) 
+					if (events.Count != 0)
 					{
 						var adapter = new HostedEventListAdapter(this, events);
 						Tilelist = new HostedEventList(this, adapter, (s, e) => DeleteEvent(), (s, e) => EditEvent());
 						view = Tilelist;
 					}
-					else 
+					else
 					{
 						view = new TextView(this);
-						(view as TextView).Text = "You are hosting no events. To host an event, click the \"Host New Event\" button.";
+						(view as TextView).Text = Resources.GetString(Resource.String.message_host_nothing_hosted);
 					}
 
 
@@ -61,7 +65,7 @@ namespace DineWithaDane.Android
 
 					var hostNewEventButton = new Button(this);
 					var hostbuttonparams = new RelativeLayout.LayoutParams(-1, -2);
-					hostNewEventButton.Text = "Host New Event";
+					hostNewEventButton.Text = Resources.GetString(Resource.String.host_new_event);
 
 					hostNewEventButton.Click += (object sender, EventArgs e) =>
 					{
@@ -91,17 +95,17 @@ namespace DineWithaDane.Android
 		{
 			var alertBuilder = new AlertDialog.Builder(this);
 			var alert = alertBuilder.Create();
-			alert.SetTitle("Cancel Event");
-			alert.SetMessage("Are you sure you want to cancel the event? You wont be able to recover the event afterwards.");
-			alert.SetButton2("No, Abort", (object senders, DialogClickEventArgs ev) => alert.Dismiss());
-			alert.SetButton("Yes, Cancel", (object senders, DialogClickEventArgs ev) =>
+			alert.SetTitle(Resources.GetString(Resource.String.cancel_event));
+			alert.SetMessage(Resources.GetString(Resource.String.message_cancel_event_confirm));
+			alert.SetButton2(Resources.GetString(Resource.String.no_abort), (object senders, DialogClickEventArgs ev) => alert.Dismiss());
+			alert.SetButton(Resources.GetString(Resource.String.yes_cancel), (object senders, DialogClickEventArgs ev) =>
 				{
 					MainActivity.CIF.DeleteEvent(Tilelist.PopFocus());
 
 					if (Tilelist.Count == 0)
 					{
 						var text = new TextView(this);
-						text.Text = "You are hosting no events. To host an event, click the \"Host New Event\" button.";
+						text.Text = Resources.GetString(Resource.String.message_host_nothing_hosted);
 
 						InternalContent.RemoveView(Tilelist);
 						InternalContent.AddView(text);
@@ -124,10 +128,10 @@ namespace DineWithaDane.Android
 			intent.PutExtra("date year", @event.Date.Year);
 			intent.PutExtra("date hour", @event.Date.Hour);
 			intent.PutExtra("date minutte", @event.Date.Minute);
-			intent.PutExtra("place", @event.Place);
-			intent.PutExtra("maxslots", @event.MaxSlots);
-			intent.PutExtra("leftslots", @event.SlotsLeft);
-			intent.PutExtra("id", @event.ID);
+			intent.PutExtra("place", @event.Address);
+			intent.PutExtra("maxslots", @event.SlotsTotal);
+			intent.PutExtra("leftslots", @event.SlotsTaken);
+			intent.PutExtra("id", @event.Id);
 			StartActivity(intent);
 		}
 	}

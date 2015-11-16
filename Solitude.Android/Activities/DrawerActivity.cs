@@ -12,48 +12,52 @@ using Android.Support.V4.Widget;
 
 namespace DineWithaDane.Android
 {
-	[Activity (Label = "AbstractActivity")]			
+	[Activity(Label = "AbstractActivity")]			
 	public abstract class DrawerActivity : Activity
 	{
 		protected int Position { get; set; }
+
 		protected SetupDrawer DrawerSetup { get; set; }
+
 		protected FrameLayout Content { get; set; }
 
-		protected override void OnCreate (Bundle bundle)
+		protected override void OnCreate(Bundle bundle)
 		{
-			base.OnCreate (bundle);
+			base.OnCreate(bundle);
 
 			SetContentView(Resource.Layout.ActivityLayout);
 
 			Position = Intent.GetIntExtra("index", 0);
 
-			DrawerSetup = new SetupDrawer (Position, this);
+			DrawerSetup = new SetupDrawer(Position, this);
 
-			DrawerSetup.Configure ();
-			DrawerSetup.DrawerToggleSetup ();
+			DrawerSetup.Configure();
+			DrawerSetup.DrawerToggleSetup();
 			Content = FindViewById<FrameLayout>(Resource.Id.content_frame);
 		}
 
-		protected override void OnPostCreate (Bundle savedInstanceState)
+		protected override void OnPostCreate(Bundle savedInstanceState)
 		{
-			base.OnPostCreate (savedInstanceState);
-			DrawerSetup.DrawerToggle.SyncState ();
+			base.OnPostCreate(savedInstanceState);
+			DrawerSetup.DrawerToggle.SyncState();
 		}
 
-		public override bool OnOptionsItemSelected (IMenuItem item)
+		public override bool OnOptionsItemSelected(IMenuItem item)
 		{
-			if (DrawerSetup.DrawerToggle.OnOptionsItemSelected (item))
+			if (DrawerSetup.DrawerToggle.OnOptionsItemSelected(item))
 				return true;
 
-			return base.OnOptionsItemSelected (item);
+			return base.OnOptionsItemSelected(item);
 		}
 
 		public override void OnBackPressed()
 		{
 			var dialog = new AlertDialog.Builder(this);
-			dialog.SetMessage("Are you sure you want to log out?");
-			dialog.SetNegativeButton("No", delegate{ /*Empty delegate hides the dialog*/ });
-			dialog.SetNeutralButton("Yes", delegate
+			dialog.SetMessage(Resources.GetString(Resource.String.message_logout));
+			dialog.SetNegativeButton(Resources.GetString(Resource.String.no), delegate
+				{ /*Empty delegate hides the dialog*/
+				});
+			dialog.SetNeutralButton(Resources.GetString(Resource.String.yes), delegate
 				{
 					MainActivity.CIF.Logout(this);
 				});

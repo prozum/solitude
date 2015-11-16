@@ -41,17 +41,11 @@ namespace DineWithaDane.Android
 			var typeString = Intent.GetStringExtra("type");
 
 			if (typeString.Equals("new"))
-			{
 				New();
-			}
 			else if (typeString.Equals("edit"))
-			{
 				Edit();
-			}
 			else
-			{
 				throw new ArgumentOutOfRangeException();
-			}
 		}
 
 		private void Build()
@@ -65,36 +59,36 @@ namespace DineWithaDane.Android
 
 			// Create all visible elements required to create event
 			var titleTitle = new TextView(this);
-			titleTitle.Text = "Event name";
+			titleTitle.Text = Resources.GetString(Resource.String.event_name);
 
 			title = new EditText(this);
-			title.Hint = "Title";
+			title.Hint = Resources.GetString(Resource.String.event_name_hint);
 			title.Id = 0x0001;
 
 			var descriptionTitle = new TextView(this);
-			descriptionTitle.Text = "Event Description";
+			descriptionTitle.Text = Resources.GetString(Resource.String.event_description);
 
 			description = new EditText(this);
-			description.Hint = "Description!";
+			description.Hint = Resources.GetString(Resource.String.event_description_hint);
 			description.Id = 0x0002;
 
 			var locationTitle = new TextView(this);
-			locationTitle.Text = "Location/Address";
+			locationTitle.Text = Resources.GetString(Resource.String.event_place);
 
 			location = new EditText(this);
-			location.Hint = "Location/Address";
+			location.Hint = Resources.GetString(Resource.String.event_place_hint);
 			location.Id = 0x0003;
 
 			var guestsTitle = new TextView(this);
-			guestsTitle.Text = "Guests";
+			guestsTitle.Text = Resources.GetString(Resource.String.event_guest);
 
 			guests = new EditText(this);
-			guests.Hint = "Number of guests";
+			guests.Hint = Resources.GetString(Resource.String.event_guest_hint);
 			guests.InputType = global::Android.Text.InputTypes.ClassNumber;
 			guests.Id = 0x0004;
 
 			var dateTitle = new TextView(this);
-			dateTitle.Text = "Date";
+			dateTitle.Text = Resources.GetString(Resource.String.event_date);
 
 			date = new DatePicker(this);
 			date.DateTime = DateTime.Now;
@@ -107,24 +101,24 @@ namespace DineWithaDane.Android
 			dateCurrent.Text = FormatDate(date.DateTime);
 			var dateBuilder = new AlertDialog.Builder(this);
 			var dateDialog = dateBuilder.Create();
-			dateDialog.SetTitle("Date");
+			dateDialog.SetTitle(Resources.GetString(Resource.String.event_date));
 			dateDialog.SetView(date);
-			dateDialog.SetButton("Close", (s, ev) =>
+			dateDialog.SetButton(Resources.GetString(Resource.String.cancel), (s, ev) =>
 				{
 					dateCurrent.Text = FormatDate(date.DateTime);
 					dateDialog.Dismiss();
 				});
 
 			var buttonDate = new Button(this);
-			buttonDate.Text = "Date";
+			buttonDate.Text = Resources.GetString(Resource.String.event_date);
 			buttonDate.Click += (object sender, EventArgs e) => dateDialog.Show();
 
 			var timeTitle = new TextView(this);
-			timeTitle.Text = "Time";
+			timeTitle.Text = Resources.GetString(Resource.String.event_time);
 
 			timePicker = new TimePicker(this);
 			timePicker.Id = 0x0006;
-			timePicker.SetIs24HourView( Java.Lang.Boolean.True );
+			timePicker.SetIs24HourView(Java.Lang.Boolean.True);
 
 			timeCurrent = new TextView(this);
 			timeCurrent.Gravity = GravityFlags.Center;
@@ -133,16 +127,16 @@ namespace DineWithaDane.Android
 
 			var timeBuilder = new AlertDialog.Builder(this);
 			var timeDialog = timeBuilder.Create();
-			timeDialog.SetTitle("Title");
+			timeDialog.SetTitle(Resources.GetString(Resource.String.event_time));
 			timeDialog.SetView(timePicker);
-			timeDialog.SetButton("Close", (s, ev) =>
+			timeDialog.SetButton(Resources.GetString(Resource.String.event_time), (s, ev) =>
 				{
 					timeCurrent.Text = FormatTime(timePicker);
 					dateDialog.Dismiss();
 				});
 
 			var buttonTime = new Button(this);
-			buttonTime.Text = "Time";
+			buttonTime.Text = Resources.GetString(Resource.String.event_time);
 			buttonTime.Click += (object sender, EventArgs e) => timeDialog.Show();
 
 			// Build Activity Content
@@ -180,52 +174,58 @@ namespace DineWithaDane.Android
 		{
 			// Buttons for creating a new event or cancel.
 			var createEventButton = new Button(this);
-			createEventButton.Text = "Host Event";
+			createEventButton.Text = Resources.GetString(Resource.String.event_host_event);
 			createEventButton.Id = 0x0007;
 			createEventButton.Click += (object sender, EventArgs e) =>
+			{
+				int numberOfGuestsMax;
+				bool boolGuestCount = int.TryParse(guests.Text, out numberOfGuestsMax);
+				bool boolTitle = String.IsNullOrEmpty(title.Text);
+				bool boolDescription = String.IsNullOrEmpty(description.Text);
+				bool boolLocation = String.IsNullOrEmpty(location.Text);
+				bool boolGuest = String.IsNullOrEmpty(guests.Text);
+				// Check if all forms have been filled.
+				if (boolTitle
+				    || boolDescription
+				    || boolLocation
+				    || boolGuest
+				    || !boolGuestCount)
 				{
-					int numberOfGuestsMax;
-					bool boolGuestCount = int.TryParse(guests.Text, out numberOfGuestsMax);
-					bool boolTitle = String.IsNullOrEmpty(title.Text);
-					bool boolDescription = String.IsNullOrEmpty(description.Text);
-					bool boolLocation = String.IsNullOrEmpty(location.Text);
-					bool boolGuest = String.IsNullOrEmpty(guests.Text);
-					// Check if all forms have been filled.
-					if (boolTitle
-					    || boolDescription
-					    || boolLocation
-					    || boolGuest
-					    || !boolGuestCount)
-					{
-						AlertDialog.Builder builder = new AlertDialog.Builder(this);
-						AlertDialog alertDialog = builder.Create();
-						alertDialog.SetTitle("Empty fields");
-						alertDialog.SetMessage(String.Format("There are errors in your event:\n{0}{1}{2}{3}{4}", 
-								boolTitle ? "- No title\n" : "",
-								boolDescription ? "- No description\n" : "",
-								boolLocation ? "- No address\n" : "",
-								boolGuest ? "- No guest limit\n" : "",
-								(!boolGuestCount && !boolGuest) ? "- Too many event guests." : ""));
-						alertDialog.SetButton("OK", (s, ev) => alertDialog.Dismiss());
-						alertDialog.Show();
-					}
+					AlertDialog.Builder builder = new AlertDialog.Builder(this);
+					AlertDialog alertDialog = builder.Create();
+					alertDialog.SetTitle(Resources.GetString(Resource.String.event_invalid_info));
+					alertDialog.SetMessage(String.Format(Resources.GetString(Resource.String.event_error_in_info) + "\n{0}{1}{2}{3}{4}", 
+							boolTitle ? Resources.GetString(Resource.String.event_error_no_title) + "\n" : "",
+							boolDescription ? Resources.GetString(Resource.String.event_error_no_description) + "\n" : "",
+							boolLocation ? Resources.GetString(Resource.String.event_error_no_place) + "\n" : "",
+							boolGuest ? Resources.GetString(Resource.String.event_error_no_guest) + "\n" : "",
+							(!boolGuestCount && !boolGuest) ? Resources.GetString(Resource.String.event_error_many_guest) : ""));
+					alertDialog.SetButton(Resources.GetString(Resource.String.ok), (s, ev) => alertDialog.Dismiss());
+					alertDialog.Show();
+				}
+				else
+				{
+					var @dateTime = new DateTimeOffset(date.DateTime.Year, 
+															date.DateTime.Month, 
+															date.DateTime.Day, 
+															(int)timePicker.CurrentHour, 
+															(int)timePicker.CurrentMinute, 
+															0, 
+															new TimeSpan(0));
+					Event @event = new Event(title.Text, @dateTime, location.Text, description.Text, numberOfGuestsMax, 0);
+					bool completed = MainActivity.CIF.CreateEvent(@event);
+					if (completed)
+						Finish();
 					else
 					{
-						DateTime @dateTime = new DateTime(date.DateTime.Year, date.DateTime.Month, date.DateTime.Day, (int)timePicker.CurrentHour, (int)timePicker.CurrentMinute, 0);
-						Event @event = new Event(title.Text, @dateTime, location.Text, description.Text, numberOfGuestsMax, 0);
-						bool completed = MainActivity.CIF.CreateEvent(@event);
-						if (completed)
-							Finish();
-						else
-						{
-							var dialog = new AlertDialog.Builder(this);
-							dialog.SetMessage("Sorry, could not create event:\n" + MainActivity.CIF.LatestError);
-							dialog.Show();
-						}
+						var dialog = new AlertDialog.Builder(this);
+						dialog.SetMessage(Resources.GetString(Resource.String.event_error_could_not_create) + "\n" + MainActivity.CIF.LatestError);
+						dialog.Show();
 					}
-				};
+				}
+			};
 			var cancelButton = new Button(this);
-			cancelButton.Text = "Cancel";
+			cancelButton.Text = Resources.GetString(Resource.String.cancel);
 			cancelButton.Id = 0x0008;
 			cancelButton.Click += (object sender, EventArgs e) => Finish();
 
@@ -251,7 +251,7 @@ namespace DineWithaDane.Android
 
 			var buttonConfirm = new Button(this);
 			buttonConfirm.Id = 0x0007;
-			buttonConfirm.Text = "Save changes";
+			buttonConfirm.Text = Resources.GetString(Resource.String.host_save_changes);
 			buttonConfirm.Click += (object sender, EventArgs e) =>
 				{
 					int numberOfGuestsMax;
@@ -271,48 +271,52 @@ namespace DineWithaDane.Android
 					{
 						AlertDialog.Builder builder = new AlertDialog.Builder(this);
 						AlertDialog alertDialog = builder.Create();
-						alertDialog.SetTitle("Empty fields");
-						alertDialog.SetMessage(String.Format("There are errors in your event:\n{0}{1}{2}{3}{4}{5}", 
-								boolTitle ? "- No title\n" : "",
-								boolDescription ? "- No description\n" : "",
-								boolLocation ? "- No address\n" : "",
-								boolGuest ? "- No guest limit\n" : "",
-								(!boolGuestCount && !boolGuest) ? "- Too many event guests." : "",
-								bool32BitGuest ? "- Your new guest limit is below current number of participants" : ""));
-						alertDialog.SetButton("OK", (s, ev) => alertDialog.Dismiss());
+						alertDialog.SetTitle(Resources.GetString(Resource.String.event_invalid_info));
+						alertDialog.SetMessage(String.Format(Resources.GetString(Resource.String.event_error_in_info) + "\n{0}{1}{2}{3}{4}{5}", 
+								boolTitle ? Resources.GetString(Resource.String.event_error_no_title) + "\n" : "",
+								boolDescription ? Resources.GetString(Resource.String.event_error_no_description) + "\n" : "",
+								boolLocation ? Resources.GetString(Resource.String.event_error_no_place) + "\n" : "",
+								boolGuest ? Resources.GetString(Resource.String.event_error_no_guest) + "\n" : "",
+								(!boolGuestCount && !boolGuest) ? Resources.GetString(Resource.String.event_error_many_guest) : "",
+								bool32BitGuest ? Resources.GetString(Resource.String.event_error_guest_limit) : ""));
+						alertDialog.SetButton(Resources.GetString(Resource.String.ok), (s, ev) => alertDialog.Dismiss());
 						alertDialog.Show();
 					}
-					else 
+					else
 					{
+						var @datetime = new DateTimeOffset(	date.DateTime.Year, 
+															date.DateTime.Month, 
+															date.DateTime.Day, 
+															(int)timePicker.CurrentHour, 
+															(int)timePicker.CurrentMinute, 
+															0, 
+															new TimeSpan(0));
+						
 						Event @event = new Event(	title.Text, 
-													new DateTime(	date.DateTime.Year, 
-																	date.DateTime.Month, 
-																	date.DateTime.Day, 
-																	(int)timePicker.CurrentHour, 
-																	(int)timePicker.CurrentMinute, 0), 
-													location.Text, 
-													description.Text, 
-													numberOfGuestsMax, 
-													Intent.GetIntExtra("leftslots", 0), 
-													Intent.GetIntExtra("id", 0));
-							
+													@datetime, 
+							               			location.Text, 
+							               			description.Text, 
+							               			numberOfGuestsMax, 
+							               			Intent.GetIntExtra("leftslots", 0), 
+							               			Intent.GetIntExtra("id", 0));
+								
 						bool completed = MainActivity.CIF.UpdateEvent(@event);
 						if (completed)
 							Finish();
 						else
 						{
 							var dialog = new AlertDialog.Builder(this);
-							dialog.SetMessage("Sorry, could not create event:\n" + MainActivity.CIF.LatestError);
+							dialog.SetMessage(Resources.GetString(Resource.String.message_error_event_update_event) + "\n" + MainActivity.CIF.LatestError);
 							dialog.Show();
 						}
 						Finish();
 					}
-				
-			};
+					
+				};
 
 			var buttonCancel = new Button(this);
 			buttonCancel.Id = 0x0008;
-			buttonCancel.Text = "Back";
+			buttonCancel.Text = Resources.GetString(Resource.String.cancel);
 			buttonCancel.Click += (object sender, EventArgs e) => Finish();
 
 			var buttonKeeper = new LinearLayout(this);

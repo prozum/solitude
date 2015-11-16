@@ -4,18 +4,23 @@ namespace DineWithaDane.Android
 {
 	public class User
 	{
-		public int ID;
+		public string Id { get; set; }
 		public string Name { get; set; }
 		public string Address { get; set; }
-		public DateTime Birthday { get; set; }
+		public DateTimeOffset Birthdate { get; set; }
 
-		private string username;
+		public string UserName { get; set; }
 		private string password;
 
-		public User (string name, string address, int id)
+		public User (string name, string address, string id)
 			: this (name, address)
 		{
-			ID = id;
+			Id = id;
+		}
+
+		public User()
+		{
+			
 		}
 
 		public User (string name, string address)
@@ -27,14 +32,14 @@ namespace DineWithaDane.Android
 		public User (string name, string address, string username, string password)
 			: this(name, address)
 		{
-			this.username = username;
+			this.UserName = username;
 			this.password = password;
 		}
 
-		public User (string name, string address, DateTime birthday)
+		public User (string name, string address, DateTimeOffset birthday)
 			: this (name, address)
 		{
-			this.Birthday = birthday;
+			this.Birthdate = birthday;
 		}
 	}
 }

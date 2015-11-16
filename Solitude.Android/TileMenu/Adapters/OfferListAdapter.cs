@@ -56,9 +56,9 @@ namespace DineWithaDane.Android
 
 			// set view information
 			view.Title = Items[groupPosition].Title;
-			view.Place = Items[groupPosition].Place;
+			view.Place = Items[groupPosition].Address;
 			view.Date = Items[groupPosition].Date;
-			view.Slots = new Tuple<int, int>(Items[groupPosition].SlotsLeft, Items[groupPosition].MaxSlots);
+			view.Slots = new Tuple<int, int>(Items[groupPosition].SlotsTaken, Items[groupPosition].SlotsTotal);
 
 			// set seperator visibility
 			if (isExpanded)
@@ -144,22 +144,22 @@ namespace DineWithaDane.Android
 			var foodhabitlast = item.Match.FoodHabits.Count() - 1;
 
 			for (int i = 0; i < interestlast; i++)
-				res += InfoAdapter.Names[1][item.Match.Interests[i]] + ", ";
+				res += MainActivity.InfoNames[1][item.Match.Interests[i]] + ", ";
 
 			if (interestlast >= 0)
-				res += InfoAdapter.Names[1][item.Match.Interests[interestlast]] + "\n";
+				res += MainActivity.InfoNames[1][item.Match.Interests[interestlast]] + "\n";
 			
 			for (int i = 0; i < languagelast; i++)
-				res += InfoAdapter.Names[0][item.Match.Languages[i]] + ", ";
+				res += MainActivity.InfoNames[0][item.Match.Languages[i]] + ", ";
 
 			if (languagelast >= 0)
-				res += InfoAdapter.Names[0][item.Match.Languages[languagelast]] + "\n";
+				res += MainActivity.InfoNames[0][item.Match.Languages[languagelast]] + "\n";
 
 			for (int i = 0; i < foodhabitlast; i++)
-				res += InfoAdapter.Names[2][item.Match.FoodHabits[i]] + ", ";
+				res += MainActivity.InfoNames[2][item.Match.FoodHabits[i]] + ", ";
 
 			if (foodhabitlast >= 0)
-				res += InfoAdapter.Names[2][item.Match.FoodHabits[foodhabitlast]] + "\n";
+				res += MainActivity.InfoNames[2][item.Match.FoodHabits[foodhabitlast]] + "\n";
 
 			return res;
 		}
@@ -176,7 +176,7 @@ namespace DineWithaDane.Android
 
 		private int CompareDistance(Event x, Event y)
 		{
-			return x.Place.CompareTo(y.Place);
+			return x.Address.CompareTo(y.Address);
 		}
 		#endregion
 	}
