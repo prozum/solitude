@@ -2,6 +2,7 @@
 using Neo4j.AspNet.Identity;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System;
 
 namespace Solitude.Server
 {
@@ -9,7 +10,7 @@ namespace Solitude.Server
     {
         public string Name { set; get; }
         public string Address { set; get; }
-        public string Birthdate { set; get; }
+        public DateTime Birthdate { set; get; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsyncFixed(UserManager<SolitudeUser> manager)
         {

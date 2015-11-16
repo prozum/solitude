@@ -23,10 +23,8 @@ namespace Model
 		public string UserId { get; set; }
 
 		[Required]
-		public int SlotsTaken { get; set; }
-
-		[Required]
 		public int SlotsTotal { get; set; }
+		public int SlotsTaken { get; set; }
 
 		public override string ToString ()
 		{
