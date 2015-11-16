@@ -1,6 +1,5 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-
 using Android.App;
 using Android.Content;
 using Android.Runtime;
@@ -11,7 +10,7 @@ using System.Threading;
 
 namespace DineWithaDane.Android
 {
-	[Activity(Label = "Offer", Icon = "@drawable/Offer_Icon")]
+	[Activity(Label = "Offer", Icon = "@drawable/Invitation_Icon")]
 	public class OfferActivity : DrawerActivity
 	{
 		protected OfferList Tilelist { get; set; }

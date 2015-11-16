@@ -36,10 +36,10 @@ namespace DineWithaDane.Android
 			CancelButton = FindViewById<Button>(Resource.Id.CancelButton);
 
 			// setting header text info
-			nameview.Text = InfoAdapter.Titles[(int)type];
+			nameview.Text = MainActivity.InfoTitles[(int)type];
 
 			// setting up list of info with checkboxes
-			InfoList.Adapter = new ArrayAdapter<string>(context, Resource.Layout.CheckedListViewItem, InfoAdapter.Names[(int)type]);
+			InfoList.Adapter = new ArrayAdapter<string>(context, Resource.Layout.CheckedListViewItem, MainActivity.InfoNames[(int)type]);
 			InfoList.ChoiceMode = ChoiceMode.Multiple;
 
 			// selecting info that is already chosen by user

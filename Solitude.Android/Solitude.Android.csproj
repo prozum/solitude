@@ -140,7 +140,6 @@
     <AndroidResource Include="Resources\drawable\Logout_Icon.png" />
     <AndroidResource Include="Resources\drawable\Main_Icon.png" />
     <AndroidResource Include="Resources\drawable\Notification_Icon.png" />
-    <AndroidResource Include="Resources\drawable\Offer_Icon.png" />
     <AndroidResource Include="Resources\drawable\Profile_Icon.png" />
     <AndroidResource Include="Resources\drawable\Settings_Icon.png" />
     <AndroidResource Include="Resources\drawable\Events_Icon.png" />
@@ -152,6 +151,8 @@
     <AndroidResource Include="Resources\values\styles.xml" />
     <AndroidResource Include="Resources\drawable\buttonstyle.xml" />
     <AndroidResource Include="Resources\drawable\ic_view_headline_black_36dp.png" />
+    <AndroidResource Include="Resources\values\Arrays.xml" />
+    <AndroidResource Include="Resources\drawable\Invitation_Icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

@@ -24,16 +24,7 @@ namespace DineWithaDane.Android
 		public ActionBarDrawerToggle DrawerToggle { get; set; }
 
 
-		private static readonly Tuple<string, int, Type>[] Sections = new[] 
-			{
-				new Tuple<string, int, Type>("Profile", Resource.Drawable.Profile_Icon, typeof(ProfileActivity)),
-				//new Tuple<string, int, Type>("Notifications", Resource.Drawable.Notification_Icon, typeof(NotificationActivity)),
-				new Tuple<string, int, Type>("Offer", Resource.Drawable.Offer_Icon, typeof(OfferActivity)),
-				new Tuple<string, int, Type>("Events", Resource.Drawable.Events_Icon, typeof(EventActivity)),
-				new Tuple<string, int, Type>("Host", Resource.Drawable.Host_Icon, typeof(HostActivity)),
-				new Tuple<string, int, Type>("Settings", Resource.Drawable.Settings_Icon, typeof(SettingsActivitiy)),
-				new Tuple<string, int, Type>("Logout", Resource.Drawable.Logout_Icon, typeof(MainActivity))
-			};
+
 
 		public SetupDrawer (int position, DrawerActivity currentActivity)
 		{
@@ -47,7 +38,7 @@ namespace DineWithaDane.Android
 			Drawer = CurrentActivity.FindViewById<DrawerLayout> (Resource.Id.drawer_layout);
 			DrawerList = CurrentActivity.FindViewById<ListView> (Resource.Id.left_drawer);
 
-			DrawerList.Adapter = new DrawerAdapter(CurrentActivity, Sections);
+			DrawerList.Adapter = new DrawerAdapter(CurrentActivity, MainActivity.DrawerActivities, MainActivity.DrawerNames);
 
 			DrawerList.SetItemChecked (Position, true);
 
@@ -76,13 +67,13 @@ namespace DineWithaDane.Android
 		private void DrawerListOnItemClick (object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)
 		{
 
-			if (itemClickEventArgs.Position == Sections.Length - 1)
+			if (itemClickEventArgs.Position == MainActivity.DrawerActivities.Length - 1)
 			{
 				MainActivity.CIF.Logout(CurrentActivity);
 			}
 			else
 			{
-				var nextIntent = new Intent (CurrentActivity, Sections[itemClickEventArgs.Position].Item3);
+				var nextIntent = new Intent (CurrentActivity, MainActivity.DrawerActivities[itemClickEventArgs.Position].Item2);
 				nextIntent.PutExtra("index", itemClickEventArgs.Position);
 				CurrentActivity.StartActivity (nextIntent);
 			}

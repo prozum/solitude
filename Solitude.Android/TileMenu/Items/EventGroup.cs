@@ -17,6 +17,7 @@ namespace DineWithaDane.Android
 	public class EventGroup : TileListGroup
 	{
 		#region Field
+
 		/// <summary>
 		/// Sets the title of the view.
 		/// </summary>
@@ -25,32 +26,37 @@ namespace DineWithaDane.Android
 		/// <summary>
 		/// Sets the place of the view.
 		/// </summary>
-		public string Place	{ set { PlaceView.Text = /*"Place: " +*/ value;	} }
+		public string Place	{ set { PlaceView.Text = /*"Place: " +*/ value; } }
 
 		/// <summary>
 		/// Sets the date of the view.
 		/// </summary>
-		public DateTime Date { set { DateView.Text = /*"Date: " +*/ value.ToString("dd/MM/yyyy - hh:mm"); } }
+		public DateTimeOffset Date { set { DateView.Text = /*"Date: " +*/ value.ToString("dd/MM/yyyy - hh:mm"); } }
 
 		/// <summary>
 		/// Sets the slots taken and total stols of the view. Item1 is slots taken. Item2 is totals slots.
 		/// </summary>
-		public Tuple<int,int> Slots 
+		public Tuple<int,int> Slots
 		{
-			set 
+			set
 			{ 
 				ParticipantsView.Text = "Participants: " + (value.Item1) + "/" + value.Item2; 
 			} 
 		}
 
 		protected TextView TitleView { get; set; }
+
 		protected TextView PlaceView { get; set; }
+
 		protected TextView DateView { get; set; }
+
 		protected TextView ParticipantsView { get; set; }
+
 		#endregion
 
 
 		#region Contructors
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DineWithaDane.Android.EventGroup"/> class.
 		/// </summary>
@@ -68,10 +74,12 @@ namespace DineWithaDane.Android
 
 			Initialize();
 		}
+
 		#endregion
 
 
 		#region Private Methods
+
 		protected override void Initialize()
 		{
 			var detailslayout = new LinearLayout(Context);
@@ -91,6 +99,7 @@ namespace DineWithaDane.Android
 
 			base.Initialize();
 		}
+
 		#endregion
 	}
 }

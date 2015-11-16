@@ -19,11 +19,12 @@ namespace ClientCommunication
 {
 	public class CommunicationInterface
 	{
-		[Android.Runtime.Preserve (AllMembers = true)]
+		[Android.Runtime.Preserve(AllMembers = true)]
 		private string userToken;
 		private string token_type;
 
-		RestClient client = new RestClient (HttpStrings.SERVER_URL);
+		RestClient client = new RestClient(HttpStrings.SERVER_URL);
+
 		/// <summary>
 		/// Gets the latest error.
 		/// </summary>
@@ -36,7 +37,7 @@ namespace ClientCommunication
 		/// <returns>The complete request.</returns>
 		/// <param name="resource">Resource.</param>
 		/// <param name="method">Method.</param>
-		private RestRequest buildRequest (string resource, Method method)
+		private RestRequest buildRequest(string resource, Method method)
 		{
 			var req = new RestRequest(resource, method);
 			req.RequestFormat = DataFormat.Json;
@@ -46,6 +47,7 @@ namespace ClientCommunication
 		}
 
 		#region parses
+
 		/// <summary>
 		/// Parses the error message and assigns to the latestError string.
 		/// </summary>
@@ -54,9 +56,9 @@ namespace ClientCommunication
 		{
 			string errorContent = response.Content;
 			string[] splitErrorContent = errorContent.Split(':');
-			LatestError = splitErrorContent [splitErrorContent.Length - 1]
+			LatestError = splitErrorContent[splitErrorContent.Length - 1]
 				.Trim('"', ':', '\\', '[', ']', '{', '}')
-				.Replace (".", ".\n");
+				.Replace(".", ".\n");
 		}
 
 		/// <summary>
@@ -66,13 +68,13 @@ namespace ClientCommunication
 		/// <param name="request">Request.</param>
 		private bool executeAndParseResponse(IRestRequest request)
 		{
-			var response = client.Execute (request);
+			var response = client.Execute(request);
 
-			if (response.StatusCode != HttpStatusCode.OK) 
+			if (response.StatusCode != HttpStatusCode.OK)
 			{
-				parseErrorMessage (response);
+				parseErrorMessage(response);
 				return false;
-			} 
+			}
 			else
 				return true;
 		}
@@ -84,7 +86,7 @@ namespace ClientCommunication
 		/// <param name="value">Value.</param>
 		private int parseToInt(JsonValue value)
 		{
-			try 
+			try
 			{
 				string strVal = value.ToString();
 
@@ -178,17 +180,20 @@ namespace ClientCommunication
 			}
 		}
 		*/
+
 		#endregion
 
 		#region IClientCommunication implementation
+
 		#region OfferFetching
+
 		/// <summary>
 		/// Request the list of matches found by the server.
 		/// </summary>
 		/// <returns>A list of all Offers.</returns>
-		public List<Offer> RequestOffers ()
+		public List<Offer> RequestOffers()
 		{
-			var offerRequest = buildRequest ("offer", Method.GET);
+			var offerRequest = buildRequest("offer", Method.GET);
 
 			offerRequest.AddBody(new { userToken = userToken });
 
@@ -218,15 +223,15 @@ namespace ClientCommunication
 		/// Deletes the given user.
 		/// </summary>
 		/// <param name="u">User to delete.</param>
-		public void DeleteUser ()
+		public void DeleteUser()
 		{
-			var deleteRequest = buildRequest ("user", Method.DELETE);
+			var deleteRequest = buildRequest("user", Method.DELETE);
 
 			//Adds body to the request
 			var body = new { userToken = userToken };
 			deleteRequest.AddBody(body);
 
-			executeAndParseResponse (deleteRequest);
+			executeAndParseResponse(deleteRequest);
 		}
 
 		/// <summary>
@@ -245,10 +250,10 @@ namespace ClientCommunication
 			request.AddHeader("cache-control", HttpStrings.NO_CACHE);
 
 			//Adds body including username and password and specify, that a grant_type as password is desired
-			request.AddParameter(HttpStrings.URLENCODED, String.Format("username={0}&password={1}&grant_type=password", username, password), ParameterType.RequestBody);
+			request.AddParameter(HttpStrings.URLENCODED, @"username=" + username + @"&password=" + password + @"&grant_type=password", ParameterType.RequestBody);
 
 			//Execute and await response, parse afterwards
-			var tokenResponse = client.Execute (request);
+			var tokenResponse = client.Execute(request);
 
 			if (tokenResponse.StatusCode == 0)
 			{
@@ -271,13 +276,13 @@ namespace ClientCommunication
 			//Saves the token value and type and return true, if the login was successful and false otherwise
 			if (tokenResponse.StatusCode == HttpStatusCode.OK)
 			{
-				userToken = o ["access_token"];
-				token_type = o ["token_type"];
+				userToken = o["access_token"];
+				token_type = o["token_type"];
 				return true;
 			}
 			else
 			{
-				LatestError = o ["error_description"];
+				LatestError = o["error_description"];
 				return false;
 			}
 		}
@@ -286,7 +291,8 @@ namespace ClientCommunication
 		/// Logout from the system.
 		/// </summary>
 		/// <param name="activeActivity">Active activity used to start intent from.</param>
-		public void Logout(Activity activeActivity){
+		public void Logout(Activity activeActivity)
+		{
 			userToken = null;
 
 			var toLogin = new Intent(activeActivity, typeof(MainActivity));
@@ -297,36 +303,40 @@ namespace ClientCommunication
 		#endregion
 
 		#region Information-handling
+
 		/// <summary>
 		/// Replies the offer.
 		/// </summary>
 		/// <param name="answer">If set to <c>true</c> the user wants to join.</param>
 		/// <param name="e">Event which is being replied to.</param>
-		public void ReplyOffer (bool answer, Event e)
+		public void ReplyOffer(bool answer, Event e)
 		{
-			var request = buildRequest ("offer", Method.POST);
+			var request = buildRequest("offer", Method.POST);
 
 			var offerReply = new { 
-				EventId = e.ID, 
+				EventId = e.Id, 
 				Value = answer 
 			};
 
 			request.AddBody(offerReply);
 
-			executeAndParseResponse (request);
+			executeAndParseResponse(request);
 		}
+
 		#endregion
+
 		#region Event fetching
+
 		/// <summary>
 		/// Gets the users own events.
 		/// </summary>
 		/// <returns>A list of the users events.</returns>
 		/// <param name="n">Amount of events to find.</param>
 		/// <param name="NEWEST">If set to <c>true</c> returns the newest events.</param>
-		public List<Event> GetHostedEvents (int n, bool NEWEST = true)
+		public List<Event> GetHostedEvents(int n, bool NEWEST = true)
 		{
 			//Builds request
-			var eventRequest = buildRequest ("host", Method.GET);
+			var eventRequest = buildRequest("host", Method.GET);
 
 			//Executes request and recieves response
 			var serverResponse = client.Execute(eventRequest);
@@ -352,13 +362,16 @@ namespace ClientCommunication
 
 			return new List<Event>();
 		}
+
 		#endregion
+
 		#region User-handling
+
 		/// <summary>
 		/// Creates a new user on the server.
 		/// </summary>
 		/// <param name="u">User to create.</param>
-		public bool CreateUser (string Name, string address, DateTime birthday, string Username, string Password, string ConfirmedPassword)
+		public bool CreateUser(string Name, string address, DateTimeOffset birthday, string Username, string Password, string ConfirmedPassword)
 		{
 			//Build request and user
 			var request = new RestRequest("user/register", Method.POST);
@@ -380,14 +393,14 @@ namespace ClientCommunication
 
 		public User GetUserData()
 		{
-			var request = buildRequest ("user", Method.GET);
+			var request = buildRequest("user", Method.GET);
 
-			var response = client.Execute (request);
+			var response = client.Execute(request);
 
 			if (response.StatusCode == 0)
 			{
 				LatestError = "No connection to server";
-				return new User("Sample name", "Sample address", DateTime.Today);
+				return new User("Sample name", "Sample address", DateTimeOffset.UtcNow);
 			}
 			else if (response.StatusCode == HttpStatusCode.OK)
 			{
@@ -396,6 +409,7 @@ namespace ClientCommunication
 				try
 				{
 					return JsonConvert.DeserializeObject<User>(response.Content);
+
 					/*
 					string name = jVal["Name"];
 					string adr = jVal["Address"];
@@ -404,40 +418,42 @@ namespace ClientCommunication
 					return new User(name, adr, birthday);
 					*/
 				}
-				catch
+				catch (Exception e)
 				{
 					LatestError = "Could not find user data";
 				}
 
-				return new User("Sample name", "Sample address", DateTime.Today);
+				return new User("Sample name", "Sample address", DateTimeOffset.UtcNow);
 			}
 			else
 			{
 				parseErrorMessage(response);
-				return new User("Sample name", "Sample address", DateTime.Today);
+				return new User("Sample name", "Sample address", DateTimeOffset.UtcNow);
 			}
 		}
+
 		#endregion
 
 		#region Information-handling
+
 		/// <summary>
 		/// Updates the user specified by id.
 		/// </summary>
 		/// <param name="i">A reference to a <see cref="DineWithaDane.InfoChange"/> containing Key and Value of the change.</param>
-		public void AddInformation (InfoChange i)
+		public void AddInformation(InfoChange i)
 		{
-			var request = buildRequest ("info", Method.POST);
+			var request = buildRequest("info", Method.POST);
 
 			request.AddBody(i);
 
-			executeAndParseResponse (request);
+			executeAndParseResponse(request);
 		}
 
 		/// <summary>
 		/// Deletes the information from the server.
 		/// </summary>
 		/// <param name="i">A reference to a <see cref="DineWithaDane.InfoChange"/> containing Key and Value of the change.</param>
-		public void DeleteInformation (InfoChange i)
+		public void DeleteInformation(InfoChange i)
 		{
 			var request = buildRequest("info", Method.DELETE);
 
@@ -450,9 +466,9 @@ namespace ClientCommunication
 		/// Gets the information of current user.
 		/// </summary>
 		/// <returns>The information.</returns>
-		public List<int>[] GetInformation ()
+		public List<int>[] GetInformation()
 		{
-			var foodRequest = buildRequest (string.Format("info/{0}", InfoType.FoodHabit.ToString()), Method.GET);
+			var foodRequest = buildRequest(string.Format("info/{0}", InfoType.FoodHabit.ToString()), Method.GET);
 			var interestRequest = buildRequest(string.Format("info/{0}", InfoType.Interest), Method.GET);
 			var langRequest = buildRequest(string.Format("info/{0}", InfoType.Language), Method.GET);
 
@@ -475,16 +491,18 @@ namespace ClientCommunication
 
 			return interestList;
 		}
+
 		#endregion
 
 		#region Event-handling
+
 		/// <summary>
 		/// Creates an event on the server.
 		/// </summary>
 		/// <param name="e">Event to create.</param>
-		public bool CreateEvent (Event e)
+		public bool CreateEvent(Event e)
 		{
-			var request = buildRequest ("host", Method.POST);
+			var request = buildRequest("host", Method.POST);
 
 			//And the body containing event-informatinon
 			var body = new 
@@ -504,7 +522,7 @@ namespace ClientCommunication
 			if (response.StatusCode == HttpStatusCode.OK)
 			{
 				JsonValue jVal = System.Json.JsonValue.Parse(response.Content);
-				e.ID = parseToInt(jVal);
+				e.Id = parseToInt(jVal);
 				return true;
 			}
 			else
@@ -518,12 +536,12 @@ namespace ClientCommunication
 		/// Updates the event.
 		/// </summary>
 		/// <param name="e">Event to update</param>
-		public bool UpdateEvent (Event e)
+		public bool UpdateEvent(Event e)
 		{
-			var request = buildRequest ("host", Method.PUT);
+			var request = buildRequest("host", Method.PUT);
 
 			request.AddBody(new {
-				Id = e.ID,
+				Id = e.Id,
 				Date = e.Date, 
 				Address = e.Address,
 				Title = e.Title,
@@ -532,18 +550,18 @@ namespace ClientCommunication
 				SlotsTotal = e.SlotsTotal
 			});
 
-			return executeAndParseResponse (request);
+			return executeAndParseResponse(request);
 		}
 
 		/// <summary>
 		/// Deletes the given event.
 		/// </summary>
 		/// <param name="e">Event to delete.</param>
-		public void DeleteEvent (Event e)
+		public void DeleteEvent(Event e)
 		{
-			var request = buildRequest ("host/" + e.ID, Method.DELETE);
+			var request = buildRequest("host/" + e.Id, Method.DELETE);
 
-			executeAndParseResponse (request);
+			executeAndParseResponse(request);
 		}
 
 		/// <summary>
@@ -552,10 +570,10 @@ namespace ClientCommunication
 		/// <returns>A list of the users events.</returns>
 		/// <param name="n">Amount of events to find.</param>
 		/// <param name="NEWEST">If set to <c>true</c> returns the newest events.</param>
-		public List<Event> GetJoinedEvents (int n, bool NEWEST = true)
+		public List<Event> GetJoinedEvents(int n, bool NEWEST = true)
 		{
 			//Builds request
-			var eventRequest = buildRequest ("event", Method.GET);
+			var eventRequest = buildRequest("event", Method.GET);
 
 			//Executes request and recieves response
 			var serverResponse = client.Execute(eventRequest);
@@ -579,22 +597,26 @@ namespace ClientCommunication
 
 			return new List<Event>();
 		}
+
 		#endregion
+
 		#region Offer-replies and registration cancelling
+
 		/// <summary>
 		/// Cancels the registration to the specified event.
 		/// </summary>
-		public void CancelReg (Event e)
+		public void CancelReg(Event e)
 		{
-			var request = buildRequest (string.Format("event/{0}", e.ID), Method.DELETE);
+			var request = buildRequest(string.Format("event/{0}", e.Id), Method.DELETE);
 
 			//Add body to request
-			var cancelBody = new { eventId = e.ID,
+			var cancelBody = new { eventId = e.Id,
 				userToken = userToken };
 			request.AddBody(cancelBody);
 
-			executeAndParseResponse (request);
+			executeAndParseResponse(request);
 		}
+
 		#endregion
 
 		/// <summary>
@@ -608,11 +630,12 @@ namespace ClientCommunication
 			//Adds a body to the request containing the reciew
 			var review = new { rating = r.Rating,
 				text = r.ReviewText,
-				eventId = r.Event.ID };
+				eventId = r.Event.Id };
 			request.AddBody(review);
 
-			executeAndParseResponse (request);
+			executeAndParseResponse(request);
 		}
+
 		#endregion
 	}
 }
