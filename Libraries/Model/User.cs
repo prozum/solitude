@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
+using System;
 
 namespace Model
 {
@@ -19,7 +20,7 @@ namespace Model
 		[Required]
 		[Display(Name = "Birthdate")]
 		[DataType(DataType.DateTime)]
-		public string Birthdate { set; get; }
+		public DateTime Birthdate { set; get; }
 
 		[Required]
 		[Display(Name = "User name")]

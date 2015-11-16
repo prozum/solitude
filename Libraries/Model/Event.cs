@@ -1,16 +1,31 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Model
 {
 	public class Event
 	{
 		public int Id { get; set; }
-		public string Date { get; set; }
+
+		[Required]
+		public DateTime Date { get; set; }
+
+		[Required]
 		public string Address { get; set; }
+
+		[Required]
 		public string Title { get; set; }
+
+		[Required]
 		public string Description { get; set; }
+
+		[Required]
 		public string UserId { get; set; }
+
+		[Required]
 		public int SlotsTaken { get; set; }
+
+		[Required]
 		public int SlotsTotal { get; set; }
 
 		public override string ToString ()
