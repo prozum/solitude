@@ -245,7 +245,7 @@ namespace ClientCommunication
 			request.AddHeader("cache-control", HttpStrings.NO_CACHE);
 
 			//Adds body including username and password and specify, that a grant_type as password is desired
-			request.AddParameter(HttpStrings.URLENCODED, String.Format("username={0}&password={1}&grant_type=password", username, password), ParameterType.RequestBody);
+			request.AddParameter(HttpStrings.URLENCODED, @"username=" + username + @"&password=" + password + @"&grant_type=password", ParameterType.RequestBody);
 
 			//Execute and await response, parse afterwards
 			var tokenResponse = client.Execute (request);
