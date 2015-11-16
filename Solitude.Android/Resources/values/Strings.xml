@@ -29,7 +29,7 @@
 	<string name="message_cancel_event_confirm">Are you sure you want to cancel the event? You wont be able to recover the event afterwards.</string>
 	<string name="message_empty_username_password">No text entered in either username or password field</string>
 	<string name="message_error_event_update_event">Error, could not update event.</string>
-	<string name="message_event_nothing_here">There is nothing here. Go to Offers to find new events.</string>
+	<string name="message_event_nothing_here">There is nothing here. Go to Invites to find new events.</string>
 	<string name="message_host_nothing_hosted">You are hosting no events. To host an event, click the \"Host New Event\" button.</string>
 	<string name="message_logout">Are you sure you want to log out?</string>
 	<string name="message_offer_no_more">You have no more offers.</string>
