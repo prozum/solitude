@@ -146,20 +146,20 @@ namespace DineWithaDane.Android
 			for (int i = 0; i < interestlast; i++)
 				res += InfoAdapter.Names[1][item.Match.Interests[i]] + ", ";
 
-			if (interestlast <= 0)
-				res += InfoAdapter.Names[1][interestlast] + "\n";
+			if (interestlast >= 0)
+				res += InfoAdapter.Names[1][item.Match.Interests[interestlast]] + "\n";
 			
 			for (int i = 0; i < languagelast; i++)
 				res += InfoAdapter.Names[0][item.Match.Languages[i]] + ", ";
 
-			if (languagelast <= 0)
-				res += InfoAdapter.Names[0][languagelast] + "\n";
+			if (languagelast >= 0)
+				res += InfoAdapter.Names[0][item.Match.Languages[languagelast]] + "\n";
 
 			for (int i = 0; i < foodhabitlast; i++)
 				res += InfoAdapter.Names[2][item.Match.FoodHabits[i]] + ", ";
 
-			if (foodhabitlast <= 0)
-				res += InfoAdapter.Names[2][foodhabitlast] + "\n";
+			if (foodhabitlast >= 0)
+				res += InfoAdapter.Names[2][item.Match.FoodHabits[foodhabitlast]] + "\n";
 
 			return res;
 		}

@@ -59,6 +59,7 @@ namespace DineWithaDane.Android
 									dialog.SetNeutralButton("Yes", delegate
 											{
 												var toSettings = new Intent(this, typeof(SettingsActivitiy));
+												toSettings.PutExtra("index", 4);
 												StartActivity(toSettings);
 											});
 									RunOnUiThread(() => dialog.Show());

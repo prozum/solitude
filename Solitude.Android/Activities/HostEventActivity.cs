@@ -183,47 +183,47 @@ namespace DineWithaDane.Android
 			createEventButton.Text = "Host Event";
 			createEventButton.Id = 0x0007;
 			createEventButton.Click += (object sender, EventArgs e) =>
-			{
-				int numberOfGuestsMax;
-				bool boolGuestCount = int.TryParse(guests.Text, out numberOfGuestsMax);
-				bool boolTitle = String.IsNullOrEmpty(title.Text);
-				bool boolDescription = String.IsNullOrEmpty(description.Text);
-				bool boolLocation = String.IsNullOrEmpty(location.Text);
-				bool boolGuest = String.IsNullOrEmpty(guests.Text);
-				// Check if all forms have been filled.
-				if (boolTitle
-				    || boolDescription
-				    || boolLocation
-				    || boolGuest
-				    || !boolGuestCount)
 				{
-					AlertDialog.Builder builder = new AlertDialog.Builder(this);
-					AlertDialog alertDialog = builder.Create();
-					alertDialog.SetTitle("Empty fields");
-					alertDialog.SetMessage(String.Format("There are errors in your event:\n{0}{1}{2}{3}{4}", 
-							boolTitle ? "- No title\n" : "",
-							boolDescription ? "- No description\n" : "",
-							boolLocation ? "- No address\n" : "",
-							boolGuest ? "- No guest limit\n" : "",
-							(!boolGuestCount && !boolGuest) ? "- Too many event guests." : ""));
-					alertDialog.SetButton("OK", (s, ev) => alertDialog.Dismiss());
-					alertDialog.Show();
-				}
-				else
-				{
-					DateTime @dateTime = new DateTime(date.DateTime.Year, date.DateTime.Month, date.DateTime.Day, (int)timePicker.CurrentHour, (int)timePicker.CurrentMinute, 0);
-					Event @event = new Event(title.Text, @dateTime, location.Text, description.Text, numberOfGuestsMax, 0);
-					bool completed = MainActivity.CIF.CreateEvent(@event);
-					if (completed)
-						Finish();
+					int numberOfGuestsMax;
+					bool boolGuestCount = int.TryParse(guests.Text, out numberOfGuestsMax);
+					bool boolTitle = String.IsNullOrEmpty(title.Text);
+					bool boolDescription = String.IsNullOrEmpty(description.Text);
+					bool boolLocation = String.IsNullOrEmpty(location.Text);
+					bool boolGuest = String.IsNullOrEmpty(guests.Text);
+					// Check if all forms have been filled.
+					if (boolTitle
+					    || boolDescription
+					    || boolLocation
+					    || boolGuest
+					    || !boolGuestCount)
+					{
+						AlertDialog.Builder builder = new AlertDialog.Builder(this);
+						AlertDialog alertDialog = builder.Create();
+						alertDialog.SetTitle("Empty fields");
+						alertDialog.SetMessage(String.Format("There are errors in your event:\n{0}{1}{2}{3}{4}", 
+								boolTitle ? "- No title\n" : "",
+								boolDescription ? "- No description\n" : "",
+								boolLocation ? "- No address\n" : "",
+								boolGuest ? "- No guest limit\n" : "",
+								(!boolGuestCount && !boolGuest) ? "- Too many event guests." : ""));
+						alertDialog.SetButton("OK", (s, ev) => alertDialog.Dismiss());
+						alertDialog.Show();
+					}
 					else
 					{
-						var dialog = new AlertDialog.Builder(this);
-						dialog.SetMessage("Sorry, could not create event:\n" + MainActivity.CIF.LatestError);
-						dialog.Show();
+						DateTime @dateTime = new DateTime(date.DateTime.Year, date.DateTime.Month, date.DateTime.Day, (int)timePicker.CurrentHour, (int)timePicker.CurrentMinute, 0);
+						Event @event = new Event(title.Text, @dateTime, location.Text, description.Text, numberOfGuestsMax, 0);
+						bool completed = MainActivity.CIF.CreateEvent(@event);
+						if (completed)
+							Finish();
+						else
+						{
+							var dialog = new AlertDialog.Builder(this);
+							dialog.SetMessage("Sorry, could not create event:\n" + MainActivity.CIF.LatestError);
+							dialog.Show();
+						}
 					}
-				}
-			};
+				};
 			var cancelButton = new Button(this);
 			cancelButton.Text = "Cancel";
 			cancelButton.Id = 0x0008;
@@ -241,50 +241,73 @@ namespace DineWithaDane.Android
 		{
 			title.Text = Intent.GetStringExtra("title");
 			description.Text = Intent.GetStringExtra("description");
-			date.DateTime = new DateTime(Intent.GetIntExtra("date year", 0), Intent.GetIntExtra("date month", 0), Intent.GetIntExtra("date day", 0), Intent.GetIntExtra("date hour", 0), Intent.GetIntExtra("date minutte", 0), 0);
+			date.DateTime = new DateTime(Intent.GetIntExtra("date year", 0), Intent.GetIntExtra("date month", 0), Intent.GetIntExtra("date day", 0));
 			location.Text = Intent.GetStringExtra("place");
 			guests.Text = Intent.GetIntExtra("maxslots", 0).ToString();
 			dateCurrent.Text = FormatDate(date.DateTime);
-			timePicker.CurrentHour = (Java.Lang.Integer)date.DateTime.Hour;
-			timePicker.CurrentMinute = (Java.Lang.Integer)date.DateTime.Minute;
+			timePicker.CurrentHour = (Java.Lang.Integer)Intent.GetIntExtra("date hour", 0);
+			timePicker.CurrentMinute = (Java.Lang.Integer)Intent.GetIntExtra("date minutte", 0);
 			timeCurrent.Text = FormatTime(timePicker);
-
 
 			var buttonConfirm = new Button(this);
 			buttonConfirm.Id = 0x0007;
 			buttonConfirm.Text = "Save changes";
 			buttonConfirm.Click += (object sender, EventArgs e) =>
-			{
-				int numberOfGuestsMax;
-				bool boolGuestCount = int.TryParse(guests.Text, out numberOfGuestsMax);
-				bool boolTitle = String.IsNullOrEmpty(title.Text);
-				bool boolDescription = String.IsNullOrEmpty(description.Text);
-				bool boolLocation = String.IsNullOrEmpty(location.Text);
-				bool boolGuest = String.IsNullOrEmpty(guests.Text);
-				bool bool32BitGuest = numberOfGuestsMax < Intent.GetIntExtra("leftslots", Int32.MaxValue);
-
-				if (boolTitle
-				    || boolDescription
-				    || boolLocation
-				    || boolGuest
-				    || !boolGuestCount
-				    || bool32BitGuest)
 				{
-					AlertDialog.Builder builder = new AlertDialog.Builder(this);
-					AlertDialog alertDialog = builder.Create();
-					alertDialog.SetTitle("Empty fields");
-					alertDialog.SetMessage(String.Format("There are errors in your event:\n{0}{1}{2}{3}{4}{5}", 
-							boolTitle ? "- No title\n" : "",
-							boolDescription ? "- No description\n" : "",
-							boolLocation ? "- No address\n" : "",
-							boolGuest ? "- No guest limit\n" : "",
-							(!boolGuestCount && !boolGuest) ? "- Too many event guests." : "",
-							bool32BitGuest ? "- Your new guest limit is below current number of participants" : ""));
-					alertDialog.SetButton("OK", (s, ev) => alertDialog.Dismiss());
-					alertDialog.Show();
-				}
-				Event @event = new Event(title.Text, new DateTime(date.DateTime.Year, date.DateTime.Month, date.DateTime.Day, (int)timePicker.CurrentHour, (int)timePicker.CurrentMinute, 0), location.Text, description.Text, numberOfGuestsMax, Intent.GetIntExtra("leftslots", 0), Intent.GetIntExtra("id", 0));
-				MainActivity.CIF.UpdateEvent(@event);
+					int numberOfGuestsMax;
+					bool boolGuestCount = int.TryParse(guests.Text, out numberOfGuestsMax);
+					bool boolTitle = String.IsNullOrEmpty(title.Text);
+					bool boolDescription = String.IsNullOrEmpty(description.Text);
+					bool boolLocation = String.IsNullOrEmpty(location.Text);
+					bool boolGuest = String.IsNullOrEmpty(guests.Text);
+					bool bool32BitGuest = numberOfGuestsMax < Intent.GetIntExtra("leftslots", Int32.MaxValue);
+
+					if (boolTitle
+					    || boolDescription
+					    || boolLocation
+					    || boolGuest
+					    || !boolGuestCount
+					    || bool32BitGuest)
+					{
+						AlertDialog.Builder builder = new AlertDialog.Builder(this);
+						AlertDialog alertDialog = builder.Create();
+						alertDialog.SetTitle("Empty fields");
+						alertDialog.SetMessage(String.Format("There are errors in your event:\n{0}{1}{2}{3}{4}{5}", 
+								boolTitle ? "- No title\n" : "",
+								boolDescription ? "- No description\n" : "",
+								boolLocation ? "- No address\n" : "",
+								boolGuest ? "- No guest limit\n" : "",
+								(!boolGuestCount && !boolGuest) ? "- Too many event guests." : "",
+								bool32BitGuest ? "- Your new guest limit is below current number of participants" : ""));
+						alertDialog.SetButton("OK", (s, ev) => alertDialog.Dismiss());
+						alertDialog.Show();
+					}
+					else 
+					{
+						Event @event = new Event(	title.Text, 
+													new DateTime(	date.DateTime.Year, 
+																	date.DateTime.Month, 
+																	date.DateTime.Day, 
+																	(int)timePicker.CurrentHour, 
+																	(int)timePicker.CurrentMinute, 0), 
+													location.Text, 
+													description.Text, 
+													numberOfGuestsMax, 
+													Intent.GetIntExtra("leftslots", 0), 
+													Intent.GetIntExtra("id", 0));
+							
+						bool completed = MainActivity.CIF.UpdateEvent(@event);
+						if (completed)
+							Finish();
+						else
+						{
+							var dialog = new AlertDialog.Builder(this);
+							dialog.SetMessage("Sorry, could not create event:\n" + MainActivity.CIF.LatestError);
+							dialog.Show();
+						}
+						Finish();
+					}
+				
 			};
 
 			var buttonCancel = new Button(this);
