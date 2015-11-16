@@ -153,6 +153,7 @@
     <AndroidResource Include="Resources\drawable\buttonstyle.xml" />
     <AndroidResource Include="Resources\drawable\ic_view_headline_black_36dp.png" />
     <AndroidResource Include="Resources\values\Arrays.xml" />
+    <AndroidResource Include="Resources\drawable\Invitation_Icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

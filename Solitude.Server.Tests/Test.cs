@@ -232,6 +232,7 @@ namespace Solitude.Server.Tests
 			Login ();
 			DeleteUser ();
 		}
+
 		[Test ()]
 		public void TestCaseCancelRegistration ()
 		{
@@ -242,6 +243,56 @@ namespace Solitude.Server.Tests
 			CancelRegistration ();
 		}
 
+		[Test ()]
+		public void TestCaseErrorMessageTooShort ()
+		{
+			RegisterUserWrongPassword ("kurt", "The Password must be at least 6 characters long.");
+		}
+
+		[Test ()]
+		public void TestCaseErrorMessageNoDigits ()
+		{
+			RegisterUserWrongPassword ("Kurten!", "Passwords must have at least one digit");
+		}
+
+		[Test ()]
+		public void TestCaseErrorMessageNoUppercase ()
+		{
+			RegisterUserWrongPassword ("kurten123!", "Passwords must have at least one uppercase");
+		}
+
+		[Test ()]
+		public void TestCaseErrorMessageNoLowercase ()
+		{
+			RegisterUserWrongPassword ("KURTEN123!", "Passwords must have at least one lowercase");
+		}
+
+		[Test ()]
+		public void TestCaseErrorMessageNoSpecialCharacter ()
+		{
+			RegisterUserWrongPassword ("Kurten2", "Passwords must have at least one non letter or digit character");
+		}
+
+		[Test ()]
+		public void TestCaseErrorMessageWrongConfirmedPassword ()
+		{
+			RegisterUserWrongPassword ("Kurten123!", "Kurten12!", "The password and confirmation password do not match");
+		}
+
+		[Test ()]
+		public void TestCaseErrorMessageDateTimeError ()
+		{
+			RegisterUserWrongDateTime ("userModel.birthdate");
+		}
+
+		[Test ()]
+		public void TestCaseInvalidEventUpdate ()
+		{
+			RegisterUser ();
+			Login ();
+			AddEvent ();
+			UpdateEventSlotsTaken ();
+		}
 	}
 }
 
