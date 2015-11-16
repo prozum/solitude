@@ -445,10 +445,9 @@ namespace Dal
 		public async Task UpdateEvent (Event @event, string uid)
 		{
 			await client.Cypher
-				.Match ("user:User-[:HOSTING]->(e:Event)")
-				.Where ("event.Id = {eid}")
+				.Match ("(user:User)-[:HOSTING]->(e:Event)")
+				.Where((Event e) => e.Id == @event.Id)
 				.AndWhere ((User user) => user.Id == uid)
-				.WithParam("eid", @event.Id)
 				.Set ("e = {newinfo}")
 				.WithParam ("newinfo", @event)
 				.ExecuteWithoutResultsAsync();
