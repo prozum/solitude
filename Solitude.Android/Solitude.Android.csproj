@@ -140,7 +140,6 @@
     <AndroidResource Include="Resources\drawable\Logout_Icon.png" />
     <AndroidResource Include="Resources\drawable\Main_Icon.png" />
     <AndroidResource Include="Resources\drawable\Notification_Icon.png" />
-    <AndroidResource Include="Resources\drawable\Offer_Icon.png" />
     <AndroidResource Include="Resources\drawable\Profile_Icon.png" />
     <AndroidResource Include="Resources\drawable\Settings_Icon.png" />
     <AndroidResource Include="Resources\drawable\Events_Icon.png" />

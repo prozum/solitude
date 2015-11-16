@@ -43,7 +43,7 @@ namespace DineWithaDane.Android
 				DrawerActivities = new Tuple<int, Type>[]
 					{
 						new Tuple<int, Type>(Resource.Drawable.Profile_Icon, typeof(ProfileActivity)),
-						new Tuple<int, Type>(Resource.Drawable.Offer_Icon, typeof(OfferActivity)),
+						new Tuple<int, Type>(Resource.Drawable.Invitation_Icon, typeof(OfferActivity)),
 						new Tuple<int, Type>(Resource.Drawable.Events_Icon, typeof(EventActivity)),
 						new Tuple<int, Type>(Resource.Drawable.Host_Icon, typeof(HostActivity)),
 						new Tuple<int, Type>(Resource.Drawable.Settings_Icon, typeof(SettingsActivitiy)),
