@@ -32,7 +32,7 @@ namespace Solitude.Server
             
         public async Task<IHttpActionResult> Put(Event e)
         {
-            await DB.UpdateEvent(e);
+            await DB.UpdateEvent(e, User.Identity.GetUserId());
 
             return Ok();
         }

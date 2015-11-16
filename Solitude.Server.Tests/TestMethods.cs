@@ -14,8 +14,8 @@ namespace Solitude.Server.Tests
 		public Event e = new Event ();		
 		public static RestClient testClient = new RestClient("http://prozum.dk:8080/api/");
 		public static Random r = new Random();
-		public static string testUsername, testToken = "", token_type = "", testName = "Kurt Von Egelund", password = "Testkurt123!";
-		Offer Offers = new Offer();
+		public static string testUsername, testToken = "", token_type = "", testName = "Kurt Von Egelund", password = @"Testkurt+&123!";
+		Offer offer = new Offer();
 
 		public void RegisterUser ()
 		{
@@ -37,15 +37,76 @@ namespace Solitude.Server.Tests
 			Assert.IsTrue (response.StatusCode == HttpStatusCode.OK, response.Content);
 		}
 
+		public void RegisterUserWrongPassword (string password, string correctErrorMessage)
+		{
+			testUsername = "testkurt" + r.Next(1, 1000000);
+			var request = new RestRequest ("user/register", Method.POST);
+			var user = new 
+			{
+				name = testName,
+				birthdate = DateTime.Now,
+				address = "Fiskegade",
+				username = testUsername,
+				password = password,
+				confirmPassword = password
+			};
+
+			request.RequestFormat = DataFormat.Json;
+			request.AddBody (user);
+			var response = testClient.Execute (request);
+			string errorMessage = parseErrorMessage (response);
+			Assert.IsTrue (errorMessage.Contains(correctErrorMessage), errorMessage);
+		}
+
+		public void RegisterUserWrongPassword (string password, string confirmedPassword, string correctErrorMessage)
+		{
+			testUsername = "testkurt" + r.Next(1, 1000000);
+			var request = new RestRequest ("user/register", Method.POST);
+			var user = new 
+			{
+				name = testName,
+				birthdate = DateTime.Now,
+				address = "Fiskegade",
+				username = testUsername,
+				password = password,
+				confirmPassword = confirmedPassword
+			};
+
+			request.RequestFormat = DataFormat.Json;
+			request.AddBody (user);
+			var response = testClient.Execute (request);
+			string errorMessage = parseErrorMessage (response);
+			Assert.IsTrue (errorMessage.Contains(correctErrorMessage), errorMessage);
+		}
+
+		public void RegisterUserWrongDateTime (string correctErrorMessage)
+		{
+			testUsername = "testkurt" + r.Next(1, 1000000);
+			var request = new RestRequest ("user/register", Method.POST);
+			var user = new 
+			{
+				name = testName,
+				birthdate = "Nej",
+				address = "Fiskegade",
+				username = testUsername,
+				password = password,
+				confirmPassword = password
+			};
+
+			request.RequestFormat = DataFormat.Json;
+			request.AddBody (user);
+			var response = testClient.Execute (request);
+			string errorMessage = parseDateTimeErrorMessage (response);
+			Assert.IsTrue (errorMessage.Contains(correctErrorMessage));
+		}
+
 		public void Login()
 		{
 			var request = new RestRequest("token", Method.POST);
 
-			request.AddHeader("content-type", "x-www-form-urlencoded");
-			request.AddHeader ("postman-token", "a4e85886-daf2-5856-b530-12ed21af5867");
-			request.AddHeader("cache-control", "no_cache");
-
-			request.AddParameter("x-www-form-urlencoded", String.Format("username={0}&password={1}&grant_type=password", testUsername, password), ParameterType.RequestBody);
+			request.AddParameter("username", testUsername);
+			request.AddParameter("password", password);
+			request.AddParameter("grant_type", "password");
 
 			var tokenResponse = testClient.Execute (request);
 
@@ -144,12 +205,10 @@ namespace Solitude.Server.Tests
 			//Testing if the request was executed
 			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request was not executed correctly: " + response.Content);
 
-			var offer = JsonConvert.DeserializeObject<IEnumerable<Offer>> (response.Content);
-			Offers = new Offer ();
-			if (offer.GetEnumerator().Current != null)
-				Offers.Id = 18723;
+			var offers = JsonConvert.DeserializeObject<IEnumerable<Offer>> (response.Content);
+			offer = offers.Last();
 			//Testing if the returned event has an Id.
-			Assert.AreNotEqual (new Event().Id, Offers.Id, "An error has occured, it is likely no offers were returned");
+			Assert.AreNotEqual (new Event().Id, offer.Id, "An error has occured, it is likely no offers were returned: " + response.Content);
 		}
 
 		public void ReplyOffer(bool answer)
@@ -158,7 +217,7 @@ namespace Solitude.Server.Tests
 
 			var Reply = new {
 				Value = answer,
-				EventId = Offers.Id
+				EventId = offer.Id
 			};
 			request.AddBody (Reply);
 			var response = testClient.Execute(request);
@@ -189,6 +248,19 @@ namespace Solitude.Server.Tests
 			var receivedEvent = events.Where ((ev) => ev.Id == e.Id).First();
 
 			Assert.AreEqual (e.Title, receivedEvent.Title, "The recieved event did not have the updated title.");
+		} 
+
+		public void UpdateEventSlotsTaken()
+		{
+			e.Id = 106;
+			e.SlotsTaken = 74859;
+			var request = buildRequest ("host", Method.PUT);
+
+			request.AddBody (e);
+
+			var response = testClient.Execute (request);
+
+			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request was not executed correctly: " + response.Content);
 		} 
 
 		public void DeleteCharacteristica (int Characteristica, int Value) 
@@ -234,9 +306,8 @@ namespace Solitude.Server.Tests
 			response = testClient.Execute (request);
 			var events = JsonConvert.DeserializeObject<IEnumerable<Event>>(response.Content);
 
-			var receivedEvent = events.Where((ev) => ev.Id == e.Id).First();
 
-			Assert.AreEqual (receivedEvent, null);
+			Assert.AreEqual (events.Where((ev) => ev.Id == e.Id).FirstOrDefault(), null);
 		}
 
 		public void GetAttendingEvents()
@@ -247,9 +318,9 @@ namespace Solitude.Server.Tests
 
 			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request was not executed correctly " + response.Content);
 
-			var @event = JsonConvert.DeserializeObject<IEnumerable<Event>>(response.Content);
+			var events = JsonConvert.DeserializeObject<IEnumerable<Event>>(response.Content);
 
-			Assert.AreNotEqual (new Event ().Id, @event.GetEnumerator().Current.Id, "Something went wrong, it is likely no events were returned: " + response.Content);
+			Assert.AreNotEqual (new Event ().Id, events.First().Id, "Something went wrong, it is likely no events were returned: " + response.Content);
 		}
 
 		public void DeleteUser ()
@@ -281,7 +352,7 @@ namespace Solitude.Server.Tests
 
 		public void CancelRegistration ()
 		{
-			var request = buildRequest ("event/" + Offers.Id, Method.DELETE);
+			var request = buildRequest ("event/" + offer.Id, Method.DELETE);
 
 			var response = testClient.Execute (request);
 
@@ -293,9 +364,14 @@ namespace Solitude.Server.Tests
 
 			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The get-request was not executed correctly " + response.Content);
 
-			var @event = JsonConvert.DeserializeObject<IEnumerable<Event>>(response.Content);
+			var events = JsonConvert.DeserializeObject<IEnumerable<Event>>(response.Content);
+			Event receivedEvent;
+			if (events.Where ((ev) => ev.Id == e.Id).FirstOrDefault() == null)
+				receivedEvent = new Event ();
+			else
+				receivedEvent = events.Where ((ev) => ev.Id == e.Id).First ();
 
-			Assert.AreNotEqual (Offers.Id, @event.GetEnumerator().Current.Id, "The Registration was not cancelled correctly: " + response.Content);
+			Assert.AreNotEqual (offer.Id, receivedEvent.Id, "The Registration was not cancelled correctly: " + response.Content);
 		}
 
 		public void GetUserData()
@@ -310,7 +386,22 @@ namespace Solitude.Server.Tests
 
 			Assert.AreEqual (testUsername, receivedUserData.UserName.ToString(), "The received username is not the same as the actual: " + response.Content);
 		}
-			
+
+		string parseErrorMessage(IRestResponse response)
+		{
+			string errorContent = response.Content;
+			string[] splitErrorContent = errorContent.Split(':');
+			return splitErrorContent [splitErrorContent.Length - 1]
+				.Trim ('"', ':', '\\', '[', ']', '{', '}');
+		}
+
+		string parseDateTimeErrorMessage(IRestResponse response)
+		{
+			string errorContent = response.Content;
+			string[] splitErrorContent = errorContent.Split(':');
+			return splitErrorContent [splitErrorContent.Length - 3]
+				.Trim ('"', ':', '\\', '[', ']', '{', '}');
+		}
 
 		public RestRequest buildRequest(string resource, Method method)
 		{

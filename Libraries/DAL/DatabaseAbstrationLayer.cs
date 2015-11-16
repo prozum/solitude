@@ -442,13 +442,13 @@ namespace Dal
 		/// </summary>
 		/// <returns>Task</returns>
 		/// <param name="event">The event which replaces the old event</param>
-		public async Task UpdateEvent (Event @event)
+		public async Task UpdateEvent (Event @event, string uid)
 		{
 			await client.Cypher
-				.Match ("user-[:HOSTING]->(event:Event)")
-				.Where ("event.Id = {eid}")
-				.WithParam ("eid", @event.Id)
-				.Set ("event = {newinfo}")
+				.Match ("user:User-[:HOSTING]->(e:Event)")
+				.Where ((Event e) => e.Id == @event.Id)
+				.AndWhere ((User user) => user.Id == uid)
+				.Set ("e = {newinfo}")
 				.WithParam ("newinfo", @event)
 				.ExecuteWithoutResultsAsync();
 		}
