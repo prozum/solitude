@@ -96,6 +96,7 @@ namespace ClientCommunication
 			}
 		}
 
+		/*
 		/// <summary>
 		/// Parses the events from the server response.
 		/// </summary>
@@ -134,6 +135,7 @@ namespace ClientCommunication
 
 			return events;
 		}
+		*/
 
 		public DateTime parseDate(string s)
 		{
@@ -147,6 +149,7 @@ namespace ClientCommunication
 			}
 		}
 
+		/*
 		/// <summary>
 		/// Parses the info response.
 		/// </summary>
@@ -171,6 +174,7 @@ namespace ClientCommunication
 				LatestError = "Could not parse interests";
 			}
 		}
+		*/
 		#endregion
 
 		#region IClientCommunication implementation
@@ -192,7 +196,17 @@ namespace ClientCommunication
 			else if (response.StatusCode != HttpStatusCode.OK)
 				parseErrorMessage(response);
 			else
-				return JsonConvert.DeserializeObject<List<Offer>>(response.Content); //parseEvents(response);
+			{
+				try
+				{
+					return JsonConvert.DeserializeObject<List<Offer>>(response.Content);
+				}
+				catch
+				{
+					LatestError = "Could not parse offer";
+				}
+			}
+				
 
 			return new List<Offer>();
 		}
@@ -320,7 +334,18 @@ namespace ClientCommunication
 			else if (serverResponse.StatusCode != HttpStatusCode.OK)
 				parseErrorMessage(serverResponse);
 			else
-				return parseEvents(serverResponse);
+			{
+				try
+				{
+					return JsonConvert.DeserializeObject<List<Event>>(serverResponse.Content);
+				}
+				catch
+				{
+					LatestError = "Could not parse event";
+				}
+			} 
+
+
 
 			return new List<Event>();
 		}
@@ -419,24 +444,28 @@ namespace ClientCommunication
 		/// Gets the information of current user.
 		/// </summary>
 		/// <returns>The information.</returns>
-		public List<List<int>> GetInformation ()
+		public List<int>[] GetInformation ()
 		{
 			var foodRequest = buildRequest (string.Format("info/{0}", InfoType.FoodHabit.ToString()), Method.GET);
 			var interestRequest = buildRequest(string.Format("info/{0}", InfoType.Interest), Method.GET);
 			var langRequest = buildRequest(string.Format("info/{0}", InfoType.Language), Method.GET);
 
-			var interestList = new List<List<int>>();
-
-			for (int i = 0; i < Enum.GetValues(typeof(InfoType)).Length; i++)
-				interestList.Add(new List<int>());
+			var interestList = new List<int>[Enum.GetValues(typeof(InfoType)).Length];
 
 			var foodReponse = client.Execute(foodRequest);
 			var interestResponse = client.Execute(interestRequest);
 			var langResponse = client.Execute(langRequest);
 
-			parseInfoResponse(foodReponse, interestList[(int)InfoType.FoodHabit]);
-			parseInfoResponse(interestResponse, interestList[(int)InfoType.Interest]);
-			parseInfoResponse(langResponse, interestList[(int)InfoType.Language]);
+			try
+			{
+				interestList[(int)InfoType.FoodHabit] = JsonConvert.DeserializeObject<List<int>>(foodReponse.Content);
+				interestList[(int)InfoType.Interest] = JsonConvert.DeserializeObject<List<int>>(interestResponse.Content);
+				interestList[(int)InfoType.Language] = JsonConvert.DeserializeObject<List<int>>(langResponse.Content);
+			}
+			catch
+			{
+				LatestError = "Could not parse info";
+			}
 
 			return interestList;
 		}
@@ -452,14 +481,15 @@ namespace ClientCommunication
 			var request = buildRequest ("host", Method.POST);
 
 			//And the body containing event-informatinon
-			var body = new { 
-				Date = e.Date.ToString("yyyy/MM/dd-hh:mm:ss"), 
-				Address = e.Place,
-				Title = e.Title,
-				Description = e.Description,
-				SlotsTaken = 0,
-				SlotsTotal = e.MaxSlots
-			};
+			var body = new 
+				{ 
+					Date = e.Date.ToString("yyyy/MM/dd-hh:mm:ss"), 
+					Address = e.Place,
+					Title = e.Title,
+					Description = e.Description,
+					SlotsTaken = 0,
+					SlotsTotal = e.MaxSlots
+				};
 
 			request.AddBody(body);
 
@@ -530,7 +560,7 @@ namespace ClientCommunication
 			else if (serverResponse.StatusCode != HttpStatusCode.OK)
 				parseErrorMessage(serverResponse);
 			else
-				return parseEvents(serverResponse);
+				return JsonConvert.DeserializeObject<List<Event>>(serverResponse.Content); //parseEvents(serverResponse);
 
 			return new List<Event>();
 		}

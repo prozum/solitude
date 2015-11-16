@@ -70,8 +70,8 @@ namespace DineWithaDane.Android
 		/// </summary>
 		/// <param name="context">Context.</param>
 		/// <param name="items">Items.</param>
-		public InfoAdapter(Activity context, List<List<int>> items) 
-			: base(context, items) { }
+		public InfoAdapter(Activity context, List<int>[] items) 
+			: base(context, items.ToList()) { }
 		#endregion
 
 

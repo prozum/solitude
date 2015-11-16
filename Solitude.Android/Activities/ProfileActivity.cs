@@ -27,7 +27,7 @@ namespace DineWithaDane.Android
 	{
 		protected User User { get; set; }
 
-		protected List<List<int>> Info { get; set; }
+		protected List<int>[] Info { get; set; }
 
 		protected override void OnCreate(Bundle savedInstanceState)
 		{

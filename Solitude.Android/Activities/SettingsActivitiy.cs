@@ -63,7 +63,7 @@ namespace DineWithaDane.Android
 		TextView buttonChangeFoodHabits;
 		TextView buttonChangeInterests;
 
-		protected List<List<int>> info { get; set; }
+		protected List<int>[] Info { get; set; }
 
 		protected override void OnCreate(Bundle bundle)
 		{
@@ -71,7 +71,7 @@ namespace DineWithaDane.Android
 			var settingsLayout = new LinearLayout(this);
 			settingsLayout.Orientation = Orientation.Vertical;
 
-			info = MainActivity.CIF.GetInformation();
+			Info = MainActivity.CIF.GetInformation();
 
 			/*
 			// Button setup
@@ -91,7 +91,7 @@ namespace DineWithaDane.Android
 			buttonChangeLanguage.Click += (object sender, EventArgs e) =>
 			{
 				buttonChangeLanguage.SetBackgroundColor(Color.Orange);
-				SetupEditDialog(InfoType.Language, info[(int)InfoType.Language]);
+				SetupEditDialog(InfoType.Language, Info[(int)InfoType.Language]);
 			};
 
 			buttonChangeFoodHabits = new TextView(this);
@@ -103,7 +103,7 @@ namespace DineWithaDane.Android
 			buttonChangeFoodHabits.Click += (object sender, EventArgs e) =>
 			{
 				buttonChangeFoodHabits.SetBackgroundColor(Color.Orange);
-				SetupEditDialog(InfoType.FoodHabit, info[(int)InfoType.FoodHabit]);
+				SetupEditDialog(InfoType.FoodHabit, Info[(int)InfoType.FoodHabit]);
 			};
 
 			buttonChangeInterests = new TextView(this);
@@ -115,7 +115,7 @@ namespace DineWithaDane.Android
 			buttonChangeInterests.Click += (object sender, EventArgs e) =>
 			{
 				buttonChangeInterests.SetBackgroundColor(Color.Orange);
-				SetupEditDialog(InfoType.Interest, info[(int)InfoType.Interest]);
+				SetupEditDialog(InfoType.Interest, Info[(int)InfoType.Interest]);
 			};
 
 			buttonDeleteAccount = new TextView(this);
@@ -204,13 +204,15 @@ namespace DineWithaDane.Android
 
 		private void UpdateInfo(InfoType type, List<int> changes)
 		{
+			var info = Info[(int)type];
+
 			//foreach (var item in info[(int)type])
-			for (int i = 0; i < info[(int)type].Count;)
+			for (int i = 0; i < info.Count;)
 			{
-				if (!changes.Contains(info[(int)type][i]))
+				if (!changes.Contains(info[i]))
 				{
-					MainActivity.CIF.DeleteInformation(new InfoChange(type, info[(int)type][i]));
-					info[(int)type].Remove(info[(int)type][i]);
+					MainActivity.CIF.DeleteInformation(new InfoChange(type, info[i]));
+					info.Remove(info[i]);
 				}
 				else
 				{
@@ -220,10 +222,10 @@ namespace DineWithaDane.Android
 
 			foreach (var item in changes)
 			{
-				if (!info[(int)type].Contains(item))
+				if (!info.Contains(item))
 				{
 					MainActivity.CIF.AddInformation(new InfoChange(type, item));
-					info[(int)type].Add(item);
+					info.Add(item);
 				}
 			}
 		}
