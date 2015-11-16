@@ -41,7 +41,7 @@
 	<string name="sign_up_missing_info">Missing some information, please make sure all fields are filled correctly</string>
 	<string name="sign_up_set_info">Do you want to set your profile information now?</string>
 	<string name="sign_up_success">Profile was successfully created.</string>
-	<string name="year_old"> years old</string>
+	<string name="year_old">&#160;years old</string>
 	<string name="yes">Yes</string>
 	<string name="yes_cancel">Yes, Cancel</string>
 </resources>
