@@ -10,7 +10,7 @@ namespace DineWithaDane.Android
 		public string Address { get; set; }
 		public string Description { get; set; }
 		public int SlotsTotal { get; set; }
-		public int SlotsLeft { get; set; }
+		public int SlotsTaken { get; set; }
 		public int Id { get; set; }
 		#endregion
 
@@ -27,7 +27,7 @@ namespace DineWithaDane.Android
 			Address = place;
 			Description = desc;
 			SlotsTotal = max;
-			SlotsLeft = left;
+			SlotsTaken = left;
 		}
 
 		public Event (string title, DateTimeOffset date, string place, string desc, int max, int left, int ID)

@@ -546,7 +546,7 @@ namespace ClientCommunication
 				Address = e.Address,
 				Title = e.Title,
 				Description = e.Description,
-				SlotsTaken = e.SlotsTotal - e.SlotsLeft,
+				SlotsTaken = e.SlotsTotal - e.SlotsTaken,
 				SlotsTotal = e.SlotsTotal
 			});
 
