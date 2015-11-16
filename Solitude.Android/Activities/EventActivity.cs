@@ -11,15 +11,15 @@ using System.Threading;
 
 namespace DineWithaDane.Android
 {
-	[Activity (Label = "Events", Icon = "@drawable/Events_Icon")]
+	[Activity(Label = "Events", Icon = "@drawable/Events_Icon")]
 	public class EventActivity : DrawerActivity
 	{
 		protected JoinedEventList Tilelist { get; set; }
 
-		protected override void OnCreate (Bundle savedInstanceState)
+		protected override void OnCreate(Bundle savedInstanceState)
 		{
 			// setting up and drawer
-			base.OnCreate (savedInstanceState);
+			base.OnCreate(savedInstanceState);
 
 			//Shows spinner to indicate loading
 			ShowSpinner();
@@ -33,20 +33,20 @@ namespace DineWithaDane.Android
 
 					View view;
 
-					if (events.Count != 0) 
+					if (events.Count != 0)
 					{
 						var adapter = new JoinedEventListAdapter(this, events);
 						Tilelist = new JoinedEventList(this, adapter, (s, e) => LeaveEvent());
 						view = Tilelist;
 					}
-					else 
+					else
 					{
 						view = new TextView(this);
-						(view as TextView).Text = "There is nothing here. Go to Offers to find new events.";
+						(view as TextView).Text = Resources.GetString(Resource.String.message_event_nothing_here);
 					}
 
 					//Clear screen and show the found offers
-					RunOnUiThread( () => 
+					RunOnUiThread(() =>
 						{
 							ClearLayout();
 							Content.AddView(view);

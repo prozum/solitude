@@ -31,60 +31,60 @@ namespace DineWithaDane.Android
 			birthday.MaxDate = new Java.Util.Date().Time;
 
 			@continue.Click += (sender, e) =>
+			{
+
+				if (username.Text != "" && password.Text != "" && confirm.Text != "" && name.Text != "" && address.Text != "")
 				{
+					var pb = new AlertDialog.Builder(this).Create();
+					pb.SetView(new ProgressBar(this));
+					pb.SetCancelable(false);
+					RunOnUiThread(() => pb.Show());
 
-					if (username.Text != "" && password.Text != "" && confirm.Text != "" && name.Text != "" && address.Text != "")
-					{
-						var pb = new AlertDialog.Builder(this).Create();
-						pb.SetView(new ProgressBar(this));
-						pb.SetCancelable(false);
-						RunOnUiThread(() => pb.Show());
+					@continue.Clickable = false;
 
-						@continue.Clickable = false;
-
-						ThreadPool.QueueUserWorkItem(o =>
+					ThreadPool.QueueUserWorkItem(o =>
+						{
+							if (MainActivity.CIF.CreateUser(name.Text, address.Text, birthday.DateTime, username.Text, password.Text, confirm.Text) &&
+							    MainActivity.CIF.Login(username.Text, password.Text))
 							{
-								if (MainActivity.CIF.CreateUser(name.Text, address.Text, birthday.DateTime, username.Text, password.Text, confirm.Text) &&
-								    MainActivity.CIF.Login(username.Text, password.Text))
-								{
-									var dialog = new AlertDialog.Builder(this);
-									dialog.SetTitle("Profile was successfully created.");
-									dialog.SetMessage("Do you want to set your profile information now?");
-									dialog.SetCancelable(false);
-									dialog.SetNegativeButton("No", delegate
-											{ 
-												var toProfile = new Intent(this, typeof(ProfileActivity));
-												StartActivity(toProfile);
-											});
-									dialog.SetNeutralButton("Yes", delegate
-											{
-												var toSettings = new Intent(this, typeof(SettingsActivitiy));
-												toSettings.PutExtra("index", 4);
-												StartActivity(toSettings);
-											});
-									RunOnUiThread(() => dialog.Show());
+								var dialog = new AlertDialog.Builder(this);
+								dialog.SetTitle(Resources.GetString(Resource.String.sign_up_success));
+								dialog.SetMessage(Resources.GetString(Resource.String.sign_up_set_info));
+								dialog.SetCancelable(false);
+								dialog.SetNegativeButton(Resources.GetString(Resource.String.no), delegate
+									{ 
+										var toProfile = new Intent(this, typeof(ProfileActivity));
+										StartActivity(toProfile);
+									});
+								dialog.SetNeutralButton(Resources.GetString(Resource.String.yes), delegate
+									{
+										var toSettings = new Intent(this, typeof(SettingsActivitiy));
+										toSettings.PutExtra("index", 4);
+										StartActivity(toSettings);
+									});
+								RunOnUiThread(() => dialog.Show());
 
-								}
-								else
-								{
-									var errorDialog = new AlertDialog.Builder(this);
-									errorDialog.SetMessage(MainActivity.CIF.LatestError);
-									RunOnUiThread(() => errorDialog.Show());
-								}
+							}
+							else
+							{
+								var errorDialog = new AlertDialog.Builder(this);
+								errorDialog.SetMessage(MainActivity.CIF.LatestError);
+								RunOnUiThread(() => errorDialog.Show());
+							}
 
-								//Removes the spinner again
-								RunOnUiThread(() => pb.Dismiss());
+							//Removes the spinner again
+							RunOnUiThread(() => pb.Dismiss());
 
-								@continue.Clickable = true;
-							});
-					}
-					else
-					{
-						var errorDialog = new AlertDialog.Builder(this);
-						errorDialog.SetMessage("Missing some information, please make sure all fields are filled correctly");
-						errorDialog.Show();
-					}
-				};
+							@continue.Clickable = true;
+						});
+				}
+				else
+				{
+					var errorDialog = new AlertDialog.Builder(this);
+					errorDialog.SetMessage(Resources.GetString(Resource.String.sign_up_missing_info));
+					errorDialog.Show();
+				}
+			};
 		}
 	}
 }

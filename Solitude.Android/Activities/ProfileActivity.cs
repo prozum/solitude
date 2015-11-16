@@ -82,7 +82,7 @@ namespace DineWithaDane.Android
 			int iAge = today.Year - User.Birthday.Year;
 			if (User.Birthday > today.AddYears(-iAge))
 				iAge--;
-			age.Text = iAge + " years old";
+			age.Text = iAge + Resources.GetString(Resource.String.year_old);
 		}
 	}
 }

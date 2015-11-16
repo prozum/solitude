@@ -11,15 +11,15 @@ using System.Threading;
 
 namespace DineWithaDane.Android
 {
-	[Activity (Label = "Offer", Icon = "@drawable/Offer_Icon")]
+	[Activity(Label = "Offer", Icon = "@drawable/Offer_Icon")]
 	public class OfferActivity : DrawerActivity
 	{
 		protected OfferList Tilelist { get; set; }
 
-		protected override void OnCreate (Bundle savedInstanceState)
+		protected override void OnCreate(Bundle savedInstanceState)
 		{
 			// setting up and drawer
-			base.OnCreate (savedInstanceState);
+			base.OnCreate(savedInstanceState);
 
 			//Shows spinner to indicate loading
 			ShowSpinner();
@@ -33,20 +33,20 @@ namespace DineWithaDane.Android
 
 					View view;
 
-					if (offers.Count != 0) 
+					if (offers.Count != 0)
 					{
 						var adapter = new OfferListAdapter(this, offers);
 						Tilelist = new OfferList(this, adapter, (s, e) => AcceptOffer(), (s, e) => DeclineOffer());
 						view = Tilelist;
-					} 
-					else 
+					}
+					else
 					{
 						view = new TextView(this);
-						(view as TextView).Text = "No offers where found.";
+						(view as TextView).Text = Resources.GetString(Resource.String.message_offer_nothing_here);
 					}
 
 					//Clear screen and show the found offers
-					RunOnUiThread( () => 
+					RunOnUiThread(() =>
 						{
 							ClearLayout();
 							Content.AddView(view);
@@ -71,7 +71,7 @@ namespace DineWithaDane.Android
 			if (Tilelist.Count == 0)
 			{
 				var text = new TextView(this);
-				text.Text = "You have no more offers.";
+				text.Text = Resources.GetString(Resource.String.message_offer_no_more);
 
 				Content.RemoveAllViews();
 				Content.AddView(text);
