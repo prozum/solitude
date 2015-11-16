@@ -44,7 +44,8 @@ namespace DineWithaDane.Android
 
 					ThreadPool.QueueUserWorkItem(o =>
 						{
-							if (MainActivity.CIF.CreateUser(name.Text, address.Text, birthday.DateTime, username.Text, password.Text, confirm.Text) &&
+								var time = new DateTimeOffset(birthday.DateTime, new TimeSpan(0));
+								if (MainActivity.CIF.CreateUser(name.Text, address.Text, new DateTimeOffset(birthday.DateTime, new TimeSpan(0)), username.Text, password.Text, confirm.Text) &&
 							    MainActivity.CIF.Login(username.Text, password.Text))
 							{
 								var dialog = new AlertDialog.Builder(this);
