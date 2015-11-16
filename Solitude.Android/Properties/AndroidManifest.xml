@@ -3,4 +3,5 @@
 	<uses-sdk android:minSdkVersion="16" android:targetSdkVersion="19" />
 	<application android:label="Dine With a Dane" android:theme="@android:style/Theme.Holo.Light" android:icon="@drawable/main_icon"></application>
 	<uses-permission android:name="android.permission.CAMERA" />
+	<uses-permission android:name="android.permission.INTERNET" />
 </manifest>

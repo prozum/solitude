@@ -17,8 +17,9 @@ using Android.App;
 
 namespace ClientCommunication
 {
-	public class CommunicationInterface //: IClientCommunication
+	public class CommunicationInterface
 	{
+		[Android.Runtime.Preserve (AllMembers = true)]
 		private string userToken;
 		private string token_type;
 

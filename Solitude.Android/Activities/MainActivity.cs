@@ -121,6 +121,8 @@ namespace DineWithaDane.Android
 				var noTextAlert = new AlertDialog.Builder(this);
 				noTextAlert.SetMessage("No text entered in either username or password field");
 				noTextAlert.Show();
+
+				loginButton.Clickable = true;
 			}
 		}
 
