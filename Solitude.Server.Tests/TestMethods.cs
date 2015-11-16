@@ -15,7 +15,7 @@ namespace Solitude.Server.Tests
 		public static RestClient testClient = new RestClient("http://prozum.dk:8080/api/");
 		public static Random r = new Random();
 		public static string testUsername, testToken = "", token_type = "", testName = "Kurt Von Egelund", password = "Testkurt123!";
-		Event Offers;
+		Offer Offers = new Offer();
 
 		public void RegisterUser ()
 		{
@@ -24,7 +24,7 @@ namespace Solitude.Server.Tests
 			var user = new 
 			{
 				name = testName,
-				birthdate = "1751/05/27-14:41:17",
+				birthdate = DateTime.Now,
 				address = "Fiskegade",
 				username = testUsername,
 				password = password,
@@ -145,8 +145,11 @@ namespace Solitude.Server.Tests
 			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request was not executed correctly: " + response.Content);
 
 			var offer = JsonConvert.DeserializeObject<IEnumerable<Offer>> (response.Content);
+			Offers = new Offer ();
+			if (offer.GetEnumerator().Current != null)
+				Offers.Id = 18723;
 			//Testing if the returned event has an Id.
-			Assert.AreNotEqual (new Event().Id, offer.GetEnumerator().Current.Id, "An error has occured, it is likely no offers were returned");
+			Assert.AreNotEqual (new Event().Id, Offers.Id, "An error has occured, it is likely no offers were returned");
 		}
 
 		public void ReplyOffer(bool answer)

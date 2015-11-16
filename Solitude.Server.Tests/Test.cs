@@ -29,10 +29,10 @@ namespace Solitude.Server.Tests
 		/*[Test()]
 		public void TestUsers ()
 		{
-			for (int i = 0; i < 75; i++) {
+			for (int i = 0; i < 50; i++) {
 				RegisterUser ();
 				Login ();
-				if (i % 4 == 0) {
+				if (i % 3 == 0) {
 					AddEvent ();
 				}
 				for (int j = 0; j < 2; j++) {
