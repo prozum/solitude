@@ -19,17 +19,17 @@ namespace Solitude.Server.Tests
 		public void StartUp()
 		{
 			e.Address = "Test Street 101";
-			e.Date = "2016/11/10-12:12:12";
+			e.Date = DateTime.Now;
 			e.Description = "Literally the greatest event ever";
 			e.SlotsTaken = 0;
-			e.SlotsTotal = 10;
-			e.Title = "[You should not see this]";
+			e.SlotsTotal = 50;
+			e.Title = "Best";
 		}
 
 		/*[Test()]
 		public void TestUsers ()
 		{
-			for (int i = 0; i < 500; i++) {
+			for (int i = 0; i < 75; i++) {
 				RegisterUser ();
 				Login ();
 				if (i % 4 == 0) {
@@ -40,7 +40,7 @@ namespace Solitude.Server.Tests
 					AddCharacteristica (1, r.Next(0, 6));
 					AddCharacteristica (2, r.Next(0, 6));
 				}
-				if (i % 50 == 0)
+				if (i % 50 == 0 && i != 0)
 				{
 					GetOffers ();
 					//ReplyOffer ();
@@ -109,7 +109,7 @@ namespace Solitude.Server.Tests
 		}
 			
 		[Test()]
-		public void TestCaseGetEvent()
+		public void TestCaseGetHostingEvent()
 		{
 			RegisterUser ();
 			Login ();

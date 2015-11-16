@@ -2,9 +2,9 @@
 using Model;
 using System.Collections.Generic;
 using RestSharp;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using NUnit.Framework;
+using System.Linq;
 using System.Net;
 
 namespace Solitude.Server.Tests
@@ -115,7 +115,9 @@ namespace Solitude.Server.Tests
 
 			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request was not executed correctly: " + response.Content);
 
-			Event receivedEvent = parseEvents (response, false);
+			var events = JsonConvert.DeserializeObject<IEnumerable<Event>>(response.Content);
+
+			var receivedEvent = events.Where ((ev) => ev.Id == e.Id).First();
 
 			Assert.AreEqual (e.Id, receivedEvent.Id, "The received event was not equal to the one created", receivedEvent);
 		}
@@ -142,9 +144,9 @@ namespace Solitude.Server.Tests
 			//Testing if the request was executed
 			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request was not executed correctly: " + response.Content);
 
-			Offers = parseEvents (response, true);
-			//Testing if the returned event has an Id. Will later test if it is the correct Id
-			Assert.AreNotEqual (new Event().Id, Offers.Id, "An error has occured, it is likely no offers were returned");
+			var offer = JsonConvert.DeserializeObject<IEnumerable<Offer>> (response.Content);
+			//Testing if the returned event has an Id.
+			Assert.AreNotEqual (new Event().Id, offer.GetEnumerator().Current.Id, "An error has occured, it is likely no offers were returned");
 		}
 
 		public void ReplyOffer(bool answer)
@@ -179,7 +181,9 @@ namespace Solitude.Server.Tests
 
 			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The get-request was not executed correctly: " + response.Content);
 
-			Event receivedEvent = parseEvents (response, false);
+			var events = JsonConvert.DeserializeObject<IEnumerable<Event>>(response.Content);
+
+			var receivedEvent = events.Where ((ev) => ev.Id == e.Id).First();
 
 			Assert.AreEqual (e.Title, receivedEvent.Title, "The recieved event did not have the updated title.");
 		} 
@@ -225,8 +229,9 @@ namespace Solitude.Server.Tests
 			request = buildRequest ("host", Method.GET);
 
 			response = testClient.Execute (request);
+			var events = JsonConvert.DeserializeObject<IEnumerable<Event>>(response.Content);
 
-			Event receivedEvent = parseEvents (response, false);
+			var receivedEvent = events.Where((ev) => ev.Id == e.Id).First();
 
 			Assert.AreEqual (receivedEvent, null);
 		}
@@ -239,9 +244,9 @@ namespace Solitude.Server.Tests
 
 			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The request was not executed correctly " + response.Content);
 
-			var receivedEvent = parseEvents (response, true);
+			var @event = JsonConvert.DeserializeObject<IEnumerable<Event>>(response.Content);
 
-			Assert.AreNotEqual (new Event ().Id, receivedEvent.Id, response.Content);
+			Assert.AreNotEqual (new Event ().Id, @event.GetEnumerator().Current.Id, "Something went wrong, it is likely no events were returned: " + response.Content);
 		}
 
 		public void DeleteUser ()
@@ -285,9 +290,9 @@ namespace Solitude.Server.Tests
 
 			Assert.AreEqual (HttpStatusCode.OK, response.StatusCode, "The get-request was not executed correctly " + response.Content);
 
-			var receivedEvent = parseEvents (response, true);
+			var @event = JsonConvert.DeserializeObject<IEnumerable<Event>>(response.Content);
 
-			Assert.AreNotEqual (Offers.Id, receivedEvent.Id, "The Registration was not cancelled correctly: " + response.Content);
+			Assert.AreNotEqual (Offers.Id, @event.GetEnumerator().Current.Id, "The Registration was not cancelled correctly: " + response.Content);
 		}
 
 		public void GetUserData()
@@ -312,56 +317,6 @@ namespace Solitude.Server.Tests
 			request.RequestFormat = DataFormat.Json;
 
 			return request;
-		}
-
-
-		public Event parseEvents(IRestResponse serverResponse, bool returnfirst){
-			//Tries to convert response to events
-			var events = new List<Event>();
-
-			//Extract every single json to it's own JsonValue
-			Regex reg = new Regex(@"{[^}]*}");
-			var matches = reg.Matches(serverResponse.Content);
-
-			//Generate Events from the JsonValues
-			for(int i = 0; i < matches.Count; i++)
-			{
-				//Generate Events from the JsonValues
-				try {
-					dynamic jVal = JsonConvert.DeserializeObject(matches[i].Value);
-					int ID = jVal.Id;
-					string title = jVal.Title;
-					string desc = jVal.Description;
-					string dateTime = jVal.Date;
-					string adress = jVal.Address;
-					int slotsTotal = jVal.SlotsTotal;
-					int slotsTaken = jVal.SlotsTaken;
-
-					Event  eNew = new Event();
-					eNew.Address =  adress;
-					eNew.Date = dateTime;
-					eNew.Description = desc;
-					eNew.Id = ID;
-					eNew.SlotsTaken = slotsTaken;
-					eNew.SlotsTotal = slotsTotal;
-					eNew.Title = title;
-
-					events.Add(eNew);
-				}
-				catch
-				{
-				}
-			}
-			if (returnfirst) {
-				if (events.Count == 0)
-					return new Event();
-				return events[0];
-			}
-			else 
-			{
-				Event eRight = events.Find ((evnt) => evnt.Id == e.Id);
-				return eRight;
-			}
 		}
 	}
 }
