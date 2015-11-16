@@ -35,7 +35,6 @@ namespace DineWithaDane.Android
 
 
 		#region Constructors
-
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DineWithaDane.Android.BaseTileListAdapter`1"/> class.
 		/// </summary>
@@ -44,6 +43,9 @@ namespace DineWithaDane.Android
 		public BaseTileListAdapter(Activity context, List<T> items) 
 			: base()
 		{
+			if (items == null)
+				throw new NullReferenceException("items was null");
+
 			Context = context;
 			Items = items;
 		}

@@ -150,6 +150,7 @@
     <AndroidResource Include="Resources\drawable\ArrowUp.png" />
     <AndroidResource Include="Resources\values\styles.xml" />
     <AndroidResource Include="Resources\drawable\buttonstyle.xml" />
+    <AndroidResource Include="Resources\drawable\ic_view_headline_black_36dp.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

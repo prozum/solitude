@@ -124,6 +124,7 @@ namespace DineWithaDane.Android
 
 			timePicker = new TimePicker(this);
 			timePicker.Id = 0x0006;
+			timePicker.SetIs24HourView( Java.Lang.Boolean.True );
 
 			timeCurrent = new TextView(this);
 			timeCurrent.Gravity = GravityFlags.Center;
