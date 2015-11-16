@@ -14,16 +14,19 @@ namespace Solitude.Server
     {
         public async Task<IHttpActionResult> Post(InfoUpdate u)
         {
+            if (u.Weigth == 0)
+                u.Weigth = 1;
+
             switch (u.Info)
             {
                 case InfoType.LANGUAGE:
-                    await DB.ConnectUserLanguage(User.Identity.GetUserId(), u.Value, 1);
+                    await DB.ConnectUserLanguage(User.Identity.GetUserId(), u.Value, u.Weigth);
                     break;
                 case InfoType.INTEREST:
-                    await DB.ConnectUserInterest(User.Identity.GetUserId(), u.Value, 1);
+                    await DB.ConnectUserInterest(User.Identity.GetUserId(), u.Value, u.Weigth);
                     break;
                 case InfoType.FOODHABIT:
-                    await DB.ConnectUserFoodHabit(User.Identity.GetUserId(), u.Value, 1);
+                    await DB.ConnectUserFoodHabit(User.Identity.GetUserId(), u.Value, u.Weigth);
                     break;
                 default:
                     return BadRequest("Invalid information type.");
