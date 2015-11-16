@@ -396,6 +396,7 @@ namespace ClientCommunication
 				try
 				{
 					return JsonConvert.DeserializeObject<User>(response.Content);
+
 					/*
 					string name = jVal["Name"];
 					string adr = jVal["Address"];
@@ -404,7 +405,7 @@ namespace ClientCommunication
 					return new User(name, adr, birthday);
 					*/
 				}
-				catch
+				catch (Exception e)
 				{
 					LatestError = "Could not find user data";
 				}

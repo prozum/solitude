@@ -79,8 +79,8 @@ namespace DineWithaDane.Android
 
 			address.Text = User.Address;
 			DateTime today = DateTime.Today;
-			int iAge = today.Year - User.Birthday.Year;
-			if (User.Birthday > today.AddYears(-iAge))
+			int iAge = today.Year - User.Birthdate.Year;
+			if (User.Birthdate > today.AddYears(-iAge))
 				iAge--;
 			age.Text = iAge + " years old";
 		}
