@@ -54,13 +54,8 @@ namespace DineWithaDane.Android
 		{
 			var dialog = new AlertDialog.Builder(this);
 			dialog.SetMessage(Resources.GetString(Resource.String.message_logout));
-			dialog.SetNegativeButton(Resources.GetString(Resource.String.no), delegate
-				{ /*Empty delegate hides the dialog*/
-				});
-			dialog.SetNeutralButton(Resources.GetString(Resource.String.yes), delegate
-				{
-					MainActivity.CIF.Logout(this);
-				});
+			dialog.SetNegativeButton(Resource.String.no, (s, e) => { });
+			dialog.SetNeutralButton(Resource.String.yes, (s, e) => MainActivity.CIF.Logout(this));
 			dialog.Show();
 		}
 

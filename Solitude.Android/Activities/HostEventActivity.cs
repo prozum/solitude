@@ -307,6 +307,7 @@ namespace DineWithaDane.Android
 						{
 							var dialog = new AlertDialog.Builder(this);
 							dialog.SetMessage(Resources.GetString(Resource.String.message_error_event_update_event) + "\n" + MainActivity.CIF.LatestError);
+							dialog.SetNegativeButton(Resource.String.ok, (s, earg) => {});
 							dialog.Show();
 						}
 						Finish();
