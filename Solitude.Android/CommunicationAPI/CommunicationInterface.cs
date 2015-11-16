@@ -137,6 +137,7 @@ namespace ClientCommunication
 		}
 		*/
 
+		/*
 		public DateTime parseDate(string s)
 		{
 			try
@@ -148,6 +149,7 @@ namespace ClientCommunication
 				return DateTime.ParseExact(s, "yyyy/MM/dd-hh:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
 			}
 		}
+		*/
 
 		/*
 		/// <summary>
@@ -362,7 +364,7 @@ namespace ClientCommunication
 			var user = new {
 				name = Name,
 				address = address,
-				birthdate = string.Format("{0}/{1}/{2}-12:00:00", birthday.Year, birthday.Month, birthday.Day), 
+				birthdate = birthday, //string.Format("{0}/{1}/{2}-12:00:00", birthday.Year, birthday.Month, birthday.Day), 
 				username = Username, 
 				password = Password, 
 				confirmPassword = ConfirmedPassword };
@@ -388,15 +390,18 @@ namespace ClientCommunication
 			}
 			else if (response.StatusCode == HttpStatusCode.OK)
 			{
-				JsonValue jVal = System.Json.JsonObject.Parse(response.Content);
+				//JsonValue jVal = System.Json.JsonObject.Parse(response.Content);
 
 				try
 				{
+					return JsonConvert.DeserializeObject<User>(response.Content);
+					/*
 					string name = jVal["Name"];
 					string adr = jVal["Address"];
 					DateTime birthday = parseDate(jVal["Birthdate"]);
 
 					return new User(name, adr, birthday);
+					*/
 				}
 				catch
 				{
@@ -483,7 +488,7 @@ namespace ClientCommunication
 			//And the body containing event-informatinon
 			var body = new 
 				{ 
-					Date = e.Date.ToString("yyyy/MM/dd-hh:mm:ss"), 
+					Date = e.Date, 
 					Address = e.Place,
 					Title = e.Title,
 					Description = e.Description,
@@ -512,13 +517,13 @@ namespace ClientCommunication
 		/// Updates the event.
 		/// </summary>
 		/// <param name="e">Event to update</param>
-		public void UpdateEvent (Event e)
+		public bool UpdateEvent (Event e)
 		{
 			var request = buildRequest ("host", Method.PUT);
 
 			request.AddBody(new {
 				Id = e.ID,
-				Date = e.Date.ToString(), 
+				Date = e.Date, 
 				Address = e.Place,
 				Title = e.Title,
 				Description = e.Description,
@@ -526,7 +531,7 @@ namespace ClientCommunication
 				SlotsTotal = e.MaxSlots
 			});
 
-			executeAndParseResponse (request);
+			return executeAndParseResponse (request);
 		}
 
 		/// <summary>
@@ -560,7 +565,16 @@ namespace ClientCommunication
 			else if (serverResponse.StatusCode != HttpStatusCode.OK)
 				parseErrorMessage(serverResponse);
 			else
-				return JsonConvert.DeserializeObject<List<Event>>(serverResponse.Content); //parseEvents(serverResponse);
+			{
+				try
+				{
+					return JsonConvert.DeserializeObject<List<Event>>(serverResponse.Content);
+				}
+				catch
+				{
+					LatestError = "Could not parse event";
+				}
+			}
 
 			return new List<Event>();
 		}
