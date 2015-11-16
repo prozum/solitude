@@ -17,7 +17,6 @@ namespace DineWithaDane.Android
 	public class HostEventActivity : DrawerActivity
 	{
 		#region Var
-
 		EditText title;
 		EditText description;
 		EditText location;
@@ -41,17 +40,11 @@ namespace DineWithaDane.Android
 			var typeString = Intent.GetStringExtra("type");
 
 			if (typeString.Equals("new"))
-			{
 				New();
-			}
 			else if (typeString.Equals("edit"))
-			{
 				Edit();
-			}
 			else
-			{
 				throw new ArgumentOutOfRangeException();
-			}
 		}
 
 		private void Build()

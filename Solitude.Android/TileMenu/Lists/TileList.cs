@@ -23,7 +23,6 @@ namespace DineWithaDane.Android
 		protected int Focus	{ get; set;	}
 		#endregion
 
-
 		#region Constructors
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DineWithaDane.Android.TileList`1"/> class.

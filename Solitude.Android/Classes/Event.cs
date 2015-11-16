@@ -7,9 +7,9 @@ namespace DineWithaDane.Android
 		#region Field
 		public string Title { get; set; }
 		public DateTime Date { get; set; }
-		public string Place { get; set; }
+		public string Address { get; set; }
 		public string Description { get; set; }
-		public int MaxSlots { get; set; }
+		public int SlotsTotal { get; set; }
 		public int SlotsLeft { get; set; }
 		public int ID { get; set; }
 		#endregion
@@ -24,9 +24,9 @@ namespace DineWithaDane.Android
 		{
 			Title = title;
 			Date = date;
-			Place = place;
+			Address = place;
 			Description = desc;
-			MaxSlots = max;
+			SlotsTotal = max;
 			SlotsLeft = left;
 		}
 

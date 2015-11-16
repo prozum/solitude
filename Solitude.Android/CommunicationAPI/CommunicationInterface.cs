@@ -489,11 +489,11 @@ namespace ClientCommunication
 			var body = new 
 				{ 
 					Date = e.Date, 
-					Address = e.Place,
+					Address = e.Address,
 					Title = e.Title,
 					Description = e.Description,
 					SlotsTaken = 0,
-					SlotsTotal = e.MaxSlots
+					SlotsTotal = e.SlotsTotal
 				};
 
 			request.AddBody(body);
@@ -524,11 +524,11 @@ namespace ClientCommunication
 			request.AddBody(new {
 				Id = e.ID,
 				Date = e.Date, 
-				Address = e.Place,
+				Address = e.Address,
 				Title = e.Title,
 				Description = e.Description,
-				SlotsTaken = e.MaxSlots - e.SlotsLeft,
-				SlotsTotal = e.MaxSlots
+				SlotsTaken = e.SlotsTotal - e.SlotsLeft,
+				SlotsTotal = e.SlotsTotal
 			});
 
 			return executeAndParseResponse (request);

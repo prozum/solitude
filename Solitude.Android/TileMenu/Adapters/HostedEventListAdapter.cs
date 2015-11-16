@@ -52,9 +52,9 @@ namespace DineWithaDane.Android
 
 			// set view information
 			view.Title = Items[groupPosition].Title;
-			view.Place = Items[groupPosition].Place;
+			view.Place = Items[groupPosition].Address;
 			view.Date = Items[groupPosition].Date;
-			view.Slots = new Tuple<int, int>(Items[groupPosition].SlotsLeft, Items[groupPosition].MaxSlots);
+			view.Slots = new Tuple<int, int>(Items[groupPosition].SlotsLeft, Items[groupPosition].SlotsTotal);
 
 			// set seperator visibility
 			if (isExpanded)
@@ -140,7 +140,7 @@ namespace DineWithaDane.Android
 
 		private int CompareDistance(Event x, Event y)
 		{
-			return x.Place.CompareTo(y.Place);
+			return x.Address.CompareTo(y.Address);
 		}
 		#endregion
 	}
