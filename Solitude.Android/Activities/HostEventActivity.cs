@@ -205,7 +205,13 @@ namespace DineWithaDane.Android
 				}
 				else
 				{
-					DateTime @dateTime = new DateTime(date.DateTime.Year, date.DateTime.Month, date.DateTime.Day, (int)timePicker.CurrentHour, (int)timePicker.CurrentMinute, 0);
+					var @dateTime = new DateTimeOffset(date.DateTime.Year, 
+															date.DateTime.Month, 
+															date.DateTime.Day, 
+															(int)timePicker.CurrentHour, 
+															(int)timePicker.CurrentMinute, 
+															0, 
+															new TimeSpan(0));
 					Event @event = new Event(title.Text, @dateTime, location.Text, description.Text, numberOfGuestsMax, 0);
 					bool completed = MainActivity.CIF.CreateEvent(@event);
 					if (completed)
@@ -247,62 +253,66 @@ namespace DineWithaDane.Android
 			buttonConfirm.Id = 0x0007;
 			buttonConfirm.Text = Resources.GetString(Resource.String.host_save_changes);
 			buttonConfirm.Click += (object sender, EventArgs e) =>
-			{
-				int numberOfGuestsMax;
-				bool boolGuestCount = int.TryParse(guests.Text, out numberOfGuestsMax);
-				bool boolTitle = String.IsNullOrEmpty(title.Text);
-				bool boolDescription = String.IsNullOrEmpty(description.Text);
-				bool boolLocation = String.IsNullOrEmpty(location.Text);
-				bool boolGuest = String.IsNullOrEmpty(guests.Text);
-				bool bool32BitGuest = numberOfGuestsMax < Intent.GetIntExtra("leftslots", Int32.MaxValue);
+				{
+					int numberOfGuestsMax;
+					bool boolGuestCount = int.TryParse(guests.Text, out numberOfGuestsMax);
+					bool boolTitle = String.IsNullOrEmpty(title.Text);
+					bool boolDescription = String.IsNullOrEmpty(description.Text);
+					bool boolLocation = String.IsNullOrEmpty(location.Text);
+					bool boolGuest = String.IsNullOrEmpty(guests.Text);
+					bool bool32BitGuest = numberOfGuestsMax < Intent.GetIntExtra("leftslots", Int32.MaxValue);
 
-				if (boolTitle
-				    || boolDescription
-				    || boolLocation
-				    || boolGuest
-				    || !boolGuestCount
-				    || bool32BitGuest)
-				{
-					AlertDialog.Builder builder = new AlertDialog.Builder(this);
-					AlertDialog alertDialog = builder.Create();
-					alertDialog.SetTitle(Resources.GetString(Resource.String.event_invalid_info));
-					alertDialog.SetMessage(String.Format(Resources.GetString(Resource.String.event_error_in_info) + "\n{0}{1}{2}{3}{4}{5}", 
-							boolTitle ? Resources.GetString(Resource.String.event_error_no_title) + "\n" : "",
-							boolDescription ? Resources.GetString(Resource.String.event_error_no_description) + "\n" : "",
-							boolLocation ? Resources.GetString(Resource.String.event_error_no_place) + "\n" : "",
-							boolGuest ? Resources.GetString(Resource.String.event_error_no_guest) + "\n" : "",
-							(!boolGuestCount && !boolGuest) ? Resources.GetString(Resource.String.event_error_many_guest) : "",
-							bool32BitGuest ? Resources.GetString(Resource.String.event_error_guest_limit) : ""));
-					alertDialog.SetButton(Resources.GetString(Resource.String.ok), (s, ev) => alertDialog.Dismiss());
-					alertDialog.Show();
-				}
-				else
-				{
-					Event @event = new Event(title.Text, 
-						               new DateTime(date.DateTime.Year, 
-							               date.DateTime.Month, 
-							               date.DateTime.Day, 
-							               (int)timePicker.CurrentHour, 
-							               (int)timePicker.CurrentMinute, 0), 
-						               location.Text, 
-						               description.Text, 
-						               numberOfGuestsMax, 
-						               Intent.GetIntExtra("leftslots", 0), 
-						               Intent.GetIntExtra("id", 0));
-							
-					bool completed = MainActivity.CIF.UpdateEvent(@event);
-					if (completed)
-						Finish();
+					if (boolTitle
+					    || boolDescription
+					    || boolLocation
+					    || boolGuest
+					    || !boolGuestCount
+					    || bool32BitGuest)
+					{
+						AlertDialog.Builder builder = new AlertDialog.Builder(this);
+						AlertDialog alertDialog = builder.Create();
+						alertDialog.SetTitle(Resources.GetString(Resource.String.event_invalid_info));
+						alertDialog.SetMessage(String.Format(Resources.GetString(Resource.String.event_error_in_info) + "\n{0}{1}{2}{3}{4}{5}", 
+								boolTitle ? Resources.GetString(Resource.String.event_error_no_title) + "\n" : "",
+								boolDescription ? Resources.GetString(Resource.String.event_error_no_description) + "\n" : "",
+								boolLocation ? Resources.GetString(Resource.String.event_error_no_place) + "\n" : "",
+								boolGuest ? Resources.GetString(Resource.String.event_error_no_guest) + "\n" : "",
+								(!boolGuestCount && !boolGuest) ? Resources.GetString(Resource.String.event_error_many_guest) : "",
+								bool32BitGuest ? Resources.GetString(Resource.String.event_error_guest_limit) : ""));
+						alertDialog.SetButton(Resources.GetString(Resource.String.ok), (s, ev) => alertDialog.Dismiss());
+						alertDialog.Show();
+					}
 					else
 					{
-						var dialog = new AlertDialog.Builder(this);
-						dialog.SetMessage(Resources.GetString(Resource.String.message_error_event_update_event) + "\n" + MainActivity.CIF.LatestError);
-						dialog.Show();
+						var @datetime = new DateTimeOffset(	date.DateTime.Year, 
+															date.DateTime.Month, 
+															date.DateTime.Day, 
+															(int)timePicker.CurrentHour, 
+															(int)timePicker.CurrentMinute, 
+															0, 
+															new TimeSpan(0));
+						
+						Event @event = new Event(	title.Text, 
+													@datetime, 
+							               			location.Text, 
+							               			description.Text, 
+							               			numberOfGuestsMax, 
+							               			Intent.GetIntExtra("leftslots", 0), 
+							               			Intent.GetIntExtra("id", 0));
+								
+						bool completed = MainActivity.CIF.UpdateEvent(@event);
+						if (completed)
+							Finish();
+						else
+						{
+							var dialog = new AlertDialog.Builder(this);
+							dialog.SetMessage(Resources.GetString(Resource.String.message_error_event_update_event) + "\n" + MainActivity.CIF.LatestError);
+							dialog.Show();
+						}
+						Finish();
 					}
-					Finish();
-				}
-				
-			};
+					
+				};
 
 			var buttonCancel = new Button(this);
 			buttonCancel.Id = 0x0008;
