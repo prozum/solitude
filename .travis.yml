@@ -8,12 +8,13 @@ install:
   - nuget restore Solitude.sln
 
 before_script:
-  - cp Solitude.Server/App.config.sample Solitude.Server/App.config
+  - cp Solitude.Server/App.config{.sample,}
+  - cp Solitude.Server.Tests/App.config{.sample,}
 
 script:
   - xbuild /p:Configuration=Release Solitude.sln
 
-after_script:
+after_success:
   - nunit-console Solitude.Server.Tests/bin/Debug/Solitude.Server.Tests.dll
 
 notifications:
