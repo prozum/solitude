@@ -3,6 +3,7 @@ bin/
 obj/
 
 Solitude.Server/App.config
+Solitude.Server.Tests/App.config
 
 Resource.designer.cs
 *~

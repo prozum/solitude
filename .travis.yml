@@ -1,12 +1,20 @@
 language: csharp
 solution: Solitude.sln
 
+services:
+  - neo4j
+
 install:
   - nuget restore Solitude.sln
 
-script:
+before_script:
   - cp Solitude.Server/App.config.sample Solitude.Server/App.config
+
+script:
   - xbuild /p:Configuration=Release Solitude.sln
+
+after_script:
+  - nunit-console Solitude.Server.Tests/bin/Debug/Solitude.Server.Tests.dll
 
 notifications:
   email: false

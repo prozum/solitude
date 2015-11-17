@@ -6,13 +6,14 @@ using Newtonsoft.Json;
 using NUnit.Framework;
 using System.Linq;
 using System.Net;
+using System.Configuration;
 
 namespace Solitude.Server.Tests
 {
 	public class TestMethods
 	{		
 		public Event e = new Event ();		
-		public static RestClient testClient = new RestClient("http://prozum.dk:8080/api/");
+		public static RestClient testClient = new RestClient(ConfigurationManager.ConnectionStrings["solitude"].ConnectionString);
 		public static Random r = new Random();
 		public static string testUsername, testToken = "", token_type = "", testName = "Kurt Von Egelund", password = @"Testkurt+&123!";
 		Offer offer = new Offer();

@@ -49,7 +49,7 @@
     <Compile Include="UserData.cs" />
     <Compile Include="Offer.cs" />
     <Compile Include="Match.cs" />
-    <Compile Include="Schedule.cs" />
+    <Compile Include="TaskData.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

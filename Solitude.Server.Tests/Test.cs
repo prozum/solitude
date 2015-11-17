@@ -11,10 +11,6 @@ namespace Solitude.Server.Tests
 	[TestFixture ()]
 	public class Tests : TestMethods
 	{
-
-		public Tests ()
-		{
-		}
 		[TestFixtureSetUp()]
 		public void StartUp()
 		{

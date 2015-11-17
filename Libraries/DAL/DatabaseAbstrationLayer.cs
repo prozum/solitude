@@ -121,18 +121,29 @@ namespace Dal
 		/// </summary>
 		/// <returns>Task</returns>
 		/// <param name="event">The event that should be added</param>
-		public async Task AddEvent (Event @event)
+		public async Task AddEvent (Event e)
 		{
-			@event.Id = await GetEventIdCounter ();
+			e.Id = await GetEventIdCounter ();
 			await IncrementEventIdCounter ();
 
 			await client.Cypher
 				.Match ("(user:User)")
-				.Where((User user) => user.Id == @event.UserId)
+				.Where((User user) => user.Id == e.UserId)
 				//creates a relation "HOSTING" between the created event 
-				.Create ("user-[:HOSTING]->(event:Event {info})")
-				.WithParam ("info", @event)
+				.Create ("user-[:HOSTING]->(event:Event {data})")
+				.WithParam ("data", e)
 				.ExecuteWithoutResultsAsync ();
+
+
+			// Add task to delete event
+			var heldTask = new TaskData () 
+			{
+				EventId = e.Id,
+				Type = TaskType.EventHeld,
+				DateStart = e.Date
+			};
+
+			await AddEventTask(heldTask);
 		}
 
 		/// <summary>
@@ -460,6 +471,10 @@ namespace Dal
 		/// <param name="eid">The event's id</param>
 		public async Task DeleteEvent (int eid)
 		{
+			// Delete Event Tasks
+			await DeleteEventTasks(eid);
+
+			// Delete the Event and remaining relations
 			await client.Cypher
 				.OptionalMatch ("(e:Event)<-[r]-()")
 				.Where ((Event e) => e.Id == eid)
@@ -610,28 +625,28 @@ namespace Dal
 		/// <param name="uid">The user's id</param>
 		public async Task DeleteUserData(string uid)
 		{
-			var hostIds = await client.Cypher
-				.Match("(user:User)-[:HOSTS]-(event:Event)")
+			// Delete Events hosted by User
+			var hosts = await client.Cypher
+				.Match("(user:User)-[:HOSTING]-(event:Event)")
 				.Where((User user) => user.Id == uid)
 				.Return((@event) => @event.As<Event>().Id)
 				.ResultsAsync;
+			foreach (var host in hosts)
+				await DeleteEvent(host);
 
-			foreach (var id in hostIds)
-			{
-				await DeleteEvent(id);
-			}
-
-			var attendingIds = await client.Cypher
+			// Cancel all attending Event
+			var events = await client.Cypher
 				.Match("(user:User)-[:ATTENDS]-(event:Event)")
 				.Where((User user) => user.Id == uid)
 				.Return((@event) => @event.As<Event>().Id)
 				.ResultsAsync;
+			foreach (var eid in events)
+				await CancelRegistration(uid, eid);
 
-			foreach (var id in attendingIds)
-			{
-				await CancelRegistration (uid, id);
-			}
+			// Delete all User Tasks
+			await DeleteUserTasks(uid);
 
+			// Delete the remaining releations
 			await client.Cypher
 				.OptionalMatch ("(user:User)-[r]->()")
 				.Where((User user) => user.Id == uid)
@@ -651,6 +666,44 @@ namespace Dal
 				.Where((User user) => user.Id == uid)
 				.Delete("user")
 				.ExecuteWithoutResultsAsync();
+		}
+
+		public async Task AddEventTask(TaskData data)
+		{
+			await client.Cypher
+				.Match ("(e:Event)")
+				.Where((Event e) => e.Id == data.EventId)
+				.Create ("e-[:HAS_TASK]->(task:TaskData {data})")
+				.WithParam ("data", data)
+				.ExecuteWithoutResultsAsync ();
+		}
+
+		public async Task DeleteEventTasks(int eid)
+		{
+			await client.Cypher
+				.Match ("(e:Event)-[ht:HAS_TASK]->(t:TaskData)")
+				.Where((Event e) => e.Id == eid)
+				.Delete ("ht, t")
+				.ExecuteWithoutResultsAsync ();
+		}
+
+		public async Task AddUserTask(TaskData data)
+		{
+			await client.Cypher
+				.Match ("(user:User)")
+				.Where((User user) => user.Id == data.UserId)
+				.Create ("user-[:HAS_TASK]->(task:TaskData {data})")
+				.WithParam ("data", data)
+				.ExecuteWithoutResultsAsync ();
+		}
+
+		public async Task DeleteUserTasks(string uid)
+		{
+			await client.Cypher
+				.Match ("(user:User)-[ht:HAS_TASK]->(t:TaskData)")
+				.Where((User user) => user.Id == uid)
+				.Delete ("ht, t")
+				.ExecuteWithoutResultsAsync ();
 		}
 	}
 }
