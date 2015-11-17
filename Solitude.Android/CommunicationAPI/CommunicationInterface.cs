@@ -358,8 +358,6 @@ namespace ClientCommunication
 				}
 			} 
 
-
-
 			return new List<Event>();
 		}
 
