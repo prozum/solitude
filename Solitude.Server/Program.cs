@@ -20,13 +20,6 @@ namespace Solitude.Server
 			Console.WriteLine ("I'm running on {0} directly from assembly {1}", Environment.OSVersion, System.Reflection.Assembly.GetEntryAssembly ().FullName);
 			Console.ReadLine ();
 
-            //monodevelop sucks at debugging!
-#if DEBUG
-            while (true)
-            {
-                System.Threading.Thread.Sleep(1000);
-            }
-#endif
 		}
 	}
 }

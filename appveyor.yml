@@ -12,6 +12,11 @@ init:
     $env:VersionStage = "$env:APPVEYOR_REPO_BRANCH"
     $env:VersionTag = "$env:APPVEYOR_REPO_COMMIT"
 
+install:
+  - ps: Start-FileDownload 'http://neo4j.com/artifact.php?name=neo4j-community-2.3.1-windows.zip' -FileName 'c:\projects\solitude\neo4j-community-2.3.1-windows.zip'
+  - cmd: 7z x c:\projects\solitude\neo4j-community-2.3.1-windows.zip
+  - cmd: c:\projects\solitude\neo4j-community-2.3.1\bin\Neo4jInstaller.bat install
+
 before_build:
   - nuget restore
   - cp Solitude.Server/App.config.sample Solitude.Server/App.config
