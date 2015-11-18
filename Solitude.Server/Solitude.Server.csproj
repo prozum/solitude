@@ -18,7 +18,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
-    <Externalconsole>true</Externalconsole>
+    <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>full</DebugType>
@@ -97,6 +97,9 @@
     <Reference Include="Neo4j.AspNet.Identity">
       <HintPath>..\packages\Neo4j.AspNet.Identity.1.1.23\lib\net45\Neo4j.AspNet.Identity.dll</HintPath>
     </Reference>
+    <Reference Include="WebBackgrounder">
+      <HintPath>..\packages\WebBackgrounder.0.2.0\lib\net40\WebBackgrounder.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
@@ -115,6 +118,8 @@
     <Compile Include="Controllers\HostController.cs" />
     <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Identity\SolitudeUser.cs" />
+    <Compile Include="Jobs\BirthdateJob.cs" />
+    <Compile Include="Jobs\EventEndedJob.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
@@ -146,5 +151,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Identity\" />
+    <Folder Include="Jobs\" />
   </ItemGroup>
 </Project>

@@ -9,13 +9,13 @@ using System.Text.RegularExpressions;
 namespace Solitude.Server.Tests
 {
 	[TestFixture ()]
-	public class Tests : TestMethods
+	public class WebApiTests : WebApiMethods
 	{
 		[TestFixtureSetUp()]
 		public void StartUp()
 		{
 			e.Address = "Test Street 101";
-			e.Date = DateTime.Now;
+			e.Date = DateTimeOffset.UtcNow.AddDays(1);
 			e.Description = "Literally the greatest event ever";
 			e.SlotsTaken = 0;
 			e.SlotsTotal = 50;
@@ -143,6 +143,11 @@ namespace Solitude.Server.Tests
 		[Test ()]
 		public void TestCaseGetOffers ()
 		{
+			// Make sure a event exists
+			RegisterUser ();
+			Login ();
+			AddEvent ();
+
 			RegisterUser ();
 			Login ();
 			GetOffers ();
@@ -151,6 +156,11 @@ namespace Solitude.Server.Tests
 		[Test()]
 		public void TestCaseAcceptOffer()
 		{
+			// Make sure a event exists
+			RegisterUser ();
+			Login ();
+			AddEvent ();
+
 			RegisterUser ();
 			Login ();
 			GetOffers ();
@@ -160,6 +170,11 @@ namespace Solitude.Server.Tests
 		[Test()]
 		public void TestCaseDeclineOffer()
 		{
+			// Make sure a event exists
+			RegisterUser ();
+			Login ();
+			AddEvent ();
+
 			RegisterUser ();
 			Login ();
 			GetOffers ();
@@ -178,6 +193,11 @@ namespace Solitude.Server.Tests
 		[Test()]
 		public void TestCaseGetAttendingEvents()
 		{
+			// Make sure a event exists
+			RegisterUser ();
+			Login ();
+			AddEvent ();
+
 			RegisterUser ();
 			Login ();
 			GetOffers ();
@@ -232,6 +252,11 @@ namespace Solitude.Server.Tests
 		[Test ()]
 		public void TestCaseCancelRegistration ()
 		{
+			// Make sure a event exists
+			RegisterUser ();
+			Login ();
+			AddEvent ();
+
 			RegisterUser ();
 			Login ();
 			GetOffers ();
@@ -278,7 +303,7 @@ namespace Solitude.Server.Tests
 		[Test ()]
 		public void TestCaseErrorMessageDateTimeError ()
 		{
-			RegisterUserWrongDateTime ("userModel.birthdate");
+			RegisterUserWrongDateTime ("Could not convert string to DateTimeOffset");
 		}
 
 		/*[Test ()]

@@ -2,5 +2,6 @@
 <configuration>
   <connectionStrings>
     <add name="solitude" connectionString="http://localhost:8080/api/"/>
+    <add name="neo4j" connectionString="http://neo4j:neo4j@127.0.0.1:7474/db/data"/>
   </connectionStrings>
 </configuration>

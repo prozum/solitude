@@ -10,7 +10,7 @@ using System.Configuration;
 
 namespace Solitude.Server.Tests
 {
-	public class TestMethods
+	public class WebApiMethods
 	{		
 		public Event e = new Event ();		
 		public static RestClient testClient = new RestClient(ConfigurationManager.ConnectionStrings["solitude"].ConnectionString);
@@ -87,7 +87,7 @@ namespace Solitude.Server.Tests
 			var user = new 
 			{
 				name = testName,
-				birthdate = "Nej",
+				birthdate = "2015",
 				address = "Fiskegade",
 				username = testUsername,
 				password = password,

@@ -133,17 +133,6 @@ namespace Dal
 				.Create ("user-[:HOSTING]->(event:Event {data})")
 				.WithParam ("data", e)
 				.ExecuteWithoutResultsAsync ();
-
-
-			// Add task to delete event
-			var heldTask = new TaskData () 
-			{
-				EventId = e.Id,
-				Type = TaskType.EventHeld,
-				DateStart = e.Date
-			};
-
-			await AddEventTask(heldTask);
 		}
 
 		/// <summary>
@@ -363,12 +352,15 @@ namespace Dal
 			 * 15: create 'relationship' "MATCHED" from user to all the events that fits
 			 */
 
+			var now = DateTimeOffset.UtcNow.AddHours(2);
+
 			await client.Cypher
 				.Match ("(user:User), (rest:User)-[:HOSTING]->(e:Event)")
 				.Where ((User user) => user.Id == uid )
 				.AndWhere ((User rest) => rest.Id != uid)
 				.AndWhere ((Event e) => e.SlotsTotal > e.SlotsTaken)
-				.AndWhere ("NOT user-[]->e")
+				//.AndWhere ((Event e) => e.Date > now)
+				//.AndWhere ("NOT user-[]->e")
 				.OptionalMatch ("user-[w1:WANTS]->(interest:Interest)<-[w2:WANTS]-rest")
 				.With ("user, rest, e, sum(w1.weight) + sum(w2.weight) as wt1, collect(interest.Id) as int")
 				.OptionalMatch ("user-[w3:WANTS]->(language:Language)<-[w4:WANTS]-rest")
@@ -439,13 +431,13 @@ namespace Dal
 		/// <param name="uid">The user's id</param>
 		public async Task<IEnumerable<Event>> GetAttendingEvents (string uid)
 		{
-			var attending = await client.Cypher
+			var events = await client.Cypher
 				.Match ("(user:User)-[:ATTENDS]->(event:Event)")
 				.Where ((User user) => user.Id == uid)
 				.Return (() => Return.As<Event> ("event"))
 				.ResultsAsync;
 
-			return attending;
+			return events;
 		}
 
 		/// <summary>
@@ -472,7 +464,7 @@ namespace Dal
 		public async Task DeleteEvent (int eid)
 		{
 			// Delete Event Tasks
-			await DeleteEventTasks(eid);
+			//await DeleteEventTasks(eid);
 
 			// Delete the Event and remaining relations
 			await client.Cypher
@@ -583,40 +575,38 @@ namespace Dal
 
 			return res.First();
 		}
-
-		/*
-		public async Task AddNotification (string uid, string msg)
+			
+		public async Task AddNotification(Notification n)
 		{
 			await client.Cypher
 				.Match ("(user:User)")
-				.Where((User user) => user.Id == uid)
-				.Create ("user-[:HAS]->(notification:Notification {msg})")
-				.WithParam ("msg", msg)
+				.Where((User user) => user.Id == n.UserId)
+				.Create ("user<-[:NOTIFIES]-(n:Notification {data})")
+				.WithParam("data", n)
 				.ExecuteWithoutResultsAsync ();
 		}
 
 		public async Task ClearNotification (string uid)
 		{
 			await client.Cypher
-				.Match ("(user:User)-[h:HAS]-(notification:Notification)")
+				.Match ("(user:User)<-[:NOTIFIES]-(n:Notification)")
 				.Where((User user) => user.Id == uid)
-				.Delete ("h, notification")
+				.Delete ("h, n")
 				.ExecuteWithoutResultsAsync ();
 		}
 
-		public async Task<IEnumerable<string>> GetNotification (string uid)
+		public async Task<IEnumerable<Notification>> GetNotifications(string uid)
 		{
 			var res = await client.Cypher
-				.Match ("(user:User)-[:HAS]-(notification:Notification)")
+				.Match ("(user:User)<-[:NOTIFIES]-(n:Notification)")
 				.Where((User user) => user.Id == uid)
-				.Return ((notifications) => Return.As<IEnumerable<string>> ("collect(notification)"))
+				.Return (() => Return.As<Notification> ("n"))
 				.ResultsAsync;
 
 			await ClearNotification (uid);
 
-			return res.First();
+			return res;
 		}
-		*/
 
 		/// <summary>
 		/// Deletes the user's data, used as a help function for user deletion
@@ -644,7 +634,7 @@ namespace Dal
 				await CancelRegistration(uid, eid);
 
 			// Delete all User Tasks
-			await DeleteUserTasks(uid);
+			//await DeleteUserTasks(uid);
 
 			// Delete the remaining releations
 			await client.Cypher
@@ -668,42 +658,36 @@ namespace Dal
 				.ExecuteWithoutResultsAsync();
 		}
 
-		public async Task AddEventTask(TaskData data)
+		public void DeleteHeldEvents(DateTimeOffset now)
 		{
-			await client.Cypher
-				.Match ("(e:Event)")
-				.Where((Event e) => e.Id == data.EventId)
-				.Create ("e-[:HAS_TASK]->(task:TaskData {data})")
-				.WithParam ("data", data)
-				.ExecuteWithoutResultsAsync ();
+			client.Cypher
+				.Match ("(e:Event)<-[r:ATTENDS]-(user:User)")
+				.Where ((Event e) => now > e.Date)
+				.Create("(user:User)<-[NOTIFIES]-(n:Notification {Type:{type}, EventId:e.Id})")
+				.WithParam("type", NotificationType.REVIEW)
+				.Delete ("r")
+				.ExecuteWithoutResultsAsync();
+
+
+			client.Cypher
+				.OptionalMatch ("(e:Event)-[r]-()")
+				.Where ((Event e) => now > e.Date)
+				.Delete ("r, e")
+				.ExecuteWithoutResultsAsync();
 		}
 
-		public async Task DeleteEventTasks(int eid)
+		public void AddBirthdateNotifications(DateTimeOffset now)
 		{
-			await client.Cypher
-				.Match ("(e:Event)-[ht:HAS_TASK]->(t:TaskData)")
-				.Where((Event e) => e.Id == eid)
-				.Delete ("ht, t")
-				.ExecuteWithoutResultsAsync ();
-		}
-
-		public async Task AddUserTask(TaskData data)
-		{
-			await client.Cypher
+			client.Cypher
 				.Match ("(user:User)")
-				.Where((User user) => user.Id == data.UserId)
-				.Create ("user-[:HAS_TASK]->(task:TaskData {data})")
-				.WithParam ("data", data)
-				.ExecuteWithoutResultsAsync ();
-		}
-
-		public async Task DeleteUserTasks(string uid)
-		{
-			await client.Cypher
-				.Match ("(user:User)-[ht:HAS_TASK]->(t:TaskData)")
-				.Where((User user) => user.Id == uid)
-				.Delete ("ht, t")
-				.ExecuteWithoutResultsAsync ();
+				.Where ((User user) => now == user.Birthdate)
+				.Create("(user:User)-[HAS_NOTIFICATION]->(n:Notification {data})")
+				.WithParam("data", new Notification() 
+					{
+						Type = NotificationType.BIRTHDATE,
+						Message = "Happy birthdate!"
+					})
+				.ExecuteWithoutResultsAsync();
 		}
 	}
 }

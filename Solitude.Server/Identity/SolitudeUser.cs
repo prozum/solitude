@@ -10,7 +10,18 @@ namespace Solitude.Server
     {
         public string Name { set; get; }
         public string Address { set; get; }
-        public DateTimeOffset Birthdate { set; get; }
+        private DateTimeOffset _birthdate;
+        public DateTimeOffset Birthdate 
+        { 
+            set
+            {
+                _birthdate = value.Date;
+            }
+            get
+            {
+                return _birthdate;
+            }
+        }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsyncFixed(UserManager<SolitudeUser> manager)
         {
