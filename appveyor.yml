@@ -71,7 +71,8 @@ before_test:
  - ps: Start-Process Solitude.Server\bin\Debug\Solitude.Server.exe -nonewwindow
 
 test:
- - '**\*.Tests.dll'
+  assemblies:
+   - "**\*.Tests.dll"
 
 cache: packages
 
