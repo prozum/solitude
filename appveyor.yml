@@ -16,6 +16,7 @@ install:
   - ps: Start-FileDownload 'http://neo4j.com/artifact.php?name=neo4j-community-2.3.1-windows.zip' -FileName 'c:\projects\solitude\neo4j-community-2.3.1-windows.zip'
   - cmd: 7z x c:\projects\solitude\neo4j-community-2.3.1-windows.zip
   - cmd: c:\projects\solitude\neo4j-community-2.3.1\bin\Neo4jInstaller.bat install
+  - ps: Start-Sleep -s 10
 
 before_build:
   - nuget restore
@@ -65,6 +66,12 @@ build_script:
       --codeVersion "$version"
 
 shallow_clone: true
+
+before_test:
+ - ps: Start-Process Solitude.Server\bin\Debug\Solitude.Server.exe -nonewwindow
+
+test:
+ - '**\*.Tests.dll'
 
 cache: packages
 
