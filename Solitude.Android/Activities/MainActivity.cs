@@ -117,6 +117,9 @@ namespace DineWithaDane.Android
 				//Does server communication on separate thread to avoid UI-freeze
 				ThreadPool.QueueUserWorkItem(o =>
 					{
+						if (Looper.MyLooper() == null)
+							Looper.Prepare();
+
 						loggedIn = CIF.Login(username.Text, password.Text);
 
 						//Moves on to next activity, if login is succesful
@@ -131,6 +134,7 @@ namespace DineWithaDane.Android
 						{
 							var loginFailedDialog = new AlertDialog.Builder(this);
 							loginFailedDialog.SetMessage(CIF.LatestError);
+							loginFailedDialog.SetNegativeButton(Resource.String.ok, (s, earg) => {});
 							RunOnUiThread(() =>
 								{
 									loginFailedDialog.Show();
@@ -152,6 +156,7 @@ namespace DineWithaDane.Android
 			{
 				var noTextAlert = new AlertDialog.Builder(this);
 				noTextAlert.SetMessage(Resources.GetString(Resource.String.message_empty_username_password));
+				noTextAlert.SetNegativeButton(Resource.String.ok, (s, earg) => {});
 				noTextAlert.Show();
 
 				loginButton.Clickable = true;

@@ -69,6 +69,7 @@ namespace DineWithaDane.Android
 							{
 								var errorDialog = new AlertDialog.Builder(this);
 								errorDialog.SetMessage(MainActivity.CIF.LatestError);
+								errorDialog.SetNegativeButton(Resource.String.ok, (s, earg) => {});
 								RunOnUiThread(() => errorDialog.Show());
 							}
 
@@ -82,6 +83,7 @@ namespace DineWithaDane.Android
 				{
 					var errorDialog = new AlertDialog.Builder(this);
 					errorDialog.SetMessage(Resources.GetString(Resource.String.sign_up_missing_info));
+					errorDialog.SetNegativeButton(Resource.String.ok, (s, earg) => {});
 					errorDialog.Show();
 				}
 			};
