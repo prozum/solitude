@@ -154,6 +154,7 @@
     <AndroidResource Include="Resources\values\Arrays.xml" />
     <AndroidResource Include="Resources\drawable\Invitation_Icon.png" />
     <AndroidResource Include="Resources\layout\TapTest.axml" />
+    <AndroidResource Include="Resources\values\colors.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="CommunicationAPI\" />
