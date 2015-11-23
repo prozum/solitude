@@ -153,8 +153,8 @@
     <AndroidResource Include="Resources\drawable\ic_view_headline_black_36dp.png" />
     <AndroidResource Include="Resources\values\Arrays.xml" />
     <AndroidResource Include="Resources\drawable\Invitation_Icon.png" />
+    <AndroidResource Include="Resources\layout\TapTest.axml" />
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
     <Folder Include="CommunicationAPI\" />
     <Folder Include="Activities\" />
@@ -173,4 +173,5 @@
       <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

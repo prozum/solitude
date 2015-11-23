@@ -20,7 +20,37 @@ namespace DineWithaDane.Android
 		{
 			// setting up and drawer
 			base.OnCreate(savedInstanceState);
+			ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
 
+			var recommends = ActionBar.NewTab();
+			var joined = ActionBar.NewTab();
+			var hosted = ActionBar.NewTab();
+
+			recommends.SetText("Recommended");
+			joined.SetText("Joined");
+			hosted.SetText("Hosted");
+
+			recommends.TabSelected += (sender, e) => 
+				{
+					Content.RemoveAllViews();
+					Content.AddView(LayoutInflater.Inflate(Resource.Layout.Profile, null));
+				};
+			joined.TabSelected += (sender, e) => 
+				{
+					Content.RemoveAllViews();
+					Content.AddView(LayoutInflater.Inflate(Resource.Layout.Main, null));
+				};
+			hosted.TabSelected += (sender, e) => 
+				{
+					Content.RemoveAllViews();
+					Content.AddView(LayoutInflater.Inflate(Resource.Layout.SignUp, null));
+				};
+
+			
+			ActionBar.AddTab(recommends);
+			ActionBar.AddTab(joined);
+			ActionBar.AddTab(hosted);
+			/*
 			//Shows spinner to indicate loading
 			ShowSpinner();
 
@@ -52,6 +82,7 @@ namespace DineWithaDane.Android
 							Content.AddView(view);
 						});
 				});
+			/**/
 		}
 
 		protected void LeaveEvent()
