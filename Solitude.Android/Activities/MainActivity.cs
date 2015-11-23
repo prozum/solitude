@@ -134,7 +134,9 @@ namespace DineWithaDane.Android
 						{
 							var loginFailedDialog = new AlertDialog.Builder(this);
 							loginFailedDialog.SetMessage(CIF.LatestError);
-							loginFailedDialog.SetNegativeButton(Resource.String.ok, (s, earg) => {});
+							loginFailedDialog.SetNegativeButton(Resource.String.ok, (s, earg) =>
+								{
+								});
 							RunOnUiThread(() =>
 								{
 									loginFailedDialog.Show();
@@ -156,7 +158,9 @@ namespace DineWithaDane.Android
 			{
 				var noTextAlert = new AlertDialog.Builder(this);
 				noTextAlert.SetMessage(Resources.GetString(Resource.String.message_empty_username_password));
-				noTextAlert.SetNegativeButton(Resource.String.ok, (s, earg) => {});
+				noTextAlert.SetNegativeButton(Resource.String.ok, (s, earg) =>
+					{
+					});
 				noTextAlert.Show();
 
 				loginButton.Clickable = true;
