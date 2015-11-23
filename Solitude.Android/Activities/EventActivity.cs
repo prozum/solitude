@@ -8,6 +8,7 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using System.Threading;
+using Android.Support.V7.Widget;
 
 namespace DineWithaDane.Android
 {
@@ -30,21 +31,9 @@ namespace DineWithaDane.Android
 			joined.SetText("Joined");
 			hosted.SetText("Hosted");
 
-			recommends.TabSelected += (sender, e) => 
-				{
-					Content.RemoveAllViews();
-					Content.AddView(LayoutInflater.Inflate(Resource.Layout.Profile, null));
-				};
-			joined.TabSelected += (sender, e) => 
-				{
-					Content.RemoveAllViews();
-					Content.AddView(LayoutInflater.Inflate(Resource.Layout.Main, null));
-				};
-			hosted.TabSelected += (sender, e) => 
-				{
-					Content.RemoveAllViews();
-					Content.AddView(LayoutInflater.Inflate(Resource.Layout.SignUp, null));
-				};
+			recommends.TabSelected += (sender, e) => SelectRecommends();
+			joined.TabSelected += (sender, e) => SelectJoined();
+			hosted.TabSelected += (sender, e) => SelectHosted();
 
 			
 			ActionBar.AddTab(recommends);
@@ -84,6 +73,55 @@ namespace DineWithaDane.Android
 				});
 			/**/
 		}
+
+		protected void SelectRecommends()
+		{
+			var layout = LayoutInflater.Inflate(Resource.Layout.EventList, null);
+			var list = layout.FindViewById<ListView>(Resource.Id.List);
+
+			list.Adapter = new EventAdapter(this, new List<Event>()
+				{
+					new Event("sdfsdf", DateTimeOffset.Now, "Thing", "Thign", 10, 0),
+					new Event("sdfsdf", DateTimeOffset.Now, "Thing", "Thign", 10, 0),
+					new Event("afaff", DateTimeOffset.Now, "Thing", "Thign", 10, 0),
+					new Event("afcvxcvxtet", DateTimeOffset.Now, "Thing", "Thign", 10, 0),
+					new Event("teaaffat", DateTimeOffset.Now, "Thing", "Thign", 10, 0),
+					new Event("texvcvcxt", DateTimeOffset.Now, "Thing", "Thign", 10, 0)
+				});
+
+			/*
+			//Shows spinner to indicate loading
+			ShowSpinner();
+
+			ThreadPool.QueueUserWorkItem(o =>
+				{
+					//Fetch offers from server
+					PrepareLooper();
+					//Clear screen and show the found offers
+					RunOnUiThread(() =>
+						{
+							ClearLayout();
+							Content.AddView(view);
+						});
+				});
+				*/
+			
+			Content.RemoveAllViews();
+			Content.AddView(layout);
+		}
+
+		protected void SelectJoined()
+		{
+			Content.RemoveAllViews();
+			Content.AddView(LayoutInflater.Inflate(Resource.Layout.Main, null));
+		}
+
+		protected void SelectHosted()
+		{
+			Content.RemoveAllViews();
+			Content.AddView(LayoutInflater.Inflate(Resource.Layout.SignUp, null));
+		}
+
 
 		protected void LeaveEvent()
 		{
