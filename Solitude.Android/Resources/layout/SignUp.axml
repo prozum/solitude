@@ -1,84 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/layout">
-    <TextView
-        android:text="Name:"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+    android:layout_height="match_parent">
+    <Solitude.Droid.CustomViewPager
+        android:id="@+id/signUpViewPager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <EditText
+        android:layout_height="match_parent" />
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/editSignUpName" />
-    <TextView
-        android:text="Address:"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView3" />
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/editAddress" />
-    <TextView
-        android:text="Date of birth:"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView5" />
-    <DatePicker
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/signupBirthday"
-        android:clipChildren="true"
-        android:spinnersShown="true"
-        android:calendarViewShown="false" />
-    <TextView
-        android:text="Username:"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView6" />
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/editUsername" />
-    <TextView
-        android:text="Password Requirements:Minimum 8 characters, and must include Uppercase and Lovercase Characters, a Number and a Special Symbol"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp" />
-    <TextView
-        android:text="Password:"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView7" />
-    <EditText
-        android:inputType="textPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/editPassword" />
-    <TextView
-        android:text="Confirm password:"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView8" />
-    <EditText
-        android:inputType="textPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/editConfirm" />
-    <Button
-        android:text="Continue"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/buttonContinue" />
-</LinearLayout>
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true">
+        <Button
+            android:layout_width="100dp"
+            android:text="Back"
+            android:maxWidth="100dp"
+            android:minWidth="100dp"
+            android:layout_height="match_parent"
+            android:id="@+id/signUpPreviousBtn"
+            android:layout_marginLeft="0.0dp"
+            android:layout_marginTop="0.0dp" />
+        <Button
+            android:text="Next"
+            android:layout_height="match_parent"
+            android:layout_width="100dp"
+            android:maxWidth="100dp"
+            android:minWidth="100dp"
+            android:layout_toRightOf="@id/signUpPreviousBtn"
+            android:id="@+id/signUpNextBtn" />
+    </RelativeLayout>
+</RelativeLayout>
