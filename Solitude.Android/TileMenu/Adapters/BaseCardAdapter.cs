@@ -11,36 +11,24 @@ using Android.OS;
 
 namespace DineWithaDane.Android
 {
-	public abstract class BaseCardAdapter<T> : BaseAdapter
+	public class EventAdapter<T> : BaseAdapter where T : Event
 	{
 		#region Fields
-		protected Activity Context { get; private set; }
+		public Action<View, Event, bool> OnUpdatePosition { get; set; }
+		public Action<int> OnAction1 { get; set; }
+		public Action<int> OnAction2 { get; set; }
 
-		/// <summary>
-		/// The values the adapter will populate views with.
-		/// </summary>
 		public List<T> Items { get; private set; }
-
-		/// <summary>
-		/// Total number of items in adapter.
-		/// </summary>
 		public override int Count { get { return Items.Count; } }
+		public override bool HasStableIds { get { return true; } }
 
-		/// <summary>
-		/// Indicates whether the child and group IDs are stable across changes to the
-		///  underlying data.
-		/// </summary>
-		public override bool HasStableIds {	get { return true; } } 
+		protected Activity Context { get; set; }
+		protected List<bool> IsExpanded { get; set; }
 		#endregion
 
 
 		#region Constructors
-		/// <summary>
-		/// Initializes a new instance of the <see cref="DineWithaDane.Android.BaseTileListAdapter`1"/> class.
-		/// </summary>
-		/// <param name="context">Context.</param>
-		/// <param name="items">Items.</param>
-		public BaseCardAdapter(Activity context, List<T> items) 
+		public EventAdapter(Activity context, List<T> items)
 			: base()
 		{
 			if (items == null)
@@ -48,24 +36,32 @@ namespace DineWithaDane.Android
 
 			Context = context;
 			Items = items;
+			IsExpanded = new List<bool>();
+
+			for (int i = 0; i < Items.Count; i++)
+				IsExpanded.Add(false);
 		}
 		#endregion
 
 
 		#region Public Methods
-		/// <summary>
-		/// Removes at index.
-		/// </summary>
-		/// <param name="index">Index.</param>
+		public override View GetView(int position, View convertView, ViewGroup parent)
+		{
+			var view = (convertView as EventItem<T>);
+
+			if (view == null)
+				view = new EventItem<T>(Context, this, OnExpand, OnUpdatePosition, OnAction1, OnAction2);
+
+			view.UpdatePosition(position, IsExpanded[position]);
+
+			return view;
+		}
+
+
 		public void RemoveAt(int index)
 		{
 			Items.RemoveAt(index);
-			NotifyDataSetChanged();
-		}
-
-		public void Remove(T item)
-		{
-			Items.Remove(item);
+			IsExpanded.RemoveAt(index);
 			NotifyDataSetChanged();
 		}
 
@@ -77,6 +73,14 @@ namespace DineWithaDane.Android
 		public override Java.Lang.Object GetItem(int position)
 		{
 			throw new NotImplementedException();
+		}
+		#endregion
+
+		#region Private Methods
+		protected void OnExpand(int pos)
+		{
+			IsExpanded[pos] = !IsExpanded[pos];
+			NotifyDataSetChanged();
 		}
 		#endregion
 	}

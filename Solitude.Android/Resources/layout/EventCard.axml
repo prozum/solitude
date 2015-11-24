@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_parent"
     android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:padding="5dp">
     <android.support.v7.widget.CardView
         android:id="@+id/event_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal">
+        android:layout_gravity="center_horizontal"
+        card_view:cardElevation="2dp"
+        card_view:cardUseCompatPadding="true">
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -19,44 +22,55 @@
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp" />
+                android:textSize="24sp"
+                android:paddingTop="24dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp" />
             <TextView
                 android:text="Subtitle"
                 android:id="@+id/subtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp" />
+                android:textSize="14sp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="16dp" />
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical">
                 <Button
-                    android:text="action1"
+                    android:text="Action1"
                     android:id="@+id/action1"
                     android:layout_alignParentLeft="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp" />
+                    android:layout_margin="8dp" />
                 <Button
-                    android:text="action2"
+                    android:text="Action2"
                     android:id="@+id/action2"
-                    android:layout_toRightOf="@id/action1"
+                    android:layout_toLeftOf="@id/action1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp" />
+                    android:layout_margin="8dp" />
                 <ImageView
                     android:id="@+id/expander"
                     android:src="@drawable/ic_expand_less_black_48dp"
                     android:layout_alignParentRight="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp" />
+                    android:padding="8dp" />
             </RelativeLayout>
             <TextView
                 android:text="expanded text"
                 android:id="@+id/expanded_content"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:paddingTop="16dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="24dp" />
         </LinearLayout>
     </android.support.v7.widget.CardView>
-</LinearLayout>
+</FrameLayout>

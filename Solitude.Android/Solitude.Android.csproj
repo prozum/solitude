@@ -88,18 +88,15 @@
     <Compile Include="Drawer\SetupDrawer.cs" />
     <Compile Include="Classes\Review.cs" />
     <Compile Include="TileMenu\Adapters\BaseCardAdapter.cs" />
-    <Compile Include="TileMenu\Adapters\OfferListAdapter.cs" />
     <Compile Include="Activities\EventActivity.cs" />
     <Compile Include="Activities\OfferActivity.cs" />
     <Compile Include="Activities\ProfileActivity.cs" />
     <Compile Include="Activities\SettingsActivitiy.cs" />
     <Compile Include="Activities\DrawerActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
-    <Compile Include="TileMenu\Items\JoinedItem.cs" />
+    <Compile Include="TileMenu\Items\EventItem.cs" />
     <Compile Include="TileMenu\Seperator.cs" />
     <Compile Include="Activities\HostEventActivity.cs" />
-    <Compile Include="TileMenu\Adapters\HostedEventListAdapter.cs" />
-    <Compile Include="TileMenu\Adapters\JoinedEventListAdapter.cs" />
     <Compile Include="TileMenu\Adapters\DrawerAdapter.cs" />
     <Compile Include="TileMenu\InfoDialog.cs" />
     <Compile Include="Classes\InfoChange.cs" />
@@ -166,7 +163,6 @@
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_expand_more_black_48dp.png" />
     <AndroidResource Include="Resources\values\colors.xml" />
     <AndroidResource Include="Resources\layout\EventList.axml" />
-    <AndroidResource Include="Resources\layout\JoinedCard.axml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\ic_expand_less_black_36dp.png" />

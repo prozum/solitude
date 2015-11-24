@@ -76,17 +76,25 @@ namespace DineWithaDane.Android
 		{
 			var layout = LayoutInflater.Inflate(Resource.Layout.EventList, null);
 			var list = layout.FindViewById<ListView>(Resource.Id.list);
-
-
-			list.Adapter = new JoinedEventListAdapter(this, new List<Event>()
+			var adapter = new EventAdapter<Event>(this, new List<Event>()
 				{
-					new Event("sdfsdf", DateTimeOffset.Now, "Thing", "Thign", 10, 0),
+					new Event("Flan", DateTimeOffset.Now, "Aalborg Universitet", "Så er der igen Flan. Der er massere af tuneringer i deverse spil, så som CS:GO, Hearthstone og Lol. Det bliver mega kekoælla.", 10, 0),
 					new Event("sdfsdf", DateTimeOffset.Now, "Thing", "Thign", 10, 0),
 					new Event("afaff", DateTimeOffset.Now, "Thing", "Thign", 10, 0),
 					new Event("afcvxcvxtet", DateTimeOffset.Now, "Thing", "Thign", 10, 0),
 					new Event("teaaffat", DateTimeOffset.Now, "Thing", "Thign", 10, 0),
 					new Event("texvcvcxt", DateTimeOffset.Now, "Thing", "Thign", 10, 0)
-				}, null);
+				});
+
+			adapter.OnAction1 = (i) => adapter.RemoveAt(i);
+			adapter.OnUpdatePosition = (view, evnt, exp) =>
+			{
+				view.FindViewById<TextView>(Resource.Id.expanded_content).Text = string.Format("{0}\n\n{1}", evnt.Description, evnt.Address);
+				view.FindViewById<Button>(Resource.Id.action2).Visibility = ViewStates.Gone;
+				view.FindViewById<Button>(Resource.Id.action1).Text = "Leave";
+			};
+
+			list.Adapter = adapter;
 
 			/*
 			//Shows spinner to indicate loading
