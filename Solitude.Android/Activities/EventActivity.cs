@@ -76,22 +76,110 @@ namespace Solitude.Droid
 		{
 			var layout = LayoutInflater.Inflate(Resource.Layout.EventList, null);
 			var list = layout.FindViewById<ListView>(Resource.Id.list);
+			var adapter = new EventAdapter<Offer>(this, new List<Offer>()
+				{
+					new Offer()
+					{
+						Address = "Aalborg University",
+						Date = DateTimeOffset.Now,
+						Description = "It's time for a test offer. This offer is a test and should be treated as such. Therefor there is no need to join it, since nothing will happen. Don't join me plz.",
+						Match = new Match()
+						{
+							FoodHabits = new int[]
+							{
+								0, 1, 2
+							},
+							Interests = new int[]
+							{
+								0, 1, 2
+							},
+							Languages = new int[]
+							{
+								0, 1, 2
+							},
+						},
+						SlotsTaken = 2,
+						SlotsTotal = 6,
+						Title = "Test Offer"
+					}
+				});
+
+			adapter.OnAction1 = (i) => adapter.RemoveAt(i);
+			adapter.OnAction2 = (i) => adapter.RemoveAt(i);
+			adapter.OnUpdatePosition = (view, evnt, exp) =>
+			{
+				var offer = evnt as Offer;
+                string matchs = "Matched by:\n";
+
+				for (int i = 0; i < offer.Match.Interests.Length; i++)
+				{
+					matchs += MainActivity.InfoNames[(int)InfoType.Interest][offer.Match.Interests[i]];
+
+					if (i != offer.Match.Interests.Length - 1)
+						matchs += ", ";
+					else
+						matchs += "\n";
+				}
+
+
+				for (int i = 0; i < offer.Match.FoodHabits.Length; i++)
+				{
+					matchs += MainActivity.InfoNames[(int)InfoType.FoodHabit][offer.Match.FoodHabits[i]];
+
+					if (i != offer.Match.FoodHabits.Length - 1)
+						matchs += ", ";
+					else
+						matchs += "\n";
+				}
+
+				for (int i = 0; i < offer.Match.FoodHabits.Length; i++)
+				{
+					matchs += MainActivity.InfoNames[(int)InfoType.Language][offer.Match.Languages[i]];
+
+					if (i != offer.Match.Languages.Length - 1)
+						matchs += ", ";
+					else
+						matchs += "\n";
+				}
+
+				view.FindViewById<TextView>(Resource.Id.expanded_content).Text = 
+					string.Format("{0}\n\n{1}\n{2}/{3}\n{4}", offer.Description, offer.Address, offer.SlotsTaken, offer.SlotsTotal, matchs);
+
+				view.FindViewById<Button>(Resource.Id.action1).Text = "Delcine";
+				view.FindViewById<Button>(Resource.Id.action2).Text = "Accept";
+			};
+
+			list.Adapter = adapter;
+			
+			Content.RemoveAllViews();
+			Content.AddView(layout);
+		}
+
+		protected void SelectJoined()
+		{
+			var layout = LayoutInflater.Inflate(Resource.Layout.EventList, null);
+			var list = layout.FindViewById<ListView>(Resource.Id.list);
 			var adapter = new EventAdapter<Event>(this, new List<Event>()
 				{
-					new Event("Flan", DateTimeOffset.Now, "Aalborg Universitet", "Så er der igen Flan. Der er massere af tuneringer i deverse spil, så som CS:GO, Hearthstone og Lol. Det bliver mega kekoælla.", 10, 0),
-					new Event("sdfsdf", DateTimeOffset.Now, "Thing", "Thign", 10, 0),
-					new Event("afaff", DateTimeOffset.Now, "Thing", "Thign", 10, 0),
-					new Event("afcvxcvxtet", DateTimeOffset.Now, "Thing", "Thign", 10, 0),
-					new Event("teaaffat", DateTimeOffset.Now, "Thing", "Thign", 10, 0),
-					new Event("texvcvcxt", DateTimeOffset.Now, "Thing", "Thign", 10, 0)
+					new Event()
+					{
+						Address = "Aalborg University",
+						Date = DateTimeOffset.Now,
+						Description = "It's time for a test offer. This offer is a test and should be treated as such. Therefor there is no need to join it, since nothing will happen. Don't join me plz.",
+						SlotsTaken = 2,
+						SlotsTotal = 6,
+						Title = "Test Offer"
+					}
 				});
 
 			adapter.OnAction1 = (i) => adapter.RemoveAt(i);
 			adapter.OnUpdatePosition = (view, evnt, exp) =>
 			{
-				view.FindViewById<TextView>(Resource.Id.expanded_content).Text = string.Format("{0}\n\n{1}", evnt.Description, evnt.Address);
-				view.FindViewById<Button>(Resource.Id.action2).Visibility = ViewStates.Gone;
+				view.FindViewById<TextView>(Resource.Id.expanded_content).Text =
+					string.Format("{0}\n\n{1}\n{2}/{3}", evnt.Description, evnt.Address, evnt.SlotsTaken, evnt.SlotsTotal);
+
 				view.FindViewById<Button>(Resource.Id.action1).Text = "Leave";
+				view.FindViewById<Button>(Resource.Id.action2).Visibility = ViewStates.Gone;
 			};
 
 			list.Adapter = adapter;
@@ -112,21 +200,42 @@ namespace Solitude.Droid
 						});
 				});
 				*/
-			
+
 			Content.RemoveAllViews();
 			Content.AddView(layout);
 		}
 
-		protected void SelectJoined()
-		{
-			Content.RemoveAllViews();
-			Content.AddView(LayoutInflater.Inflate(Resource.Layout.Main, null));
-		}
-
 		protected void SelectHosted()
 		{
+			var layout = LayoutInflater.Inflate(Resource.Layout.EventList, null);
+			var list = layout.FindViewById<ListView>(Resource.Id.list);
+			var adapter = new EventAdapter<Event>(this, new List<Event>()
+				{
+					new Event()
+					{
+						Address = "Aalborg University",
+						Date = DateTimeOffset.Now,
+						Description = "It's time for a test offer. This offer is a test and should be treated as such. Therefor there is no need to join it, since nothing will happen. Don't join me plz.",
+						SlotsTaken = 2,
+						SlotsTotal = 6,
+						Title = "Test Offer"
+					}
+				});
+
+			adapter.OnAction1 = (i) => adapter.RemoveAt(i);
+			adapter.OnUpdatePosition = (view, evnt, exp) =>
+			{
+				view.FindViewById<TextView>(Resource.Id.expanded_content).Text =
+					string.Format("{0}\n\n{1}\n{2}/{3}", evnt.Description, evnt.Address, evnt.SlotsTaken, evnt.SlotsTotal);
+
+				view.FindViewById<Button>(Resource.Id.action1).Text = "Cancel";
+				view.FindViewById<Button>(Resource.Id.action2).Text = "Edit";
+			};
+
+			list.Adapter = adapter;
+
 			Content.RemoveAllViews();
-			Content.AddView(LayoutInflater.Inflate(Resource.Layout.SignUp, null));
+			Content.AddView(layout);
 		}
 
 
