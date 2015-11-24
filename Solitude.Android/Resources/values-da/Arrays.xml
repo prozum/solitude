@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+	<string-array name="languages">
+   		<item>Dansk</item>
+   		<item>Engelsk</item>
+   		<item>Tysk</item>
+   		<item>Frasnk</item>
+   		<item>Spansk</item>
+   		<item>Kinesisk</item>
+   		<item>Russisk</item>
+	</string-array>
+	<string-array name="interests">
+   		<item>Natur</item>
+   		<item>Fitness</item>
+   		<item>Film</item>
+   		<item>Gaming</item>
+   		<item>Elektronik</item>
+   		<item>Madlavning</item>
+   		<item>Tegning</item>
+	</string-array>
+	<string-array name="foodhabits">
+   		<item>Halal</item>
+   		<item>Kosher</item>
+   		<item>Laktose Intolerance</item>
+   		<item>Gluten Intolerance</item>
+   		<item>Nødde Allergi</item>
+	</string-array>
+    <string-array name="info_titles">
+   		<item>Sprog</item>
+   		<item>Interesseret i</item>
+   		<item>Mad præference</item>
+    </string-array>
+    <string-array name="drawer_items">
+   		<item>Profil</item>
+   		<item>Invitationer</item>
+   		<item>Begivenheder</item>
+   		<item>Vært</item>
+   		<item>Indstillinger</item>
+   		<item>Log ud</item>
+    </string-array>
+</resources>
