@@ -25,9 +25,9 @@ namespace Solitude.Droid
 			var joined = ActionBar.NewTab();
 			var hosted = ActionBar.NewTab();
 
-			recommends.SetText("Recommended");
-			joined.SetText("Joined");
-			hosted.SetText("Hosted");
+			recommends.SetText(Resource.String.event_menu_recommended);
+			joined.SetText(Resource.String.event_menu_joined);
+			hosted.SetText(Resource.String.event_menu_hosted);
 
 			recommends.TabSelected += (sender, e) => SelectRecommends();
 			joined.TabSelected += (sender, e) => SelectJoined();

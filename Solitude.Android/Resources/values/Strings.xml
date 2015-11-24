@@ -23,7 +23,7 @@
 	<string name="event_invalid_info">Invalid Event Info</string>
 	<string name="event_menu_hosted">Hosted</string>
 	<string name="event_menu_joined">Joined</string>
-	<string name="event_menu_recommended">Recommended</string>
+	<string name="event_menu_recommended">Fisk</string>
 	<string name="event_name">Event Name</string>
 	<string name="event_name_hint">Event Name</string>
 	<string name="event_place">Location/Address</string>
