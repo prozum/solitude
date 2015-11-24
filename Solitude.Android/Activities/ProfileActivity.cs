@@ -69,10 +69,10 @@ namespace DineWithaDane.Droid
 			var age = FindViewById<TextView>(Resource.Id.Age);
 			var layout = FindViewById<LinearLayout>(Resource.Id.Layout);
 			
-			var adapter = new InfoAdapter(this, Info);
-			var tilemenu = new InfoList(this, adapter);
+			//var adapter = new InfoAdapter(this, Info);
+			//var tilemenu = new InfoList(this, adapter);
 
-			layout.AddView(tilemenu);
+			//layout.AddView(tilemenu);
 
 			name.SetTypeface(null, TypefaceStyle.Bold);
 			name.TextSize = 20;
