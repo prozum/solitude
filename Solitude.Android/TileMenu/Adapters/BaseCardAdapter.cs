@@ -63,6 +63,12 @@ namespace DineWithaDane.Android
 			NotifyDataSetChanged();
 		}
 
+		public void Remove(T item)
+		{
+			Items.Remove(item);
+			NotifyDataSetChanged();
+		}
+
 		public override long GetItemId(int position)
 		{
 			return position;

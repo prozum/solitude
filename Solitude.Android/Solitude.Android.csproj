@@ -95,6 +95,7 @@
     <Compile Include="Activities\SettingsActivitiy.cs" />
     <Compile Include="Activities\DrawerActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
+    <Compile Include="TileMenu\Items\JoinedItem.cs" />
     <Compile Include="TileMenu\Seperator.cs" />
     <Compile Include="Activities\HostEventActivity.cs" />
     <Compile Include="TileMenu\Adapters\HostedEventListAdapter.cs" />
