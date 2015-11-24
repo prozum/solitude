@@ -6,7 +6,7 @@ using Android.App;
 using System.Collections.ObjectModel;
 using Android.Graphics.Drawables;
 
-namespace DineWithaDane.Android
+namespace Solitude.Droid
 {
 	public abstract class Notification : LinearLayout
 	{

@@ -13,7 +13,7 @@ using Android.Widget;
 using Android.Util;
 using System.Threading;
 
-namespace DineWithaDane.Android
+namespace Solitude.Droid
 {
 	[Activity(Label = "Host", Icon = "@drawable/Host_Icon")]			
 	public class HostActivity : DrawerActivity

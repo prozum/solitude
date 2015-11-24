@@ -9,7 +9,7 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 
-namespace DineWithaDane.Android
+namespace Solitude.Droid
 {
 	public class EventAdapter<T> : BaseAdapter where T : Event
 	{

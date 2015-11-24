@@ -10,7 +10,7 @@ using Android.Views;
 using Android.Widget;
 using Android.Support.V4.Widget;
 
-namespace DineWithaDane.Android
+namespace Solitude.Droid
 {
 	[Activity(Label = "AbstractActivity")]			
 	public abstract class DrawerActivity : Activity
@@ -52,7 +52,7 @@ namespace DineWithaDane.Android
 
 		public override void OnBackPressed()
 		{
-			var dialog = new AlertDialog.Builder(this);
+			var dialog = new Android.Support.V7.App.AlertDialog.Builder(this);
 			dialog.SetMessage(Resources.GetString(Resource.String.message_logout));
 			dialog.SetNegativeButton(Resource.String.no, (s, e) => { });
 			dialog.SetNeutralButton(Resource.String.yes, (s, e) => MainActivity.CIF.Logout(this));

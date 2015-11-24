@@ -7,8 +7,9 @@ using Android.Widget;
 using Android.OS;
 using System.Collections.Generic;
 using System.Threading;
+using Android.Support.Design.Widget;
 
-namespace DineWithaDane.Android
+namespace Solitude.Droid
 {
 	[Activity(Label = "Let's hangout", MainLauncher = true)]
 	public class MainActivity : Activity

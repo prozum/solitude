@@ -10,7 +10,7 @@ using Android.OS;
 using System.Threading;
 using Android.Support.V7.Widget;
 
-namespace DineWithaDane.Android
+namespace Solitude.Droid
 {
 	[Activity(Label = "Events", Icon = "@drawable/Events_Icon")]
 	public class EventActivity : DrawerActivity
@@ -25,9 +25,9 @@ namespace DineWithaDane.Android
 			var joined = ActionBar.NewTab();
 			var hosted = ActionBar.NewTab();
 
-			recommends.SetText("Recommended");
-			joined.SetText("Joined");
-			hosted.SetText("Hosted");
+			recommends.SetText(Resource.String.event_menu_recommended);
+			joined.SetText(Resource.String.event_menu_joined);
+			hosted.SetText(Resource.String.event_menu_hosted);
 
 			recommends.TabSelected += (sender, e) => SelectRecommends();
 			joined.TabSelected += (sender, e) => SelectJoined();

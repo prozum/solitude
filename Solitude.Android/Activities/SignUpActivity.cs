@@ -7,7 +7,7 @@ using System.Threading;
 using Android.Content;
 using Android.Views;
 
-namespace DineWithaDane.Android
+namespace Solitude.Droid
 {
 	[Activity(Label = "Solitude.Android")]
 	public class SignUpActivity : Activity

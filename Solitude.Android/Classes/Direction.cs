@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DineWithaDane.Android
+namespace Solitude.Droid
 {
 	public enum Direction
 	{

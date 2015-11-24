@@ -10,7 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 
-namespace DineWithaDane.Android
+namespace Solitude.Droid
 {
 	public class EventItem<T> : FrameLayout where T : Event
 	{

@@ -10,7 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 
-namespace DineWithaDane.Android
+namespace Solitude.Droid
 {
 	[Activity (Label = "Notifications", Icon = "@drawable/Notification_Icon")]			
 	public class NotificationActivity : DrawerActivity
