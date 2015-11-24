@@ -8,26 +8,59 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
-using Android.Support.V7.Widget;
 
 namespace DineWithaDane.Android
 {
 	public abstract class BaseCardAdapter<T> : BaseAdapter
 	{
-		protected Activity Context { get; set; }
-		protected List<T> Items { get; set; }
+		#region Fields
+		protected Activity Context { get; private set; }
 
+		/// <summary>
+		/// The values the adapter will populate views with.
+		/// </summary>
+		public List<T> Items { get; private set; }
+
+		/// <summary>
+		/// Total number of items in adapter.
+		/// </summary>
 		public override int Count { get { return Items.Count; } }
 
-		public BaseCardAdapter(Activity context, List<T> items)
+		/// <summary>
+		/// Indicates whether the child and group IDs are stable across changes to the
+		///  underlying data.
+		/// </summary>
+		public override bool HasStableIds {	get { return true; } } 
+		#endregion
+
+
+		#region Constructors
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DineWithaDane.Android.BaseTileListAdapter`1"/> class.
+		/// </summary>
+		/// <param name="context">Context.</param>
+		/// <param name="items">Items.</param>
+		public BaseCardAdapter(Activity context, List<T> items) 
+			: base()
 		{
+			if (items == null)
+				throw new NullReferenceException("items was null");
+
 			Context = context;
 			Items = items;
 		}
+		#endregion
 
-		public override Java.Lang.Object GetItem(int position)
+
+		#region Public Methods
+		/// <summary>
+		/// Removes at index.
+		/// </summary>
+		/// <param name="index">Index.</param>
+		public void RemoveAt(int index)
 		{
-			throw new NotImplementedException();
+			Items.RemoveAt(index);
+			NotifyDataSetChanged();
 		}
 
 		public override long GetItemId(int position)
@@ -35,7 +68,10 @@ namespace DineWithaDane.Android
 			return position;
 		}
 
-
+		public override Java.Lang.Object GetItem(int position)
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
 	}
 }
-

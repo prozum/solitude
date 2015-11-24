@@ -18,8 +18,6 @@ namespace DineWithaDane.Android
 	[Activity(Label = "Host", Icon = "@drawable/Host_Icon")]			
 	public class HostActivity : DrawerActivity
 	{
-		protected HostedEventList Tilelist { get; set; }
-
 		protected RelativeLayout InternalContent { get; set; }
 
 		protected override void OnCreate(Bundle bundle)
@@ -45,14 +43,11 @@ namespace DineWithaDane.Android
 
 					var events = MainActivity.CIF.GetHostedEvents(100);
 
-					View view;
+					View view = null;
 					var viewparams = new RelativeLayout.LayoutParams(-1, -2);
 
 					if (events.Count != 0)
 					{
-						var adapter = new HostedEventListAdapter(this, events);
-						Tilelist = new HostedEventList(this, adapter, (s, e) => DeleteEvent(), (s, e) => EditEvent());
-						view = Tilelist;
 					}
 					else
 					{
@@ -100,8 +95,8 @@ namespace DineWithaDane.Android
 			alert.SetButton2(Resources.GetString(Resource.String.no_abort), (object senders, DialogClickEventArgs ev) => alert.Dismiss());
 			alert.SetButton(Resources.GetString(Resource.String.yes_cancel), (object senders, DialogClickEventArgs ev) =>
 				{
-					MainActivity.CIF.DeleteEvent(Tilelist.PopFocus());
-
+					//MainActivity.CIF.DeleteEvent(Tilelist.PopFocus());
+					/*
 					if (Tilelist.Count == 0)
 					{
 						var text = new TextView(this);
@@ -110,12 +105,14 @@ namespace DineWithaDane.Android
 						InternalContent.RemoveView(Tilelist);
 						InternalContent.AddView(text);
 					}
+					*/
 				});
 			alert.Show();
 		}
 
 		protected void EditEvent()
 		{
+			/*
 			Event @event = Tilelist.GetFocus();
 			Intent intent = new Intent(this, typeof(HostEventActivity));
 			// All event information must be passed to the intent.
@@ -133,6 +130,7 @@ namespace DineWithaDane.Android
 			intent.PutExtra("leftslots", @event.SlotsTaken);
 			intent.PutExtra("id", @event.Id);
 			StartActivity(intent);
+			*/
 		}
 	}
 }

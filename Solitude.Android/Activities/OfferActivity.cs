@@ -13,8 +13,6 @@ namespace DineWithaDane.Android
 	[Activity(Label = "Invites", Icon = "@drawable/Invitation_Icon")]
 	public class OfferActivity : DrawerActivity
 	{
-		protected OfferList Tilelist { get; set; }
-
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
 			// setting up and drawer
@@ -30,13 +28,10 @@ namespace DineWithaDane.Android
 					
 					var offers = MainActivity.CIF.RequestOffers();
 
-					View view;
+					View view = null;
 
 					if (offers.Count != 0)
 					{
-						var adapter = new OfferListAdapter(this, offers);
-						Tilelist = new OfferList(this, adapter, (s, e) => AcceptOffer(), (s, e) => DeclineOffer());
-						view = Tilelist;
 					}
 					else
 					{
@@ -55,18 +50,19 @@ namespace DineWithaDane.Android
 
 		protected void AcceptOffer()
 		{
-			MainActivity.CIF.ReplyOffer(true, Tilelist.PopFocus());
+			//MainActivity.CIF.ReplyOffer(true, Tilelist.PopFocus());
 			NoMoreOffers();
 		}
 
 		protected void DeclineOffer()
 		{
-			MainActivity.CIF.ReplyOffer(false, Tilelist.PopFocus());
+			//MainActivity.CIF.ReplyOffer(false, Tilelist.PopFocus());
 			NoMoreOffers();
 		}
 
 		protected void NoMoreOffers()
 		{
+			/*
 			if (Tilelist.Count == 0)
 			{
 				var text = new TextView(this);
@@ -75,6 +71,7 @@ namespace DineWithaDane.Android
 				Content.RemoveAllViews();
 				Content.AddView(text);
 			}
+			*/
 		}
 	}
 }

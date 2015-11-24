@@ -15,8 +15,6 @@ namespace DineWithaDane.Android
 	[Activity(Label = "Events", Icon = "@drawable/Events_Icon")]
 	public class EventActivity : DrawerActivity
 	{
-		protected JoinedEventList Tilelist { get; set; }
-
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
 			// setting up and drawer
@@ -77,9 +75,10 @@ namespace DineWithaDane.Android
 		protected void SelectRecommends()
 		{
 			var layout = LayoutInflater.Inflate(Resource.Layout.EventList, null);
-			var list = layout.FindViewById<ListView>(Resource.Id.List);
+			var list = layout.FindViewById<ListView>(Resource.Id.list);
 
-			list.Adapter = new EventAdapter(this, new List<Event>()
+
+			list.Adapter = new JoinedEventListAdapter(this, new List<Event>()
 				{
 					new Event("sdfsdf", DateTimeOffset.Now, "Thing", "Thign", 10, 0),
 					new Event("sdfsdf", DateTimeOffset.Now, "Thing", "Thign", 10, 0),
@@ -87,7 +86,7 @@ namespace DineWithaDane.Android
 					new Event("afcvxcvxtet", DateTimeOffset.Now, "Thing", "Thign", 10, 0),
 					new Event("teaaffat", DateTimeOffset.Now, "Thing", "Thign", 10, 0),
 					new Event("texvcvcxt", DateTimeOffset.Now, "Thing", "Thign", 10, 0)
-				});
+				}, null);
 
 			/*
 			//Shows spinner to indicate loading
@@ -125,7 +124,7 @@ namespace DineWithaDane.Android
 
 		protected void LeaveEvent()
 		{
-			MainActivity.CIF.CancelReg(Tilelist.PopFocus());
+			//MainActivity.CIF.CancelReg(Tilelist.PopFocus());
 		}
 	}
 }
