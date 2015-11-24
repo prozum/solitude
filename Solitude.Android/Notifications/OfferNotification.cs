@@ -5,7 +5,7 @@ using Android.Widget;
 using Android.Views;
 using System.Collections.ObjectModel;
 
-namespace DineWithaDane.Droid
+namespace Solitude.Droid
 {
 	public class OfferNotification : Notification
 	{

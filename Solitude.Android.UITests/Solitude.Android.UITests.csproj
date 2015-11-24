@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -47,7 +47,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Solitude.Android\Solitude.Android.csproj">
+    <ProjectReference Include="..\Solitude.Android\Solitude.Droid.csproj">
       <Project>{478310BE-22D3-4A3E-84EC-9716C50834D2}</Project>
       <Name>Solitude.Android</Name>
       <ReferenceOutputAssembly>False</ReferenceOutputAssembly>

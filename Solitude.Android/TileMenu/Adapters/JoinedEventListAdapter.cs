@@ -9,7 +9,7 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 
-namespace DineWithaDane.Droid
+namespace Solitude.Droid
 {
 	public class JoinedEventListAdapter : BaseCardAdapter<Event>
 	{
@@ -23,7 +23,7 @@ namespace DineWithaDane.Droid
 
 		#region Constructors
 		/// <summary>
-		/// Initializes a new instance of the <see cref="DineWithaDane.Droid.EventListAdapter"/> class.
+		/// Initializes a new instance of the <see cref="Solitude.Droid.EventListAdapter"/> class.
 		/// </summary>
 		/// <param name="context">Context.</param>
 		/// <param name="items">Items.</param>

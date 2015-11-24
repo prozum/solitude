@@ -13,7 +13,7 @@ using Android.Widget;
 using Android.Graphics;
 using System.Collections;
 
-namespace DineWithaDane.Droid
+namespace Solitude.Droid
 {
 	[Activity(Label = "Settings", Icon = "@drawable/Settings_Icon")]			
 	public class SettingsActivitiy : DrawerActivity

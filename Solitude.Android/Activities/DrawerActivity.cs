@@ -10,7 +10,7 @@ using Android.Views;
 using Android.Widget;
 using Android.Support.V4.Widget;
 
-namespace DineWithaDane.Droid
+namespace Solitude.Droid
 {
 	[Activity(Label = "AbstractActivity")]			
 	public abstract class DrawerActivity : Activity

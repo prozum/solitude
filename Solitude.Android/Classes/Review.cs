@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using DineWithaDane.Droid;
+using Solitude.Droid;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Widget;
 using Android.Views;
 using ClientCommunication;
 
-namespace DineWithaDane.Droid
+namespace Solitude.Droid
 {
 	public class Review
 	{

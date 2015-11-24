@@ -13,12 +13,12 @@ using Android.Views;
 using Android.Widget;
 using Android.Graphics;
 
-namespace DineWithaDane.Droid
+namespace Solitude.Droid
 {
 	public class Seperator : TextView
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="DineWithaDane.Droid.Seperator"/> class.
+		/// Initializes a new instance of the <see cref="Solitude.Droid.Seperator"/> class.
 		/// </summary>
 		/// <param name="context">Context.</param>
 		/// <param name="heigth">Heigth.</param>
@@ -27,7 +27,7 @@ namespace DineWithaDane.Droid
 			: this(context, Color.Gray, heigth, width) { } 
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="DineWithaDane.Droid.Seperator"/> class.
+		/// Initializes a new instance of the <see cref="Solitude.Droid.Seperator"/> class.
 		/// </summary>
 		/// <param name="context">Context.</param>
 		/// <param name="color">Color.</param>

@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using Xamarin.UITest;
 
-namespace DineWithaDane.Droid.UITests
+namespace Solitude.Droid.UITests
 {
 	/*
 	[TestFixture]

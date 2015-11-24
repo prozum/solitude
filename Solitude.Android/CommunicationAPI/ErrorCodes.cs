@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DineWithaDane.Droid
+namespace Solitude.Droid
 {
 	public enum ErrorCodes
 	{

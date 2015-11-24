@@ -11,7 +11,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 
-namespace DineWithaDane.Android
+namespace Solitude.Droid
 {
 	[Activity(Label = "CreateEventActivity")]			
 	public class CreateEventActivity : DrawerActivity

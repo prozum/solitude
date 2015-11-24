@@ -5,7 +5,7 @@ using Android.Graphics;
 using Android.Views;
 using System.Collections.ObjectModel;
 
-namespace DineWithaDane.Droid
+namespace Solitude.Droid
 {
 	public class ReviewNotification : Notification
 	{

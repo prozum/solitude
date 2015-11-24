@@ -5,7 +5,7 @@ using Java.Lang;
 using Android.OS;
 using Android.Content;
 
-namespace DineWithaDane.Droid
+namespace Solitude.Droid
 {
 	[Service]
 	public class BackgroundService : Service
