@@ -17,13 +17,13 @@ using Android.Util;
 using Android.Views;
 using Android.Widget;
 
-namespace DineWithaDane.Android
+namespace DineWithaDane.Droid
 {
 	public class InfoAdapter : BaseTileListAdapter<List<int>>
 	{
 		#region Constructors
 		/// <summary>
-		/// Initializes a new instance of the <see cref="DineWithaDane.Android.EventListAdapter"/> class.
+		/// Initializes a new instance of the <see cref="DineWithaDane.Droid.EventListAdapter"/> class.
 		/// </summary>
 		/// <param name="context">Context.</param>
 		/// <param name="items">Items.</param>

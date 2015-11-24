@@ -11,7 +11,7 @@ using Android.Util;
 using Android.Views;
 using Android.Widget;
 
-namespace DineWithaDane.Android
+namespace DineWithaDane.Droid
 {
 	public class JoinedEventItem : TileListItem
 	{
@@ -21,7 +21,7 @@ namespace DineWithaDane.Android
 
 		#region Contructors
 		/// <summary>
-		/// Initializes a new instance of the <see cref="DineWithaDane.Android.EventItem"/> class.
+		/// Initializes a new instance of the <see cref="DineWithaDane.Droid.EventItem"/> class.
 		/// </summary>
 		/// <param name="context">Context.</param>
 		/// <param name="onCancel">On cancel.</param>

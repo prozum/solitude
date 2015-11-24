@@ -10,7 +10,7 @@ using Android.OS;
 using System.Threading;
 using Android.Support.V7.Widget;
 
-namespace DineWithaDane.Android
+namespace DineWithaDane.Droid
 {
 	[Activity(Label = "Events", Icon = "@drawable/Events_Icon")]
 	public class EventActivity : DrawerActivity

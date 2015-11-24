@@ -12,7 +12,7 @@ using Android.Views;
 using Android.Widget;
 using Android.Graphics;
 
-namespace DineWithaDane.Android
+namespace DineWithaDane.Droid
 {
 	public class EventGroup : TileListGroup
 	{
@@ -58,7 +58,7 @@ namespace DineWithaDane.Android
 		#region Contructors
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="DineWithaDane.Android.EventGroup"/> class.
+		/// Initializes a new instance of the <see cref="DineWithaDane.Droid.EventGroup"/> class.
 		/// </summary>
 		/// <param name="context">Context.</param>
 		public EventGroup(Context context)

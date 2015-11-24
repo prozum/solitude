@@ -12,7 +12,7 @@ using Android.Views;
 using Android.Widget;
 using Android.Graphics;
 
-namespace DineWithaDane.Android
+namespace DineWithaDane.Droid
 {
 	public abstract class SortableTileList<T> : TileList<T>
 	{
@@ -33,7 +33,7 @@ namespace DineWithaDane.Android
 
 		#region Constructors
 		/// <summary>
-		/// Initializes a new instance of the <see cref="DineWithaDane.Android.SortableTileList`1"/> class.
+		/// Initializes a new instance of the <see cref="DineWithaDane.Droid.SortableTileList`1"/> class.
 		/// </summary>
 		/// <param name="context">Context.</param>
 		/// <param name="adabter">Adabter.</param>
@@ -43,7 +43,7 @@ namespace DineWithaDane.Android
 		{
 			SortSpinnerView = new Spinner(context);
 
-			SortSpinnerView.Adapter = new ArrayAdapter<string>(context, Android.Resource.Layout.SpinnerItem,spinneritems);
+			//SortSpinnerView.Adapter = new ArrayAdapter<string>(context, Android.Resource.Layout.SpinnerItem,spinneritems);
 
 			#region Spinner Setup
 			// sort when new item is selected in spinner

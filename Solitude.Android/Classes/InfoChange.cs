@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DineWithaDane.Android
+namespace DineWithaDane.Droid
 {
 	public enum InfoType
 	{

@@ -12,7 +12,7 @@ using Android.Widget;
 using Android.Support.V4.Widget;
 using Android.Support.V4.App;
 
-namespace DineWithaDane.Android
+namespace DineWithaDane.Droid
 {			
 	public class SetupDrawer
 	{

@@ -9,7 +9,7 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 
-namespace DineWithaDane.Android
+namespace DineWithaDane.Droid
 {
 	public class OfferListAdapter : BaseTileListAdapter<Offer>
 	{
@@ -28,7 +28,7 @@ namespace DineWithaDane.Android
 
 		#region Constructors
 		/// <summary>
-		/// Initializes a new instance of the <see cref="DineWithaDane.Android.OfferListAdapter"/> class.
+		/// Initializes a new instance of the <see cref="DineWithaDane.Droid.OfferListAdapter"/> class.
 		/// </summary>
 		/// <param name="context">Context.</param>
 		/// <param name="items">Items.</param>

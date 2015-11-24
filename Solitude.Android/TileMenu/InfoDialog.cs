@@ -13,7 +13,7 @@ using Android.Util;
 using Android.Views;
 using Android.Widget;
 
-namespace DineWithaDane.Android
+namespace DineWithaDane.Droid
 {
 	public class InfoDialog : Dialog
 	{

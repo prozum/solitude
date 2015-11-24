@@ -12,7 +12,7 @@ using Android.Views;
 using Android.Widget;
 using Android.Graphics;
 
-namespace DineWithaDane.Android
+namespace DineWithaDane.Droid
 {
 	public abstract class TileListItem : LinearLayout
 	{
@@ -30,7 +30,7 @@ namespace DineWithaDane.Android
 
 		#region Constructors
 		/// <summary>
-		/// Initializes a new instance of the <see cref="DineWithaDane.Android.TileListItem"/> class.
+		/// Initializes a new instance of the <see cref="DineWithaDane.Droid.TileListItem"/> class.
 		/// </summary>
 		/// <param name="context">Context.</param>
 		public TileListItem(Context context)

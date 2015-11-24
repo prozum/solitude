@@ -12,7 +12,7 @@ using Android.Views;
 using Android.Widget;
 using Android.Graphics;
 
-namespace DineWithaDane.Android
+namespace DineWithaDane.Droid
 {
 	public class OfferItem : TileListItem
 	{
@@ -26,7 +26,7 @@ namespace DineWithaDane.Android
 
 		#region Constructors
 		/// <summary>
-		/// Initializes a new instance of the <see cref="DineWithaDane.Android.OfferItem"/> class.
+		/// Initializes a new instance of the <see cref="DineWithaDane.Droid.OfferItem"/> class.
 		/// </summary>
 		/// <param name="context">Context.</param>
 		/// <param name="onAccept">On accept.</param>

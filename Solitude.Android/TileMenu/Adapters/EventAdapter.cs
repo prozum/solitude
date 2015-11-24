@@ -10,7 +10,7 @@ using Android.Widget;
 using Android.OS;
 using Android.Support.V7.Widget;
 
-namespace DineWithaDane.Android
+namespace DineWithaDane.Droid
 {
 	public class EventAdapter : BaseCardAdapter<Event>
 	{

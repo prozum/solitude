@@ -8,7 +8,7 @@ using Android.Widget;
 using Android.OS;
 using System.Threading;
 
-namespace DineWithaDane.Android
+namespace DineWithaDane.Droid
 {
 	[Activity(Label = "Invites", Icon = "@drawable/Invitation_Icon")]
 	public class OfferActivity : DrawerActivity

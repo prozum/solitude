@@ -11,7 +11,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 
-namespace DineWithaDane.Android
+namespace DineWithaDane.Droid
 {
 	[Activity(Label = "Host Event")]			
 	public class HostEventActivity : DrawerActivity

@@ -11,7 +11,7 @@ using Android.Util;
 using Android.Views;
 using Android.Widget;
 
-namespace DineWithaDane.Android
+namespace DineWithaDane.Droid
 {
 	public abstract class TileList<T> : RelativeLayout
 	{
@@ -25,7 +25,7 @@ namespace DineWithaDane.Android
 
 		#region Constructors
 		/// <summary>
-		/// Initializes a new instance of the <see cref="DineWithaDane.Android.TileList`1"/> class.
+		/// Initializes a new instance of the <see cref="DineWithaDane.Droid.TileList`1"/> class.
 		/// </summary>
 		/// <param name="context">Context.</param>
 		/// <param name="adabter">Adabter.</param>

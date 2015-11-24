@@ -4,7 +4,7 @@ using Android.Widget;
 using Android.Views;
 using System.Collections.Generic;
 
-namespace DineWithaDane.Android
+namespace DineWithaDane.Droid
 {
 	public class EventBody : AlertDialog
 	{

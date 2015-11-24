@@ -6,7 +6,7 @@ using System.Json;
 using System.Threading.Tasks;
 using System.Threading;
 
-using DineWithaDane.Android;
+using DineWithaDane.Droid;
 
 using Newtonsoft.Json;
 using RestSharp;

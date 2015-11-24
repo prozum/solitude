@@ -21,7 +21,7 @@ using Uri = Android.Net.Uri;
 
 
 
-namespace DineWithaDane.Android
+namespace DineWithaDane.Droid
 {
 	[Activity(Label = "Profile", Icon = "@drawable/Profile_Icon")]
 	public class ProfileActivity : DrawerActivity

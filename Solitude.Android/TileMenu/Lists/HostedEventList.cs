@@ -11,13 +11,13 @@ using Android.Util;
 using Android.Views;
 using Android.Widget;
 
-namespace DineWithaDane.Android
+namespace DineWithaDane.Droid
 {
 	public class HostedEventList : SortableTileList<Event>
 	{
 		#region Constructor
 		/// <summary>
-		/// Initializes a new instance of the <see cref="DineWithaDane.Android.EventList"/> class.
+		/// Initializes a new instance of the <see cref="DineWithaDane.Droid.EventList"/> class.
 		/// </summary>
 		/// <param name="context">Context.</param>
 		/// <param name="adapter">Adapter.</param>

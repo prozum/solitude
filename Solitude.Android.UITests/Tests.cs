@@ -7,7 +7,7 @@ using Xamarin.UITest.Android;
 using Xamarin.UITest.Queries;
 using System.Diagnostics;
 
-namespace DineWithaDane.Android.UITests
+namespace DineWithaDane.Droid.UITests
 {
 	[TestFixture]
 	public class Tests

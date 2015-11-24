@@ -9,7 +9,7 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 
-namespace DineWithaDane.Android
+namespace DineWithaDane.Droid
 {
 	public class DrawerAdapter : BaseAdapter
 	{
@@ -32,7 +32,7 @@ namespace DineWithaDane.Android
 
 		#region Constructors
 		/// <summary>
-		/// Initializes a new instance of the <see cref="DineWithaDane.Android.BaseTileListAdapter`1"/> class.
+		/// Initializes a new instance of the <see cref="DineWithaDane.Droid.BaseTileListAdapter`1"/> class.
 		/// </summary>
 		/// <param name="context">Context.</param>
 		/// <param name="items">Items.</param>
