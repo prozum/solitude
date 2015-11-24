@@ -15,7 +15,5 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:clickable="true"
-        android:src="@drawable/ic_done"
-        app:layout_anchor="@id/viewA"
-        app:layout_anchorGravity="bottom|right|end" />
+        android:src="@drawable/ic_expand_less_black_48dp" />
 </android.support.design.widget.CoordinatorLayout>

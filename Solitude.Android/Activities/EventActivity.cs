@@ -207,7 +207,7 @@ namespace Solitude.Droid
 
 		protected void SelectHosted()
 		{
-			var layout = LayoutInflater.Inflate(Resource.Layout.EventList, null);
+			var layout = LayoutInflater.Inflate(Resource.Layout.HostList, null);
 			var list = layout.FindViewById<ListView>(Resource.Id.list);
 			var adapter = new EventAdapter<Event>(this, new List<Event>()
 				{
