@@ -245,12 +245,16 @@ namespace ClientCommunication
 			var request = new RestRequest("token", Method.POST);
 
 			//Adds headers to notify server that it's a token-request
-			request.AddHeader("content-type", HttpStrings.URLENCODED);
-			request.AddHeader("postman-token", HttpStrings.CLIENT_TOKEN);
-			request.AddHeader("cache-control", HttpStrings.NO_CACHE);
+			request.AddParameter("username", username);
+			request.AddParameter("password", password);
+			request.AddParameter("grant_type", "password");
+//			request.AddHeader("content-type", HttpStrings.URLENCODED);
+//			request.AddHeader("postman-token", HttpStrings.CLIENT_TOKEN);
+//			request.AddHeader("cache-control", HttpStrings.NO_CACHE);
+			request.Timeout = 10000;
 
 			//Adds body including username and password and specify, that a grant_type as password is desired
-			request.AddParameter(HttpStrings.URLENCODED, @"username=" + username + @"&password=" + password + @"&grant_type=password", ParameterType.RequestBody);
+			//request.AddParameter(HttpStrings.URLENCODED, @"username=" + username + @"&password=" + password + @"&grant_type=password", ParameterType.RequestBody);
 
 			//Execute and await response, parse afterwards
 			var tokenResponse = client.Execute(request);

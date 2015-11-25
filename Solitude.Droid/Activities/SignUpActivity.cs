@@ -50,11 +50,11 @@ namespace Solitude.Droid
 	
 			b.Click += (object sender, EventArgs e) => 
 			{
-				_viewPager.SetCurrentItem (_viewPager.CurrentItem - 1, true);
+				_viewPager.SetCurrentItem (_viewPager.CurrentItem - 2, true);
 			};
 			a.Click += (object sender, System.EventArgs e) =>
 				{
-					_viewPager.SetCurrentItem (_viewPager.CurrentItem + 1, true);
+					_viewPager.SetCurrentItem (_viewPager.CurrentItem + 2, true);
 
 					if (_viewPager.CurrentItem == 5)
 					{
