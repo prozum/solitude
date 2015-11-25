@@ -89,8 +89,8 @@
     <Compile Include="Activities\ProfileActivity.cs" />
     <Compile Include="Activities\SettingsActivitiy.cs" />
     <Compile Include="Activities\DrawerActivity.cs" />
-    <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="TileMenu\Adapters\EventAdapter.cs" />
+    <Compile Include="TileMenu\CardTabListener.cs" />
     <Compile Include="TileMenu\Items\EventItem.cs" />
     <Compile Include="TileMenu\Seperator.cs" />
     <Compile Include="Activities\HostEventActivity.cs" />
@@ -101,7 +101,15 @@
     <Compile Include="Classes\Direction.cs" />
     <Compile Include="Classes\Offer.cs" />
     <Compile Include="Classes\Match.cs" />
-    <Compile Include="TileMenu\TabListeners\CardTabListener.cs" />
+    <Compile Include="SignUp\CustomFragment.cs" />
+    <Compile Include="SignUp\CustomFragmentAdapter.cs" />
+    <Compile Include="SignUp\CustomViewPager.cs" />
+    <Compile Include="SignUp\SignUpFragments\SignUpFragmentNameAddress.cs" />
+    <Compile Include="SignUp\SignUpFragments\SignUpFragmentBirthdate.cs" />
+    <Compile Include="SignUp\SignUpFragments\SignUpFragmentUsernamePassword.cs" />
+    <Compile Include="SignUp\SignUpFragments\SignUpFragmentInterests.cs" />
+    <Compile Include="SignUp\SignUpFragments\SignUpFragmentFoodPreferences.cs" />
+    <Compile Include="Resources\Resource.designer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -162,6 +170,13 @@
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_expand_more_black_48dp.png" />
     <AndroidResource Include="Resources\values\colors.xml" />
     <AndroidResource Include="Resources\layout\EventList.axml" />
+    <AndroidResource Include="Resources\layout\signupFragLayout1.axml" />
+    <AndroidResource Include="Resources\layout\signupFragLayout3.axml" />
+    <AndroidResource Include="Resources\layout\signupFragLayout4.axml" />
+    <AndroidResource Include="Resources\layout\signupFragLayout5.axml" />
+    <AndroidResource Include="Resources\layout\signupFragLayout2.axml" />
+  </ItemGroup>
+  <ItemGroup>
     <AndroidResource Include="Resources\values-da\Arrays.xml" />
     <AndroidResource Include="Resources\values-da\Strings.xml" />
   </ItemGroup>

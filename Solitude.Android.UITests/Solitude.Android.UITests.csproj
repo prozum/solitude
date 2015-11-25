@@ -49,7 +49,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Solitude.Droid\Solitude.Droid.csproj">
       <Project>{478310BE-22D3-4A3E-84EC-9716C50834D2}</Project>
-      <Name>Solitude.Android</Name>
+      <Name>Solitude.Droid</Name>
       <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
       <Private>False</Private>
     </ProjectReference>

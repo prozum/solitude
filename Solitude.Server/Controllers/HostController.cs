@@ -7,12 +7,12 @@ using Model;
 namespace Solitude.Server
 {
     public class HostController : SolitudeController
-	{
+    {
         public async Task<IHttpActionResult> Get()
         {
             var events = await DB.GetHostingEvents(User.Identity.GetUserId());
             return Ok(events);
-		}
+        }
             
         public async Task<IHttpActionResult> Post(Event e)
         {
@@ -36,5 +36,5 @@ namespace Solitude.Server
 
             return Ok();
         }
-	}
+    }
 }

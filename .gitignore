@@ -9,3 +9,5 @@ Resource.designer.cs
 *~
 *.userprefs
 *.suo
+
+Libraries/Model/packages.config
