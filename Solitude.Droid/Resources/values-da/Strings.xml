@@ -1,11 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="accept_button">Accepter</string>
 	<string name="address">Adresse</string>
 	<string name="app_name">FriendLine</string>
-	<string name="cancel">Annuller</string>
+	<string name="cancel_button">Annuller</string>
 	<string name="cancel_event">Aflys Begivenhed</string>
 	<string name="close_drawer">Luk Menu</string>
-	<string name="continuebutton">Fortsæt</string>
+	<string name="continue_button">Fortsæt</string>
+	<string name="decline_button">Afslå</string>
+	<string name="edit_button">Rediger</string>
 	<string name="event_date">Dato</string>
 	<string name="event_description">Begivenheds Beskrivelse</string>
 	<string name="event_description_hint">Beskrivelse</string>
@@ -31,7 +34,11 @@
 	<string name="event_time">Tid</string>
 	<string name="host_new_event">Afhold ny begivenhed</string>
 	<string name="host_save_changes">Gem ændringer</string>
-	<string name="label_EventActivity">Begivenheder</string>
+	<string name="label_eventactivity">Begivenheder</string>
+	<string name="label_invites">Anbefalede</string>
+	<string name="label_profileactivity">Profil</string>
+	<string name="label_signup">Opret bruger</string>
+	<string name="leave_button">Forlad</string>
 	<string name="main_activity_login">Log ind</string>
 	<string name="main_activity_sign_up">Tilmeld dig</string>
 	<string name="message_cancel_event_confirm">Er du sikker på at du vil aflyse begivenheden? Du vil ikke være i stand til at genskabe begivenheden bagefter.</string>
@@ -48,6 +55,9 @@
 	<string name="ok">Ok</string>
 	<string name="open_drawer">Åben Menu</string>
 	<string name="password">Kodeord</string>
+	<string name="profile_menu_edit_foodhabit">Rediger mad præferencer</string>
+	<string name="profile_menu_edit_interests">Rediger interesser</string>
+	<string name="profile_menu_edit_language">Rediger sprog</string>
 	<string name="sign_up_confirm_password">Bekræft kodeord</string>
 	<string name="sign_up_date_of_birth">Fødselsdato</string>
 	<string name="sign_up_missing_info">Manglende information, eftertjek venligst at alle felter er udfyldt</string>
