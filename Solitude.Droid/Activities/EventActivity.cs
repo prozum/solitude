@@ -9,6 +9,8 @@ using Android.Widget;
 using Android.OS;
 using System.Threading;
 using Android.Support.V7.Widget;
+using Android.Support.Design.Widget;
+using Android.Support.V4.View;
 
 namespace Solitude.Droid
 {
@@ -19,24 +21,36 @@ namespace Solitude.Droid
 		{
 			// setting up and drawer
 			base.OnCreate(savedInstanceState);
+			var layout = LayoutInflater.Inflate(Resource.Layout.TapTest, null);
+			var tablayout = layout.FindViewById<TabLayout>(Resource.Id.tab_layout);
+			var viewpager = layout.FindViewById<ViewPager>(Resource.Id.view_pager);
+
+			var adapter = new TabAdapter(this, viewpager, tablayout);
+			tablayout.SetOnTabSelectedListener(adapter);
+
+			adapter.AddTab("Test", new RecommendsFragment());
+			adapter.AddTab("Test", new RecommendsFragment());
+			adapter.AddTab("Test", new RecommendsFragment());
+
+
+			Content.AddView(layout);
+
 			/*
+			SupportActionBar.NavigationMode = (int)ActionBarNavigationMode.Tabs;
+
 			var recommends = SupportActionBar.NewTab();
-            var joined = ActionBar.NewTab();
-			var hosted = ActionBar.NewTab();
+			//var joined = SupportActionBar.NewTab();
+			//var hosted = SupportActionBar.NewTab();
 
+			//joined.SetText(Resource.String.event_menu_joined);
+			//hosted.SetText(Resource.String.event_menu_hosted);
+
+			var lt1 = new SupportFragmentTabListener<RecommendsFragment>(Resource.Id.content_frame, this, "recommends");
 			recommends.SetText(Resource.String.event_menu_recommended);
-			joined.SetText(Resource.String.event_menu_joined);
-			hosted.SetText(Resource.String.event_menu_hosted);
-
-			recommends.SetTabListener();
-			joined.TabSelected += (sender, e) => SelectJoined();
-			hosted.TabSelected += (sender, e) => SelectHosted();
-
-			
-			SupportActionBar.AddTab();
-			ActionBar.AddTab(joined);
-			ActionBar.AddTab(hosted);
+			recommends.SetTabListener(lt1);
+			SupportActionBar.AddTab(recommends);
 			*/
+
 			/*
 			//Shows spinner to indicate loading
 			ShowSpinner();
