@@ -4,6 +4,7 @@ obj/
 
 Solitude.Server/App.config
 Solitude.Server.Tests/App.config
+Components
 
 Resource.designer.cs
 *~
