@@ -103,7 +103,7 @@ namespace Solitude.Droid
 			var dateDialog = dateBuilder.Create();
 			dateDialog.SetTitle(Resources.GetString(Resource.String.event_date));
 			dateDialog.SetView(date);
-			dateDialog.SetButton(Resources.GetString(Resource.String.cancel), (s, ev) =>
+			dateDialog.SetButton(Resources.GetString(Resource.String.cancel_button), (s, ev) =>
 				{
 					dateCurrent.Text = FormatDate(date.DateTime);
 					dateDialog.Dismiss();
@@ -225,7 +225,7 @@ namespace Solitude.Droid
 				}
 			};
 			var cancelButton = new Button(this);
-			cancelButton.Text = Resources.GetString(Resource.String.cancel);
+			cancelButton.Text = Resources.GetString(Resource.String.cancel_button);
 			cancelButton.Id = 0x0008;
 			cancelButton.Click += (object sender, EventArgs e) => Finish();
 
@@ -317,7 +317,7 @@ namespace Solitude.Droid
 
 			var buttonCancel = new Button(this);
 			buttonCancel.Id = 0x0008;
-			buttonCancel.Text = Resources.GetString(Resource.String.cancel);
+			buttonCancel.Text = Resources.GetString(Resource.String.cancel_button);
 			buttonCancel.Click += (object sender, EventArgs e) => Finish();
 
 			var buttonKeeper = new LinearLayout(this);

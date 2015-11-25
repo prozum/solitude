@@ -42,12 +42,26 @@ namespace Solitude.Droid
 			base.OnPostCreate(savedInstanceState);
 			DrawerSetup.DrawerToggle.SyncState();
 		}
-
+		public override bool OnCreateOptionsMenu(IMenu menu)
+		{
+			menu.Add(0,0,0,"Global Menu Item");
+			return true;
+		}
 		public override bool OnOptionsItemSelected(IMenuItem item)
 		{
 			if (DrawerSetup.DrawerToggle.OnOptionsItemSelected(item))
 				return true;
-
+			switch (item.ItemId)
+			{
+				case 0:
+					var dialog = new Android.Support.V7.App.AlertDialog.Builder(this);
+					dialog.SetMessage("This does not do anything");
+					dialog.SetNeutralButton(Resource.String.ok, (s, e) => { });
+					dialog.Show();
+					break;
+				default:
+					break;
+			}
 			return base.OnOptionsItemSelected(item);
 		}
 
