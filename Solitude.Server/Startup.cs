@@ -49,9 +49,18 @@ namespace Solitude.Server
             config.MapHttpAttributeRoutes ();
 
             config.Routes.MapHttpRoute (
-                name: "DefaultApi",
+                name: "IdApi",
                 routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional });
+                defaults: new { id = RouteParameter.Optional },
+                constraints: new { id = @"^[0-9]+$" }
+            );
+
+            config.Routes.MapHttpRoute (
+                name: "UsernameApi",
+                routeTemplate: "api/{controller}/{action}/{username}",
+                defaults: new { username = RouteParameter.Optional },
+                constraints: new { action = "check"}
+            );
 
             // Use json
             config.Formatters.Clear ();
