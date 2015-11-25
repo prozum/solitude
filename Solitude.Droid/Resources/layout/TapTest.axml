@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/primary_orange"
-        android:elevation="10dp"
+        android:elevation="11dp"
         app:tabGravity="fill"
         app:layout_scrollFlags="scroll|enterAlways" />
     <Solitude.Droid.CustomViewPager

@@ -21,6 +21,7 @@ namespace Solitude.Droid
 		{
 			// setting up and drawer
 			base.OnCreate(savedInstanceState);
+			SupportActionBar.Elevation = 0;
 			var layout = LayoutInflater.Inflate(Resource.Layout.TapTest, null);
 			var tablayout = layout.FindViewById<TabLayout>(Resource.Id.tab_layout);
 			var viewpager = layout.FindViewById<ViewPager>(Resource.Id.view_pager);
