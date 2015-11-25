@@ -12,7 +12,7 @@ namespace Solitude.Droid
 		public override int Count {
 			get 
 			{
-				return 5;
+				return 12;
 			}
 		}
 
@@ -22,16 +22,18 @@ namespace Solitude.Droid
 			{
 				case 0:
 					return new SignUpFragmentNameAddress();
-				case 1:
-					return new SignUpFragmentBirthdate();
 				case 2:
-					return new SignUpFragmentUsernamePassword();
-				case 3:
-					return new SignUpFragmentInterests();
+					return new SignUpFragmentBirthdate();
 				case 4:
+					return new SignUpFragmentUsernamePassword();
+				case 6:
+					return new SignUpFragmentInterests();
+				case 8:
 					return new SignUpFragmentFoodPreferences();
+				case 10:
+					return new SignUpFragmentLanguages();
 				default:
-					return new SignUpFragmentNameAddress();
+					return null;
 			}
 		}
 	}

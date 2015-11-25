@@ -110,6 +110,7 @@
     <Compile Include="SignUp\SignUpFragments\SignUpFragmentInterests.cs" />
     <Compile Include="SignUp\SignUpFragments\SignUpFragmentFoodPreferences.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
+    <Compile Include="SignUp\SignUpFragments\SignUpFragmentLanguages.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -185,8 +186,8 @@
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ItemGroup>
     <XamarinComponentReference Include="xamandroidsupportv7appcompat">
-      <Visible>False</Visible>
       <Version>22.2.0.0</Version>
+      <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>
 </Project>
