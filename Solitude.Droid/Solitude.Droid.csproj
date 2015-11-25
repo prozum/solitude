@@ -117,6 +117,8 @@
     <None Include="Assets\AboutAssets.txt" />
     <None Include="packages.config" />
     <AndroidResource Include="Resources\layout\HostList.axml" />
+    <AndroidResource Include="Resources\drawable\loginButton.xml" />
+    <AndroidResource Include="Resources\drawable\SignUpButton.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />

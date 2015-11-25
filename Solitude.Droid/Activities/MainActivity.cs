@@ -8,6 +8,7 @@ using Android.OS;
 using System.Collections.Generic;
 using System.Threading;
 using Android.Support.Design.Widget;
+using Android.Graphics;
 
 namespace Solitude.Droid
 {
@@ -28,10 +29,11 @@ namespace Solitude.Droid
 		{
 			base.OnCreate(bundle);
 
+			//Start up necesarry classes and services
 			StartService(new Intent(this, typeof(BackgroundService)));
-
 			CIF = new ClientCommunication.CommunicationInterface();
 
+			//Some documentation here
 			if (InfoNames == null)
 				InfoNames = new string[][]
 				{
@@ -42,7 +44,8 @@ namespace Solitude.Droid
 
 			if (InfoTitles == null)
 				InfoTitles = Resources.GetStringArray(Resource.Array.info_titles);
-
+			
+			//Sets up icons and actions in the drawer
 			if (DrawerActivities == null)
 				DrawerActivities = new Tuple<int, Type>[]
 				{
@@ -61,10 +64,11 @@ namespace Solitude.Droid
 			SetContentView(Resource.Layout.Main);
 			Button loginButton = FindViewById<Button>(Resource.Id.buttonLogin);
 			Button signUp = FindViewById<Button>(Resource.Id.buttonSignUp);
-			var layout = FindViewById<LinearLayout>(Resource.Id.layoutMain);
+			var layout = FindViewById<LinearLayout>(Resource.Id.loginLinear);
 
-			//Adds a delegates to the buttons
+			//Adds a delegates to and sets layout of the buttons
 			loginButton.Click += loginButtonClicked;
+
 			signUp.Click += (sender, e) =>
 			{
 				var signUpScreenIntent = new Intent(this, typeof(SignUpActivity));
@@ -112,7 +116,7 @@ namespace Solitude.Droid
 
 				//Adds a spinner to indicate loading
 				ProgressBar pb = new ProgressBar(this);
-				LinearLayout layout = FindViewById<LinearLayout>(Resource.Id.layoutMain);
+				LinearLayout layout = FindViewById<LinearLayout>(Resource.Id.loginLinear);
 				layout.AddView(pb);
 
 				//Does server communication on separate thread to avoid UI-freeze
