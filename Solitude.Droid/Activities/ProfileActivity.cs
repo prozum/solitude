@@ -1,4 +1,3 @@
-
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -23,7 +22,7 @@ using Uri = Android.Net.Uri;
 
 namespace Solitude.Droid
 {
-	[Activity(Label = "Profile", Icon = "@drawable/Profile_Icon")]
+	[Activity(Label = "@string/label_profileactivity", Icon = "@drawable/Profile_Icon")]
 	public class ProfileActivity : DrawerActivity
 	{
 		protected User User { get; set; }
@@ -57,6 +56,34 @@ namespace Solitude.Droid
 
 		}
 
+		public override bool OnCreateOptionsMenu(IMenu menu)
+		{
+			base.OnCreateOptionsMenu(menu);
+			menu.Add(0,1,1,GetString(Resource.String.profile_menu_edit_foodhabit));
+			menu.Add(0,2,2,GetString(Resource.String.profile_menu_edit_interests));
+			menu.Add(0,3,3,GetString(Resource.String.profile_menu_edit_language));
+			return true;
+		}
+
+		public override bool OnOptionsItemSelected(IMenuItem item)
+		{
+			switch (item.ItemId)
+			{
+				case 1:
+					SetupEditDialog(InfoType.FoodHabit, Info[(int)InfoType.FoodHabit]);
+					break;
+				case 2:
+					SetupEditDialog(InfoType.Interest, Info[(int)InfoType.Interest]);
+					break;
+				case 3:
+					SetupEditDialog(InfoType.Language, Info[(int)InfoType.Language]);
+					break;
+				default:
+					base.OnOptionsItemSelected(item);
+					break;
+			}
+			return true;
+		}
 		private void SetupUI()
 		{
 			// add profile to activity
@@ -84,6 +111,56 @@ namespace Solitude.Droid
 			if (User.Birthdate > today.AddYears(-iAge))
 				iAge--;
 			age.Text = iAge + Resources.GetString(Resource.String.year_old);
+		}
+		void SetupEditDialog(InfoType type, List<int> info)
+		{
+			var dialog = new InfoDialog(this, type, info);
+
+			// adding functionallity to save button
+			dialog.SaveButton.Click += (s, e) =>
+				{
+					UpdateInfo(type, dialog.ItemsChecked());
+
+					// closing dialog
+					dialog.Dismiss();
+				};
+
+			// adding functionallity to cancelbutton
+			dialog.CancelButton.Click += (s, e) =>
+				{
+					// closing dialog
+					dialog.Dismiss();
+				};
+
+			dialog.Show();
+		}
+
+		private void UpdateInfo(InfoType type, List<int> changes)
+		{
+			var info = Info[(int)type];
+
+			//foreach (var item in info[(int)type])
+			for (int i = 0; i < info.Count;)
+			{
+				if (!changes.Contains(info[i]))
+				{
+					MainActivity.CIF.DeleteInformation(new InfoChange(type, info[i]));
+					info.Remove(info[i]);
+				}
+				else
+				{
+					i++;
+				}
+			}
+
+			foreach (var item in changes)
+			{
+				if (!info.Contains(item))
+				{
+					MainActivity.CIF.AddInformation(new InfoChange(type, item));
+					info.Add(item);
+				}
+			}
 		}
 	}
 }

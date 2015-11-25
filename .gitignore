@@ -4,6 +4,7 @@ obj/
 
 Solitude.Server/App.config
 Solitude.Server.Tests/App.config
+Components
 
 Resource.designer.cs
 *~
@@ -11,4 +12,4 @@ Resource.designer.cs
 *.suo
 
 Libraries/Model/packages.config
-/Solitude.Droid
+/Solitude.Droid/Components

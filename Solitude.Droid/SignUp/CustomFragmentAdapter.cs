@@ -6,7 +6,7 @@ namespace Solitude.Droid
 	{
 		public CustomFragmentAdapter (Android.Support.V4.App.FragmentManager fm) : base (fm)
 		{ 
-				
+
 		}
 
 		public override int Count {

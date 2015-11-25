@@ -9,6 +9,7 @@ using Android.Views;
 using Android.Support.V4.App;
 using Android.Support.V4.View;
 using Android;
+using Android.Views.InputMethods;
 
 namespace Solitude.Droid
 {
@@ -51,10 +52,14 @@ namespace Solitude.Droid
 			b.Click += (object sender, EventArgs e) => 
 			{
 				_viewPager.SetCurrentItem (_viewPager.CurrentItem - 2, true);
+				InputMethodManager imm = (InputMethodManager)GetSystemService(Context.InputMethodService);
+				imm.HideSoftInputFromWindow(b.WindowToken, 0);
 			};
 			a.Click += (object sender, System.EventArgs e) =>
 				{
 					_viewPager.SetCurrentItem (_viewPager.CurrentItem + 2, true);
+					InputMethodManager imm = (InputMethodManager)GetSystemService(Context.InputMethodService);
+					imm.HideSoftInputFromWindow(b.WindowToken, 0);
 
 					if (_viewPager.CurrentItem == 5)
 					{
