@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<resources>
-	<style name="orange" parent="android:style/Theme.Material.Light">
-		<item name="android:colorPrimary">@color/primary_orange</item>
-		<item name="android:colorPrimaryDark">@color/dark_orange</item>
-		<item name="android:colorAccent">@color/light_orange</item>
-	</style>
-</resources>
