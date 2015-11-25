@@ -49,17 +49,27 @@ namespace Solitude.Server
             config.MapHttpAttributeRoutes ();
 
             config.Routes.MapHttpRoute (
+                name: "DefaultApi",
+                routeTemplate: "api/{controller}/"
+            );
+
+            config.Routes.MapHttpRoute (
                 name: "IdApi",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional },
                 constraints: new { id = @"^[0-9]+$" }
             );
 
+//            config.Routes.MapHttpRoute (
+//                name: "UsernameApi",
+//                routeTemplate: "api/{controller}/{action}/{username}",
+//                defaults: new { username = RouteParameter.Optional },
+//                constraints: new { action = "check"}
+//            );
+
             config.Routes.MapHttpRoute (
-                name: "UsernameApi",
-                routeTemplate: "api/{controller}/{action}/{username}",
-                defaults: new { username = RouteParameter.Optional },
-                constraints: new { action = "check"}
+                name: "ActionApi",
+                routeTemplate: "api/{controller}/{action}"
             );
 
             // Use json
@@ -79,7 +89,7 @@ namespace Solitude.Server
             Client.Connect();
 
             // Create dal and initiate DB
-            Dal = new DatabaseAbstrationLayer(Client);
+            Dal = new DatabaseAbstrationLayer(Client, ConfigurationManager.AppSettings.Get("DataDir"));
             if (initiate)
                 InitiateDB();
 

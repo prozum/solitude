@@ -37,11 +37,10 @@ namespace Solitude.Server
         }
 
         [AllowAnonymous]
-        [ActionName("check")]
+        [Route("api/user/check/username/{username}")]
         public async Task<IHttpActionResult> Get(string username)
         {
             var user = await Manager.FindByNameAsync(username);
-
             return Ok(user != null);
         }
 
@@ -56,7 +55,7 @@ namespace Solitude.Server
             var user = new SolitudeUser() 
                 { 
                     Name = userModel.Name, 
-                    UserName = userModel.UserName, 
+                    UserName = userModel.Username, 
                     Address = userModel.Address,
                     Birthdate = userModel.Birthdate
                 };

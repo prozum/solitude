@@ -3,6 +3,9 @@
   <connectionStrings>
     <add name="neo4j" connectionString="http://neo4j:neo4j@localhost:7474/db/data"/>
   </connectionStrings>
+  <appSettings>
+    <add key="DataDir" value="data"/>
+  </appSettings>
   <runtime>
   
        <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">

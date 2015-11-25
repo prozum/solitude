@@ -120,6 +120,7 @@
     <Compile Include="Identity\SolitudeUser.cs" />
     <Compile Include="Jobs\BirthdateJob.cs" />
     <Compile Include="Jobs\EventEndedJob.cs" />
+    <Compile Include="Controllers\PictureController.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

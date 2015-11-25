@@ -23,8 +23,8 @@ namespace Model
 		public DateTimeOffset Birthdate { set; get; }
 
 		[Required]
-		[Display(Name = "User name")]
-		public string UserName { set; get; }
+		[Display(Name = "Username")]
+		public string Username { set; get; }
 
 		[Required]
 		[StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
