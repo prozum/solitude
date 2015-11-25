@@ -26,8 +26,8 @@
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Externalconsole>true</Externalconsole>
     <PlatformTarget>x86</PlatformTarget>
+    <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -91,14 +91,14 @@
     <Reference Include="System.IdentityModel.Tokens.Jwt">
       <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.4.0.2.206221351\lib\net45\System.IdentityModel.Tokens.Jwt.dll</HintPath>
     </Reference>
-    <Reference Include="Neo4jClient">
-      <HintPath>..\packages\Neo4jClient.1.1.0.12\lib\net45\Neo4jClient.dll</HintPath>
-    </Reference>
     <Reference Include="Neo4j.AspNet.Identity">
       <HintPath>..\packages\Neo4j.AspNet.Identity.1.1.23\lib\net45\Neo4j.AspNet.Identity.dll</HintPath>
     </Reference>
     <Reference Include="WebBackgrounder">
       <HintPath>..\packages\WebBackgrounder.0.2.0\lib\net40\WebBackgrounder.dll</HintPath>
+    </Reference>
+    <Reference Include="Neo4jClient">
+      <HintPath>..\packages\Neo4jClient.1.1.0.14\lib\net45\Neo4jClient.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

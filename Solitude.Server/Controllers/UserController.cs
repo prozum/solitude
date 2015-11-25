@@ -8,24 +8,24 @@ using Model;
 namespace Solitude.Server
 {
     public class UserController : SolitudeController
-	{
-        private SolitudeUserManager manager;
+    {
+        private SolitudeUserManager _manager;
 
         public UserController() {}
         public UserController(SolitudeUserManager manager)
-		{
-            this.Manager = manager;
-		}
+        {
+            Manager = manager;
+        }
 
         public SolitudeUserManager Manager
         {
             get
             {
-                return manager ?? Request.GetOwinContext().GetUserManager<SolitudeUserManager>();
+                return _manager ?? Request.GetOwinContext().GetUserManager<SolitudeUserManager>();
             }
             private set
             {
-                manager = value;
+                _manager = value;
             }
         }
 
@@ -36,9 +36,18 @@ namespace Solitude.Server
             return Ok(data);
         }
 
-		[AllowAnonymous]
-		public async Task<IHttpActionResult> Post(User userModel)
-		{
+        [AllowAnonymous]
+        [ActionName("check")]
+        public async Task<IHttpActionResult> Get(string username)
+        {
+            var user = await Manager.FindByNameAsync(username);
+
+            return Ok(user != null);
+        }
+
+        [AllowAnonymous]
+        public async Task<IHttpActionResult> Post(User userModel)
+        {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -62,7 +71,7 @@ namespace Solitude.Server
             }
                 
             return Ok();
-		}
+        }
             
         public async Task<IHttpActionResult> Delete()
         {
@@ -79,6 +88,6 @@ namespace Solitude.Server
 
             return Ok();
         }
-	}
+    }
 }
 
