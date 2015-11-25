@@ -11,3 +11,4 @@ Resource.designer.cs
 *.suo
 
 Libraries/Model/packages.config
+/Solitude.Droid
