@@ -66,6 +66,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Fragments\HostingFragment.cs" />
+    <Compile Include="Fragments\AttendingFragment.cs" />
     <Compile Include="Fragments\RecommendsFragment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CommunicationAPI\CommunicationInterface.cs" />
@@ -92,6 +94,7 @@
     <Compile Include="Activities\DrawerActivity.cs" />
     <Compile Include="TileMenu\Adapters\EventAdapter.cs" />
     <Compile Include="Fragments\TabAdapter.cs" />
+    <Compile Include="TileMenu\Adapters\InfoAdapter.cs" />
     <Compile Include="TileMenu\Items\EventItem.cs" />
     <Compile Include="TileMenu\Seperator.cs" />
     <Compile Include="Activities\HostEventActivity.cs" />

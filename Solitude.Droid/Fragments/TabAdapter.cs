@@ -24,13 +24,7 @@ namespace Solitude.Droid
 		protected Context Context { get; set; }
 		protected List<Android.Support.V4.App.Fragment> Items { get; set; }
 
-		public override int Count
-		{
-			get
-			{
-				return Items.Count;
-            }
-		}
+		public override int Count { get { return Items.Count; } }
 
 
 		public TabAdapter(AppCompatActivity activity, ViewPager pager, TabLayout tablayout)
@@ -41,12 +35,23 @@ namespace Solitude.Droid
 			Context = activity;
 			Items = new List<Android.Support.V4.App.Fragment>();
 			Pager.Adapter = this;
+			Pager.HorizontalScrollBarEnabled = false;
 		}
 
+		public void AddTab(int titleres, Android.Support.V4.App.Fragment frag)
+		{
+			var tab = TabLayout.NewTab();
+			tab.SetText(titleres);
+			AddTab(tab, frag);
+		}
 		public void AddTab(string title, Android.Support.V4.App.Fragment frag)
 		{
 			var tab = TabLayout.NewTab();
             tab.SetText(title);
+			AddTab(tab, frag);
+        }
+		public void AddTab(TabLayout.Tab tab, Android.Support.V4.App.Fragment frag)
+		{
 			TabLayout.AddTab(tab);
 			Items.Add(frag);
 			NotifyDataSetChanged();
