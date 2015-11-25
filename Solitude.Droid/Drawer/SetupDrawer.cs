@@ -22,13 +22,9 @@ namespace Solitude.Droid
 		public DrawerActivity CurrentActivity { get; set; }
 		public int Position { get; set; }
 		public ActionBarDrawerToggle DrawerToggle { get; set; }
-
-
-
-
+		
 		public SetupDrawer (int position, DrawerActivity currentActivity)
 		{
-			
 			CurrentActivity = currentActivity;
 			Position = position;
 		}
@@ -55,8 +51,8 @@ namespace Solitude.Droid
 				Resource.String.close_drawer);
 
 			Drawer.SetDrawerListener (DrawerToggle);
-			CurrentActivity.ActionBar.SetDisplayHomeAsUpEnabled (true);
-			CurrentActivity.ActionBar.SetHomeButtonEnabled (true);
+			CurrentActivity.SupportActionBar.SetDisplayHomeAsUpEnabled (true);
+			CurrentActivity.SupportActionBar.SetHomeButtonEnabled (true);
 		}
 
 		/// <summary>

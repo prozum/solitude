@@ -19,24 +19,24 @@ namespace Solitude.Droid
 		{
 			// setting up and drawer
 			base.OnCreate(savedInstanceState);
-			ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
-
-			var recommends = ActionBar.NewTab();
-			var joined = ActionBar.NewTab();
+			/*
+			var recommends = SupportActionBar.NewTab();
+            var joined = ActionBar.NewTab();
 			var hosted = ActionBar.NewTab();
 
 			recommends.SetText(Resource.String.event_menu_recommended);
 			joined.SetText(Resource.String.event_menu_joined);
 			hosted.SetText(Resource.String.event_menu_hosted);
 
-			recommends.TabSelected += (sender, e) => SelectRecommends();
+			recommends.SetTabListener();
 			joined.TabSelected += (sender, e) => SelectJoined();
 			hosted.TabSelected += (sender, e) => SelectHosted();
 
 			
-			ActionBar.AddTab(recommends);
+			SupportActionBar.AddTab();
 			ActionBar.AddTab(joined);
 			ActionBar.AddTab(hosted);
+			*/
 			/*
 			//Shows spinner to indicate loading
 			ShowSpinner();

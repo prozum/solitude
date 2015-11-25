@@ -101,6 +101,7 @@
     <Compile Include="Classes\Direction.cs" />
     <Compile Include="Classes\Offer.cs" />
     <Compile Include="Classes\Match.cs" />
+    <Compile Include="TileMenu\TabListeners\CardTabListener.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -165,5 +166,10 @@
     <AndroidResource Include="Resources\values-da\Strings.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
-  <ItemGroup />
+  <ItemGroup>
+    <XamarinComponentReference Include="xamandroidsupportv7appcompat">
+      <Visible>False</Visible>
+      <Version>22.2.0.0</Version>
+    </XamarinComponentReference>
+  </ItemGroup>
 </Project>

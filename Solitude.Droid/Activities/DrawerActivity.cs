@@ -9,11 +9,12 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.Support.V4.Widget;
+using Android.Support.V7.App;
 
 namespace Solitude.Droid
 {
 	[Activity(Label = "AbstractActivity")]			
-	public abstract class DrawerActivity : Activity
+	public abstract class DrawerActivity : AppCompatActivity
 	{
 		protected int Position { get; set; }
 
