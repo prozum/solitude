@@ -32,9 +32,9 @@
     </string-array>
     <string-array name="drawer_items">
    		<item>Profile</item>
-   		<item>Invites</item>
+   		<!--<item>Invites</item>-->
    		<item>Events</item>
-   		<item>Host</item>
+   		<!--<item>Host</item>-->
    		<item>Settings</item>
    		<item>Logout</item>
     </string-array>
