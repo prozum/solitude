@@ -15,6 +15,13 @@ namespace Solitude.Droid
 {
 	public class RecommendsFragment : Android.Support.V4.App.Fragment
 	{
+		protected List<Offer> Offers { get; set; }
+
+		public RecommendsFragment(List<Offer> offers)
+		{
+			Offers = offers;
+        }
+
 		public override void OnCreate(Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
@@ -28,40 +35,14 @@ namespace Solitude.Droid
 			// Use this to return your custom view for this Fragment
 			var layout = inflater.Inflate(Resource.Layout.EventList, container, false);
 			var list = layout.FindViewById<ListView>(Resource.Id.list);
-			var adapter = new EventAdapter<Offer>(Activity, new List<Offer>()
-				{
-					new Offer()
-					{
-						Address = "Aalborg University",
-						Date = DateTimeOffset.Now,
-						Description = "It's time for a test offer. This offer is a test and should be treated as such. Therefor there is no need to join it, since nothing will happen. Don't join me plz.",
-						Match = new Match()
-						{
-							FoodHabits = new int[]
-							{
-								0, 1, 2
-							},
-							Interests = new int[]
-							{
-								0, 1, 2
-							},
-							Languages = new int[]
-							{
-								0, 1, 2
-							},
-						},
-						SlotsTaken = 2,
-						SlotsTotal = 6,
-						Title = "Test Offer"
-					}
-				});
+			var adapter = new EventAdapter<Offer>(Activity, Offers);
 
 			adapter.OnAction1 = (i) => adapter.RemoveAt(i);
 			adapter.OnAction2 = (i) => adapter.RemoveAt(i);
 			adapter.OnUpdatePosition = (view, evnt, exp) =>
 			{
 				var offer = evnt as Offer;
-				string matchs = "Matched by:\n";
+					string matchs = GetString(Resource.String.event_matchedby) + ":\n";
 
 				for (int i = 0; i < offer.Match.Interests.Length; i++)
 				{
@@ -97,8 +78,8 @@ namespace Solitude.Droid
 				view.FindViewById<TextView>(Resource.Id.expanded_content).Text =
 					string.Format("{0}\n\n{1}\n{2}/{3}\n{4}", offer.Description, offer.Address, offer.SlotsTaken, offer.SlotsTotal, matchs);
 
-				view.FindViewById<Button>(Resource.Id.action1).Text = "Delcine";
-				view.FindViewById<Button>(Resource.Id.action2).Text = "Accept";
+					view.FindViewById<Button>(Resource.Id.action1).Text = GetString(Resource.String.decline_button);
+					view.FindViewById<Button>(Resource.Id.action2).Text = GetString(Resource.String.accept_button);
 			};
 
 			list.Adapter = adapter;

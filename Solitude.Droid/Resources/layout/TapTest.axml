@@ -12,6 +12,7 @@
         android:background="@color/primary_orange"
         android:elevation="11dp"
         app:tabGravity="fill"
+        app:tabIndicatorColor="#000000"
         app:layout_scrollFlags="scroll|enterAlways" />
     <Solitude.Droid.CustomViewPager
         android:id="@+id/view_pager"

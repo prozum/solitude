@@ -66,9 +66,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Fragments\HostingFragment.cs" />
-    <Compile Include="Fragments\AttendingFragment.cs" />
-    <Compile Include="Fragments\RecommendsFragment.cs" />
+    <Compile Include="Fragments\EventEdit\EditEventAdapter.cs" />
+    <Compile Include="Fragments\EventEdit\EventDateFragment.cs" />
+    <Compile Include="Fragments\EventEdit\EventTimeFragment.cs" />
+    <Compile Include="Fragments\EventEdit\EventInfoFragment.cs" />
+    <Compile Include="Fragments\EventEdit\IEditPage.cs" />
+    <Compile Include="Fragments\Tabs\HostingFragment.cs" />
+    <Compile Include="Fragments\Tabs\AttendingFragment.cs" />
+    <Compile Include="Fragments\Tabs\RecommendsFragment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CommunicationAPI\CommunicationInterface.cs" />
     <Compile Include="CommunicationAPI\HttpStrings.cs" />
@@ -93,7 +98,7 @@
     <Compile Include="Activities\SettingsActivitiy.cs" />
     <Compile Include="Activities\DrawerActivity.cs" />
     <Compile Include="TileMenu\Adapters\EventAdapter.cs" />
-    <Compile Include="Fragments\TabAdapter.cs" />
+    <Compile Include="Fragments\Tabs\TabAdapter.cs" />
     <Compile Include="TileMenu\Adapters\InfoAdapter.cs" />
     <Compile Include="TileMenu\Items\EventItem.cs" />
     <Compile Include="TileMenu\Seperator.cs" />
@@ -105,11 +110,9 @@
     <Compile Include="Classes\Direction.cs" />
     <Compile Include="Classes\Offer.cs" />
     <Compile Include="Classes\Match.cs" />
-    <Compile Include="SignUp\CustomFragment.cs" />
     <Compile Include="SignUp\CustomFragmentAdapter.cs" />
     <Compile Include="SignUp\CustomViewPager.cs" />
     <Compile Include="SignUp\SignUpFragments\SignUpFragmentNameAddress.cs" />
-    <Compile Include="SignUp\SignUpFragments\SignUpFragmentBirthdate.cs" />
     <Compile Include="SignUp\SignUpFragments\SignUpFragmentUsernamePassword.cs" />
     <Compile Include="SignUp\SignUpFragments\SignUpFragmentInterests.cs" />
     <Compile Include="SignUp\SignUpFragments\SignUpFragmentFoodPreferences.cs" />
@@ -124,6 +127,15 @@
     <AndroidResource Include="Resources\layout\HostList.axml" />
     <AndroidResource Include="Resources\drawable\loginButton.xml" />
     <AndroidResource Include="Resources\drawable\SignUpButton.xml" />
+    <AndroidResource Include="Resources\layout\editEventInfoLayout.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\editEventTimeLayout.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\editEventDateLayout.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />
@@ -181,7 +193,6 @@
     <AndroidResource Include="Resources\layout\signupFragLayout3.axml" />
     <AndroidResource Include="Resources\layout\signupFragLayout4.axml" />
     <AndroidResource Include="Resources\layout\signupFragLayout5.axml" />
-    <AndroidResource Include="Resources\layout\signupFragLayout2.axml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values-da\Arrays.xml" />
@@ -194,4 +205,5 @@
       <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>
+  <ItemGroup />
 </Project>

@@ -381,8 +381,8 @@ namespace ClientCommunication
 				name = Name,
 				address = address,
 				birthdate = birthday, //string.Format("{0}/{1}/{2}-12:00:00", birthday.Year, birthday.Month, birthday.Day), 
-				username = Username, 
-				password = Password, 
+				UserName = Username, 
+				Password = Password, 
 				confirmPassword = ConfirmedPassword };
 
 			//Alters request format to json and add information
