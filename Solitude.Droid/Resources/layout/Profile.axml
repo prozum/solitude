@@ -17,7 +17,6 @@
           android:id="@+id/basic_profile_layout"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:background="@android:color/holo_orange_dark"
           android:layout_alignParentTop="true">
         <ImageView
             android:src="@drawable/profile_icon"
@@ -63,7 +62,7 @@
       </LinearLayout>
       
       <android.support.design.widget.FloatingActionButton
-      android:id="@+id/fab"
+      android:id="@+id/fab_edit_profile"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_alignParentRight="true"
