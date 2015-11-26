@@ -24,6 +24,7 @@
 	<string name="event_guest_hint">Number of Guests</string>
 	<string name="event_host_event">Host Event</string>
 	<string name="event_invalid_info">Invalid Event Info</string>
+	<string name="event_matchedby">Matched by</string>
 	<string name="event_menu_hosted">Hosted</string>
 	<string name="event_menu_joined">Joined</string>
 	<string name="event_menu_recommended">Recommended</string>
@@ -32,6 +33,7 @@
 	<string name="event_place">Location/Address</string>
 	<string name="event_place_hint">Location/Address</string>
 	<string name="event_time">Time</string>
+  <string name="event_warning_edit">Are you sure you want to go back? All current changes will be lost.</string>
 	<string name="host_new_event">Host New Event</string>
 	<string name="host_save_changes">Save Changes</string>
 	<string name="label_eventactivity">Events</string>
@@ -55,6 +57,11 @@
 	<string name="ok">Ok</string>
 	<string name="open_drawer">Open Drawer</string>
 	<string name="password">Password</string>
+	<string name="password_confirm">Confirm Password</string>
+	<string name="password_req_char_unaccepted">Password must contain a number</string>
+	<string name="password_req_char_accepted">Password contains a number</string>
+	<string name="password_req_length_unaccepted">Password must be minimum 6 characters</string>
+	<string name="password_req_length_accepted">Password is long enough</string>
 	<string name="profile_menu_edit_foodhabit">Edit food preferences</string>
 	<string name="profile_menu_edit_interests">Edit interests</string>
 	<string name="profile_menu_edit_language">Edit languages</string>
@@ -69,4 +76,7 @@
 	<string name="year_old">&#160;years old</string>
 	<string name="yes">Yes</string>
 	<string name="yes_cancel">Yes, Cancel</string>
+	<string name="day">Day</string>
+	<string name="month">Month</string>
+	<string name="year">Year</string>
 </resources>

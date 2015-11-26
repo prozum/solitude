@@ -24,6 +24,7 @@
 	<string name="event_guest_hint">Antal gæster</string>
 	<string name="event_host_event">Afhold begivenhed</string>
 	<string name="event_invalid_info">Ugyldig begivenheds information</string>
+	<string name="event_matchedby">Matched på</string>
 	<string name="event_menu_hosted">Arrangerede</string>
 	<string name="event_menu_joined">Tilmeldte</string>
 	<string name="event_menu_recommended">Anbefalede</string>
@@ -32,6 +33,7 @@
 	<string name="event_place">Lokation/Adresse</string>
 	<string name="event_place_hint">Lokation/Adresse</string>
 	<string name="event_time">Tid</string>
+  <string name="event_warning_edit">Er du sikker på du vil gå tilbage? Alle dine nuværene ændringer vil blive tabt.</string>
 	<string name="host_new_event">Afhold ny begivenhed</string>
 	<string name="host_save_changes">Gem ændringer</string>
 	<string name="label_eventactivity">Begivenheder</string>
@@ -55,7 +57,12 @@
 	<string name="ok">Ok</string>
 	<string name="open_drawer">Åben Menu</string>
 	<string name="password">Kodeord</string>
-	<string name="profile_menu_edit_foodhabit">Rediger mad præferencer</string>
+	<string name="password_confirm">Bekræft kodeord</string>
+	<string name="password_req_char_unaccepted">Koden skal indeholde et tal</string>
+	<string name="password_req_char_accepted">Koden indeholder et tal</string>
+	<string name="password_req_length_unaccepted">Koden skal være minimum 6 karaktere</string>
+	<string name="password_req_length_accepted">Koden er lang nok</string>
+	<string name="profile_menu_edit_foodhabit">Rediger madpræferencer</string>
 	<string name="profile_menu_edit_interests">Rediger interesser</string>
 	<string name="profile_menu_edit_language">Rediger sprog</string>
 	<string name="sign_up_confirm_password">Bekræft kodeord</string>
@@ -69,4 +76,7 @@
 	<string name="year_old">&#160;år gammel</string>
 	<string name="yes">Ja</string>
 	<string name="yes_cancel">Ja, Aflys</string>
+	<string name="day">Dag</string>
+	<string name="month">Måned</string>
+	<string name="year">År</string>
 </resources>

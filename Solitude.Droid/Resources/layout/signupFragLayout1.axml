@@ -7,24 +7,86 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/layout">
-        <TextView
-            android:text="Name:"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/signupName"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <EditText
+            android:layout_height="wrap_content">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/editSignUpName"
+                android:hint="@string/name" />
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/signupAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/editAddress"
+                android:hint="@string/address" />
+        </android.support.design.widget.TextInputLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:minWidth="25px"
+            android:minHeight="25px"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editSignUpName" />
-        <TextView
-            android:text="Address:"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView3" />
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/editAddress" />
+            android:id="@+id/linearLayout1"
+            android:weightSum="10">
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textBirthDay"
+                android:layout_weight="2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:inputType="number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/signupBirthday"
+                    android:hint="@string/day" />
+            </android.support.design.widget.TextInputLayout>
+            <TextView
+                android:text="/"
+                android:gravity="center"
+                android:textSize="18dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textBirthMonth"
+                android:layout_weight="2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+                <EditText
+                    android:inputType="number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/signupBirthMonth"
+                    android:hint="@string/month" />
+            </android.support.design.widget.TextInputLayout>
+            <TextView
+                android:text="/"
+                android:gravity="center"
+                android:textSize="18dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textBirthYear"
+                android:layout_weight="4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:inputType="number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/signupBirthYear"
+                    android:hint="@string/year" />
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>

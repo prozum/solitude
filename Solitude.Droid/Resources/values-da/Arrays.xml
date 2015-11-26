@@ -4,7 +4,7 @@
    		<item>Dansk</item>
    		<item>Engelsk</item>
    		<item>Tysk</item>
-   		<item>Frasnk</item>
+   		<item>Fransk</item>
    		<item>Spansk</item>
    		<item>Kinesisk</item>
    		<item>Russisk</item>
@@ -32,9 +32,9 @@
     </string-array>
     <string-array name="drawer_items">
    		<item>Profil</item>
-   		<item>Invitationer</item>
+   		<!--<item>Invitationer</item>-->
    		<item>Begivenheder</item>
-   		<item>Vært</item>
+   		<!--<item>Vært</item>-->
    		<item>Indstillinger</item>
    		<item>Log ud</item>
     </string-array>

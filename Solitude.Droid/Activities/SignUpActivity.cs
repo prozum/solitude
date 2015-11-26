@@ -10,14 +10,18 @@ using Android.Support.V4.App;
 using Android.Support.V4.View;
 using Android;
 using Android.Views.InputMethods;
+using Android.Graphics;
+using System.Text.RegularExpressions;
 
 namespace Solitude.Droid
 {
 	[Activity(Label = "Solitude.Android")]
 	public class SignUpActivity : FragmentActivity
 	{
-
 		public static CustomViewPager _viewPager;
+		private SignUpFragmentNameAddress nameAdd= new SignUpFragmentNameAddress();
+		private string username, password, confirm, name, address;
+		private DateTime birthdate;
 
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
@@ -26,151 +30,104 @@ namespace Solitude.Droid
 			SetContentView(Resource.Layout.SignUp);
 
 			//Finds all widgets on the SignUp-layout
-			View fragView1 = View.Inflate(this, Resource.Layout.signupFragLayout1, null);
-			View fragView2 = View.Inflate(this, Resource.Layout.signupFragLayout2, null);
-			View fragView3 = View.Inflate(this, Resource.Layout.signupFragLayout3, null);
 			View fragView4 = View.Inflate(this, Resource.Layout.signupFragLayout4, null);
 			View fragView5 = View.Inflate(this, Resource.Layout.signupFragLayout5, null);
 
+			//Finds the buttons that switches pages
+			Button next = FindViewById <Button> (Resource.Id.signUpNextBtn);
 
-			var name = (EditText) fragView1.FindViewById<EditText>(Resource.Id.editSignUpName);
-			var birthday = (DatePicker) fragView2.FindViewById<DatePicker>(Resource.Id.signupBirthday);
-			var address = (EditText) fragView1.FindViewById<EditText>(Resource.Id.editAddress);
-			var username = (EditText) fragView3.FindViewById<EditText>(Resource.Id.editUsername);
-			var password = (EditText) fragView3.FindViewById<EditText>(Resource.Id.editPassword);
-			var confirm = (EditText) fragView3.FindViewById<EditText>(Resource.Id.editConfirm);
-			//var layout = FindViewById<LinearLayout>(Resource.Id.layout);
-
-			birthday.MaxDate = new Java.Util.Date().Time;
-
-			Button a = FindViewById <Button> (Resource.Id.signUpNextBtn);
-			Button b = FindViewById <Button>(Resource.Id.signUpPreviousBtn);
+			//Initialize ViewPager
 			_viewPager = new CustomViewPager (this);
 			_viewPager = FindViewById <CustomViewPager> (Resource.Id.signUpViewPager);
 			_viewPager.Adapter = new CustomFragmentAdapter (SupportFragmentManager);
-	
-			b.Click += (object sender, EventArgs e) => 
+			_viewPager.OnPageLeft += saveFragmentInfo;
+
+			next.Click += nextClicked;
+		}
+
+		private void nextClicked(object sender, EventArgs e)
+		{
+			_viewPager.Next();
+			InputMethodManager imm = (InputMethodManager)GetSystemService(Context.InputMethodService);
+
+			//Submits the user after username and password has been filled
+			if ((_viewPager.Adapter as CustomFragmentAdapter).GetItem(_viewPager.CurrentItem - 1).GetType() == typeof(SignUpFragmentUsernamePassword)) 
+				//This if-statement could use some love, it's pretty banana
 			{
-				_viewPager.SetCurrentItem (_viewPager.CurrentItem - 2, true);
-				InputMethodManager imm = (InputMethodManager)GetSystemService(Context.InputMethodService);
-				imm.HideSoftInputFromWindow(b.WindowToken, 0);
-			};
-			a.Click += (object sender, System.EventArgs e) =>
+				if (username != "" && password != "" && confirm != "" && name != "" && address != "")
 				{
-					_viewPager.SetCurrentItem (_viewPager.CurrentItem + 2, true);
-					InputMethodManager imm = (InputMethodManager)GetSystemService(Context.InputMethodService);
-					imm.HideSoftInputFromWindow(b.WindowToken, 0);
-
-					if (_viewPager.CurrentItem == 5)
-					{
-						if (username.Text != "" && password.Text != "" && confirm.Text != "" && name.Text != "" && address.Text != "")
-						{
-							var pb = new AlertDialog.Builder(this).Create();
-							pb.SetView(new ProgressBar(this));
-							pb.SetCancelable(false);
-							RunOnUiThread(() => pb.Show());
-
-							ThreadPool.QueueUserWorkItem(o =>
-								{
-									if (MainActivity.CIF.CreateUser(name.Text, address.Text, new DateTimeOffset(birthday.DateTime, new TimeSpan(0)), username.Text, password.Text, confirm.Text)) 
-									{
-										//Go to next menu (interests)	
-									}
-								
-									else
-									{
-										var errorDialog = new AlertDialog.Builder(this);
-										errorDialog.SetMessage(MainActivity.CIF.LatestError);
-										errorDialog.SetNegativeButton(Resource.String.ok, (s, earg) => {});
-										RunOnUiThread(() => errorDialog.Show());
-									}
-
-									//Removes the spinner again
-									RunOnUiThread(() => pb.Dismiss());
-								});
-						}
-						else
-						{
-							var errorDialog = new AlertDialog.Builder(this);
-							errorDialog.SetMessage(Resources.GetString(Resource.String.sign_up_missing_info));
-							errorDialog.SetNegativeButton(Resource.String.ok, (s, earg) => {});
-							errorDialog.Show();
-						}
-					}
-				};
-
-			/*@continue.Click += (sender, e) =>
-			var name = FindViewById<EditText>(Resource.Id.editSignUpName);
-			var birthday = FindViewById<DatePicker>(Resource.Id.signupBirthday);
-			var address = FindViewById<EditText>(Resource.Id.editAddress);
-			var username = FindViewById<EditText>(Resource.Id.editUsername);
-			var password = FindViewById<EditText>(Resource.Id.editPassword);
-			var confirm = FindViewById<EditText>(Resource.Id.editConfirm);
-			var @continue = FindViewById<Button>(Resource.Id.buttonContinue);
-			var layout = FindViewById<LinearLayout>(Resource.Id.layout);
-
-			birthday.MaxDate = new Java.Util.Date().Time;
-
-			@continue.Click += (sender, e) =>
-			{
-
-				if (username.Text != "" && password.Text != "" && confirm.Text != "" && name.Text != "" && address.Text != "")
-				{
+					//Generates a dialog showing a spinner
 					var pb = new AlertDialog.Builder(this).Create();
-					pb.SetView(new ProgressBar(this));
+					pb.SetView(new ProgressBar(pb.Context));
 					pb.SetCancelable(false);
 					RunOnUiThread(() => pb.Show());
 
-					@continue.Clickable = false;
-
 					ThreadPool.QueueUserWorkItem(o =>
 						{
-								if (MainActivity.CIF.CreateUser(name.Text, address.Text, new DateTimeOffset(birthday.DateTime, new TimeSpan(0)), username.Text, password.Text, confirm.Text))
-									//Go to next menu (interests)
-
-							if (MainActivity.CIF.CreateUser(name.Text, address.Text, new DateTimeOffset(birthday.DateTime, new TimeSpan(0)), username.Text, password.Text, confirm.Text) &&
-						    MainActivity.CIF.Login(username.Text, password.Text))
+							//Tries to create the user on the server
+							if (!MainActivity.CIF.CreateUser(name, address, new DateTimeOffset(birthdate, new TimeSpan(0)), username, password, confirm)) 
 							{
-								var dialog = new AlertDialog.Builder(this);
-								dialog.SetTitle(Resources.GetString(Resource.String.sign_up_success));
-								dialog.SetMessage(Resources.GetString(Resource.String.sign_up_set_info));
-								dialog.SetCancelable(false);
-								dialog.SetNegativeButton(Resources.GetString(Resource.String.no), delegate
-									{ 
-										var toProfile = new Intent(this, typeof(ProfileActivity));
-										StartActivity(toProfile);
-									});
-								dialog.SetNeutralButton(Resources.GetString(Resource.String.yes), delegate
-									{
-										var toSettings = new Intent(this, typeof(SettingsActivitiy));
-										toSettings.PutExtra("index", 4);
-										StartActivity(toSettings);
-									});
-								RunOnUiThread(() => dialog.Show());
-
-							}
-							else
-							{
+								//Generates a dialog showing an errormessage
 								var errorDialog = new AlertDialog.Builder(this);
 								errorDialog.SetMessage(MainActivity.CIF.LatestError);
-								errorDialog.SetNegativeButton(Resource.String.ok, (s, earg) => {});
+
+								//Goes back to the initial signup-screen
+								errorDialog.SetNeutralButton(Resource.String.ok, (s, earg) => 
+									 _viewPager.CurrentItem = (int) CustomFragmentAdapter.CurrentlyShown.NameAddress );
 								RunOnUiThread(() => errorDialog.Show());
 							}
 
 							//Removes the spinner again
 							RunOnUiThread(() => pb.Dismiss());
-
-							@continue.Clickable = true;
 						});
 				}
 				else
 				{
+					//Generates an error dialog showing that some information is missing
 					var errorDialog = new AlertDialog.Builder(this);
 					errorDialog.SetMessage(Resources.GetString(Resource.String.sign_up_missing_info));
-					errorDialog.SetNegativeButton(Resource.String.ok, (s, earg) => {});
+					errorDialog.SetNegativeButton(Resource.String.ok, (s, earg) => {
+						RunOnUiThread( () => _viewPager.CurrentItem = (int) CustomFragmentAdapter.CurrentlyShown.NameAddress );
+					});
 					errorDialog.Show();
 				}
-			};*/
+			}
+		}
+
+		/// <summary>
+		/// Saves the fragment info before changing to the next.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
+		private void saveFragmentInfo (object sender, FragmentEventArgs e)
+		{
+			if (e.fragment is SignUpFragmentNameAddress)
+			{
+				var frag = e.fragment as SignUpFragmentNameAddress;
+				name = frag.Name;
+				address = frag.Address;
+				birthdate = frag.Birthdate;
+			}
+			else if (e.fragment is SignUpFragmentUsernamePassword)
+			{
+				var frag = e.fragment as SignUpFragmentUsernamePassword;
+				username = frag.Username;
+				password = frag.Password;
+				confirm = frag.ConfirmedPassword;
+			}
+			else if (e.fragment is SignUpFragmentInterests)
+			{
+
+			}
+			else if (e.fragment is SignUpFragmentFoodPreferences)
+			{
+
+			}
+			else if (e.fragment is SignUpFragmentLanguages)
+			{
+
+			}
+
 		}
 	}
 }
