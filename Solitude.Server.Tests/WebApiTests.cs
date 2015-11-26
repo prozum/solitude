@@ -11,38 +11,27 @@ namespace Solitude.Server.Tests
 	[TestFixture ()]
 	public class WebApiTests : WebApiMethods
 	{
-		[TestFixtureSetUp()]
-		public void StartUp()
-		{
-			e.Address = "Test Street 101";
-			e.Date = DateTimeOffset.UtcNow.AddDays(1);
-			e.Description = "Literally the greatest event ever";
-			e.SlotsTaken = 0;
-			e.SlotsTotal = 50;
-			e.Title = "Best";
-		}
-
-		/*[Test()]
-		public void TestUsers ()
-		{
-			for (int i = 0; i < 50; i++) {
-				RegisterUser ();
-				Login ();
-				if (i % 3 == 0) {
-					AddEvent ();
-				}
-				for (int j = 0; j < 2; j++) {
-					AddCharacteristica (0, r.Next(0, 5));
-					AddCharacteristica (1, r.Next(0, 6));
-					AddCharacteristica (2, r.Next(0, 6));
-				}
-				if (i % 50 == 0 && i != 0)
-				{
-					GetOffers ();
-					//ReplyOffer ();
-				}
-			}
-		}*/
+//		[Test()]
+//		public void TestUsers ()
+//		{
+//			for (int i = 0; i < 50; i++) {
+//				RegisterUser ();
+//				Login ();
+//				if (i % 3 == 0) {
+//					AddEvent ();
+//				}
+//				for (int j = 0; j < 2; j++) {
+//					AddCharacteristica (0, r.Next(0, 5));
+//					AddCharacteristica (1, r.Next(0, 6));
+//					AddCharacteristica (2, r.Next(0, 6));
+//				}
+//				if (i % 50 == 0 && i != 0)
+//				{
+//					GetOffers ();
+//					//ReplyOffer ();
+//				}
+//			}
+//		}
 
 		[Test()]
 		public void TestCaseRegisterUser ()
@@ -277,24 +266,6 @@ namespace Solitude.Server.Tests
 		}
 
 		[Test ()]
-		public void TestCaseErrorMessageNoUppercase ()
-		{
-			RegisterUserWrongPassword ("kurten123!", "Passwords must have at least one uppercase");
-		}
-
-		[Test ()]
-		public void TestCaseErrorMessageNoLowercase ()
-		{
-			RegisterUserWrongPassword ("KURTEN123!", "Passwords must have at least one lowercase");
-		}
-
-		[Test ()]
-		public void TestCaseErrorMessageNoSpecialCharacter ()
-		{
-			RegisterUserWrongPassword ("Kurten2", "Passwords must have at least one non letter or digit character");
-		}
-
-		[Test ()]
 		public void TestCaseErrorMessageWrongConfirmedPassword ()
 		{
 			RegisterUserWrongPassword ("Kurten123!", "Kurten12!", "The password and confirmation password do not match");
@@ -306,14 +277,14 @@ namespace Solitude.Server.Tests
 			RegisterUserWrongDateTime ("Could not convert string to DateTimeOffset");
 		}
 
-		/*[Test ()]
-		public void aTestCaseInvalidEventUpdate ()
-		{
-			RegisterUser ();
-			Login ();
-			AddEvent ();
-			UpdateEventSlotsTaken ();
-		} To be reimplemented at a later date */
+//		[Test ()]
+//		public void aTestCaseInvalidEventUpdate ()
+//		{
+//			RegisterUser ();
+//			Login ();
+//			AddEvent ();
+//			UpdateEventSlotsTaken ();
+//		}
 	}
 }
 

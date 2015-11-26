@@ -67,10 +67,10 @@ namespace Solitude.Server
 //                constraints: new { action = "check"}
 //            );
 
-            config.Routes.MapHttpRoute (
-                name: "ActionApi",
-                routeTemplate: "api/{controller}/{action}"
-            );
+//            config.Routes.MapHttpRoute (
+//                name: "ActionApi",
+//                routeTemplate: "api/{controller}/{action}"
+//            );
 
             // Use json
             config.Formatters.Clear ();
@@ -82,7 +82,7 @@ namespace Solitude.Server
             app.UseWebApi(config);
         }
 
-        private void ConfigureNeo4j(IAppBuilder app, bool initiate = true)
+        private void ConfigureNeo4j(IAppBuilder app)
         {
             // Create and connect GraphClient for use in dal and identity framework
             Client = new GraphClient(new Uri(ConfigurationManager.ConnectionStrings["neo4j"].ConnectionString));
@@ -90,8 +90,7 @@ namespace Solitude.Server
 
             // Create dal and initiate DB
             Dal = new DatabaseAbstrationLayer(Client, ConfigurationManager.AppSettings.Get("DataDir"));
-            if (initiate)
-                InitiateDB();
+            InitiateDB();
 
             // Create reference to dal in OwinContext, so it can be accessed by Controllers 
             app.CreatePerOwinContext(() => Dal);
