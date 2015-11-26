@@ -82,6 +82,8 @@ namespace Solitude.Droid
 			confirmed.TextChanged += (object sender, Android.Text.TextChangedEventArgs e) => {
 				if(confirmed.Text != "" && confirmed.Text == password.Text)
 					confirmed.Background.SetColorFilter(Color.Green, PorterDuff.Mode.SrcAtop);
+				else
+					confirmed.Background.SetColorFilter(Color.Red, PorterDuff.Mode.SrcAtop);
 			};
 
 			return view;

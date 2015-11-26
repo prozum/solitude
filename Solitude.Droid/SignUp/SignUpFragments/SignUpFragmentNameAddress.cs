@@ -17,14 +17,36 @@ namespace Solitude.Droid
 	public class SignUpFragmentNameAddress : Android.Support.V4.App.Fragment
 	{
 		EditText address, name, day, month, year;
+
+		/// <summary>
+		/// Gets the birthdate if correctly filled else get today.
+		/// </summary>
+		/// <value>The birthdate.</value>
 		public DateTime Birthdate 
 		{
-			get { return new DateTime(int.Parse(year.Text), int.Parse(month.Text), int.Parse(day.Text)); }
+			get
+			{
+				int iYear, iMonth, iDay;
+				if (int.TryParse(year.Text, out iYear) && int.TryParse(month.Text, out iMonth) && int.TryParse(year.Text, out iYear))
+					return new DateTime(int.Parse(year.Text), int.Parse(month.Text), int.Parse(day.Text));
+				else
+					return DateTime.Today;
+			}
 		}
+
+		/// <summary>
+		/// Gets the name.
+		/// </summary>
+		/// <value>The name.</value>
 		public string Name
 		{
 			get { return name.Text; }
 		}
+
+		/// <summary>
+		/// Gets the address.
+		/// </summary>
+		/// <value>The address.</value>
 		public string Address
 		{
 			get { return address.Text; }
