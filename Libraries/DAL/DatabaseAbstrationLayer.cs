@@ -12,6 +12,7 @@ namespace Dal
 	public class DatabaseAbstrationLayer : IDisposable
 	{
 		private readonly GraphClient _client;
+
 		private readonly string _dataDir;
 		private readonly string _userDir = "users";
 		private readonly string _pictureDir = "pictures";
@@ -411,7 +412,7 @@ namespace Dal
 				offers.Add(pair.Offer);
 			}
 				
-			return offers.AsEnumerable();
+			return offers;
 		}
 
 		/// <summary>
