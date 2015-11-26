@@ -9,43 +9,46 @@
     <ImageView
         android:id="@+id/profile_picture"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/primary_orange"
-        android:src="@drawable/profile_icon" />
+        android:layout_height="wrap_content" />
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/holo_orange_dark">
-        <ImageView
-            android:src="@drawable/profile_icon"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:id="@+id/Image" />
-        <TextView
+        android:layout_height="wrap_content">
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@android:color/darker_gray"
-            android:id="@+id/sep"
-            android:layout_below="@id/Image" />
-        <TextView
-            android:text="Name: "
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/Image"
-            android:id="@+id/Name" />
-        <TextView
-            android:text="Address: "
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/Name"
-            android:layout_toRightOf="@id/Image"
-            android:id="@+id/Address" />
-        <TextView
-            android:text="Text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/Address"
-            android:id="@+id/Age"
-            android:layout_toRightOf="@id/Image" />
+            android:background="@android:color/holo_orange_dark"
+            android:layout_alignParentTop="true">
+            <ImageView
+                android:src="@drawable/profile_icon"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:id="@+id/Image" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@android:color/darker_gray"
+                android:id="@+id/sep"
+                android:layout_below="@id/Image" />
+            <TextView
+                android:text="Name: "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/Image"
+                android:id="@+id/Name" />
+            <TextView
+                android:text="Address: "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/Name"
+                android:layout_toRightOf="@id/Image"
+                android:id="@+id/Address" />
+            <TextView
+                android:text="Text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/Address"
+                android:id="@+id/Age"
+                android:layout_toRightOf="@id/Image" />
+        </RelativeLayout>
     </RelativeLayout>
 </LinearLayout>
