@@ -17,7 +17,7 @@ using Android.Support.V4.View;
 
 namespace Solitude.Droid
 {
-	class EditEventAdapter : FragmentPagerAdapter
+	public class EditEventAdapter : FragmentPagerAdapter
 	{
 		protected AppCompatActivity Activity { get; set; }
 		protected ViewPager Pager { get; set; }
@@ -43,14 +43,12 @@ namespace Solitude.Droid
 
 			Next.Click += (s, e) => NextPage();
 			Previous.Click += (s, e) => PreviousPage();
-
-			Previous.Visibility = ViewStates.Invisible;
         }
 		
 		public void AddPager(Android.Support.V4.App.Fragment frag)
 		{
 			if (!(frag is IEditPage))
-				throw new ArgumentException("Fragments need to implement ISaveable");
+				throw new ArgumentException("Fragment need to implement IEditPage");
 
 			Items.Add(frag);
 			NotifyDataSetChanged();
@@ -66,59 +64,19 @@ namespace Solitude.Droid
 			Pager.SetCurrentItem(tab.Position, true);
 		}
 
-		protected void NextPage()
+		public void NextPage()
 		{
 			if (Pager.CurrentItem >= Items.Count)
 			{
-				var type = Activity.Intent.GetStringExtra("type");
-				var title = Activity.Intent.GetStringExtra("title");
-				var description = Activity.Intent.GetStringExtra("description");
-				var year = Activity.Intent.GetIntExtra("date year", 0);
-				var month = Activity.Intent.GetIntExtra("date month", 0);
-				var day = Activity.Intent.GetIntExtra("date day", 0);
-				var hour = Activity.Intent.GetIntExtra("date hour", 0);
-				var minut = Activity.Intent.GetIntExtra("date minutte", 0);
-				var place = Activity.Intent.GetStringExtra("place");
-				var max = Activity.Intent.GetIntExtra("maxslots", 0);
-				var taken = Activity.Intent.GetIntExtra("slotstaken", 0);
-				var id = Activity.Intent.GetIntExtra("id", 0);
-
-				var @event = new Event()
-				{
-					Address = place,
-					Date = new DateTimeOffset(year, month, day, hour, minut, 0, new TimeSpan(0)),
-                    Description = description,
-					Id = id,
-					SlotsTaken = taken,
-					SlotsTotal = max,
-					Title = title
-				};
-
-				bool completed = false;
-
-				if (type == "edit")
-					completed = MainActivity.CIF.UpdateEvent(@event);
-				else if (type == "new")
-					completed = MainActivity.CIF.CreateEvent(@event);
-				else
-					throw new ArgumentException("type was either edit or new");
-
-				if (!completed)
-				{
-					var dialog = new Android.Support.V7.App.AlertDialog.Builder(Activity);
-					dialog.SetMessage(Activity.Resources.GetString(Resource.String.message_error_event_update_event) + "\n" + MainActivity.CIF.LatestError);
-					dialog.SetNegativeButton(Resource.String.ok, (s, earg) => { });
-					dialog.Show();
-				}
-
-				Activity.Finish();
-			}
+				UpdateEvent();
+            }
 			else
 			{
 				if ((Items[Pager.CurrentItem] as IEditPage).IsValidData())
 				{
 					(Items[Pager.CurrentItem] as IEditPage).SaveInfo();
                     Pager.SetCurrentItem(Pager.CurrentItem + 1, true);
+					Previous.Text = "Back";
 
 					if (Pager.CurrentItem >= Items.Count - 1)
 						Next.Text = "Finish";
@@ -126,18 +84,71 @@ namespace Solitude.Droid
 			}
 		}
 
-		protected void PreviousPage()
+		public void PreviousPage()
 		{
 			if (Pager.CurrentItem <= 0)
 			{
+				var dialog = new Android.Support.V7.App.AlertDialog.Builder(Activity);
+				dialog.SetMessage(Resource.String.event_warning_edit);
+				dialog.SetPositiveButton(Resource.String.yes, (s, earg) => Activity.Finish());
+				dialog.SetNegativeButton(Resource.String.no, (s, earg) => { });
+				dialog.Show();
 			}
 			else
 			{
 				(Items[Pager.CurrentItem] as IEditPage).SaveInfo();
 				Pager.SetCurrentItem(Pager.CurrentItem - 1, true);
 				Next.Text = "Next";
-            }
+
+				if (Pager.CurrentItem <= 0)
+					Previous.Text = "Cancel";
+			}
 		}
 
+		protected void UpdateEvent()
+		{
+			var type = Activity.Intent.GetStringExtra("type");
+			var title = Activity.Intent.GetStringExtra("title");
+			var description = Activity.Intent.GetStringExtra("description");
+			var year = Activity.Intent.GetIntExtra("date year", 0);
+			var month = Activity.Intent.GetIntExtra("date month", 0);
+			var day = Activity.Intent.GetIntExtra("date day", 0);
+			var hour = Activity.Intent.GetIntExtra("date hour", 0);
+			var minut = Activity.Intent.GetIntExtra("date minutte", 0);
+			var place = Activity.Intent.GetStringExtra("place");
+			var max = Activity.Intent.GetIntExtra("maxslots", 0);
+			var taken = Activity.Intent.GetIntExtra("slotstaken", 0);
+			var id = Activity.Intent.GetIntExtra("id", 0);
+
+			var @event = new Event()
+			{
+				Address = place,
+				Date = new DateTimeOffset(year, month, day, hour, minut, 0, new TimeSpan(0)),
+				Description = description,
+				Id = id,
+				SlotsTaken = taken,
+				SlotsTotal = max,
+				Title = title
+			};
+
+			bool completed = false;
+
+			if (type == "edit")
+				completed = MainActivity.CIF.UpdateEvent(@event);
+			else if (type == "new")
+				completed = MainActivity.CIF.CreateEvent(@event);
+			else
+				throw new ArgumentException("type was either edit or new");
+
+			if (!completed)
+			{
+				var dialog = new Android.Support.V7.App.AlertDialog.Builder(Activity);
+				dialog.SetMessage(Activity.Resources.GetString(Resource.String.message_error_event_update_event) + "\n" + MainActivity.CIF.LatestError);
+				dialog.SetNegativeButton(Resource.String.ok, (s, earg) => { });
+				dialog.Show();
+			}
+
+			Activity.Finish();
+		}
 	}
 }

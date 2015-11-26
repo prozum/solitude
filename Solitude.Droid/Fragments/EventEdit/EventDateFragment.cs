@@ -36,6 +36,7 @@ namespace Solitude.Droid
 
 			return layout;
 		}
+		
 
 		public void SaveInfo()
 		{
@@ -47,7 +48,11 @@ namespace Solitude.Droid
 		public bool IsValidData()
 		{
 			var now = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
-			return now <= Picker.DateTime;
-		}
+			var isvalid = now <= Picker.DateTime;
+
+			//Add warning snackbar
+
+			return isvalid;
+        }
 	}
 }

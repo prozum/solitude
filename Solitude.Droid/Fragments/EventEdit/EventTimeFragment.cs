@@ -48,8 +48,11 @@ namespace Solitude.Droid
 									 Activity.Intent.GetIntExtra("date day", DateTime.Now.Day),
 									 (int)Picker.CurrentHour,
 									 (int)Picker.CurrentMinute, 0);
+			var isvalid = DateTime.Now <= final;
 
-			return DateTime.Now <= final;
+			//Add warning snackbar
+
+			return isvalid;
 		}
 	}
 }

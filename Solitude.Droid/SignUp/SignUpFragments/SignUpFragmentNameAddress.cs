@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +10,9 @@ using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using Android.Support.Design.Widget;
+using Android.Graphics;
+using Android.Views.InputMethods;
 
 namespace Solitude.Droid
 {
@@ -69,6 +71,13 @@ namespace Solitude.Droid
 			day = view.FindViewById<EditText>(Resource.Id.signupBirthday);
 			month = view.FindViewById<EditText>(Resource.Id.signupBirthMonth);
 			year = view.FindViewById<EditText>(Resource.Id.signupBirthYear);
+
+			var imm = (InputMethodManager)Activity.GetSystemService(Context.InputMethodService);
+			imm.HideSoftInputFromWindow(address.WindowToken, 0);
+			imm.HideSoftInputFromWindow(name.WindowToken, 0);
+			imm.HideSoftInputFromWindow(day.WindowToken, 0);
+			imm.HideSoftInputFromWindow(month.WindowToken, 0);
+			imm.HideSoftInputFromWindow(year.WindowToken, 0);
 
 			return view;
 		}

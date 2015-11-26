@@ -22,6 +22,13 @@ namespace Solitude.Droid
 			// setting up and drawer
 			base.OnCreate(savedInstanceState);
 
+		}
+
+		protected override void OnResume()
+		{
+			base.OnResume();
+
+			ClearLayout();
 			ShowSpinner();
 
 			ThreadPool.QueueUserWorkItem(o =>

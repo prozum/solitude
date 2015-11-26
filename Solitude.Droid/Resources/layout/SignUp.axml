@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <Solitude.Droid.CustomViewPager
         android:id="@+id/signUpViewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content" />
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true">
+        android:layout_height="50dp">
         <Button
             android:layout_width="100dp"
             android:text="Back"
@@ -29,4 +28,4 @@
             android:layout_toRightOf="@id/signUpPreviousBtn"
             android:id="@+id/signUpNextBtn" />
     </RelativeLayout>
-</RelativeLayout>
+</LinearLayout>

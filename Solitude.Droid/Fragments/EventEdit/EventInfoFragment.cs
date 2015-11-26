@@ -12,6 +12,7 @@ using Android.Views;
 using Android.Widget;
 using Android.Support.Design.Widget;
 using Android.Graphics;
+using Android.Views.InputMethods;
 
 namespace Solitude.Droid
 {
@@ -45,6 +46,12 @@ namespace Solitude.Droid
 			Description = layout.FindViewById<EditText>(Resource.Id.edit_description);
 			Location = layout.FindViewById<EditText>(Resource.Id.edit_location);
 			MaxSlots = layout.FindViewById<EditText>(Resource.Id.edit_guests);
+			
+			var imm = (InputMethodManager)Activity.GetSystemService(Context.InputMethodService);
+			imm.HideSoftInputFromWindow(Name.WindowToken, 0);
+			imm.HideSoftInputFromWindow(Description.WindowToken, 0);
+			imm.HideSoftInputFromWindow(Location.WindowToken, 0);
+			imm.HideSoftInputFromWindow(MaxSlots.WindowToken, 0);
 
 			Name.Text = Activity.Intent.GetStringExtra("title");
 			Description.Text = Activity.Intent.GetStringExtra("description");
@@ -80,10 +87,6 @@ namespace Solitude.Droid
 
 			return nameisvalid && descisvalid && localisvalid && maxisvalid;
         }
-
-		public void LoadInfo()
-		{
-		}
 
 		private void UpdateLayout(TextInputLayout layout, int message, bool noerror)
 		{
