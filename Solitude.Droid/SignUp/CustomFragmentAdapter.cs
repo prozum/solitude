@@ -4,34 +4,51 @@ namespace Solitude.Droid
 {
 	public class CustomFragmentAdapter: FragmentPagerAdapter
 	{
+		public enum CurrentlyShown
+		{
+			NameAddress, UsernamePassword, Interests, FoodPreferences, Languages
+		};
+
+		SignUpFragmentNameAddress nameAdd;
+		SignUpFragmentUsernamePassword usPa;
+		SignUpFragmentInterests ints;
+		SignUpFragmentLanguages lang;
+		SignUpFragmentFoodPreferences fp;
+
+		public Fragment CurrentItem 
+		{
+			get { return GetItem(SignUpActivity._viewPager.CurrentItem); }
+		}
 		public CustomFragmentAdapter (Android.Support.V4.App.FragmentManager fm) : base (fm)
 		{ 
-
+			nameAdd = new SignUpFragmentNameAddress();
+			usPa = new SignUpFragmentUsernamePassword();
+			ints = new SignUpFragmentInterests();
+			lang = new SignUpFragmentLanguages();
+			fp = new SignUpFragmentFoodPreferences();
 		}
 
 		public override int Count {
 			get 
 			{
-				return 12;
+				return (int) CurrentlyShown.Languages;
 			}
 		}
 
 		public override Android.Support.V4.App.Fragment GetItem (int position)
 		{
-			switch (SignUpActivity._viewPager.CurrentItem)
+			switch ((CurrentlyShown) position)
 			{
-				case 0:
-					return new SignUpFragmentNameAddress();
-				case 2:
-					return new SignUpFragmentBirthdate();
-				case 4:
-					return new SignUpFragmentUsernamePassword();
-				case 6:
-					return new SignUpFragmentInterests();
-				case 8:
-					return new SignUpFragmentFoodPreferences();
-				case 10:
-					return new SignUpFragmentLanguages();
+				case CurrentlyShown.NameAddress:
+					return nameAdd;
+				case CurrentlyShown.UsernamePassword:
+					return usPa;
+				case CurrentlyShown.Interests:
+					return ints;
+				case CurrentlyShown.FoodPreferences:
+					return fp;
+				case CurrentlyShown.Languages:
+					return lang;
 				default:
 					return null;
 			}
