@@ -15,10 +15,10 @@ namespace Solitude.Droid
 {
 	public class EventInfoFragment : Android.Support.V4.App.Fragment, IEditPage
 	{
-		public string Name { get; set; }
-		public string Description { get; set; }
-		public string Location { get; set; }
-		public int MaxSlots { get; set; }
+		public EditText Name { get; set; }
+		public EditText Description { get; set; }
+		public EditText Location { get; set; }
+		public EditText MaxSlots { get; set; }
 
 		public override void OnCreate(Bundle savedInstanceState)
 		{
@@ -31,22 +31,40 @@ namespace Solitude.Droid
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
 			var layout = inflater.Inflate(Resource.Layout.editEventInfoLayout, null);
-			layout.FindViewById<EditText>(Resource.Id.edit_name).Text = Activity.Intent.GetStringExtra("title");
-			layout.FindViewById<EditText>(Resource.Id.edit_description).Text = Activity.Intent.GetStringExtra("description");
-			layout.FindViewById<EditText>(Resource.Id.edit_location).Text = Activity.Intent.GetStringExtra("place");
-			layout.FindViewById<EditText>(Resource.Id.edit_guests).Text = Activity.Intent.GetIntExtra("maxslots", 0).ToString();
+			Name = layout.FindViewById<EditText>(Resource.Id.edit_name);
+			Description = layout.FindViewById<EditText>(Resource.Id.edit_description);
+			Location = layout.FindViewById<EditText>(Resource.Id.edit_location);
+			MaxSlots = layout.FindViewById<EditText>(Resource.Id.edit_guests);
+
+			Name.Text = Activity.Intent.GetStringExtra("title");
+			Description.Text = Activity.Intent.GetStringExtra("description");
+			Location.Text = Activity.Intent.GetStringExtra("place");
+			MaxSlots.Text = Activity.Intent.GetIntExtra("maxslots", 0).ToString();
 
 			return layout;
 		}
 
 		public void SaveInfo()
 		{
+			int res;
+			int.TryParse(MaxSlots.Text, out res);
+
+			Activity.Intent.PutExtra("title", Name.Text);
+			Activity.Intent.PutExtra("description", Description.Text);
+			Activity.Intent.PutExtra("place", Location.Text);
+			Activity.Intent.PutExtra("maxslots", res);
 		}
 
 		public bool IsValidData()
 		{
-			return true;
-		}
+			int res;
+			var nameisvalid = string.IsNullOrEmpty(Name.Text);
+            var descisvalid = string.IsNullOrEmpty(Description.Text);
+			var localisvalid = string.IsNullOrEmpty(Location.Text);
+			var maxisvalid = int.TryParse(MaxSlots.Text, out res);
+
+			return nameisvalid && descisvalid && localisvalid && maxisvalid;
+        }
 
 		public void LoadInfo()
 		{

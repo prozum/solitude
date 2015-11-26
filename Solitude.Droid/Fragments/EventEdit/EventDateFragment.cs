@@ -15,6 +15,8 @@ namespace Solitude.Droid
 {
 	public class EventDateFragment : Android.Support.V4.App.Fragment, IEditPage
 	{
+		public DatePicker Picker { get; set; }
+
 		public override void OnCreate(Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
@@ -26,8 +28,8 @@ namespace Solitude.Droid
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
 			var layout = inflater.Inflate(Resource.Layout.editEventDateLayout, null);
-			var datepicker = layout.FindViewById<DatePicker>(Resource.Id.datepicker);
-			datepicker.DateTime = new DateTime(Activity.Intent.GetIntExtra("date year", DateTime.Now.Year),
+			Picker = layout.FindViewById<DatePicker>(Resource.Id.datepicker);
+			Picker.DateTime = new DateTime(Activity.Intent.GetIntExtra("date year", DateTime.Now.Year),
 											   Activity.Intent.GetIntExtra("date month", DateTime.Now.Month),
 											   Activity.Intent.GetIntExtra("date day", DateTime.Now.Day));
 				
@@ -37,11 +39,15 @@ namespace Solitude.Droid
 
 		public void SaveInfo()
 		{
+			Activity.Intent.PutExtra("date year", Picker.DateTime.Year);
+			Activity.Intent.PutExtra("date month", Picker.DateTime.Month);
+            Activity.Intent.PutExtra("date day", Picker.DateTime.Day);
 		}
 
 		public bool IsValidData()
 		{
-			return true;
+			var now = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+			return now <= Picker.DateTime;
 		}
 	}
 }

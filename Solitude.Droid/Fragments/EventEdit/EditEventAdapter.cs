@@ -75,7 +75,6 @@ namespace Solitude.Droid
 				{
 					(Items[Pager.CurrentItem] as IEditPage).SaveInfo();
                     Pager.SetCurrentItem(Pager.CurrentItem + 1, true);
-                    Previous.Visibility = ViewStates.Visible;
 
 					if (Pager.CurrentItem >= Items.Count - 1)
 						Next.Text = "Finish";
