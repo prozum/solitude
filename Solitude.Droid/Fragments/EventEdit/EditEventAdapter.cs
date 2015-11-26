@@ -19,6 +19,7 @@ namespace Solitude.Droid
 {
 	class EditEventAdapter : FragmentPagerAdapter
 	{
+		protected AppCompatActivity Activity { get; set; }
 		protected ViewPager Pager { get; set; }
 		protected Button Next { get; set; }
 		protected Button Previous { get; set; }
@@ -31,7 +32,8 @@ namespace Solitude.Droid
 		public EditEventAdapter(AppCompatActivity activity, ViewPager pager, Button next, Button prev)
 			: base(activity.SupportFragmentManager)
 		{
-			Pager = pager;
+			Activity = activity;
+            Pager = pager;
 			Context = activity;
 			Next = next;
 			Previous = prev;
@@ -68,6 +70,48 @@ namespace Solitude.Droid
 		{
 			if (Pager.CurrentItem >= Items.Count)
 			{
+				var type = Activity.Intent.GetStringExtra("type");
+				var title = Activity.Intent.GetStringExtra("title");
+				var description = Activity.Intent.GetStringExtra("description");
+				var year = Activity.Intent.GetIntExtra("date year", 0);
+				var month = Activity.Intent.GetIntExtra("date month", 0);
+				var day = Activity.Intent.GetIntExtra("date day", 0);
+				var hour = Activity.Intent.GetIntExtra("date hour", 0);
+				var minut = Activity.Intent.GetIntExtra("date minutte", 0);
+				var place = Activity.Intent.GetStringExtra("place");
+				var max = Activity.Intent.GetIntExtra("maxslots", 0);
+				var taken = Activity.Intent.GetIntExtra("slotstaken", 0);
+				var id = Activity.Intent.GetIntExtra("id", 0);
+
+				var @event = new Event()
+				{
+					Address = place,
+					Date = new DateTimeOffset(year, month, day, hour, minut, 0, new TimeSpan(0)),
+                    Description = description,
+					Id = id,
+					SlotsTaken = taken,
+					SlotsTotal = max,
+					Title = title
+				};
+
+				bool completed = false;
+
+				if (type == "edit")
+					completed = MainActivity.CIF.UpdateEvent(@event);
+				else if (type == "new")
+					completed = MainActivity.CIF.CreateEvent(@event);
+				else
+					throw new ArgumentException("type was either edit or new");
+
+				if (!completed)
+				{
+					var dialog = new Android.Support.V7.App.AlertDialog.Builder(Activity);
+					dialog.SetMessage(Activity.Resources.GetString(Resource.String.message_error_event_update_event) + "\n" + MainActivity.CIF.LatestError);
+					dialog.SetNegativeButton(Resource.String.ok, (s, earg) => { });
+					dialog.Show();
+				}
+
+				Activity.Finish();
 			}
 			else
 			{

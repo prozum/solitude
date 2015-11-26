@@ -7,41 +7,45 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/layout">
-        <TextView
-            android:text="Event Name"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/edit_title_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <EditText
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/edit_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/event_name_hint" />
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/edit_location_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/edit_name" />
-        <TextView
-            android:text="Location"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/edit_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/event_place_hint" />
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/edit_description_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <EditText
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/edit_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/event_description_hint" />
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/edit_guests_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/edit_location" />
-        <TextView
-            android:text="Description"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/edit_description" />
-        <TextView
-            android:text="Max Guests"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/edit_guests" />
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/edit_guests"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/event_guest_hint" />
+        </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 </ScrollView>

@@ -281,7 +281,7 @@ namespace Solitude.Droid
 					bool boolDescription = String.IsNullOrEmpty(description.Text);
 					bool boolLocation = String.IsNullOrEmpty(location.Text);
 					bool boolGuest = String.IsNullOrEmpty(guests.Text);
-					bool bool32BitGuest = numberOfGuestsMax < Intent.GetIntExtra("leftslots", Int32.MaxValue);
+					bool bool32BitGuest = numberOfGuestsMax < Intent.GetIntExtra("slotstaken", Int32.MaxValue);
 
 					if (boolTitle
 					    || boolDescription
@@ -318,7 +318,7 @@ namespace Solitude.Droid
 							               			location.Text, 
 							               			description.Text, 
 							               			numberOfGuestsMax, 
-							               			Intent.GetIntExtra("leftslots", 0), 
+							               			Intent.GetIntExtra("slotstaken", 0), 
 							               			Intent.GetIntExtra("id", 0));
 								
 						bool completed = MainActivity.CIF.UpdateEvent(@event);
