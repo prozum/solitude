@@ -68,7 +68,7 @@ namespace Solitude.Droid
 
 		protected void NextPage()
 		{
-			if (Pager.CurrentItem >= Items.Count)
+			if (Pager.CurrentItem >= Items.Count - 1)
 			{
 				var type = Activity.Intent.GetStringExtra("type");
 				var title = Activity.Intent.GetStringExtra("title");
