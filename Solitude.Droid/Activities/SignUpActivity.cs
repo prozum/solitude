@@ -47,37 +47,33 @@ namespace Solitude.Droid
 
 		private void nextClicked(object sender, EventArgs e)
 		{
-			//A bool that determines if the user is ready to move on to the next page
-			bool moveOn = true;
+			_viewPager.Next();
+			InputMethodManager imm = (InputMethodManager)GetSystemService(Context.InputMethodService);
 
 			//Submits the user after username and password has been filled
-			if ((_viewPager.Adapter as CustomFragmentAdapter).CurrentItem.GetType() == typeof(SignUpFragmentUsernamePassword))
+			if ((_viewPager.Adapter as CustomFragmentAdapter).GetItem(_viewPager.CurrentItem - 1).GetType() == typeof(SignUpFragmentUsernamePassword)) 
+				//This if-statement could use some love, it's pretty banana
 			{
-				moveOn = false;
-
 				if (username != "" && password != "" && confirm != "" && name != "" && address != "")
 				{
 					//Generates a dialog showing a spinner
 					var pb = new AlertDialog.Builder(this).Create();
-					pb.SetView(new ProgressBar(this));
+					pb.SetView(new ProgressBar(pb.Context));
 					pb.SetCancelable(false);
 					RunOnUiThread(() => pb.Show());
 
 					ThreadPool.QueueUserWorkItem(o =>
 						{
 							//Tries to create the user on the server
-							if (MainActivity.CIF.CreateUser(name, address, new DateTimeOffset(birthdate, new TimeSpan(0)), username, password, confirm)) 
-							{
-								//Moves on to the next page
-								moveOn = true;
-								RunOnUiThread( () => _viewPager.Next());
-							}
-							else
+							if (!MainActivity.CIF.CreateUser(name, address, new DateTimeOffset(birthdate, new TimeSpan(0)), username, password, confirm)) 
 							{
 								//Generates a dialog showing an errormessage
 								var errorDialog = new AlertDialog.Builder(this);
 								errorDialog.SetMessage(MainActivity.CIF.LatestError);
-								errorDialog.SetNegativeButton(Resource.String.ok, (s, earg) => { _viewPager.SetCurrentItem((int) CustomFragmentAdapter.CurrentlyShown.NameAddress, false); });
+
+								//Goes back to the initial signup-screen
+								errorDialog.SetNeutralButton(Resource.String.ok, (s, earg) => 
+									 _viewPager.CurrentItem = (int) CustomFragmentAdapter.CurrentlyShown.NameAddress );
 								RunOnUiThread(() => errorDialog.Show());
 							}
 
@@ -90,15 +86,11 @@ namespace Solitude.Droid
 					//Generates an error dialog showing that some information is missing
 					var errorDialog = new AlertDialog.Builder(this);
 					errorDialog.SetMessage(Resources.GetString(Resource.String.sign_up_missing_info));
-					errorDialog.SetNegativeButton(Resource.String.ok, (s, earg) => {});
+					errorDialog.SetNegativeButton(Resource.String.ok, (s, earg) => {
+						RunOnUiThread( () => _viewPager.CurrentItem = (int) CustomFragmentAdapter.CurrentlyShown.NameAddress );
+					});
 					errorDialog.Show();
 				}
-			}
-			else if(moveOn)
-			{
-				//Switches pages and hides keyboard on click
-				_viewPager.Next();
-				InputMethodManager imm = (InputMethodManager)GetSystemService(Context.InputMethodService);
 			}
 		}
 

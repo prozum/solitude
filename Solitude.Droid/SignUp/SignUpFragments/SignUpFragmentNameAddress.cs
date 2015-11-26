@@ -27,8 +27,8 @@ namespace Solitude.Droid
 			get
 			{
 				int iYear, iMonth, iDay;
-				if (int.TryParse(year.Text, out iYear) && int.TryParse(month.Text, out iMonth) && int.TryParse(year.Text, out iYear))
-					return new DateTime(int.Parse(year.Text), int.Parse(month.Text), int.Parse(day.Text));
+				if (int.TryParse(year.Text, out iYear) && int.TryParse(month.Text, out iMonth) && int.TryParse(day.Text, out iDay))
+					return new DateTime(iYear, iMonth, iDay);
 				else
 					return DateTime.Today;
 			}
