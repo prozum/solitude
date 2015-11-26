@@ -6,6 +6,12 @@
     android:minWidth="25px"
     android:minHeight="25px"
     android:id="@+id/Layout">
+    <ImageView
+        android:id="@+id/profile_picture"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/primary_orange"
+        android:src="@drawable/profile_icon" />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
