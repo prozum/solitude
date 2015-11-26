@@ -17,8 +17,7 @@ using Android.Provider;
 using Java.IO;
 using Environment = Android.OS.Environment;
 using Uri = Android.Net.Uri;
-
-
+using Android.Support.Design.Widget;
 
 namespace Solitude.Droid
 {
@@ -28,6 +27,8 @@ namespace Solitude.Droid
 		protected User User { get; set; }
 
 		protected List<int>[] Info { get; set; }
+
+        bool isEditing = false;
 
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
@@ -95,7 +96,9 @@ namespace Solitude.Droid
 			var address = FindViewById<TextView>(Resource.Id.Address);
 			var age = FindViewById<TextView>(Resource.Id.Age);
 			var layout = FindViewById<LinearLayout>(Resource.Id.Layout);
-			
+
+            var edit = FindViewById<FloatingActionButton>(Resource.Id.fab_edit_profile);
+
 			//var adapter = new InfoAdapter(this, Info);
 			//var tilemenu = new InfoList(this, adapter);
 
@@ -111,8 +114,27 @@ namespace Solitude.Droid
 			if (User.Birthdate > today.AddYears(-iAge))
 				iAge--;
 			age.Text = iAge + Resources.GetString(Resource.String.year_old);
+
+            edit.Click += EditProfile;
 		}
-		void SetupEditDialog(InfoType type, List<int> info)
+
+        private void EditProfile(object sender, EventArgs e)
+        {
+            var edit = FindViewById<FloatingActionButton>(Resource.Id.fab_edit_profile);
+
+            if(isEditing)
+            {
+                edit.SetImageResource(Resource.Drawable.ic_mode_edit_white_48dp);
+            }
+            else
+            {
+                edit.SetImageResource(Resource.Drawable.ic_done_white_48dp);
+            }
+
+            isEditing = !isEditing;
+        }
+
+        void SetupEditDialog(InfoType type, List<int> info)
 		{
 			var dialog = new InfoDialog(this, type, info);
 

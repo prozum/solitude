@@ -66,7 +66,7 @@ namespace Solitude.Droid
 
 		public void NextPage()
 		{
-			if (Pager.CurrentItem >= Items.Count)
+			if (Pager.CurrentItem >= Items.Count - 1)
 			{
 				UpdateEvent();
             }

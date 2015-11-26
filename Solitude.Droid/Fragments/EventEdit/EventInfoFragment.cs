@@ -46,7 +46,7 @@ namespace Solitude.Droid
 			Description = layout.FindViewById<EditText>(Resource.Id.edit_description);
 			Location = layout.FindViewById<EditText>(Resource.Id.edit_location);
 			MaxSlots = layout.FindViewById<EditText>(Resource.Id.edit_guests);
-			
+
 			var imm = (InputMethodManager)Activity.GetSystemService(Context.InputMethodService);
 			imm.HideSoftInputFromWindow(Name.WindowToken, 0);
 			imm.HideSoftInputFromWindow(Description.WindowToken, 0);
@@ -80,28 +80,29 @@ namespace Solitude.Droid
 			var localisvalid = !string.IsNullOrEmpty(Location.Text);
 			var maxisvalid = int.TryParse(MaxSlots.Text, out res);
 
-			UpdateLayout(NameLayout, Resource.String.event_error_no_title, nameisvalid);
-			UpdateLayout(DescriptionLayout, Resource.String.event_error_no_description, descisvalid);
-			UpdateLayout(LocationLayout, Resource.String.event_error_no_place, localisvalid);
-			UpdateLayout(MaxSlotsLayout, Resource.String.event_error_no_guest, maxisvalid);
+            UpdateLayout(NameLayout, Name, Resource.String.event_error_no_title, nameisvalid);
+            UpdateLayout(DescriptionLayout, Description, Resource.String.event_error_no_description, descisvalid);
+			UpdateLayout(LocationLayout, Location, Resource.String.event_error_no_place, localisvalid);
+			UpdateLayout(MaxSlotsLayout, MaxSlots, Resource.String.event_error_no_guest, maxisvalid);
 
 			return nameisvalid && descisvalid && localisvalid && maxisvalid;
         }
 
-		private void UpdateLayout(TextInputLayout layout, int message, bool noerror)
+		private void UpdateLayout(TextInputLayout layout, EditText text, int message, bool noerror)
 		{
+            //layout.ErrorEnabled = !noerror;
 			if (noerror)
 			{
-				NameLayout.Error = string.Empty;
-				NameLayout.Background.SetColorFilter(Color.Green, PorterDuff.Mode.SrcAtop);
+                layout.Error = string.Empty;
+                layout.ErrorEnabled = false;
+                text.Background.SetColorFilter(Color.Green, PorterDuff.Mode.SrcAtop);
 			}
 			else
 			{
-				NameLayout.Error = Resources.GetString(message);
-				NameLayout.Background.SetColorFilter(Color.Red, PorterDuff.Mode.SrcAtop);
+                layout.Error = Resources.GetString(message);
+                layout.ErrorEnabled = true;
+                text.Background.SetColorFilter(Color.Red, PorterDuff.Mode.SrcAtop);
 			}
-
-			NameLayout.ErrorEnabled = !noerror;
 		}
 	}
 }
