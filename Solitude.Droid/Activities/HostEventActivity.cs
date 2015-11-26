@@ -10,6 +10,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Android.Support.V4.View;
 
 namespace Solitude.Droid
 {
@@ -35,10 +36,28 @@ namespace Solitude.Droid
 		protected override void OnCreate(Bundle bundle)
 		{
 			base.OnCreate(bundle);
+			var layout = LayoutInflater.Inflate(Resource.Layout.SignUp, null);
+			var next = layout.FindViewById<Button>(Resource.Id.signUpNextBtn);
+			var back = layout.FindViewById<Button>(Resource.Id.signUpPreviousBtn);
+			var viewpager = layout.FindViewById<ViewPager>(Resource.Id.signUpViewPager);
+			var adapter = new EditEventAdapter(this, viewpager, next, back);
 
-			Build();
+			viewpager.Adapter = adapter;
+
+			adapter.AddPager(new EventInfoFragment());
+			adapter.AddPager(new EventDateFragment());
+			adapter.AddPager(new EventTimeFragment());
+
+			Content.AddView(layout);
 
 			var typeString = Intent.GetStringExtra("type");
+
+
+
+
+			/*
+			Build();
+
 
 			if (typeString.Equals("new"))
 				New();
@@ -46,10 +65,12 @@ namespace Solitude.Droid
 				Edit();
 			else
 				throw new ArgumentOutOfRangeException();
+			*/
 		}
 
 		private void Build()
 		{
+
 			content = new LinearLayout(this);
 			content.Orientation = Orientation.Vertical;
 

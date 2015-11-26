@@ -33,6 +33,7 @@ namespace Solitude.Droid
 			adapter.AddTab(Resource.String.event_menu_joined, new AttendingFragment());
 			adapter.AddTab(Resource.String.event_menu_hosted, new HostingFragment());
 
+			viewpager.SetCurrentItem(Intent.GetIntExtra("tab", 0), false);
 
 			Content.AddView(layout);
 			/*
@@ -68,16 +69,6 @@ namespace Solitude.Droid
 						});
 				});
 			/**/
-		}
-		protected void SelectHosted()
-		{
-			
-		}
-
-
-		protected void LeaveEvent()
-		{
-			//MainActivity.CIF.CancelReg(Tilelist.PopFocus());
 		}
 	}
 }
