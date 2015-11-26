@@ -16,5 +16,6 @@
         android:id="@+id/datepicker"
         android:clipChildren="true"
         android:spinnersShown="true"
+        android:datePickerMode="spinner"
         android:calendarViewShown="false" />
 </LinearLayout>

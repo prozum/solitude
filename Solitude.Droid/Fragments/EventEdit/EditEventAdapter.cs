@@ -27,8 +27,7 @@ namespace Solitude.Droid
 		protected List<Android.Support.V4.App.Fragment> Items { get; set; }
 
 		public override int Count { get { return Items.Count; } }
-
-
+		
 		public EditEventAdapter(AppCompatActivity activity, ViewPager pager, Button next, Button prev)
 			: base(activity.SupportFragmentManager)
 		{

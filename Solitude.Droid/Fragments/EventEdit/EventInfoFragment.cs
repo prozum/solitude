@@ -88,6 +88,10 @@ namespace Solitude.Droid
 			return nameisvalid && descisvalid && localisvalid && maxisvalid;
         }
 
+		public void LoadInfo()
+		{
+		}
+
 		private void UpdateLayout(TextInputLayout layout, EditText text, int message, bool noerror)
 		{
             //layout.ErrorEnabled = !noerror;

@@ -33,7 +33,6 @@ namespace Solitude.Droid
 											   Activity.Intent.GetIntExtra("date month", DateTime.Now.Month),
 											   Activity.Intent.GetIntExtra("date day", DateTime.Now.Day));
 				
-
 			return layout;
 		}
 		
