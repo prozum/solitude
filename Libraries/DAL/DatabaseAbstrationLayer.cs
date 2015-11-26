@@ -5,16 +5,22 @@ using System.Threading.Tasks;
 using Neo4jClient;
 using Neo4jClient.Cypher;
 using Model;
+using System.IO;
 
 namespace Dal
 {
 	public class DatabaseAbstrationLayer : IDisposable
 	{
-		private readonly GraphClient client;
+		private readonly GraphClient _client;
+		private readonly string _dataDir;
+		private readonly string _userDir = "users";
+		private readonly string _pictureDir = "pictures";
+		private readonly string _profilePicture = "profile";
 
-		public DatabaseAbstrationLayer(GraphClient client)
+		public DatabaseAbstrationLayer(GraphClient client, string dataDir)
 		{
-			this.client = client;
+			_client = client;
+			_dataDir = dataDir;
 		}
 
 		public void Dispose()
@@ -29,7 +35,7 @@ namespace Dal
 		/// <param name="i">The interest to add</param>
 		public async Task AddInterest (Interest i)
 		{
-			await client.Cypher
+			await _client.Cypher
 				.Merge("(i:Interest { Id:{id}, Name:{name}})")
 				.WithParams(new 
 					{
@@ -46,7 +52,7 @@ namespace Dal
 		/// <param name="lang">The language to add</param>
 		public async Task AddLanguage (Language lang)
 		{
-			await client.Cypher
+			await _client.Cypher
 				.Merge("(lang:Language { Id:{id}, Name:{name}})")
 				.WithParams(new 
 					{
@@ -63,7 +69,7 @@ namespace Dal
 		/// <param name="fh">The foodhabit to add</param>
 		public async Task AddFoodHabit (FoodHabit fh)
 		{
-			await client.Cypher
+			await _client.Cypher
 				.Merge("(fb:FoodHabit { Id:{id}, Name:{name}})")
 				.WithParams(new 
 					{
@@ -82,7 +88,7 @@ namespace Dal
 		/// <param name="startVal">The value which the event id counter is set to</param>
 		public async Task SetEventIdCounter (int startVal)
 		{
-			await client.Cypher
+			await _client.Cypher
 				.Merge("(sinfo:ServerInfo)")
 				.OnCreate()
 				.Set("sinfo.EventCounter = {val}")
@@ -96,7 +102,7 @@ namespace Dal
 		/// <returns>The event identifier counter as a Task<int></returns>
 		async Task<int> GetEventIdCounter ()
 		{
-			var res = await client.Cypher
+			var res = await _client.Cypher
 				.Match ("(sinfo:ServerInfo)")
 				.Return (() => Return.As<int>("sinfo.EventCounter"))
 				.ResultsAsync;
@@ -110,7 +116,7 @@ namespace Dal
 		/// <returns>Task</returns>
 		async Task IncrementEventIdCounter ()
 		{
-			await client.Cypher
+			await _client.Cypher
 				.Match ("(sinfo:ServerInfo)")
 				.Set ("sinfo.EventCounter = sinfo.EventCounter + 1")
 				.ExecuteWithoutResultsAsync ();
@@ -126,7 +132,7 @@ namespace Dal
 			e.Id = await GetEventIdCounter ();
 			await IncrementEventIdCounter ();
 
-			await client.Cypher
+			await _client.Cypher
 				.Match ("(user:User)")
 				.Where((User user) => user.Id == e.UserId)
 				//creates a relation "HOSTING" between the created event 
@@ -142,7 +148,7 @@ namespace Dal
 		/// <param name="review">The review that should be added</param>
 		public async Task AddReview(Review review)
 		{
-			await client.Cypher
+			await _client.Cypher
 				.Match ("(user:User)")
 				.Where((User user) => user.Id == review.UserId)
 				.Create ("user-[:GAVE_REVIEW]->(review:Review {data})")
@@ -159,7 +165,7 @@ namespace Dal
 		/// <param name="w">The weight of the relationship between the user and interest</param>
 		public async Task ConnectUserInterest (string uid, int ic, int w)
 		{
-			await client.Cypher
+			await _client.Cypher
 				//make sure that the interest is related with the right user
 				.Match ("(user:User), (interest:Interest)")
 				.Where((User user) => user.Id == uid)
@@ -179,7 +185,7 @@ namespace Dal
 		/// <param name="ic">The interest that the user should be disconnected from</param>
 		public async Task DisconnectUserInterest (string uid, int ic)
 		{
-			await client.Cypher
+			await _client.Cypher
 				//make sure that the interest is related with the right user
 				.Match ("(user:User)-[w:WANTS]->(interest:Interest)")
 				.Where((User user) => user.Id == uid)
@@ -196,7 +202,7 @@ namespace Dal
 		/// <param name="uid">The user's id</param>
 		public async Task<IEnumerable<int>> GetUserInterest (string uid)
 		{
-			var res = await client.Cypher
+			var res = await _client.Cypher
 				.Match ("(user:User)-[:WANTS]->(interest:Interest)")
 				.Where ((User user) => user.Id == uid)
 				.Return (() => Return.As<int> ("interest.Id"))
@@ -214,7 +220,7 @@ namespace Dal
 		/// <param name="w">The weight of the relationship between the user and language</param>
 		public async Task ConnectUserLanguage (string uid, int lc, int w)
 		{
-			await client.Cypher
+			await _client.Cypher
 				//make sure that the interest is related with the right user
 				.Match ("(user:User), (language:Language)")
 				.Where((User user) => user.Id == uid)
@@ -234,7 +240,7 @@ namespace Dal
 		/// <param name="lc">The language that the user should be disconnected from</param>
 		public async Task DisconnectUserLanguage (string uid, int lc)
 		{
-			await client.Cypher
+			await _client.Cypher
 			//make sure that the interest is related with the right user
 				.Match ("(user:User)-[w:WANTS]->(language:Language)")
 				.Where((User user) => user.Id == uid)
@@ -251,7 +257,7 @@ namespace Dal
 		/// <param name="uid">The user's id</param>
 		public async Task<IEnumerable<int>> GetUserLanguage (string uid)
 		{
-			var res = await client.Cypher
+			var res = await _client.Cypher
 				.Match ("(user:User)-[:WANTS]->(language:Language)")
 				.Where ((User user) => user.Id == uid)
 				.Return (() => Return.As<int> ("language.Id"))
@@ -269,7 +275,7 @@ namespace Dal
 		/// <param name="w">The weight of the relationship between the user and foodhabit</param>
 		public async Task ConnectUserFoodHabit (string uid, int fh, int w)
 		{
-			await client.Cypher
+			await _client.Cypher
 				//make sure that the interest is related with the right user
 				.Match ("(user:User), (foodhabit:FoodHabit)")
 				.Where((User user) => user.Id == uid)
@@ -289,7 +295,7 @@ namespace Dal
 		/// <param name="fh">The foodhabit that the user should be disconnected from</param>
 		public async Task DisconnectUserFoodHabit (string uid, int fh)
 		{
-			await client.Cypher
+			await _client.Cypher
 			//make sure that the interest is related with the right user
 				.Match ("(user:User)-[w:WANTS]->(foodhabit:FoodHabit)")
 				.Where((User user) => user.Id == uid)
@@ -306,7 +312,7 @@ namespace Dal
 		/// <param name="uid">The user's id</param>
 		public async Task<IEnumerable<int>> GetUserFoodHabit (string uid)
 		{
-			var res = await client.Cypher
+			var res = await _client.Cypher
 				.Match ("(user:User)-[:WANTS]->(foodhabit:FoodHabit)")
 				.Where ((User user) => user.Id == uid)
 				.Return (() => Return.As<int> ("foodhabit.Id"))
@@ -322,7 +328,7 @@ namespace Dal
 		/// <param name="uid">The user's id</param>
 		async Task CleanMatches (string uid)
 		{
-			await client.Cypher
+			await _client.Cypher
 				.Match ("(user:User)-[m:MATCHED]->(event:Event)")
 				.Where((User user) => user.Id == uid)
 				.Delete ("m")
@@ -354,7 +360,7 @@ namespace Dal
 
 			var now = DateTimeOffset.UtcNow.AddHours(2);
 
-			await client.Cypher
+			await _client.Cypher
 				.Match ("(user:User), (rest:User)-[:HOSTING]->(e:Event)")
 				.Where ((User user) => user.Id == uid )
 				.AndWhere ((User rest) => rest.Id != uid)
@@ -387,7 +393,7 @@ namespace Dal
 		/// <param name="uid">The user's id</param>
 		public async Task<IEnumerable<Offer>> GetOffers (string uid)
 		{
-			var res = await client.Cypher
+			var res = await _client.Cypher
 				.Match ("(user:User)-[m:MATCHED]->(e:Event)")
 				.Where((User user) => user.Id == uid)
 				.Return((e, m) => new
@@ -415,7 +421,7 @@ namespace Dal
 		/// <param name="uid">The user's id</param>
 		public async Task<IEnumerable<Event>> GetHostingEvents (string uid)
 		{
-			var hosting = await client.Cypher
+			var hosting = await _client.Cypher
 				.Match ("(user:User)-[:HOSTING]->(event:Event)")
 				.Where((User user) => user.Id == uid)
 				.Return (() => Return.As<Event> ("event"))
@@ -431,7 +437,7 @@ namespace Dal
 		/// <param name="uid">The user's id</param>
 		public async Task<IEnumerable<Event>> GetAttendingEvents (string uid)
 		{
-			var events = await client.Cypher
+			var events = await _client.Cypher
 				.Match ("(user:User)-[:ATTENDS]->(event:Event)")
 				.Where ((User user) => user.Id == uid)
 				.Return (() => Return.As<Event> ("event"))
@@ -447,7 +453,7 @@ namespace Dal
 		/// <param name="event">The event which replaces the old event</param>
 		public async Task UpdateEvent (Event @event, string uid)
 		{
-			await client.Cypher
+			await _client.Cypher
 				.Match ("(user:User)-[:HOSTING]->(e:Event)")
 				.Where((Event e) => e.Id == @event.Id)
 				.AndWhere ((User user) => user.Id == uid)
@@ -467,7 +473,7 @@ namespace Dal
 			//await DeleteEventTasks(eid);
 
 			// Delete the Event and remaining relations
-			await client.Cypher
+			await _client.Cypher
 				.OptionalMatch ("(e:Event)<-[r]-()")
 				.Where ((Event e) => e.Id == eid)
 				.Delete ("e, r")
@@ -481,7 +487,7 @@ namespace Dal
 		/// <param name="eid">The event's id</param>
 		public async Task<bool> TakeSlot(int eid)
 		{
-			var res = await client.Cypher
+			var res = await _client.Cypher
 				.Match ("(e:Event)")
 				.Where ((Event e) => e.Id == eid)
 				.AndWhere ((Event e) => e.SlotsTotal > e.SlotsTaken)
@@ -499,7 +505,7 @@ namespace Dal
 		/// <param name="eid">The event's id</param>
 		public async Task ReleaseSlot(int eid)
 		{
-			await client.Cypher
+			await _client.Cypher
 				.Match("(e:Event)")
 				.Where((Event e) => e.Id == eid)
 				.AndWhere((Event e) => e.SlotsTaken > 0)
@@ -514,7 +520,7 @@ namespace Dal
 		/// <param name="eid">The event's id</param>
 		public async Task CancelRegistration (string uid, int eid)
 		{
-			await client.Cypher
+			await _client.Cypher
 				.Match ("(user:User)-[a:ATTENDS]->(e:Event)")
 				.Where((User user) => user.Id == uid)
 				.AndWhere((Event e) => e.Id == eid)
@@ -542,7 +548,7 @@ namespace Dal
 				if (!freeSlots)
 					return false;
 
-				await client.Cypher
+				await _client.Cypher
 					.Match ("(user:User)-[m:MATCHED]->(e:Event)")
 					.Where ((User user) => user.Id == uid)
 					.AndWhere ((Event e) => e.Id == eid)
@@ -554,7 +560,7 @@ namespace Dal
 			}
 			else
 			{
-				await client.Cypher
+				await _client.Cypher
 					.Match ("(user:User)-[m:MATCHED]->(e:Event)")
 					.Where((User user) => user.Id == uid)
 					.AndWhere((Event e) => e.Id == eid)
@@ -567,7 +573,7 @@ namespace Dal
 
 		public async Task<UserData> GetUserData(string uid)
 		{
-			var res = await client.Cypher
+			var res = await _client.Cypher
 				.Match ("(user:User)")
 				.Where((User user) => user.Id == uid)
 				.Return (() => Return.As<UserData> ("user"))
@@ -578,7 +584,7 @@ namespace Dal
 			
 		public async Task AddNotification(Notification n)
 		{
-			await client.Cypher
+			await _client.Cypher
 				.Match ("(user:User)")
 				.Where((User user) => user.Id == n.UserId)
 				.Create ("user<-[:NOTIFIES]-(n:Notification {data})")
@@ -588,7 +594,7 @@ namespace Dal
 
 		public async Task ClearNotification (string uid)
 		{
-			await client.Cypher
+			await _client.Cypher
 				.Match ("(user:User)<-[:NOTIFIES]-(n:Notification)")
 				.Where((User user) => user.Id == uid)
 				.Delete ("h, n")
@@ -597,7 +603,7 @@ namespace Dal
 
 		public async Task<IEnumerable<Notification>> GetNotifications(string uid)
 		{
-			var res = await client.Cypher
+			var res = await _client.Cypher
 				.Match ("(user:User)<-[:NOTIFIES]-(n:Notification)")
 				.Where((User user) => user.Id == uid)
 				.Return (() => Return.As<Notification> ("n"))
@@ -616,7 +622,7 @@ namespace Dal
 		public async Task DeleteUserData(string uid)
 		{
 			// Delete Events hosted by User
-			var hosts = await client.Cypher
+			var hosts = await _client.Cypher
 				.Match("(user:User)-[:HOSTING]-(event:Event)")
 				.Where((User user) => user.Id == uid)
 				.Return((@event) => @event.As<Event>().Id)
@@ -625,7 +631,7 @@ namespace Dal
 				await DeleteEvent(host);
 
 			// Cancel all attending Event
-			var events = await client.Cypher
+			var events = await _client.Cypher
 				.Match("(user:User)-[:ATTENDS]-(event:Event)")
 				.Where((User user) => user.Id == uid)
 				.Return((@event) => @event.As<Event>().Id)
@@ -637,7 +643,7 @@ namespace Dal
 			//await DeleteUserTasks(uid);
 
 			// Delete the remaining releations
-			await client.Cypher
+			await _client.Cypher
 				.OptionalMatch ("(user:User)-[r]->()")
 				.Where((User user) => user.Id == uid)
 				.Delete ("r")
@@ -651,7 +657,7 @@ namespace Dal
 		/// <param name="uid">The user's id</param>
 		public async Task DeleteUser(string uid)
 		{
-			await client.Cypher
+			await _client.Cypher
 				.Match("(user:User)")
 				.Where((User user) => user.Id == uid)
 				.Delete("user")
@@ -660,7 +666,7 @@ namespace Dal
 
 		public void DeleteHeldEvents(DateTimeOffset now)
 		{
-			client.Cypher
+			_client.Cypher
 				.Match ("(e:Event)<-[r:ATTENDS]-(user:User)")
 				.Where ((Event e) => now > e.Date)
 				.Create("(user:User)<-[NOTIFIES]-(n:Notification {Type:{type}, EventId:e.Id})")
@@ -669,7 +675,7 @@ namespace Dal
 				.ExecuteWithoutResultsAsync();
 
 
-			client.Cypher
+			_client.Cypher
 				.OptionalMatch ("(e:Event)-[r]-()")
 				.Where ((Event e) => now > e.Date)
 				.Delete ("r, e")
@@ -678,7 +684,7 @@ namespace Dal
 
 		public void AddBirthdateNotifications(DateTimeOffset now)
 		{
-			client.Cypher
+			_client.Cypher
 				.Match ("(user:User)")
 				.Where ((User user) => now == user.Birthdate)
 				.Create("(user:User)-[HAS_NOTIFICATION]->(n:Notification {data})")
@@ -688,6 +694,69 @@ namespace Dal
 						Message = "Happy birthdate!"
 					})
 				.ExecuteWithoutResultsAsync();
+		}
+
+		public async Task AddProfilePicture(string uid, byte[] picture)
+		{
+			var path = Path.Combine(_dataDir, _userDir, uid);
+			Directory.CreateDirectory(path);
+
+			using (var file = File.Create(Path.Combine (path, _profilePicture))) 
+			{
+				await file.WriteAsync(picture, 0, picture.Length);
+			}
+		}
+
+		public async Task<byte[]> GetProfilePicture(string uid)
+		{
+			byte[] result;
+			var path = Path.Combine(_dataDir, _userDir, uid, _profilePicture);
+
+			if (!File.Exists(path))
+				return null;
+
+			using (var file = File.Open(path, FileMode.Open)) 
+			{
+				result = new byte[file.Length];
+				await file.ReadAsync(result, 0, (int)file.Length);
+			}
+
+			return result;
+		}
+
+		public async Task AddPicture(string uid, byte[] picture)
+		{
+			var path = Path.Combine(_dataDir, _userDir, uid, _pictureDir);
+			if (!Directory.Exists(path))
+				Directory.CreateDirectory(path);
+			
+			using (var file = File.Create(Path.Combine(path, Guid.NewGuid().ToString()))) 
+			{
+				await file.WriteAsync(picture, 0, picture.Length);
+			}
+		}
+
+		public async Task<IEnumerable<byte[]>> GetPictures(string uid)
+		{
+			byte[] result;
+			var list = new List<byte[]>();
+			var path = Path.Combine(_dataDir, _userDir, uid, _pictureDir);
+
+			if (!Directory.Exists(path))
+				Directory.CreateDirectory(path);
+
+			foreach(var filePath in Directory.GetFiles (path))
+			{
+				using (var file = File.Open(filePath, FileMode.Open)) 
+				{
+					result = new byte[file.Length];
+					await file.ReadAsync(result, 0, (int)file.Length);
+
+					list.Add (result);
+				}
+			}
+
+			return list;
 		}
 	}
 }
