@@ -71,6 +71,6 @@
       android:layout_marginBottom="-24dp"
         android:layout_marginRight="20dp"
       android:clickable="true"
-      android:src="@drawable/ic_expand_less_black_48dp" />
+      android:src="@drawable/ic_mode_edit_white_48dp" />
     </RelativeLayout>
   </LinearLayout>
