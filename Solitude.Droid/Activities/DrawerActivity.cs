@@ -35,6 +35,8 @@ namespace Solitude.Droid
 			DrawerSetup.Configure();
 			DrawerSetup.DrawerToggleSetup();
 			Content = FindViewById<FrameLayout>(Resource.Id.content_frame);
+
+			SupportActionBar.SetIcon(Resource.Drawable.ic_view_headline_black_36dp);
 		}
 
 		protected override void OnPostCreate(Bundle savedInstanceState)
