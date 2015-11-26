@@ -55,6 +55,11 @@
 	<string name="ok">Ok</string>
 	<string name="open_drawer">Åben Menu</string>
 	<string name="password">Kodeord</string>
+	<string name="password_confirm">Bekræft kodeord</string>
+	<string name="password_req_char_unaccepted">Koden skal indeholde et tal</string>
+	<string name="password_req_char_accepted">Koden indeholder et tal</string>
+	<string name="password_req_length_unaccepted">Koden skal være minimum 6 karaktere</string>
+	<string name="password_req_length_accepted">Koden er lang nok</string>
 	<string name="profile_menu_edit_foodhabit">Rediger mad præferencer</string>
 	<string name="profile_menu_edit_interests">Rediger interesser</string>
 	<string name="profile_menu_edit_language">Rediger sprog</string>
@@ -69,4 +74,7 @@
 	<string name="year_old">&#160;år gammel</string>
 	<string name="yes">Ja</string>
 	<string name="yes_cancel">Ja, Aflys</string>
+	<string name="day">Dag</string>
+	<string name="month">Måned</string>
+	<string name="year">År</string>
 </resources>
