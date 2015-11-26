@@ -24,6 +24,7 @@
 	<string name="event_guest_hint">Number of Guests</string>
 	<string name="event_host_event">Host Event</string>
 	<string name="event_invalid_info">Invalid Event Info</string>
+	<string name="event_matchedby">Matched by</string>
 	<string name="event_menu_hosted">Hosted</string>
 	<string name="event_menu_joined">Joined</string>
 	<string name="event_menu_recommended">Recommended</string>

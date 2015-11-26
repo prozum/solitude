@@ -41,7 +41,7 @@ namespace Solitude.Droid
 				view.FindViewById<TextView>(Resource.Id.expanded_content).Text =
 					string.Format("{0}\n\n{1}\n{2}/{3}", evnt.Description, evnt.Address, evnt.SlotsTaken, evnt.SlotsTotal);
 
-				view.FindViewById<Button>(Resource.Id.action1).Text = "Leave";
+					view.FindViewById<Button>(Resource.Id.action1).Text = GetString(Resource.String.leave_button);
 				view.FindViewById<Button>(Resource.Id.action2).Visibility = ViewStates.Gone;
 			};
 

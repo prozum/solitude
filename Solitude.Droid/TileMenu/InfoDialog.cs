@@ -28,7 +28,6 @@ namespace Solitude.Droid
 		{
 			RequestWindowFeature((int)WindowFeatures.NoTitle);
 			SetContentView(Resource.Layout.EditComparableInfo);
-
 			// getting relevant views
 			var nameview = FindViewById<TextView>(Resource.Id.Text);
 			InfoList = FindViewById<ListView>(Resource.Id.InfoList);
