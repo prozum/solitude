@@ -42,7 +42,7 @@ namespace Solitude.Droid
 			adapter.OnUpdatePosition = (view, evnt, exp) =>
 			{
 				var offer = evnt as Offer;
-				string matchs = "Matched by:\n";
+					string matchs = GetString(Resource.String.event_matchedby) + ":\n";
 
 				for (int i = 0; i < offer.Match.Interests.Length; i++)
 				{
@@ -78,8 +78,8 @@ namespace Solitude.Droid
 				view.FindViewById<TextView>(Resource.Id.expanded_content).Text =
 					string.Format("{0}\n\n{1}\n{2}/{3}\n{4}", offer.Description, offer.Address, offer.SlotsTaken, offer.SlotsTotal, matchs);
 
-				view.FindViewById<Button>(Resource.Id.action1).Text = "Delcine";
-				view.FindViewById<Button>(Resource.Id.action2).Text = "Accept";
+					view.FindViewById<Button>(Resource.Id.action1).Text = GetString(Resource.String.decline_button);
+					view.FindViewById<Button>(Resource.Id.action2).Text = GetString(Resource.String.accept_button);
 			};
 
 			list.Adapter = adapter;

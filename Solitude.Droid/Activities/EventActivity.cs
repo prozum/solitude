@@ -14,7 +14,7 @@ using Android.Support.V4.View;
 
 namespace Solitude.Droid
 {
-	[Activity(Label = "Events", Icon = "@drawable/Events_Icon")]
+	[Activity(Label = "@string/label_eventactivity", Icon = "@drawable/Events_Icon")]
 	public class EventActivity : DrawerActivity
 	{
 		protected override void OnCreate(Bundle savedInstanceState)
