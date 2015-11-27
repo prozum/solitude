@@ -17,6 +17,8 @@ namespace Solitude.Droid
 	[Activity(Label = "@string/label_eventactivity", Icon = "@drawable/Events_Icon")]
 	public class EventActivity : DrawerActivity
 	{
+		protected int CurrentTab { get; set; }
+
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
 			// setting up and drawer
@@ -26,8 +28,6 @@ namespace Solitude.Droid
 
 		protected override void OnResume()
 		{
-			base.OnResume();
-
 			ClearLayout();
 			ShowSpinner();
 
@@ -44,7 +44,8 @@ namespace Solitude.Droid
 				var adapter = new TabAdapter(this, viewpager, tablayout);
 				tablayout.SetOnTabSelectedListener(adapter);
 
-				viewpager.SetCurrentItem(Intent.GetIntExtra("tab", 0), false);
+				viewpager.SetCurrentItem(CurrentTab, false);
+				viewpager.PageSelected += (s, e) => CurrentTab = viewpager.CurrentItem;
 
 				adapter.AddTab(Resource.String.event_menu_recommended, new RecommendsFragment(offers));
 				adapter.AddTab(Resource.String.event_menu_joined, new AttendingFragment(events));
@@ -58,6 +59,8 @@ namespace Solitude.Droid
 					Content.AddView(layout);
 				});
 			});
+
+			base.OnResume();
 		}
 	}
 }

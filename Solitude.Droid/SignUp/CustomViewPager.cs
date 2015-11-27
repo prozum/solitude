@@ -44,7 +44,7 @@ namespace Solitude.Droid
 			CurrentItem++;
 		}
 
-		public override bool OnTouchEvent (Android.Views.MotionEvent e)
+		/*public override bool OnTouchEvent (Android.Views.MotionEvent e)
 		{
 			return this.isPagingEnabled && base.OnTouchEvent (e);
 		}
@@ -56,7 +56,7 @@ namespace Solitude.Droid
 
 		public void setPagingEnabled(bool b) {
 			this.isPagingEnabled = b;
-		}
+		}*/
 	}
 }
 

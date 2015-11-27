@@ -67,6 +67,10 @@ namespace Solitude.Droid
 			{
 				MainActivity.CIF.Logout(CurrentActivity);
 			}
+			else if (itemClickEventArgs.Position == Position)
+			{
+
+			}
 			else
 			{
 				var nextIntent = new Intent (CurrentActivity, MainActivity.DrawerActivities[itemClickEventArgs.Position].Item2);

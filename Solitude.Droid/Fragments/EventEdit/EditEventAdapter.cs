@@ -42,7 +42,9 @@ namespace Solitude.Droid
 
 			Next.Click += (s, e) => NextPage();
 			Previous.Click += (s, e) => PreviousPage();
-        }
+
+			Previous.Text = "Cancel";
+		}
 		
 		public void AddPager(Android.Support.V4.App.Fragment frag)
 		{
@@ -57,24 +59,20 @@ namespace Solitude.Droid
 		{
 			return Items[position];
 		}
-		
-		public void OnTabSelected(TabLayout.Tab tab)
-		{
-			Pager.SetCurrentItem(tab.Position, true);
-		}
 
 		public void NextPage()
 		{
-			if (Pager.CurrentItem >= Items.Count - 1)
+			if ((Items[Pager.CurrentItem] as IEditPage).IsValidData())
 			{
-				UpdateEvent();
-            }
-			else
-			{
-				if ((Items[Pager.CurrentItem] as IEditPage).IsValidData())
+				(Items[Pager.CurrentItem] as IEditPage).SaveInfo();
+
+				if (Pager.CurrentItem >= Items.Count - 1)
 				{
-					(Items[Pager.CurrentItem] as IEditPage).SaveInfo();
-                    Pager.SetCurrentItem(Pager.CurrentItem + 1, true);
+					UpdateEvent();
+				}
+				else
+				{
+					Pager.SetCurrentItem(Pager.CurrentItem + 1, true);
 					Previous.Text = "Back";
 
 					if (Pager.CurrentItem >= Items.Count - 1)
@@ -87,7 +85,7 @@ namespace Solitude.Droid
 		{
 			if (Pager.CurrentItem <= 0)
 			{
-				var dialog = new Android.Support.V7.App.AlertDialog.Builder(Activity);
+                var dialog = new Android.Support.V7.App.AlertDialog.Builder(Activity);
 				dialog.SetMessage(Resource.String.event_warning_edit);
 				dialog.SetPositiveButton(Resource.String.yes, (s, earg) => Activity.Finish());
 				dialog.SetNegativeButton(Resource.String.no, (s, earg) => { });

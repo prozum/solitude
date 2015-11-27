@@ -31,7 +31,7 @@ namespace Solitude.Droid
 		public override int Count {
 			get 
 			{
-				return (int) CurrentlyShown.Languages;
+				return (int) CurrentlyShown.Languages + 1;
 			}
 		}
 
