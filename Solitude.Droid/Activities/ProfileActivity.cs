@@ -20,6 +20,7 @@ using Uri = Android.Net.Uri;
 using Android.Support.Design.Widget;
 using Java.Lang;
 using Android.Text;
+using Android.Support.V7.Widget;
 
 namespace Solitude.Droid
 {
@@ -32,6 +33,10 @@ namespace Solitude.Droid
 
         bool isEditing = false;
         LinearLayout profileContent;
+
+        View cardFood;
+        View cardInterest;
+        View cardLanguage;
 
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
@@ -90,58 +95,70 @@ namespace Solitude.Droid
 		}
 		private void SetupUI()
 		{
-			// add profile to activity
-			var profile = LayoutInflater.Inflate(Resource.Layout.Profile, null);
-			Content.AddView(profile);
+            // add profile to activity
+            try
+            {
+                var profile = LayoutInflater.Inflate(Resource.Layout.Profile, null);
+                Content.AddView(profile);
 
-			var picture = profile.FindViewById<ImageView>(Resource.Id.Image);
-			var name = profile.FindViewById<TextView>(Resource.Id.Name);
-			var address = profile.FindViewById<TextView>(Resource.Id.Address);
-			var age = profile.FindViewById<TextView>(Resource.Id.Age);
-			var layout = profile.FindViewById<LinearLayout>(Resource.Id.Layout);
+                var picture = profile.FindViewById<ImageView>(Resource.Id.Image);
+                var name = profile.FindViewById<TextView>(Resource.Id.Name);
+                var address = profile.FindViewById<TextView>(Resource.Id.Address);
+                var age = profile.FindViewById<TextView>(Resource.Id.Age);
+                var layout = profile.FindViewById<LinearLayout>(Resource.Id.Layout);
 
-            var edit = profile.FindViewById<FloatingActionButton>(Resource.Id.fab_edit_profile);
+                var edit = profile.FindViewById<FloatingActionButton>(Resource.Id.fab_edit_profile);
 
-            profileContent = profile.FindViewById<LinearLayout>(Resource.Id.profile_content);
+                cardFood = LayoutInflater.Inflate(Resource.Layout.ProfileInformationCard, null);
+                cardInterest = LayoutInflater.Inflate(Resource.Layout.ProfileInformationCard, null);
+                cardLanguage = LayoutInflater.Inflate(Resource.Layout.ProfileInformationCard, null);
 
-			//var adapter = new InfoAdapter(this, Info);
-			//var tilemenu = new InfoList(this, adapter);
+                profileContent = profile.FindViewById<LinearLayout>(Resource.Id.profile_content);
 
-			//layout.AddView(tilemenu);
+                //var adapter = new InfoAdapter(this, Info);
+                //var tilemenu = new InfoList(this, adapter);
 
-			name.SetTypeface(null, TypefaceStyle.Bold);
-			name.TextSize = 20;
-			name.Text = User.Name;
+                //layout.AddView(tilemenu);
 
-			address.Text = User.Address;
-			DateTime today = DateTime.Today;
-			int iAge = today.Year - User.Birthdate.Year;
-			if (User.Birthdate > today.AddYears(-iAge))
-				iAge--;
-			age.Text = iAge + Resources.GetString(Resource.String.year_old);
+                name.SetTypeface(null, TypefaceStyle.Bold);
+                name.TextSize = 20;
+                name.Text = User.Name;
 
-            edit.Click += EditProfile;
+                address.Text = User.Address;
+                DateTime today = DateTime.Today;
+                int iAge = today.Year - User.Birthdate.Year;
+                if (User.Birthdate > today.AddYears(-iAge))
+                    iAge--;
+                age.Text = iAge + Resources.GetString(Resource.String.year_old);
 
-            ProfileCard(InfoType.Language, "Speaks");
-            ProfileCard(InfoType.Interest, "Likes");
-            ProfileCard(InfoType.FoodHabit, "Prefers");
+                edit.Click += EditProfile;
+
+                ProfileCreateCard(InfoType.Language, cardLanguage, "Speaks");
+                ProfileCreateCard(InfoType.Interest, cardInterest, "Likes");
+                ProfileCreateCard(InfoType.FoodHabit, cardFood, "Prefers");
+
+            }
+            catch (System.Exception e)
+            {
+                string s = e.StackTrace;
+                System.Console.WriteLine(s);
+                e.ToString();
+            }
 		}
 
-        private void ProfileCard(InfoType type, string subtitle)
+        private void ProfileCreateCard(InfoType type, View card, string subtitle)
         {
             var info = MainActivity.CIF.GetInformation();
-
-            var card = LayoutInflater.Inflate(Resource.Layout.ProfileInformationCard, null);
+            
             var cardTitle = card.FindViewById<TextView>(Resource.Id.profile_card_title);
             var cardSubtitle = card.FindViewById<TextView>(Resource.Id.profile_card_subtitle);
             var content = card.FindViewById<LinearLayout>(Resource.Id.profile_card_content);
 
-            var autocompleter = new MultiAutoCompleteTextView(this);
+            var autocompleter = new AppCompatMultiAutoCompleteTextView(this);
             autocompleter.SetTokenizer(new Classes.SpaceTokenizer());
             var autocompleteElements = MainActivity.InfoNames[(int)type];
             var adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleDropDownItem1Line, autocompleteElements);
             autocompleter.Adapter = adapter;
-            autocompleter.SetSingleLine(true);
 
             cardTitle.Text = MainActivity.InfoTitles[(int)type];
             cardSubtitle.Text = subtitle;
@@ -153,7 +170,6 @@ namespace Solitude.Droid
                 entry.SetPaddingRelative(16, 8, 16, 8);
                 content.AddView(entry);
             }
-            content.AddView(autocompleter);
             profileContent.AddView(card);
         }
 
@@ -164,10 +180,18 @@ namespace Solitude.Droid
             if (isEditing)
             {
                 edit.SetImageResource(Resource.Drawable.ic_mode_edit_white_48dp);
+                foreach (var item in new List<View>() { cardFood, cardInterest, cardLanguage})
+                {
+                    (item.FindViewById<RelativeLayout>(Resource.Id.card_edit_content) as RelativeLayout).Visibility = ViewStates.Gone;
+                }
             }
             else
             {
                 edit.SetImageResource(Resource.Drawable.ic_done_white_48dp);
+                foreach (var item in new List<View>() { cardFood, cardInterest, cardLanguage })
+                {
+                    (item.FindViewById<RelativeLayout>(Resource.Id.card_edit_content) as RelativeLayout).Visibility = ViewStates.Visible;
+                }
             }
 
             isEditing = !isEditing;
