@@ -9,11 +9,10 @@
         android:scrollbars="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/primary_orange"
+        android:background="@color/primary"
         android:elevation="11dp"
-        app:tabGravity="fill"
-        app:tabIndicatorColor="#000000"
-        app:layout_scrollFlags="scroll|enterAlways" />
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:tabIndicatorColor="@color/secondary_text" />
     <Solitude.Droid.CustomViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
