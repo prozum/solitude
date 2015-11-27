@@ -376,7 +376,7 @@ namespace ClientCommunication
 		public bool CreateUser(string Name, string address, DateTimeOffset birthday, string Username, string Password, string ConfirmedPassword)
 		{
 			//Build request and user
-			var request = new RestRequest("user/register", Method.POST);
+			var request = new RestRequest("user", Method.POST);
 			var user = new {
 				name = Name,
 				address = address,

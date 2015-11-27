@@ -20,13 +20,13 @@ namespace Solitude.Server
             switch (u.Info)
             {
                 case InfoType.LANGUAGE:
-                    await DB.ConnectUserLanguage(User.Identity.GetUserId(), u.Value, u.Weight);
+                    await DB.ConnectUserLanguage(new Guid(User.Identity.GetUserId()), u.Value, u.Weight);
                     break;
                 case InfoType.INTEREST:
-                    await DB.ConnectUserInterest(User.Identity.GetUserId(), u.Value, u.Weight);
+                    await DB.ConnectUserInterest(new Guid(User.Identity.GetUserId()), u.Value, u.Weight);
                     break;
                 case InfoType.FOODHABIT:
-                    await DB.ConnectUserFoodHabit(User.Identity.GetUserId(), u.Value, u.Weight);
+                    await DB.ConnectUserFoodHabit(new Guid(User.Identity.GetUserId()), u.Value, u.Weight);
                     break;
                 default:
                     return BadRequest("Invalid information type.");
@@ -40,13 +40,13 @@ namespace Solitude.Server
             switch (u.Info)
             {
                 case InfoType.LANGUAGE:
-                    await DB.DisconnectUserLanguage(User.Identity.GetUserId(), u.Value);
+                    await DB.DisconnectUserLanguage(new Guid(User.Identity.GetUserId()), u.Value);
                     break;
                 case InfoType.INTEREST: 
-                    await DB.DisconnectUserInterest(User.Identity.GetUserId(), u.Value);
+                    await DB.DisconnectUserInterest(new Guid(User.Identity.GetUserId()), u.Value);
                     break;
                 case InfoType.FOODHABIT:
-                    await DB.DisconnectUserFoodHabit(User.Identity.GetUserId(), u.Value);
+                    await DB.DisconnectUserFoodHabit(new Guid(User.Identity.GetUserId()), u.Value);
                     break;
                 default:
                     return BadRequest("Invalid information type.");
@@ -60,11 +60,11 @@ namespace Solitude.Server
             switch (id)
             {
                 case InfoType.LANGUAGE:
-                    return Ok(await DB.GetUserLanguage(User.Identity.GetUserId()));
+                    return Ok(await DB.GetUserLanguage(new Guid(User.Identity.GetUserId())));
                 case InfoType.INTEREST:
-                    return Ok(await DB.GetUserInterest(User.Identity.GetUserId()));
+                    return Ok(await DB.GetUserInterest(new Guid(User.Identity.GetUserId())));
                 case InfoType.FOODHABIT:
-                    return Ok(await DB.GetUserFoodHabit(User.Identity.GetUserId()));
+                    return Ok(await DB.GetUserFoodHabit(new Guid(User.Identity.GetUserId())));
                 default:
                     return BadRequest("Invalid information type.");
             }

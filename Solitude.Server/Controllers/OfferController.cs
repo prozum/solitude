@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Model;
+using System;
 
 namespace Solitude.Server
 {
@@ -9,7 +10,7 @@ namespace Solitude.Server
     {
         public async Task<IHttpActionResult> Get()
         {
-            var uid = User.Identity.GetUserId();
+            var uid = new Guid(User.Identity.GetUserId());
 
             await DB.MatchUser(uid);
 
@@ -20,7 +21,7 @@ namespace Solitude.Server
             
         public async Task<IHttpActionResult> Post(Reply reply)
         {
-            var success = await DB.ReplyOffer(User.Identity.GetUserId(), reply.Value, reply.EventId);
+            var success = await DB.ReplyOffer(new Guid(User.Identity.GetUserId()), reply.EventId, reply.Value);
 
             if (!success)
                 return BadRequest();

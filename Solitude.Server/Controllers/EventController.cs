@@ -1,6 +1,7 @@
 ﻿using System.Web.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
+using System;
 
 namespace Solitude.Server
 {
@@ -8,13 +9,13 @@ namespace Solitude.Server
     {
         public async Task<IHttpActionResult> Get()
         {
-            var events = await DB.GetAttendingEvents(User.Identity.GetUserId());
+            var events = await DB.GetAttendingEvents(new Guid(User.Identity.GetUserId()));
             return Ok(events);
         }
 
-        public async Task<IHttpActionResult> Delete(int id)
+        public async Task<IHttpActionResult> Delete(Guid id)
         {
-            await DB.CancelRegistration(User.Identity.GetUserId(), id);
+            await DB.CancelRegistration(new Guid(User.Identity.GetUserId()), id);
             return Ok();
         }
     }

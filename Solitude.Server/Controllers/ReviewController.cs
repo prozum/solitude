@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Model;
+using System;
 
 namespace Solitude.Server
 {
@@ -9,7 +10,7 @@ namespace Solitude.Server
     {
         public async Task<IHttpActionResult> Post(Review review)
         {
-            review.UserId = User.Identity.GetUserId();
+            review.UserId = new Guid(User.Identity.GetUserId());
             
             await DB.AddReview(review);
 

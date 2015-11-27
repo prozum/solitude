@@ -2,6 +2,7 @@
 using Neo4jClient;
 using System.Threading.Tasks;
 using Dal;
+using System;
 
 namespace Solitude.Server
 {
@@ -18,9 +19,9 @@ namespace Solitude.Server
         {
             Throw.ArgumentException.IfNull(user, "user");
 
-            await _dal.DeleteUserData(user.Id);
+            await _dal.DeleteUserData(new Guid(user.Id));
 
-            await _dal.DeleteUser(user.Id);
+            await _dal.DeleteUser(new Guid(user.Id));
         }
     }
 }

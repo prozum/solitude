@@ -4,8 +4,8 @@ namespace Model
 {
 	public class Reply
 	{
+		public Guid EventId { get; set; }
 		public bool Value { get; set; }
-		public int EventId { get; set; }
 	}
 }
 

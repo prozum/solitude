@@ -5,7 +5,7 @@ namespace Model
 {
 	public class Event
 	{
-		public int Id { get; set; }
+		public Guid Id { get; set; }
 
 		[Required]
 		public DateTimeOffset Date { get; set; }
@@ -20,7 +20,7 @@ namespace Model
 		public string Description { get; set; }
 
 		[Required]
-		public string UserId { get; set; }
+		public Guid UserId { get; set; }
 
 		[Required]
 		public int SlotsTotal { get; set; }
