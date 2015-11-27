@@ -11,30 +11,7 @@ namespace Solitude.Droid
 		public string Description { get; set; }
 		public int SlotsTotal { get; set; }
 		public int SlotsTaken { get; set; }
-		public int Id { get; set; }
-		#endregion
-
-		#region Constructor
-		public Event()
-		{
-			
-		}
-
-		public Event (string title, DateTimeOffset date, string place, string desc, int max, int left)
-		{
-			Title = title;
-			Date = date;
-			Address = place;
-			Description = desc;
-			SlotsTotal = max;
-			SlotsTaken = left;
-		}
-
-		public Event (string title, DateTimeOffset date, string place, string desc, int max, int left, int ID)
-			:this(title, date, place, desc, max, left)
-		{
-			this.Id = ID;
-		}
+		public string Id { get; set; }
 		#endregion
 	}
 }

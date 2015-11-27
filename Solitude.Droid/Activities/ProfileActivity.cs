@@ -43,7 +43,7 @@ namespace Solitude.Droid
 			ThreadPool.QueueUserWorkItem(o =>
 				{
 					//Fetch offers from server
-					PrepareLooper();
+					//PrepareLooper();
 
 					Info = MainActivity.CIF.GetInformation();
 					User = MainActivity.CIF.GetUserData();

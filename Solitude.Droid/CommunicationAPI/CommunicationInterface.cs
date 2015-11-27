@@ -524,7 +524,7 @@ namespace ClientCommunication
 			if (response.StatusCode == HttpStatusCode.OK)
 			{
 				JsonValue jVal = System.Json.JsonValue.Parse(response.Content);
-				e.Id = parseToInt(jVal);
+				e.Id = jVal;
 				return true;
 			}
 			else

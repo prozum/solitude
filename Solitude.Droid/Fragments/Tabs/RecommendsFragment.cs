@@ -42,50 +42,38 @@ namespace Solitude.Droid
 			adapter.OnUpdatePosition = (view, evnt, exp) =>
 			{
 				var offer = evnt as Offer;
-					string matchs = GetString(Resource.String.event_matchedby) + ":\n";
+				string matchs = GetString(Resource.String.event_matchedby) + ":\n";
 
-				for (int i = 0; i < offer.Match.Interests.Length; i++)
-				{
-					matchs += MainActivity.InfoNames[(int)InfoType.Interest][offer.Match.Interests[i]];
-
-					if (i != offer.Match.Interests.Length - 1)
-						matchs += ", ";
-					else
-						matchs += "\n";
-				}
-
-
-				for (int i = 0; i < offer.Match.FoodHabits.Length; i++)
-				{
-					matchs += MainActivity.InfoNames[(int)InfoType.FoodHabit][offer.Match.FoodHabits[i]];
-
-					if (i != offer.Match.FoodHabits.Length - 1)
-						matchs += ", ";
-					else
-						matchs += "\n";
-				}
-
-				for (int i = 0; i < offer.Match.FoodHabits.Length; i++)
-				{
-					matchs += MainActivity.InfoNames[(int)InfoType.Language][offer.Match.Languages[i]];
-
-					if (i != offer.Match.Languages.Length - 1)
-						matchs += ", ";
-					else
-						matchs += "\n";
-				}
+				AddInfo(offer.Match.Interests, InfoType.Interest, matchs);
+				AddInfo(offer.Match.FoodHabits, InfoType.FoodHabit, matchs);
+				AddInfo(offer.Match.Languages, InfoType.Language, matchs);
 
 				view.FindViewById<TextView>(Resource.Id.expanded_content).Text =
-					string.Format("{0}\n\n{1}\n{2}/{3}\n{4}", offer.Description, offer.Address, offer.SlotsTaken, offer.SlotsTotal, matchs);
+					string.Format("{0}\n\n{1}: {2}\n{3}: {4}/{5}\n\n{6}", 
+								  offer.Description, Resources.GetString(Resource.String.event_place), 
+								  offer.Address, Resources.GetString(Resource.String.event_participants), 
+								  offer.SlotsTaken, offer.SlotsTotal, matchs);
 
-					view.FindViewById<Button>(Resource.Id.action1).Text = GetString(Resource.String.decline_button);
-					view.FindViewById<Button>(Resource.Id.action2).Text = GetString(Resource.String.accept_button);
+				view.FindViewById<Button>(Resource.Id.action1).Text = GetString(Resource.String.decline_button);
+				view.FindViewById<Button>(Resource.Id.action2).Text = GetString(Resource.String.accept_button);
 			};
 
 			list.Adapter = adapter;
 
 			return layout;
-			//return base.OnCreateView(inflater, container, savedInstanceState);
+		}
+
+		private void AddInfo(int[] items, InfoType type, string res)
+		{
+			for (int i = 0; i < items.Length; i++)
+			{
+				res += MainActivity.InfoNames[(int)type][items[i]];
+
+				if (i != items.Length - 1)
+					res += ", ";
+				else
+					res += "\n";
+			}
 		}
 	}
 }

@@ -17,50 +17,51 @@ namespace Solitude.Droid
 	[Activity(Label = "@string/label_eventactivity", Icon = "@drawable/Events_Icon")]
 	public class EventActivity : DrawerActivity
 	{
-		protected int CurrentTab { get; set; }
+		protected View Layout { get; set; }
 
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
 			// setting up and drawer
 			base.OnCreate(savedInstanceState);
 
+			Layout = LayoutInflater.Inflate(Resource.Layout.TapTest, null);
 		}
 
 		protected override void OnResume()
 		{
-			ClearLayout();
-			ShowSpinner();
+			base.OnResume();
 
 			ThreadPool.QueueUserWorkItem(o =>
 			{
+				RunOnUiThread(() =>
+				{
+					ClearLayout();
+					ShowSpinner();
+				});
+
 				var offers = MainActivity.CIF.RequestOffers();
 				var events = MainActivity.CIF.GetJoinedEvents(100);
 				var hosted = MainActivity.CIF.GetHostedEvents(100);
 
-				var layout = LayoutInflater.Inflate(Resource.Layout.TapTest, null);
-				var tablayout = layout.FindViewById<TabLayout>(Resource.Id.tab_layout);
-				var viewpager = layout.FindViewById<ViewPager>(Resource.Id.view_pager);
-
-				var adapter = new TabAdapter(this, viewpager, tablayout);
-				tablayout.SetOnTabSelectedListener(adapter);
-
-				viewpager.SetCurrentItem(CurrentTab, false);
-				viewpager.PageSelected += (s, e) => CurrentTab = viewpager.CurrentItem;
-
-				adapter.AddTab(Resource.String.event_menu_recommended, new RecommendsFragment(offers));
-				adapter.AddTab(Resource.String.event_menu_joined, new AttendingFragment(events));
-				adapter.AddTab(Resource.String.event_menu_hosted, new HostingFragment(hosted));
-
-				//Clear screen and show the found offers
 				RunOnUiThread(() =>
 				{
+					var tablayout = Layout.FindViewById<TabLayout>(Resource.Id.tab_layout);
+					var viewpager = Layout.FindViewById<CustomViewPager>(Resource.Id.view_pager);
+					viewpager.ScrollingEnabled = false;
+
+					var adapter = new TabAdapter(this, viewpager, tablayout);
+					viewpager.Adapter = adapter;
+                    tablayout.SetOnTabSelectedListener(adapter);
+
+					adapter.AddTab(Resource.String.event_menu_recommended, new RecommendsFragment(offers));
+					adapter.AddTab(Resource.String.event_menu_joined, new AttendingFragment(events));
+					adapter.AddTab(Resource.String.event_menu_hosted, new HostingFragment(hosted));
+
 					ClearLayout();
 					SupportActionBar.Elevation = 0;
-					Content.AddView(layout);
+					Content.AddView(Layout);
 				});
 			});
-
-			base.OnResume();
 		}
 	}
 }

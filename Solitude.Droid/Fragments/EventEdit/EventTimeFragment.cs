@@ -10,12 +10,14 @@ using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using Android.Support.Design.Widget;
 
 namespace Solitude.Droid
 {
 	public class EventTimeFragment : Android.Support.V4.App.Fragment, IEditPage
 	{
-		public TimePicker Picker { get; set; }
+		protected TimePicker Picker { get; set; }
+		protected View Layout { get; set; }
 
 		public override void OnCreate(Bundle savedInstanceState)
 		{
@@ -27,12 +29,12 @@ namespace Solitude.Droid
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
-			var layout = inflater.Inflate(Resource.Layout.editEventTimeLayout, null);
-			Picker = layout.FindViewById<TimePicker>(Resource.Id.timepicker);
+			Layout = inflater.Inflate(Resource.Layout.editEventTimeLayout, null);
+			Picker = Layout.FindViewById<TimePicker>(Resource.Id.timepicker);
 			Picker.CurrentHour = (Java.Lang.Integer)Activity.Intent.GetIntExtra("date hour", 0);
 			Picker.CurrentMinute = (Java.Lang.Integer)Activity.Intent.GetIntExtra("date minutte", 0);
 			
-			return layout;
+			return Layout;
 		}
 
 		public void SaveInfo()
@@ -50,7 +52,8 @@ namespace Solitude.Droid
 									 (int)Picker.CurrentMinute, 0);
 			var isvalid = DateTime.Now <= final;
 
-			//Add warning snackbar
+			if (!isvalid)
+				Snackbar.Make(Layout, Resources.GetString(Resource.String.event_error_invalid_date), 2000).Show();
 
 			return isvalid;
 		}

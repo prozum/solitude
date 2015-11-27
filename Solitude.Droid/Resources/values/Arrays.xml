@@ -20,8 +20,9 @@
 	</string-array>
 	<string-array name="foodhabits">
    		<item>Halal</item>
-   		<item>Kosher</item>
-   		<item>Lactose Intolerance</item>
+      <item>Kosher</item>
+      <item>Vegan</item>
+      <item>Lactose Intolerance</item>
    		<item>Gluten Intolerance</item>
    		<item>Nut Allergy</item>
 	</string-array>

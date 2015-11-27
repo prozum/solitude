@@ -10,12 +10,14 @@ using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using Android.Support.Design.Widget;
 
 namespace Solitude.Droid
 {
 	public class EventDateFragment : Android.Support.V4.App.Fragment, IEditPage
 	{
-		public DatePicker Picker { get; set; }
+		protected DatePicker Picker { get; set; }
+		protected View Layout { get; set; }
 
 		public override void OnCreate(Bundle savedInstanceState)
 		{
@@ -27,13 +29,13 @@ namespace Solitude.Droid
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
-			var layout = inflater.Inflate(Resource.Layout.editEventDateLayout, null);
-			Picker = layout.FindViewById<DatePicker>(Resource.Id.datepicker);
+			Layout = inflater.Inflate(Resource.Layout.editEventDateLayout, null);
+			Picker = Layout.FindViewById<DatePicker>(Resource.Id.datepicker);
 			Picker.DateTime = new DateTime(Activity.Intent.GetIntExtra("date year", DateTime.Now.Year),
 											   Activity.Intent.GetIntExtra("date month", DateTime.Now.Month),
 											   Activity.Intent.GetIntExtra("date day", DateTime.Now.Day));
 				
-			return layout;
+			return Layout;
 		}
 		
 
@@ -49,7 +51,8 @@ namespace Solitude.Droid
 			var now = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
 			var isvalid = now <= Picker.DateTime;
 
-			//Add warning snackbar
+			if (!isvalid)
+				Snackbar.Make(Layout, Resources.GetString(Resource.String.event_error_invalid_date), 2000).Show();
 
 			return isvalid;
         }

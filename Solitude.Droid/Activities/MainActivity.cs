@@ -30,7 +30,6 @@ namespace Solitude.Droid
 			base.OnCreate(bundle);
 
 			//Start up necesarry classes and services
-			StartService(new Intent(this, typeof(BackgroundService)));
 			CIF = new ClientCommunication.CommunicationInterface();
 
 			//Some documentation here
@@ -175,7 +174,6 @@ namespace Solitude.Droid
 		protected override void OnDestroy()
 		{
 			base.OnDestroy();
-			StopService(new Intent(this, typeof(BackgroundService)));
 		}
 	}
 }

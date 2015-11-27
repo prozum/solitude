@@ -16,6 +16,7 @@
 	<string name="event_error_could_not_create">Sorry, could not create event:</string>
 	<string name="event_error_guest_limit">- Your new guest limit is below current number of participants</string>
 	<string name="event_error_in_info">There are errors in your event:</string>
+	<string name="event_error_invalid_date">Invalid date.</string>
 	<string name="event_error_many_guest">- Too many event guests.</string>
 	<string name="event_error_no_description">- No description</string>
 	<string name="event_error_no_guest">- No guest limit</string>
@@ -26,11 +27,12 @@
 	<string name="event_host_event">Host Event</string>
 	<string name="event_invalid_info">Invalid Event Info</string>
 	<string name="event_matchedby">Matched by</string>
-	<string name="event_menu_hosted">Hosted</string>
-	<string name="event_menu_joined">Joined</string>
+	<string name="event_menu_hosted">Hosting</string>
+	<string name="event_menu_joined">Attending</string>
 	<string name="event_menu_recommended">Recommended</string>
 	<string name="event_name">Event Name</string>
 	<string name="event_name_hint">Event Name</string>
+	<string name="event_participants">Participants</string>
 	<string name="event_place">Location/Address</string>
 	<string name="event_place_hint">Location/Address</string>
 	<string name="event_time">Time</string>

@@ -115,7 +115,7 @@ namespace Solitude.Droid
 			var place = Activity.Intent.GetStringExtra("place");
 			var max = Activity.Intent.GetIntExtra("maxslots", 0);
 			var taken = Activity.Intent.GetIntExtra("slotstaken", 0);
-			var id = Activity.Intent.GetIntExtra("id", 0);
+			var id = Activity.Intent.GetStringExtra("id");
 
 			var @event = new Event()
 			{

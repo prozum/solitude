@@ -23,8 +23,6 @@ namespace Solitude.Droid
 
 			ThreadPool.QueueUserWorkItem(o =>
 				{
-					//Fetch offers from server
-					PrepareLooper();
 					
 					var offers = MainActivity.CIF.RequestOffers();
 

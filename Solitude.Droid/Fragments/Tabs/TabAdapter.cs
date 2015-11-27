@@ -18,11 +18,12 @@ using Android.Support.V4.View;
 namespace Solitude.Droid
 {
 	class TabAdapter : FragmentPagerAdapter, TabLayout.IOnTabSelectedListener
-    {
+	{ 
+		public List<Android.Support.V4.App.Fragment> Items { get; set; }
+
 		protected ViewPager Pager { get; set; }
 		protected TabLayout TabLayout { get; set; }
 		protected Context Context { get; set; }
-		protected List<Android.Support.V4.App.Fragment> Items { get; set; }
 
 		public override int Count { get { return Items.Count; } }
 
@@ -32,10 +33,9 @@ namespace Solitude.Droid
 		{
 			Pager = pager;
 			TabLayout = tablayout;
+			TabLayout.RemoveAllTabs();
 			Context = activity;
 			Items = new List<Android.Support.V4.App.Fragment>();
-			Pager.Adapter = this;
-			Pager.HorizontalScrollBarEnabled = false;
 		}
 
 		public void AddTab(int titleres, Android.Support.V4.App.Fragment frag)

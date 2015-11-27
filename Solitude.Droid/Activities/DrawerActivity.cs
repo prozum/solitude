@@ -95,12 +95,6 @@ namespace Solitude.Droid
 		{
 			Content.RemoveAllViews();
 		}
-
-		protected void PrepareLooper()
-		{
-			if (Looper.MyLooper() == null)
-				Looper.Prepare();
-		}
 	}
 }
 

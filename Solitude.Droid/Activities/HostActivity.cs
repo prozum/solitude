@@ -39,7 +39,7 @@ namespace Solitude.Droid
 
 			ThreadPool.QueueUserWorkItem(o =>
 				{
-					PrepareLooper();
+					//PrepareLooper();
 
 					var events = MainActivity.CIF.GetHostedEvents(100);
 

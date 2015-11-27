@@ -16,6 +16,7 @@
 	<string name="event_error_could_not_create">En ny begivenhed kunne ikke oprettes:</string>
 	<string name="event_error_guest_limit">- Din nye gæste begrænsning er under nuværende antal af deltagere</string>
 	<string name="event_error_in_info">Der er fejl i din begivenhed:</string>
+  <string name="event_error_invalid_date">Invalid dato.</string>
 	<string name="event_error_many_guest">- For mange gæster.</string>
 	<string name="event_error_no_description">- Manglende beskrivelse</string>
 	<string name="event_error_no_guest">- Manglende gæste begrænsning</string>
@@ -26,11 +27,12 @@
 	<string name="event_host_event">Afhold begivenhed</string>
 	<string name="event_invalid_info">Ugyldig begivenheds information</string>
 	<string name="event_matchedby">Matched på</string>
-	<string name="event_menu_hosted">Arrangerede</string>
+	<string name="event_menu_hosted">Arranger</string>
 	<string name="event_menu_joined">Tilmeldte</string>
 	<string name="event_menu_recommended">Anbefalede</string>
 	<string name="event_name">Begivenheds navn</string>
 	<string name="event_name_hint">Begivenheds navn</string>
+  <string name="event_participants">Deltagere</string>
 	<string name="event_place">Lokation/Adresse</string>
 	<string name="event_place_hint">Lokation/Adresse</string>
 	<string name="event_time">Tid</string>
