@@ -1,4 +1,5 @@
 ﻿using Android.Support.V4.App;
+using Android.Widget;
 
 namespace Solitude.Droid 
 {

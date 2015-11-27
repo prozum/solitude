@@ -3,6 +3,7 @@ using Android.Support.V4.View;
 using Android.Content;
 using Android.Util;
 using Android.Support.V4.App;
+using Android.Widget;
 
 namespace Solitude.Droid
 {
@@ -23,7 +24,11 @@ namespace Solitude.Droid
 
 	public class CustomViewPager : ViewPager
 	{
-		private bool isPagingEnabled = false;
+		public bool ScrollingEnabled
+		{
+			private get;
+			set;
+		}
 
 
 		public event OnPageLeftHandler OnPageLeft;
@@ -36,12 +41,12 @@ namespace Solitude.Droid
 
 		}
 
-		public void Next()
+		protected override void OnPageScrolled(int position, float offset, int offsetPixels)
 		{
 			if (OnPageLeft != null)
 				OnPageLeft(this, new FragmentEventArgs((Adapter as CustomFragmentAdapter).GetItem(CurrentItem)));
-
-			CurrentItem++;
+			
+			base.OnPageScrolled(position, offset, offsetPixels);
 		}
 
 		/*public override bool OnTouchEvent (Android.Views.MotionEvent e)

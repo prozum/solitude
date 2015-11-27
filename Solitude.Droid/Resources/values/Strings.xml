@@ -3,6 +3,7 @@
 	<string name="accept_button">Accept</string>
 	<string name="address">Address</string>
 	<string name="app_name">FriendLine</string>
+	<string name="back_button">Back</string>
 	<string name="cancel_button">Cancel</string>
 	<string name="cancel_event">Cancel Event</string>
 	<string name="close_drawer">Close Drawer</string>
@@ -52,6 +53,7 @@
 	<string name="message_offer_no_more">You have no more offers.</string>
 	<string name="message_offer_nothing_here">No offers where found.</string>
 	<string name="name">Name:</string>
+	<string name="next_button">Next</string>
 	<string name="no">No</string>
 	<string name="no_abort">No, Abort</string>
 	<string name="ok">Ok</string>

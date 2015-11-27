@@ -31,67 +31,31 @@ namespace Solitude.Droid
 
 			//Finds all widgets on the SignUp-layout
 			View fragView4 = View.Inflate(this, Resource.Layout.signupFragLayout4, null);
-			View fragView5 = View.Inflate(this, Resource.Layout.signupFragLayout5, null);
 
-			//Finds the buttons that switches pages
-			Button next = FindViewById <Button> (Resource.Id.signUpNextBtn);
+			//Removes buttons
+			var nxt = FindViewById<Button>(Resource.Id.signUpNextBtn);
+			var bck = FindViewById<Button>(Resource.Id.signUpPreviousBtn);
+			var lay = FindViewById<RelativeLayout>(Resource.Id.signupBottom);
+			lay.RemoveView(nxt);
+			lay.RemoveView(bck);
 
 			//Initialize ViewPager
 			_viewPager = new CustomViewPager (this);
 			_viewPager = FindViewById <CustomViewPager> (Resource.Id.signUpViewPager);
 			_viewPager.Adapter = new CustomFragmentAdapter (SupportFragmentManager);
 			_viewPager.OnPageLeft += saveFragmentInfo;
+			_viewPager.PageScrolled += updateProgress;
 
-			next.Click += nextClicked;
+			//Initialize the progress-bar
+			var bar = FindViewById<ProgressBar>(Resource.Id.signupProgress);
+			bar.Max = 5;
+			bar.Progress = 1;
 		}
 
-		private void nextClicked(object sender, EventArgs e)
+		private void updateProgress(object sender, ViewPager.PageScrolledEventArgs e)
 		{
-			_viewPager.Next();
-			InputMethodManager imm = (InputMethodManager)GetSystemService(Context.InputMethodService);
-
-			//Submits the user after username and password has been filled
-			if ((_viewPager.Adapter as CustomFragmentAdapter).GetItem(_viewPager.CurrentItem - 1).GetType() == typeof(SignUpFragmentUsernamePassword)) 
-				//This if-statement could use some love, it's pretty banana
-			{
-				if (username != "" && password != "" && confirm != "" && name != "" && address != "")
-				{
-					//Generates a dialog showing a spinner
-					var pb = new AlertDialog.Builder(this).Create();
-					pb.SetView(new ProgressBar(pb.Context));
-					pb.SetCancelable(false);
-					RunOnUiThread(() => pb.Show());
-
-					ThreadPool.QueueUserWorkItem(o =>
-						{
-							//Tries to create the user on the server
-							if (!MainActivity.CIF.CreateUser(name, address, new DateTimeOffset(birthdate, new TimeSpan(0)), username, password, confirm)) 
-							{
-								//Generates a dialog showing an errormessage
-								var errorDialog = new AlertDialog.Builder(this);
-								errorDialog.SetMessage(MainActivity.CIF.LatestError);
-
-								//Goes back to the initial signup-screen
-								errorDialog.SetNeutralButton(Resource.String.ok, (s, earg) => 
-									 _viewPager.CurrentItem = (int) CustomFragmentAdapter.CurrentlyShown.NameAddress );
-								RunOnUiThread(() => errorDialog.Show());
-							}
-
-							//Removes the spinner again
-							RunOnUiThread(() => pb.Dismiss());
-						});
-				}
-				else
-				{
-					//Generates an error dialog showing that some information is missing
-					var errorDialog = new AlertDialog.Builder(this);
-					errorDialog.SetMessage(Resources.GetString(Resource.String.sign_up_missing_info));
-					errorDialog.SetNegativeButton(Resource.String.ok, (s, earg) => {
-						RunOnUiThread( () => _viewPager.CurrentItem = (int) CustomFragmentAdapter.CurrentlyShown.NameAddress );
-					});
-					errorDialog.Show();
-				}
-			}
+			var bar = FindViewById<ProgressBar>(Resource.Id.signupProgress);
+			bar.Progress = e.Position + 1;
 		}
 
 		/// <summary>
@@ -122,13 +86,62 @@ namespace Solitude.Droid
 			}
 			else if (e.fragment is SignUpFragmentFoodPreferences)
 			{
+				/*var confirmBut = new Button(this);
+				confirmBut.Text = GetString(Resource.String.accept_button);
+				confirmBut.Click += confirmClicked;
 
+				var holder = FindViewById<RelativeLayout>(Resource.Id.signupBottom);
+
+				RelativeLayout.LayoutParams layPar = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MatchParent, RelativeLayout.LayoutParams.WrapContent);
+				confirmBut.LayoutParameters = layPar;
+
+				holder.AddView(confirmBut);*/
 			}
-			else if (e.fragment is SignUpFragmentLanguages)
+		}
+
+		private void confirmClicked(object sender, EventArgs e)
+		{
+			if (username != "" && password != "" && confirm != "" && name != "" && address != "")
 			{
+				//Generates a dialog showing a spinner
+				var pb = new AlertDialog.Builder(this).Create();
+				pb.SetView(new ProgressBar(pb.Context));
+				pb.SetCancelable(false);
+				RunOnUiThread(() => pb.Show());
 
+				ThreadPool.QueueUserWorkItem(o =>
+					{
+						//Tries to create the user on the server
+						if (MainActivity.CIF.CreateUser(name, address, new DateTimeOffset(birthdate, new TimeSpan(0)), username, password, confirm)) 
+						{
+							//Add interests to user and go to profile-screen.
+						}
+						else
+						{
+							//Generates a dialog showing an errormessage
+							var errorDialog = new AlertDialog.Builder(this);
+							errorDialog.SetMessage(MainActivity.CIF.LatestError);
+
+							//Goes back to the initial signup-screen
+							errorDialog.SetNeutralButton(Resource.String.ok, (s, earg) => 
+								_viewPager.CurrentItem = (int) CustomFragmentAdapter.CurrentlyShown.NameAddress );
+							RunOnUiThread(() => errorDialog.Show());
+						}
+
+						//Removes the spinner again
+						RunOnUiThread(() => pb.Dismiss());
+					});
 			}
-
+			else
+			{
+				//Generates an error dialog showing that some information is missing
+				var errorDialog = new AlertDialog.Builder(this);
+				errorDialog.SetMessage(Resources.GetString(Resource.String.sign_up_missing_info));
+				errorDialog.SetNegativeButton(Resource.String.ok, (s, earg) => {
+					RunOnUiThread( () => _viewPager.CurrentItem = (int) CustomFragmentAdapter.CurrentlyShown.NameAddress );
+				});
+				errorDialog.Show();
+			}
 		}
 	}
 }

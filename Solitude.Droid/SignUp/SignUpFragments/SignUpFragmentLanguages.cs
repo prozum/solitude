@@ -47,7 +47,6 @@ namespace Solitude.Droid
 				Resource.Layout.CheckedListViewItem, MainActivity.InfoNames[(int)InfoType.Language]);
 			languagesListView.ChoiceMode = ChoiceMode.Multiple;
 
-
 			return base.OnCreateView(inflater, container, savedInstanceState);
 		}
 	}
