@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content" >
+  <LinearLayout
       android:orientation="vertical"
       android:layout_width="fill_parent"
       android:layout_height="fill_parent"
@@ -7,9 +10,9 @@
       android:minHeight="25px"
       android:id="@+id/Layout">
     <ImageView
-        android:id="@+id/profile_picture"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+      android:id="@+id/profile_picture"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content" />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -53,14 +56,12 @@
 
       <LinearLayout
       android:id="@+id/profile_content"
-        android:layout_width="wrap_content"
+      android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_below="@id/basic_profile_layout"
       android:orientation="vertical"
-      android:minHeight="32dp">
-        
-      </LinearLayout>
-      
+      android:minHeight="32dp"/>
+
       <android.support.design.widget.FloatingActionButton
       android:id="@+id/fab_edit_profile"
       android:layout_width="wrap_content"
@@ -73,3 +74,4 @@
       android:src="@drawable/ic_mode_edit_white_48dp" />
     </RelativeLayout>
   </LinearLayout>
+</ScrollView>

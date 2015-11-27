@@ -29,6 +29,7 @@ namespace Solitude.Droid
 		protected List<int>[] Info { get; set; }
 
         bool isEditing = false;
+        LinearLayout profileContent;
 
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
@@ -91,13 +92,15 @@ namespace Solitude.Droid
 			var profile = LayoutInflater.Inflate(Resource.Layout.Profile, null);
 			Content.AddView(profile);
 
-			var picture = FindViewById<ImageView>(Resource.Id.Image);
-			var name = FindViewById<TextView>(Resource.Id.Name);
-			var address = FindViewById<TextView>(Resource.Id.Address);
-			var age = FindViewById<TextView>(Resource.Id.Age);
-			var layout = FindViewById<LinearLayout>(Resource.Id.Layout);
+			var picture = profile.FindViewById<ImageView>(Resource.Id.Image);
+			var name = profile.FindViewById<TextView>(Resource.Id.Name);
+			var address = profile.FindViewById<TextView>(Resource.Id.Address);
+			var age = profile.FindViewById<TextView>(Resource.Id.Age);
+			var layout = profile.FindViewById<LinearLayout>(Resource.Id.Layout);
 
-            var edit = FindViewById<FloatingActionButton>(Resource.Id.fab_edit_profile);
+            var edit = profile.FindViewById<FloatingActionButton>(Resource.Id.fab_edit_profile);
+
+            profileContent = profile.FindViewById<LinearLayout>(Resource.Id.profile_content);
 
 			//var adapter = new InfoAdapter(this, Info);
 			//var tilemenu = new InfoList(this, adapter);
@@ -116,7 +119,33 @@ namespace Solitude.Droid
 			age.Text = iAge + Resources.GetString(Resource.String.year_old);
 
             edit.Click += EditProfile;
+
+            ProfileCard(InfoType.Language, "Speaks");
+            ProfileCard(InfoType.Interest, "Likes");
+            ProfileCard(InfoType.FoodHabit, "Prefers");
 		}
+
+        private void ProfileCard(InfoType type, string subtitle)
+        {
+            var info = MainActivity.CIF.GetInformation();
+
+            var card = LayoutInflater.Inflate(Resource.Layout.ProfileInformationCard, null);
+            var cardTitle = card.FindViewById<TextView>(Resource.Id.profile_card_title);
+            var cardSubtitle = card.FindViewById<TextView>(Resource.Id.profile_card_subtitle);
+            var content = card.FindViewById<LinearLayout>(Resource.Id.profile_card_content);
+
+            cardTitle.Text = MainActivity.InfoTitles[(int)type];
+            cardSubtitle.Text = subtitle;
+
+            foreach (var item in info[(int)type])
+            {
+                var entry = new TextView(this);
+                entry.Text = MainActivity.InfoNames[(int)type][item];
+                entry.SetPaddingRelative(16, 8, 16, 8);
+                content.AddView(entry);
+            }
+            profileContent.AddView(card);
+        }
 
         private void EditProfile(object sender, EventArgs e)
         {

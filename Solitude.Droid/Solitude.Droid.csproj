@@ -136,6 +136,9 @@
     <AndroidResource Include="Resources\layout\editEventDateLayout.axml">
       <SubType>AndroidResource</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\layout\ProfileInformationCard.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />
@@ -167,7 +170,9 @@
     <AndroidResource Include="Resources\drawable\Events_Icon.png" />
     <AndroidResource Include="Resources\layout\DrawerItem.axml" />
     <AndroidResource Include="Resources\drawable\Event_Inv.png" />
-    <AndroidResource Include="Resources\layout\Profile.axml" />
+    <AndroidResource Include="Resources\layout\Profile.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
     <AndroidResource Include="Resources\drawable\ArrowDown.png" />
     <AndroidResource Include="Resources\drawable\ArrowUp.png" />
     <AndroidResource Include="Resources\values\styles.xml" />
