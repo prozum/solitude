@@ -94,20 +94,11 @@ namespace Solitude.Droid
 			}
 			else if (e.fragment is SignUpFragmentFoodPreferences)
 			{
-				/*var confirmBut = new Button(this);
-				confirmBut.Text = GetString(Resource.String.accept_button);
-				confirmBut.Click += confirmClicked;
-
-				var holder = FindViewById<RelativeLayout>(Resource.Id.signupBottom);
-
-				RelativeLayout.LayoutParams layPar = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MatchParent, RelativeLayout.LayoutParams.WrapContent);
-				confirmBut.LayoutParameters = layPar;
-
-				holder.AddView(confirmBut);*/
+				
 			}
 		}
 
-		private void confirmClicked(object sender, EventArgs e)
+		public void confirmSignup(object sender, EventArgs e)
 		{
 			if (username != "" && password != "" && confirm != "" && name != "" && address != "")
 			{
