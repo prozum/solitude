@@ -4,19 +4,21 @@ using Android.Content;
 using Android.Util;
 using Android.Support.V4.App;
 using Android.Widget;
+using Android.Views.InputMethods;
+using Android.App;
 
 namespace Solitude.Droid
 {
 	public delegate void OnPageLeftHandler (object sender, FragmentEventArgs e);
 	public class FragmentEventArgs
 	{
-		public Fragment fragment
+		public Android.Support.V4.App.Fragment fragment
 		{
 			get;
 			private set;
 		}
 
-		public FragmentEventArgs (Fragment f)
+		public FragmentEventArgs (Android.Support.V4.App.Fragment f)
 		{
 			this.fragment = f;
 		}
@@ -48,20 +50,6 @@ namespace Solitude.Droid
 			
 			base.OnPageScrolled(position, offset, offsetPixels);
 		}
-
-		/*public override bool OnTouchEvent (Android.Views.MotionEvent e)
-		{
-			return this.isPagingEnabled && base.OnTouchEvent (e);
-		}
-
-		public override bool OnInterceptTouchEvent (Android.Views.MotionEvent ev)
-		{
-			return this.isPagingEnabled && base.OnInterceptTouchEvent (ev);
-		}
-
-		public void setPagingEnabled(bool b) {
-			this.isPagingEnabled = b;
-		}*/
 	}
 }
 

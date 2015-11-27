@@ -50,6 +50,14 @@ namespace Solitude.Droid
 			var bar = FindViewById<ProgressBar>(Resource.Id.signupProgress);
 			bar.Max = 5;
 			bar.Progress = 1;
+
+			_viewPager.PageSelected += (sender, e) => 
+				{
+					if (e.Position == (int) CustomFragmentAdapter.CurrentlyShown.Interests) {
+						InputMethodManager imm = (InputMethodManager)GetSystemService(InputMethodService);
+						imm.HideSoftInputFromWindow(_viewPager.WindowToken, 0);
+					}
+				};
 		}
 
 		private void updateProgress(object sender, ViewPager.PageScrolledEventArgs e)

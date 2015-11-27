@@ -11,6 +11,7 @@ using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using Android.Views.InputMethods;
 
 namespace Solitude.Droid
 {
@@ -52,6 +53,11 @@ namespace Solitude.Droid
 			interestListView.ChoiceMode = ChoiceMode.Multiple;
 
 			return view;
+		}
+
+		public override void OnResume()
+		{
+			base.OnResume();
 		}
 	}
 }
