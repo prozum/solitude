@@ -28,7 +28,13 @@ namespace Solitude.Droid
 			// Use this to return your custom view for this Fragment
 			// return inflater.Inflate(Resource.Layout.YourFragment, container, false);
 
-			View view = inflater.Inflate(Resource.Layout.signupFragLayout5, container, false);
+			var userFoodHabits = new List<int>();
+
+			View view = inflater.Inflate(Resource.Layout.signupFragLayout4, container, false);
+			var foodHabitsListView = view.FindViewById <ListView>(Resource.Id.interestListView);
+			foodHabitsListView.Adapter = new ArrayAdapter<string>(Activity, 
+				Resource.Layout.CheckedListViewItem, MainActivity.InfoNames[(int)InfoType.FoodHabit]);
+			foodHabitsListView.ChoiceMode = ChoiceMode.Multiple;
 
 			return view;
 		}
