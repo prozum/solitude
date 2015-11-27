@@ -134,8 +134,7 @@ namespace Solitude.Server.Tests
 			BuildRequest("host", Method.POST, Event);
 			ExecuteRequest();
 
-			dynamic dynObj = JsonConvert.DeserializeObject(Response.Content);
-			Event.Id = dynObj.Id;
+            Event.Id = JsonConvert.DeserializeObject<Event>(Response.Content).Id;
 		}
 
 		public void AddCharacteristica (int Characteristica, int Value)
@@ -274,7 +273,7 @@ namespace Solitude.Server.Tests
 			ExecuteRequest();
 
 			var events = JsonConvert.DeserializeObject<IEnumerable<Event>>(Response.Content);
-			Assert.IsFalse(events.Where ((ev) => ev.Id == Event.Id).Any<>(), "The Registration was not cancelled correctly: " + Response.Content);
+			Assert.IsFalse(events.Where ((ev) => ev.Id == Event.Id).Any<Event>(), "The Registration was not cancelled correctly: " + Response.Content);
 		}
 
 		public void GetUserData()

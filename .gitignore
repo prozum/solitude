@@ -2,15 +2,16 @@ packages/
 bin/
 obj/
 
-Solitude.Server/App.config
-Solitude.Server.Tests/App.config
-Components
-
-Resource.designer.cs
 *~
 *.userprefs
 *.suo
+*.csproj.user
 
-Libraries/Model/packages.config
-/Solitude.Droid/Components
-/Solitude.Droid/Solitude.Droid.csproj.user
+Solitude.Server/App.config
+Solitude.Server.Tests/App.config
+
+.vs/config
+Components
+Resource.designer.cs
+
+

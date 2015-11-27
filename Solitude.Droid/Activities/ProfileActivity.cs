@@ -18,6 +18,8 @@ using Java.IO;
 using Environment = Android.OS.Environment;
 using Uri = Android.Net.Uri;
 using Android.Support.Design.Widget;
+using Java.Lang;
+using Android.Text;
 
 namespace Solitude.Droid
 {
@@ -61,9 +63,9 @@ namespace Solitude.Droid
 		public override bool OnCreateOptionsMenu(IMenu menu)
 		{
 			base.OnCreateOptionsMenu(menu);
-			menu.Add(0,1,1,GetString(Resource.String.profile_menu_edit_foodhabit));
-			menu.Add(0,2,2,GetString(Resource.String.profile_menu_edit_interests));
-			menu.Add(0,3,3,GetString(Resource.String.profile_menu_edit_language));
+            menu.Add(0, 1, 1, GetString(Resource.String.profile_menu_edit_foodhabit));
+            menu.Add(0, 2, 2, GetString(Resource.String.profile_menu_edit_interests));
+            menu.Add(0, 3, 3, GetString(Resource.String.profile_menu_edit_language));
 			return true;
 		}
 
@@ -134,6 +136,13 @@ namespace Solitude.Droid
             var cardSubtitle = card.FindViewById<TextView>(Resource.Id.profile_card_subtitle);
             var content = card.FindViewById<LinearLayout>(Resource.Id.profile_card_content);
 
+            var autocompleter = new MultiAutoCompleteTextView(this);
+            autocompleter.SetTokenizer(new Classes.SpaceTokenizer());
+            var autocompleteElements = MainActivity.InfoNames[(int)type];
+            var adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleDropDownItem1Line, autocompleteElements);
+            autocompleter.Adapter = adapter;
+            autocompleter.SetSingleLine(true);
+
             cardTitle.Text = MainActivity.InfoTitles[(int)type];
             cardSubtitle.Text = subtitle;
 
@@ -144,6 +153,7 @@ namespace Solitude.Droid
                 entry.SetPaddingRelative(16, 8, 16, 8);
                 content.AddView(entry);
             }
+            content.AddView(autocompleter);
             profileContent.AddView(card);
         }
 
@@ -151,7 +161,7 @@ namespace Solitude.Droid
         {
             var edit = FindViewById<FloatingActionButton>(Resource.Id.fab_edit_profile);
 
-            if(isEditing)
+            if (isEditing)
             {
                 edit.SetImageResource(Resource.Drawable.ic_mode_edit_white_48dp);
             }
