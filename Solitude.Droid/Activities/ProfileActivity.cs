@@ -152,24 +152,53 @@ namespace Solitude.Droid
             
             var cardTitle = card.FindViewById<TextView>(Resource.Id.profile_card_title);
             var cardSubtitle = card.FindViewById<TextView>(Resource.Id.profile_card_subtitle);
-            var content = card.FindViewById<LinearLayout>(Resource.Id.profile_card_content);
-
+            var content = card.FindViewById<LinearLayout>(Resource.Id.profile_card_entry);
+            
             var autocompleter = card.FindViewById<AppCompatMultiAutoCompleteTextView>(Resource.Id.info_input);
             autocompleter.SetTokenizer(new Classes.SpaceTokenizer());
             var autocompleteElements = MainActivity.InfoNames[(int)type];
             var adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleDropDownItem1Line, autocompleteElements);
             autocompleter.Adapter = adapter;
-
+            
             cardTitle.Text = MainActivity.InfoTitles[(int)type];
             cardSubtitle.Text = subtitle;
 
+#if DEBUG
+            foreach (var item in new List<string>() { "something", "nothing", "everything" })
+#else
             foreach (var item in info[(int)type])
+#endif
             {
+                RelativeLayout layout = new RelativeLayout(this);
+                layout.SetPaddingRelative(16, 8, 16, 8);
+                
                 var entry = new TextView(this);
+#if DEBUG
+                entry.Text = item;
+#else
                 entry.Text = MainActivity.InfoNames[(int)type][item];
-                entry.SetPaddingRelative(16, 8, 16, 8);
-                content.AddView(entry);
+#endif
+
+                RelativeLayout.LayoutParams rl = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WrapContent, RelativeLayout.LayoutParams.WrapContent);
+                rl.AddRule(LayoutRules.AlignParentLeft);
+
+                entry.LayoutParameters = rl;
+
+                ImageView image = new ImageView(this);
+                image.SetImageResource(Resource.Drawable.ic_clear_black_24dp);
+
+                RelativeLayout.LayoutParams rl2 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WrapContent, RelativeLayout.LayoutParams.WrapContent);
+                rl2.AddRule(LayoutRules.AlignParentRight);
+
+                image.LayoutParameters = rl2;
+
+                layout.AddView(image);
+                layout.AddView(entry);
+
+                content.AddView(layout);
+                content.RequestLayout();
             }
+
             profileContent.AddView(card);
         }
 
@@ -182,7 +211,8 @@ namespace Solitude.Droid
                 edit.SetImageResource(Resource.Drawable.ic_mode_edit_white_48dp);
                 foreach (var item in new List<View>() { cardFood, cardInterest, cardLanguage})
                 {
-                    (item.FindViewById<RelativeLayout>(Resource.Id.card_edit_content) as RelativeLayout).Visibility = ViewStates.Gone;
+                    item.FindViewById<ImageView>(Resource.Id.confirm_input).Visibility = ViewStates.Gone;
+                    item.FindViewById<TextInputLayout>(Resource.Id.info_input_container).Visibility = ViewStates.Gone;
                 }
             }
             else
@@ -190,7 +220,8 @@ namespace Solitude.Droid
                 edit.SetImageResource(Resource.Drawable.ic_done_white_48dp);
                 foreach (var item in new List<View>() { cardFood, cardInterest, cardLanguage })
                 {
-                    (item.FindViewById<RelativeLayout>(Resource.Id.card_edit_content) as RelativeLayout).Visibility = ViewStates.Visible;
+                    item.FindViewById<ImageView>(Resource.Id.confirm_input).Visibility = ViewStates.Visible;
+                    item.FindViewById<TextInputLayout>(Resource.Id.info_input_container).Visibility = ViewStates.Visible;
                 }
             }
 
