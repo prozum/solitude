@@ -154,7 +154,7 @@ namespace Solitude.Droid
             var cardSubtitle = card.FindViewById<TextView>(Resource.Id.profile_card_subtitle);
             var content = card.FindViewById<LinearLayout>(Resource.Id.profile_card_content);
 
-            var autocompleter = new AppCompatMultiAutoCompleteTextView(this);
+            var autocompleter = card.FindViewById<AppCompatMultiAutoCompleteTextView>(Resource.Id.info_input);
             autocompleter.SetTokenizer(new Classes.SpaceTokenizer());
             var autocompleteElements = MainActivity.InfoNames[(int)type];
             var adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleDropDownItem1Line, autocompleteElements);
