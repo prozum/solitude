@@ -97,31 +97,6 @@ namespace Dal
 				.ExecuteWithoutResultsAsync();
 		}
 
-		/// <summary>
-		/// Access the event id counter (the id counter must exist)
-		/// </summary>
-		/// <returns>The event identifier counter as a Task<int></returns>
-		async Task<int> GetEventIdCounter ()
-		{
-			var res = await _client.Cypher
-				.Match ("(sinfo:ServerInfo)")
-				.Return (() => Return.As<int>("sinfo.EventCounter"))
-				.ResultsAsync;
-
-			return res.First ();
-		}
-
-		/// <summary>
-		/// Increments the event id counter
-		/// </summary>
-		/// <returns>Task</returns>
-		async Task IncrementEventIdCounter ()
-		{
-			await _client.Cypher
-				.Match ("(sinfo:ServerInfo)")
-				.Set ("sinfo.EventCounter = sinfo.EventCounter + 1")
-				.ExecuteWithoutResultsAsync ();
-		}
 
 		/// <summary>
 		/// Add an event to the database
@@ -130,8 +105,7 @@ namespace Dal
 		/// <param name="event">The event that should be added</param>
 		public async Task AddEvent (Event e)
 		{
-			e.Id = await GetEventIdCounter ();
-			await IncrementEventIdCounter ();
+			e.Id = Guid.NewGuid();
 
 			await _client.Cypher
 				.Match ("(user:User)")
@@ -164,7 +138,7 @@ namespace Dal
 		/// <param name="uid">The user's id</param>
 		/// <param name="ic">The interest which the user should be connected to</param>
 		/// <param name="w">The weight of the relationship between the user and interest</param>
-		public async Task ConnectUserInterest (string uid, int ic, int w)
+		public async Task ConnectUserInterest (Guid uid, int ic, int w)
 		{
 			await _client.Cypher
 				//make sure that the interest is related with the right user
@@ -184,7 +158,7 @@ namespace Dal
 		/// <returns>Task</returns>
 		/// <param name="uid">The user's id</param>
 		/// <param name="ic">The interest that the user should be disconnected from</param>
-		public async Task DisconnectUserInterest (string uid, int ic)
+		public async Task DisconnectUserInterest (Guid uid, int ic)
 		{
 			await _client.Cypher
 				//make sure that the interest is related with the right user
@@ -201,7 +175,7 @@ namespace Dal
 		/// </summary>
 		/// <returns>Task<IEnumerable<int>> with the interest values the user has </returns>
 		/// <param name="uid">The user's id</param>
-		public async Task<IEnumerable<int>> GetUserInterest (string uid)
+		public async Task<IEnumerable<int>> GetUserInterest (Guid uid)
 		{
 			var res = await _client.Cypher
 				.Match ("(user:User)-[:WANTS]->(interest:Interest)")
@@ -219,7 +193,7 @@ namespace Dal
 		/// <param name="uid">The user's id</param>
 		/// <param name="lc">The language which the user should be connected to</param>
 		/// <param name="w">The weight of the relationship between the user and language</param>
-		public async Task ConnectUserLanguage (string uid, int lc, int w)
+		public async Task ConnectUserLanguage (Guid uid, int lc, int w)
 		{
 			await _client.Cypher
 				//make sure that the interest is related with the right user
@@ -239,7 +213,7 @@ namespace Dal
 		/// <returns>Task</returns>
 		/// <param name="uid">The user's id</param>
 		/// <param name="lc">The language that the user should be disconnected from</param>
-		public async Task DisconnectUserLanguage (string uid, int lc)
+		public async Task DisconnectUserLanguage (Guid uid, int lc)
 		{
 			await _client.Cypher
 			//make sure that the interest is related with the right user
@@ -256,7 +230,7 @@ namespace Dal
 		/// </summary>
 		/// <returns>Task<IEnumerable<int>> with the language values the user has </returns>
 		/// <param name="uid">The user's id</param>
-		public async Task<IEnumerable<int>> GetUserLanguage (string uid)
+		public async Task<IEnumerable<int>> GetUserLanguage (Guid uid)
 		{
 			var res = await _client.Cypher
 				.Match ("(user:User)-[:WANTS]->(language:Language)")
@@ -274,7 +248,7 @@ namespace Dal
 		/// <param name="uid">The user's id</param>
 		/// <param name="fh">The foodhabit which the user should be connected to</param>
 		/// <param name="w">The weight of the relationship between the user and foodhabit</param>
-		public async Task ConnectUserFoodHabit (string uid, int fh, int w)
+		public async Task ConnectUserFoodHabit (Guid uid, int fh, int w)
 		{
 			await _client.Cypher
 				//make sure that the interest is related with the right user
@@ -294,7 +268,7 @@ namespace Dal
 		/// <returns>Task</returns>
 		/// <param name="uid">The user's id</param>
 		/// <param name="fh">The foodhabit that the user should be disconnected from</param>
-		public async Task DisconnectUserFoodHabit (string uid, int fh)
+		public async Task DisconnectUserFoodHabit (Guid uid, int fh)
 		{
 			await _client.Cypher
 			//make sure that the interest is related with the right user
@@ -311,7 +285,7 @@ namespace Dal
 		/// </summary>
 		/// <returns>Task<IEnumerable<int>> with the foodhabit values the user has </returns>
 		/// <param name="uid">The user's id</param>
-		public async Task<IEnumerable<int>> GetUserFoodHabit (string uid)
+		public async Task<IEnumerable<int>> GetUserFoodHabit (Guid uid)
 		{
 			var res = await _client.Cypher
 				.Match ("(user:User)-[:WANTS]->(foodhabit:FoodHabit)")
@@ -327,7 +301,7 @@ namespace Dal
 		/// </summary>
 		/// <returns>Task</returns>
 		/// <param name="uid">The user's id</param>
-		async Task CleanMatches (string uid)
+		async Task CleanMatches (Guid uid)
 		{
 			await _client.Cypher
 				.Match ("(user:User)-[m:MATCHED]->(event:Event)")
@@ -342,7 +316,7 @@ namespace Dal
 		/// <returns>Task</returns>
 		/// <param name="uid">The user's ID</param>
 		/// <param name="LIMIT">The maximum limit of matches created</param>
-		public async Task MatchUser(string uid, int LIMIT = 5)
+		public async Task MatchUser(Guid uid, int LIMIT = 5)
 		{
 			await CleanMatches (uid);
 
@@ -392,7 +366,7 @@ namespace Dal
 		/// </summary>
 		/// <returns>Task<IEnumerable<Event>> with the offers(events)</returns>
 		/// <param name="uid">The user's id</param>
-		public async Task<IEnumerable<Offer>> GetOffers (string uid)
+		public async Task<IEnumerable<Offer>> GetOffers(Guid uid)
 		{
 			var res = await _client.Cypher
 				.Match ("(user:User)-[m:MATCHED]->(e:Event)")
@@ -420,7 +394,7 @@ namespace Dal
 		/// </summary>
 		/// <returns>Task<IEnumerable<Event>> with the events the user is hosting</returns>
 		/// <param name="uid">The user's id</param>
-		public async Task<IEnumerable<Event>> GetHostingEvents (string uid)
+		public async Task<IEnumerable<Event>> GetHostingEvents (Guid uid)
 		{
 			var hosting = await _client.Cypher
 				.Match ("(user:User)-[:HOSTING]->(event:Event)")
@@ -436,7 +410,7 @@ namespace Dal
 		/// </summary>
 		/// <returns>Task<IEnumerable<Event>> with the events the user is attending</returns>
 		/// <param name="uid">The user's id</param>
-		public async Task<IEnumerable<Event>> GetAttendingEvents (string uid)
+		public async Task<IEnumerable<Event>> GetAttendingEvents (Guid uid)
 		{
 			var events = await _client.Cypher
 				.Match ("(user:User)-[:ATTENDS]->(event:Event)")
@@ -452,7 +426,7 @@ namespace Dal
 		/// </summary>
 		/// <returns>Task</returns>
 		/// <param name="event">The event which replaces the old event</param>
-		public async Task UpdateEvent (Event @event, string uid)
+		public async Task UpdateEvent (Event @event, Guid uid)
 		{
 			await _client.Cypher
 				.Match ("(user:User)-[:HOSTING]->(e:Event)")
@@ -468,7 +442,7 @@ namespace Dal
 		/// </summary>
 		/// <returns>Task</returns>
 		/// <param name="eid">The event's id</param>
-		public async Task DeleteEvent (int eid)
+		public async Task DeleteEvent (Guid eid)
 		{
 			// Delete Event Tasks
 			//await DeleteEventTasks(eid);
@@ -486,7 +460,7 @@ namespace Dal
 		/// </summary>
 		/// <returns>Task<bool> whether or not it's possible to take the slot </returns>
 		/// <param name="eid">The event's id</param>
-		public async Task<bool> TakeSlot(int eid)
+		public async Task<bool> TakeSlot(Guid eid)
 		{
 			var res = await _client.Cypher
 				.Match ("(e:Event)")
@@ -504,7 +478,7 @@ namespace Dal
 		/// </summary>
 		/// <returns>Task</returns>
 		/// <param name="eid">The event's id</param>
-		public async Task ReleaseSlot(int eid)
+		public async Task ReleaseSlot(Guid eid)
 		{
 			await _client.Cypher
 				.Match("(e:Event)")
@@ -519,7 +493,7 @@ namespace Dal
 		/// </summary>
 		/// <param name="uid">The user's id</param>
 		/// <param name="eid">The event's id</param>
-		public async Task CancelRegistration (string uid, int eid)
+		public async Task CancelRegistration (Guid uid, Guid eid)
 		{
 			await _client.Cypher
 				.Match ("(user:User)-[a:ATTENDS]->(e:Event)")
@@ -540,7 +514,7 @@ namespace Dal
 		/// <param name="uid">The user's id</param>
 		/// <param name="answer">true if the user wants to attend the event and false if vice versa</param>
 		/// <param name="eid">The event's id</param>
-		public async Task<bool> ReplyOffer (string uid, bool answer, int eid)
+		public async Task<bool> ReplyOffer (Guid uid, Guid eid, bool answer)
 		{
 			if (answer)
 			{
@@ -572,7 +546,7 @@ namespace Dal
 			}
 		}
 
-		public async Task<UserData> GetUserData(string uid)
+		public async Task<UserData> GetUserData(Guid uid)
 		{
 			var res = await _client.Cypher
 				.Match ("(user:User)")
@@ -583,17 +557,17 @@ namespace Dal
 			return res.First();
 		}
 			
-		public async Task AddNotification(Notification n)
+		public async Task AddNotification(Guid uid, Notification n)
 		{
 			await _client.Cypher
 				.Match ("(user:User)")
-				.Where((User user) => user.Id == n.UserId)
+				.Where((User user) => user.Id == uid)
 				.Create ("user<-[:NOTIFIES]-(n:Notification {data})")
 				.WithParam("data", n)
 				.ExecuteWithoutResultsAsync ();
 		}
 
-		public async Task ClearNotification (string uid)
+		public async Task ClearNotification (Guid uid)
 		{
 			await _client.Cypher
 				.Match ("(user:User)<-[:NOTIFIES]-(n:Notification)")
@@ -602,7 +576,7 @@ namespace Dal
 				.ExecuteWithoutResultsAsync ();
 		}
 
-		public async Task<IEnumerable<Notification>> GetNotifications(string uid)
+		public async Task<IEnumerable<Notification>> GetNotifications(Guid uid)
 		{
 			var res = await _client.Cypher
 				.Match ("(user:User)<-[:NOTIFIES]-(n:Notification)")
@@ -620,7 +594,7 @@ namespace Dal
 		/// </summary>
 		/// <returns>Task</returns>
 		/// <param name="uid">The user's id</param>
-		public async Task DeleteUserData(string uid)
+		public async Task DeleteUserData(Guid uid)
 		{
 			// Delete Events hosted by User
 			var hosts = await _client.Cypher
@@ -656,7 +630,7 @@ namespace Dal
 		/// </summary>
 		/// <returns>Task</returns>
 		/// <param name="uid">The user's id</param>
-		public async Task DeleteUser(string uid)
+		public async Task DeleteUser(Guid uid)
 		{
 			await _client.Cypher
 				.Match("(user:User)")
@@ -691,15 +665,14 @@ namespace Dal
 				.Create("(user:User)-[HAS_NOTIFICATION]->(n:Notification {data})")
 				.WithParam("data", new Notification() 
 					{
-						Type = NotificationType.BIRTHDATE,
-						Message = "Happy birthdate!"
+						Type = NotificationType.BIRTHDATE
 					})
 				.ExecuteWithoutResultsAsync();
 		}
 
-		public async Task AddProfilePicture(string uid, byte[] picture)
+		public async Task AddProfilePicture(Guid uid, byte[] picture)
 		{
-			var path = Path.Combine(_dataDir, _userDir, uid);
+			var path = Path.Combine(_dataDir, _userDir, uid.ToString());
 			Directory.CreateDirectory(path);
 
 			using (var file = File.Create(Path.Combine (path, _profilePicture))) 
@@ -708,10 +681,10 @@ namespace Dal
 			}
 		}
 
-		public async Task<byte[]> GetProfilePicture(string uid)
+		public async Task<byte[]> GetProfilePicture(Guid uid)
 		{
 			byte[] result;
-			var path = Path.Combine(_dataDir, _userDir, uid, _profilePicture);
+			var path = Path.Combine(_dataDir, _userDir, uid.ToString(), _profilePicture);
 
 			if (!File.Exists(path))
 				return null;
@@ -725,9 +698,9 @@ namespace Dal
 			return result;
 		}
 
-		public async Task AddPicture(string uid, byte[] picture)
+		public async Task AddPicture(Guid uid, byte[] picture)
 		{
-			var path = Path.Combine(_dataDir, _userDir, uid, _pictureDir);
+			var path = Path.Combine(_dataDir, _userDir, uid.ToString(), _pictureDir);
 			if (!Directory.Exists(path))
 				Directory.CreateDirectory(path);
 			
@@ -737,11 +710,11 @@ namespace Dal
 			}
 		}
 
-		public async Task<IEnumerable<byte[]>> GetPictures(string uid)
+		public async Task<IEnumerable<byte[]>> GetPictures(Guid uid)
 		{
 			byte[] result;
 			var list = new List<byte[]>();
-			var path = Path.Combine(_dataDir, _userDir, uid, _pictureDir);
+			var path = Path.Combine(_dataDir, _userDir, uid.ToString(), _pictureDir);
 
 			if (!Directory.Exists(path))
 				Directory.CreateDirectory(path);

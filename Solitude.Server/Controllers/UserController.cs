@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Model;
+using System;
 
 namespace Solitude.Server
 {
@@ -31,7 +32,7 @@ namespace Solitude.Server
 
         public async Task<IHttpActionResult> Get()
         {
-            var data = await DB.GetUserData(User.Identity.GetUserId());
+            var data = await DB.GetUserData(new Guid(User.Identity.GetUserId()));
 
             return Ok(data);
         }

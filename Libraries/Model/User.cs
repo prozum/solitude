@@ -7,7 +7,7 @@ namespace Model
 	public class User
 	{
 		[JsonIgnore]
-		public string Id { set; get; }
+		public Guid Id { set; get; }
 
 		[Required]
 		[Display(Name = "Name")]

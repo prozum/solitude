@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Model
 {
@@ -14,10 +15,7 @@ namespace Model
 	public class Notification
 	{
 		public NotificationType Type { get; set; }
-		public string Message { get; set; }
-		public string UserId { get; set; }
-		public int EventId { get; set; }
-
+		public IEnumerable<string> Data { get; set; }
 	}
 }
 

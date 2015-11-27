@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using System.Collections.Generic;
 using Model;
+using System;
 
 namespace Solitude.Server
 {
@@ -10,20 +11,20 @@ namespace Solitude.Server
     {
         public async Task<IHttpActionResult> Get()
         {
-            var events = await DB.GetHostingEvents(User.Identity.GetUserId());
+            var events = await DB.GetHostingEvents(new Guid(User.Identity.GetUserId()));
             return Ok(events);
         }
             
         public async Task<IHttpActionResult> Post(Event e)
         {
-            e.UserId = User.Identity.GetUserId();
+            e.UserId = new Guid(User.Identity.GetUserId());
 
             await DB.AddEvent(e);
 
             return Ok(new { Id = e.Id});
         }
             
-        public async Task<IHttpActionResult> Delete(int id)
+        public async Task<IHttpActionResult> Delete(Guid id)
         {
             await DB.DeleteEvent(id);
 
@@ -32,7 +33,7 @@ namespace Solitude.Server
             
         public async Task<IHttpActionResult> Put(Event e)
         {
-            await DB.UpdateEvent(e, User.Identity.GetUserId());
+            await DB.UpdateEvent(e, new Guid(User.Identity.GetUserId()));
 
             return Ok();
         }
