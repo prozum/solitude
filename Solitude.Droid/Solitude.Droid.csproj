@@ -197,7 +197,6 @@
     <AndroidResource Include="Resources\layout\signupFragLayout1.axml" />
     <AndroidResource Include="Resources\layout\signupFragLayout3.axml" />
     <AndroidResource Include="Resources\layout\signupFragLayout4.axml" />
-    <AndroidResource Include="Resources\layout\signupFragLayout5.axml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values-da\Arrays.xml" />

@@ -25,16 +25,20 @@ namespace Solitude.Droid
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
-			// Use this to return your custom view for this Fragment
-			// return inflater.Inflate(Resource.Layout.YourFragment, container, false);
-
 			var userFoodHabits = new List<int>();
 
+			//Inflate and find views
 			View view = inflater.Inflate(Resource.Layout.signupFragLayout4, container, false);
 			var foodHabitsListView = view.FindViewById <ListView>(Resource.Id.interestListView);
+			var desc = view.FindViewById<TextView>(Resource.Id.signupListDescription);
+
+			//Populate the ListView
 			foodHabitsListView.Adapter = new ArrayAdapter<string>(Activity, 
 				Resource.Layout.CheckedListViewItem, MainActivity.InfoNames[(int)InfoType.FoodHabit]);
 			foodHabitsListView.ChoiceMode = ChoiceMode.Multiple;
+
+			//Adds the description
+			desc.Text = GetString(Resource.String.profile_menu_edit_foodhabit);
 
 			return view;
 		}

@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using NUnit.Framework;
 using Xamarin.UITest;
 
@@ -22,6 +22,6 @@ namespace Solitude.Droid.UITests
 			app.Repl();
 		}
 	}
-	/**/
-}
+
+}*/
 

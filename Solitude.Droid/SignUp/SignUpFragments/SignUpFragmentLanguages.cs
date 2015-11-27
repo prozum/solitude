@@ -18,15 +18,15 @@ namespace Solitude.Droid
 	{
 		ListView languagesListView;
 
-		/*public List<int> Interests
+		public List<int> Languages
 		{
 			get {
 				for (int i = 0; i < languagesListView.ChildCount; i++)
 					if ((languagesListView.GetChildAt(i) as CheckBox).Checked)
-						Interests.Add(i);
-				
+						Languages.Add(i);
+				return Languages;
 			}
-		}*/
+		}
 
 		public override void OnCreate(Bundle savedInstanceState)
 		{
@@ -37,18 +37,34 @@ namespace Solitude.Droid
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
-			// Use this to return your custom view for this Fragment
-			// return inflater.Inflate(Resource.Layout.YourFragment, container, false);
 			var userLanguages = new List<int>();
 
+			//Inflate view and find content
 			View view = inflater.Inflate(Resource.Layout.signupFragLayout4, container, false);
+			var desc = view.FindViewById<TextView>(Resource.Id.signupListDescription);
 			languagesListView = view.FindViewById <ListView>(Resource.Id.interestListView);
+			var lay = view.FindViewById<RelativeLayout>(Resource.Id.layoutSignupLists);
+
+			//Adds the headline
+			desc.Text = GetString(Resource.String.profile_menu_edit_language);
+
+			//Populate the ListView
 			languagesListView.Adapter = new ArrayAdapter<string>(Activity, 
 				Resource.Layout.CheckedListViewItem, MainActivity.InfoNames[(int)InfoType.Language]);
 			languagesListView.ChoiceMode = ChoiceMode.Multiple;
 
+			//Create and place an accept button at the bottom of the screen
+			var acptBtn = new Button(view.Context);
+			acptBtn.Text = GetString(Resource.String.accept_button);
+			acptBtn.Click += (Activity as SignUpActivity).confirmSignup;
 
-			return base.OnCreateView(inflater, container, savedInstanceState);
+			//Creates an accept-button and displays it at bottom!
+			RelativeLayout.LayoutParams layPar = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MatchParent, RelativeLayout.LayoutParams.WrapContent);
+			acptBtn.LayoutParameters = layPar;
+			layPar.AddRule(LayoutRules.AlignParentBottom);
+
+			lay.AddView(acptBtn);
+			return view;
 		}
 	}
 }

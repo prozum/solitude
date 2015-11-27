@@ -3,6 +3,7 @@
 	<string name="accept_button">Accepter</string>
 	<string name="address">Adresse</string>
 	<string name="app_name">FriendLine</string>
+	<string name="back_button">Tilbage</string>
 	<string name="cancel_button">Annuller</string>
 	<string name="cancel_event">Aflys Begivenhed</string>
 	<string name="close_drawer">Luk Menu</string>
@@ -52,6 +53,7 @@
 	<string name="message_offer_no_more">Du har ikke flere tilbud</string>
 	<string name="message_offer_nothing_here">Ingen tilbud blev fundet</string>
 	<string name="name">Navn:</string>
+	<string name="next_button">Næste</string>
 	<string name="no">Nej</string>
 	<string name="no_abort">Nej, Afbryd</string>
 	<string name="ok">Ok</string>

@@ -1,4 +1,9 @@
 ﻿using Android.Support.V4.App;
+using Android.Widget;
+using Android.Views.InputMethods;
+
+using Android.App;
+using Android.Content;
 
 namespace Solitude.Droid 
 {
@@ -15,7 +20,7 @@ namespace Solitude.Droid
 		SignUpFragmentLanguages lang;
 		SignUpFragmentFoodPreferences fp;
 
-		public Fragment CurrentItem 
+		public Android.Support.V4.App.Fragment CurrentItem 
 		{
 			get { return GetItem(SignUpActivity._viewPager.CurrentItem); }
 		}
