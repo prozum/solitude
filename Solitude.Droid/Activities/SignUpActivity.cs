@@ -117,6 +117,7 @@ namespace Solitude.Droid
 			}
 			else if (e.fragment is SignUpFragmentInterests)
 			{
+				var frag = e.fragment as SignUpFragmentInterests;
 
 			}
 			else if (e.fragment is SignUpFragmentFoodPreferences)
