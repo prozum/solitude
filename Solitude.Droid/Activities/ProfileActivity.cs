@@ -174,6 +174,11 @@ namespace Solitude.Droid
                 var remover = contentCard.FindViewById<ImageView>(Resource.Id.profile_card_entry_remove);
                 var entry = contentCard.FindViewById<TextView>(Resource.Id.profile_card_entry_content);
 
+                remover.Click += (s, e) =>
+                {
+                    ((ViewGroup)contentCard.Parent).RemoveView(contentCard);
+                };
+
                 entry.Text = item;
 
                 content.AddView(contentCard);
