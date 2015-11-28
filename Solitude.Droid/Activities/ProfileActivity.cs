@@ -98,55 +98,45 @@ namespace Solitude.Droid
 		private void SetupUI()
 		{
             // add profile to activity
-            try
-            {
-                var profile = LayoutInflater.Inflate(Resource.Layout.Profile, null);
-                Content.AddView(profile);
+            var profile = LayoutInflater.Inflate(Resource.Layout.Profile, null);
+            Content.AddView(profile);
 
-                var picture = profile.FindViewById<ImageView>(Resource.Id.Image);
-                var name = profile.FindViewById<TextView>(Resource.Id.Name);
-                var address = profile.FindViewById<TextView>(Resource.Id.Address);
-                var age = profile.FindViewById<TextView>(Resource.Id.Age);
-                var layout = profile.FindViewById<LinearLayout>(Resource.Id.Layout);
+            var picture = profile.FindViewById<ImageView>(Resource.Id.Image);
+            var name = profile.FindViewById<TextView>(Resource.Id.Name);
+            var address = profile.FindViewById<TextView>(Resource.Id.Address);
+            var age = profile.FindViewById<TextView>(Resource.Id.Age);
+            var layout = profile.FindViewById<LinearLayout>(Resource.Id.Layout);
 
-                var edit = profile.FindViewById<FloatingActionButton>(Resource.Id.fab_edit_profile);
+            var edit = profile.FindViewById<FloatingActionButton>(Resource.Id.fab_edit_profile);
 
-                cardFood = LayoutInflater.Inflate(Resource.Layout.ProfileInformationCard, null);
-                cardInterest = LayoutInflater.Inflate(Resource.Layout.ProfileInformationCard, null);
-                cardLanguage = LayoutInflater.Inflate(Resource.Layout.ProfileInformationCard, null);
+            cardFood = LayoutInflater.Inflate(Resource.Layout.ProfileInformationCard, null);
+            cardInterest = LayoutInflater.Inflate(Resource.Layout.ProfileInformationCard, null);
+            cardLanguage = LayoutInflater.Inflate(Resource.Layout.ProfileInformationCard, null);
 
-                profileContent = profile.FindViewById<LinearLayout>(Resource.Id.profile_content);
+            profileContent = profile.FindViewById<LinearLayout>(Resource.Id.profile_content);
 
-                //var adapter = new InfoAdapter(this, Info);
-                //var tilemenu = new InfoList(this, adapter);
+            //var adapter = new InfoAdapter(this, Info);
+            //var tilemenu = new InfoList(this, adapter);
 
-                //layout.AddView(tilemenu);
+            //layout.AddView(tilemenu);
 
-                name.SetTypeface(null, TypefaceStyle.Bold);
-                name.TextSize = 20;
-                name.Text = User.Name;
+            name.SetTypeface(null, TypefaceStyle.Bold);
+            name.TextSize = 20;
+            name.Text = User.Name;
 
-                address.Text = User.Address;
-                DateTime today = DateTime.Today;
-                int iAge = today.Year - User.Birthdate.Year;
-                if (User.Birthdate > today.AddYears(-iAge))
-                    iAge--;
-                age.Text = iAge + Resources.GetString(Resource.String.year_old);
+            address.Text = User.Address;
+            DateTime today = DateTime.Today;
+            int iAge = today.Year - User.Birthdate.Year;
+            if (User.Birthdate > today.AddYears(-iAge))
+                iAge--;
+            age.Text = iAge + Resources.GetString(Resource.String.year_old);
 
-                edit.Click += EditProfile;
+            edit.Click += EditProfile;
 
-                ProfileCreateCard(InfoType.Language, cardLanguage, "Speaks");
-                ProfileCreateCard(InfoType.Interest, cardInterest, "Likes");
-                ProfileCreateCard(InfoType.FoodHabit, cardFood, "Prefers");
-
-            }
-            catch (System.Exception e)
-            {
-                string s = e.StackTrace;
-                System.Console.WriteLine(s);
-                e.ToString();
-            }
-		}
+            ProfileCreateCard(InfoType.Language, cardLanguage, "Speaks");
+            ProfileCreateCard(InfoType.Interest, cardInterest, "Likes");
+            ProfileCreateCard(InfoType.FoodHabit, cardFood, "Prefers");
+        }
 
         private void ProfileCreateCard(InfoType type, View card, string subtitle)
         {
@@ -171,7 +161,7 @@ namespace Solitude.Droid
                 
                 foreach (var item in input)
                 {
-                    if (compares.Contains(item.ToLower())) // Smart way to see if array contains an item
+                    if (compares.Contains(item.ToLower()))
                     {
                         AddCardEntry(content, item);
                     }
@@ -238,7 +228,7 @@ namespace Solitude.Droid
 
                 var content = item.FindViewById<LinearLayout>(Resource.Id.profile_card_entry);
                 var childCount = content.ChildCount;
-
+                
                 for (int i = 0; i < childCount; i++)
                 {
                     var entry = content.GetChildAt(i);
