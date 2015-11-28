@@ -37,7 +37,7 @@
                 android:textColor="@color/secondary_text"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:paddingBottom="16dp" />
+                android:paddingBottom="8dp" />
             <RelativeLayout
                 android:id="@+id/card_edit_content"
                 android:layout_width="match_parent"

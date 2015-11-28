@@ -169,34 +169,14 @@ namespace Solitude.Droid
             foreach (var item in info[(int)type])
 #endif
             {
-                RelativeLayout layout = new RelativeLayout(this);
-                layout.SetPaddingRelative(16, 8, 16, 8);
-                
-                var entry = new TextView(this);
-#if DEBUG
+                var contentCard = LayoutInflater.Inflate(Resource.Layout.ProfileInformationCardEntry, null);
+
+                var remover = contentCard.FindViewById<ImageView>(Resource.Id.profile_card_entry_remove);
+                var entry = contentCard.FindViewById<TextView>(Resource.Id.profile_card_entry_content);
+
                 entry.Text = item;
-#else
-                entry.Text = MainActivity.InfoNames[(int)type][item];
-#endif
 
-                RelativeLayout.LayoutParams rl = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WrapContent, RelativeLayout.LayoutParams.WrapContent);
-                rl.AddRule(LayoutRules.AlignParentLeft);
-
-                entry.LayoutParameters = rl;
-
-                ImageView image = new ImageView(this);
-                image.SetImageResource(Resource.Drawable.ic_clear_black_24dp);
-
-                RelativeLayout.LayoutParams rl2 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WrapContent, RelativeLayout.LayoutParams.WrapContent);
-                rl2.AddRule(LayoutRules.AlignParentRight);
-
-                image.LayoutParameters = rl2;
-
-                layout.AddView(image);
-                layout.AddView(entry);
-
-                content.AddView(layout);
-                content.RequestLayout();
+                content.AddView(contentCard);
             }
 
             profileContent.AddView(card);
@@ -213,6 +193,17 @@ namespace Solitude.Droid
                 {
                     item.FindViewById<ImageView>(Resource.Id.confirm_input).Visibility = ViewStates.Gone;
                     item.FindViewById<TextInputLayout>(Resource.Id.info_input_container).Visibility = ViewStates.Gone;
+
+                    var content = item.FindViewById<LinearLayout>(Resource.Id.profile_card_entry);
+                    var childCount = content.ChildCount;
+
+                    for (int i = 0; i < childCount; i++)
+                    {
+                        var entry = content.GetChildAt(i);
+                        var icon = entry.FindViewById<ImageView>(Resource.Id.profile_card_entry_remove);
+                        icon.Visibility = ViewStates.Invisible;
+                    }
+
                 }
             }
             else
@@ -222,6 +213,16 @@ namespace Solitude.Droid
                 {
                     item.FindViewById<ImageView>(Resource.Id.confirm_input).Visibility = ViewStates.Visible;
                     item.FindViewById<TextInputLayout>(Resource.Id.info_input_container).Visibility = ViewStates.Visible;
+
+                    var content = item.FindViewById<LinearLayout>(Resource.Id.profile_card_entry);
+                    var childCount = content.ChildCount;
+
+                    for (int i = 0; i < childCount; i++)
+                    {
+                        var entry = content.GetChildAt(i);
+                        var icon = entry.FindViewById<ImageView>(Resource.Id.profile_card_entry_remove);
+                        icon.Visibility = ViewStates.Visible;
+                    }
                 }
             }
 
