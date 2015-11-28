@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using System.Linq;
 
 using Android;
 using Android.App;
@@ -159,7 +160,36 @@ namespace Solitude.Droid
             var autocompleteElements = MainActivity.InfoNames[(int)type];
             var adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleDropDownItem1Line, autocompleteElements);
             autocompleter.Adapter = adapter;
-            
+
+            var adder = card.FindViewById<ImageView>(Resource.Id.confirm_input);
+            adder.Click += (o, e) =>
+            {
+                var input = autocompleter.Text.Split(' ');
+                autocompleter.Text = string.Empty;
+                var compares = MainActivity.InfoNames[(int)type].Select(s => s.ToLower()).ToArray();
+                
+                foreach (var item in input)
+                {
+                    if (compares.Contains(item.ToLower())) // Smart way to see if array contains an item
+                    {
+                        var contentCard = LayoutInflater.Inflate(Resource.Layout.ProfileInformationCardEntry, null);
+
+                        var remover = contentCard.FindViewById<ImageView>(Resource.Id.profile_card_entry_remove);
+                        var entry = contentCard.FindViewById<TextView>(Resource.Id.profile_card_entry_content);
+
+                        remover.Click += (s, ev) =>
+                        {
+                            ((ViewGroup)contentCard.Parent).RemoveView(contentCard);
+                        };
+
+                        entry.Text = item;
+                        remover.Visibility = ViewStates.Visible;
+
+                        content.AddView(contentCard);
+                    }
+                }
+            };
+
             cardTitle.Text = MainActivity.InfoTitles[(int)type];
             cardSubtitle.Text = subtitle;
 
