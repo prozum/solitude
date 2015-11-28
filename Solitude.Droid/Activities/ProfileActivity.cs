@@ -94,6 +94,7 @@ namespace Solitude.Droid
 			}
 			return true;
 		}
+
 		private void SetupUI()
 		{
             // add profile to activity
@@ -172,20 +173,7 @@ namespace Solitude.Droid
                 {
                     if (compares.Contains(item.ToLower())) // Smart way to see if array contains an item
                     {
-                        var contentCard = LayoutInflater.Inflate(Resource.Layout.ProfileInformationCardEntry, null);
-
-                        var remover = contentCard.FindViewById<ImageView>(Resource.Id.profile_card_entry_remove);
-                        var entry = contentCard.FindViewById<TextView>(Resource.Id.profile_card_entry_content);
-
-                        remover.Click += (s, ev) =>
-                        {
-                            ((ViewGroup)contentCard.Parent).RemoveView(contentCard);
-                        };
-
-                        entry.Text = item;
-                        remover.Visibility = ViewStates.Visible;
-
-                        content.AddView(contentCard);
+                        AddCardEntry(content, item);
                     }
                 }
             };
@@ -199,22 +187,28 @@ namespace Solitude.Droid
             foreach (var item in info[(int)type])
 #endif
             {
-                var contentCard = LayoutInflater.Inflate(Resource.Layout.ProfileInformationCardEntry, null);
-
-                var remover = contentCard.FindViewById<ImageView>(Resource.Id.profile_card_entry_remove);
-                var entry = contentCard.FindViewById<TextView>(Resource.Id.profile_card_entry_content);
-
-                remover.Click += (s, e) =>
-                {
-                    ((ViewGroup)contentCard.Parent).RemoveView(contentCard);
-                };
-
-                entry.Text = item;
-
-                content.AddView(contentCard);
+                AddCardEntry(content, item);
             }
 
             profileContent.AddView(card);
+        }
+
+        private void AddCardEntry(LinearLayout content, string s)
+        {
+            var contentCard = LayoutInflater.Inflate(Resource.Layout.ProfileInformationCardEntry, null);
+
+            var remover = contentCard.FindViewById<ImageView>(Resource.Id.profile_card_entry_remove);
+            var entry = contentCard.FindViewById<TextView>(Resource.Id.profile_card_entry_content);
+
+            remover.Click += (se, ev) =>
+            {
+                ((ViewGroup)contentCard.Parent).RemoveView(contentCard);
+            };
+
+            entry.Text = s;
+            remover.Visibility = isEditing ? ViewStates.Visible : ViewStates.Invisible;
+
+            content.AddView(contentCard);
         }
 
         private void EditProfile(object sender, EventArgs e)
@@ -224,44 +218,34 @@ namespace Solitude.Droid
             if (isEditing)
             {
                 edit.SetImageResource(Resource.Drawable.ic_mode_edit_white_48dp);
-                foreach (var item in new List<View>() { cardFood, cardInterest, cardLanguage})
-                {
-                    item.FindViewById<ImageView>(Resource.Id.confirm_input).Visibility = ViewStates.Gone;
-                    item.FindViewById<TextInputLayout>(Resource.Id.info_input_container).Visibility = ViewStates.Gone;
-
-                    var content = item.FindViewById<LinearLayout>(Resource.Id.profile_card_entry);
-                    var childCount = content.ChildCount;
-
-                    for (int i = 0; i < childCount; i++)
-                    {
-                        var entry = content.GetChildAt(i);
-                        var icon = entry.FindViewById<ImageView>(Resource.Id.profile_card_entry_remove);
-                        icon.Visibility = ViewStates.Invisible;
-                    }
-
-                }
+                SetContentVisible(ViewStates.Invisible);
             }
             else
             {
                 edit.SetImageResource(Resource.Drawable.ic_done_white_48dp);
-                foreach (var item in new List<View>() { cardFood, cardInterest, cardLanguage })
-                {
-                    item.FindViewById<ImageView>(Resource.Id.confirm_input).Visibility = ViewStates.Visible;
-                    item.FindViewById<TextInputLayout>(Resource.Id.info_input_container).Visibility = ViewStates.Visible;
-
-                    var content = item.FindViewById<LinearLayout>(Resource.Id.profile_card_entry);
-                    var childCount = content.ChildCount;
-
-                    for (int i = 0; i < childCount; i++)
-                    {
-                        var entry = content.GetChildAt(i);
-                        var icon = entry.FindViewById<ImageView>(Resource.Id.profile_card_entry_remove);
-                        icon.Visibility = ViewStates.Visible;
-                    }
-                }
+                SetContentVisible(ViewStates.Visible);
             }
 
             isEditing = !isEditing;
+        }
+
+        private void SetContentVisible(ViewStates state)
+        {
+            foreach (var item in new List<View>() { cardFood, cardInterest, cardLanguage })
+            {
+                item.FindViewById<ImageView>(Resource.Id.confirm_input).Visibility = state.Equals(ViewStates.Visible) ? ViewStates.Visible : ViewStates.Gone;
+                item.FindViewById<TextInputLayout>(Resource.Id.info_input_container).Visibility = state.Equals(ViewStates.Visible) ? ViewStates.Visible : ViewStates.Gone;
+
+                var content = item.FindViewById<LinearLayout>(Resource.Id.profile_card_entry);
+                var childCount = content.ChildCount;
+
+                for (int i = 0; i < childCount; i++)
+                {
+                    var entry = content.GetChildAt(i);
+                    var icon = entry.FindViewById<ImageView>(Resource.Id.profile_card_entry_remove);
+                    icon.Visibility = state;
+                }
+            }
         }
 
         void SetupEditDialog(InfoType type, List<int> info)
