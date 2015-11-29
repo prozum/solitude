@@ -32,14 +32,14 @@ namespace Solitude.Droid
 
 		protected List<int>[] Info { get; set; }
 
-        bool isEditing = false;
-        LinearLayout profileContent;
+        protected bool isEditing { get; set; } = false;
+        protected LinearLayout profileContent { get; set; }
 
-        View cardFood;
-        View cardInterest;
-        View cardLanguage;
+        protected View cardFood { get; set; }
+        protected View cardInterest { get; set; }
+        protected View cardLanguage { get; set; }
 
-		protected override void OnCreate(Bundle savedInstanceState)
+        protected override void OnCreate(Bundle savedInstanceState)
 		{
 			///var profile = new ProfileView(this, new User("Jimmi", "Jimmivej 12"));
 
@@ -95,6 +95,9 @@ namespace Solitude.Droid
 			return true;
 		}
 
+        /// <summary>
+        /// Sets up the UI, and keeps the OnCreate method clean.
+        /// </summary>
 		private void SetupUI()
 		{
             // add profile to activity
@@ -115,11 +118,6 @@ namespace Solitude.Droid
 
             profileContent = profile.FindViewById<LinearLayout>(Resource.Id.profile_content);
 
-            //var adapter = new InfoAdapter(this, Info);
-            //var tilemenu = new InfoList(this, adapter);
-
-            //layout.AddView(tilemenu);
-
             name.SetTypeface(null, TypefaceStyle.Bold);
             name.TextSize = 20;
             name.Text = User.Name;
@@ -138,6 +136,12 @@ namespace Solitude.Droid
             ProfileCreateCard(InfoType.FoodHabit, cardFood, "Prefers");
         }
 
+        /// <summary>
+        /// Used to create cards for user information
+        /// </summary>
+        /// <param name="type">The InfoType that the card should represent. Used for gathering info from user, as well as title and content that can be autocompleted to.</param>
+        /// <param name="card">The card that content should be added to.</param>
+        /// <param name="subtitle">The subtitle of the card, that appears beneath the title, but above the main content of the card.</param>
         private void ProfileCreateCard(InfoType type, View card, string subtitle)
         {
             var info = MainActivity.CIF.GetInformation();
@@ -146,9 +150,10 @@ namespace Solitude.Droid
             var cardSubtitle = card.FindViewById<TextView>(Resource.Id.profile_card_subtitle);
             var content = card.FindViewById<LinearLayout>(Resource.Id.profile_card_entry);
             
+            // Comfigure the autocompleter with a tokenizer and word list
             var autocompleter = card.FindViewById<AppCompatMultiAutoCompleteTextView>(Resource.Id.info_input);
-            autocompleter.SetTokenizer(new Classes.SpaceTokenizer());
-            var autocompleteElements = MainActivity.InfoNames[(int)type];
+            autocompleter.SetTokenizer(new Classes.SpaceTokenizer()); // Tells the tokenizer to treat each word as its own entry
+            var autocompleteElements = MainActivity.InfoNames[(int)type]; // Gets possible elemnts to autocomplete to
             var adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleDropDownItem1Line, autocompleteElements);
             autocompleter.Adapter = adapter;
 
@@ -157,11 +162,11 @@ namespace Solitude.Droid
             {
                 var input = autocompleter.Text.Split(' ');
                 autocompleter.Text = string.Empty;
-                var compares = MainActivity.InfoNames[(int)type].Select(s => s.ToLower()).ToArray();
+                var compares = MainActivity.InfoNames[(int)type].Select(s => s.ToLower()).ToArray(); // Gets an array of all possible entries to compare input with
                 
                 foreach (var item in input)
                 {
-                    if (compares.Contains(item.ToLower()))
+                    if (compares.Contains(item.ToLower())) // Checks if entry is valid
                     {
                         AddCardEntry(content, item);
                     }
@@ -172,7 +177,7 @@ namespace Solitude.Droid
             cardSubtitle.Text = subtitle;
 
 #if DEBUG
-            foreach (var item in new List<string>() { "something", "nothing", "everything" })
+            foreach (var item in new List<string>() { "something", "nothing", "everything" }) // Used while user information cant be changed
 #else
             foreach (var item in info[(int)type])
 #endif
@@ -183,6 +188,11 @@ namespace Solitude.Droid
             profileContent.AddView(card);
         }
 
+        /// <summary>
+        /// Adds a new entry to the specified layout in the card
+        /// </summary>
+        /// <param name="content">The layout in the card that the entry should be added to.</param>
+        /// <param name="s">The name of the entry. This is what will be displayed to the user.</param>
         private void AddCardEntry(LinearLayout content, string s)
         {
             var contentCard = LayoutInflater.Inflate(Resource.Layout.ProfileInformationCardEntry, null);
@@ -192,25 +202,30 @@ namespace Solitude.Droid
 
             remover.Click += (se, ev) =>
             {
-                ((ViewGroup)contentCard.Parent).RemoveView(contentCard);
+                ((ViewGroup)contentCard.Parent).RemoveView(contentCard); // Removes entry from card when clicked
             };
 
             entry.Text = s;
-            remover.Visibility = isEditing ? ViewStates.Visible : ViewStates.Invisible;
+            remover.Visibility = isEditing ? ViewStates.Visible : ViewStates.Invisible; // Checks if the remove burron should be shown when added.
 
             content.AddView(contentCard);
         }
 
+        /// <summary>
+        /// Toggles if the profile is in edit or show mode.
+        /// </summary>
+        /// <param name="sender">sender, not used in method</param>
+        /// <param name="e">eventarguments, nto used in method</param>
         private void EditProfile(object sender, EventArgs e)
         {
             var edit = FindViewById<FloatingActionButton>(Resource.Id.fab_edit_profile);
 
-            if (isEditing)
+            if (isEditing) // Go from edit to view
             {
                 edit.SetImageResource(Resource.Drawable.ic_mode_edit_white_48dp);
                 SetContentVisible(ViewStates.Invisible);
             }
-            else
+            else // Go from view to edit
             {
                 edit.SetImageResource(Resource.Drawable.ic_done_white_48dp);
                 SetContentVisible(ViewStates.Visible);
@@ -219,13 +234,19 @@ namespace Solitude.Droid
             isEditing = !isEditing;
         }
 
+        /// <summary>
+        /// Sets if the edit ccontent of the card is visible or not.
+        /// </summary>
+        /// <param name="state">The ViewState that specifies if things are shown or not.</param>
         private void SetContentVisible(ViewStates state)
         {
             foreach (var item in new List<View>() { cardFood, cardInterest, cardLanguage })
             {
+                // When hidded, these are set to gone, otherwise there will be a lot of empty space at the buttom of the card.
                 item.FindViewById<ImageView>(Resource.Id.confirm_input).Visibility = state.Equals(ViewStates.Visible) ? ViewStates.Visible : ViewStates.Gone;
                 item.FindViewById<TextInputLayout>(Resource.Id.info_input_container).Visibility = state.Equals(ViewStates.Visible) ? ViewStates.Visible : ViewStates.Gone;
 
+                // Get each entry in the card, and toggle the remove button.
                 var content = item.FindViewById<LinearLayout>(Resource.Id.profile_card_entry);
                 var childCount = content.ChildCount;
                 
