@@ -17,9 +17,9 @@ using Android.Support.V4.View;
 
 namespace Solitude.Droid
 {
-	class TabAdapter : FragmentPagerAdapter, TabLayout.IOnTabSelectedListener
+	class TabAdapter : FragmentPagerAdapter, TabLayout.IOnTabSelectedListener, ViewPager.IOnPageChangeListener
 	{ 
-		public List<Android.Support.V4.App.Fragment> Items { get; set; }
+		public List<TabFragment> Items { get; set; }
 
 		protected ViewPager Pager { get; set; }
 		protected TabLayout TabLayout { get; set; }
@@ -33,27 +33,31 @@ namespace Solitude.Droid
 		{
 			Pager = pager;
 			TabLayout = tablayout;
-			TabLayout.RemoveAllTabs();
 			Context = activity;
-			Items = new List<Android.Support.V4.App.Fragment>();
+			Items = new List<TabFragment>();
+			TabLayout.RemoveAllTabs();
+			TabLayout.SetOnTabSelectedListener(this);
+			Pager.Adapter = this;
+			Pager.AddOnPageChangeListener(this);
 		}
 
-		public void AddTab(int titleres, Android.Support.V4.App.Fragment frag)
+		public void AddTab(int titleres, TabFragment frag)
 		{
 			var tab = TabLayout.NewTab();
 			tab.SetText(titleres);
 			AddTab(tab, frag);
 		}
-		public void AddTab(string title, Android.Support.V4.App.Fragment frag)
+		public void AddTab(string title, TabFragment frag)
 		{
 			var tab = TabLayout.NewTab();
             tab.SetText(title);
 			AddTab(tab, frag);
         }
-		public void AddTab(TabLayout.Tab tab, Android.Support.V4.App.Fragment frag)
+		public void AddTab(TabLayout.Tab tab, TabFragment frag)
 		{
 			TabLayout.AddTab(tab);
 			Items.Add(frag);
+			frag.Position = tab.Position;
 			NotifyDataSetChanged();
 		}
 
@@ -62,16 +66,29 @@ namespace Solitude.Droid
 			return Items[position];
         }
 
-		public void OnTabReselected(TabLayout.Tab tab)
-		{
-		}
-
 		public void OnTabSelected(TabLayout.Tab tab)
 		{
 			Pager.SetCurrentItem(tab.Position, true);
 		}
 
 		public void OnTabUnselected(TabLayout.Tab tab)
+		{
+		}
+
+		public void OnTabReselected(TabLayout.Tab tab)
+		{
+		}
+
+		public void OnPageSelected(int position)
+		{
+			TabLayout.GetTabAt(position).Select();
+		}
+
+		public void OnPageScrollStateChanged(int state)
+		{
+		}
+
+		public void OnPageScrolled(int position, float positionOffset, int positionOffsetPixels)
 		{
 		}
 	}

@@ -11,20 +11,18 @@ using Android.Util;
 using Android.Views;
 using Android.Widget;
 using Android.Support.Design.Widget;
+using Android.Graphics;
 
 namespace Solitude.Droid
 {
-	public class EventTimeFragment : Android.Support.V4.App.Fragment, IEditPage
+	public class EventTimeFragment : EditFragment
 	{
 		protected TimePicker Picker { get; set; }
 		protected View Layout { get; set; }
 
-		public override void OnCreate(Bundle savedInstanceState)
+		public EventTimeFragment()
 		{
-			base.OnCreate(savedInstanceState);
-
-			// Create your fragment here
-
+			HidesKeyboard = true;
 		}
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -37,13 +35,13 @@ namespace Solitude.Droid
 			return Layout;
 		}
 
-		public void SaveInfo()
+		public override void SaveInfo()
 		{
 			Activity.Intent.PutExtra("date hour", (int)Picker.CurrentHour);
 			Activity.Intent.PutExtra("date minutte", (int)Picker.CurrentMinute);
 		}
 
-		public bool IsValidData()
+		public override bool IsValidData()
 		{
 			var final = new DateTime(Activity.Intent.GetIntExtra("date year", DateTime.Now.Year),
 									 Activity.Intent.GetIntExtra("date month", DateTime.Now.Month),
@@ -53,7 +51,13 @@ namespace Solitude.Droid
 			var isvalid = DateTime.Now <= final;
 
 			if (!isvalid)
-				Snackbar.Make(Layout, Resources.GetString(Resource.String.event_error_invalid_date), 2000).Show();
+			{
+				var snack = Snackbar.Make(Layout, Resources.GetString(Resource.String.event_error_invalid_date), 2000);
+				snack.View.SetBackgroundColor(Resources.GetColor(Resource.Color.accent));
+				snack.View.FindViewById<TextView>(Resource.Id.snackbar_text)
+					 .SetTextColor(Resources.GetColor(Resource.Color.accent_text));
+				snack.Show();
+			}
 
 			return isvalid;
 		}

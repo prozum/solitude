@@ -14,7 +14,7 @@ using Android.Support.Design.Widget;
 
 namespace Solitude.Droid
 {
-	public class HostingFragment : Android.Support.V4.App.Fragment
+	public class HostingFragment : TabFragment
 	{
 		protected EventAdapter<Event> Adapter { get; set; }
 		protected List<Event> Events { get; set; }
@@ -23,14 +23,6 @@ namespace Solitude.Droid
 		{
 			Events = events;
         }
-
-		public override void OnCreate(Bundle savedInstanceState)
-		{
-			base.OnCreate(savedInstanceState);
-
-			// Create your fragment here
-			
-		}
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
@@ -79,6 +71,8 @@ namespace Solitude.Droid
 			intent.PutExtra("maxslots", @event.SlotsTotal);
 			intent.PutExtra("slotstaken", @event.SlotsTaken);
 			intent.PutExtra("id", @event.Id);
+			intent.PutExtra("index", (Activity as DrawerActivity).Position);
+			intent.PutExtra("tab", Position);
 			StartActivity(intent);
 		}
 
@@ -86,6 +80,8 @@ namespace Solitude.Droid
 		{
 			var intent = new Intent(Activity, typeof(HostEventActivity));
 			intent.PutExtra("type", "new");
+			intent.PutExtra("index", (Activity as DrawerActivity).Position);
+			intent.PutExtra("tab", Position);
 			StartActivity(intent);
 		}
 	}

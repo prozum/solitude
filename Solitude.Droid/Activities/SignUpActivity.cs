@@ -12,6 +12,7 @@ using Android;
 using Android.Views.InputMethods;
 using Android.Graphics;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 namespace Solitude.Droid
 {
@@ -21,6 +22,7 @@ namespace Solitude.Droid
 		public static CustomViewPager _viewPager;
 		private SignUpFragmentNameAddress nameAdd= new SignUpFragmentNameAddress();
 		private string username, password, confirm, name, address;
+		List<int> InterestList;
 		private DateTime birthdate;
 
 		protected override void OnCreate(Bundle savedInstanceState)
@@ -35,7 +37,7 @@ namespace Solitude.Droid
 			//Removes buttons
 			var nxt = FindViewById<Button>(Resource.Id.signUpNextBtn);
 			var bck = FindViewById<Button>(Resource.Id.signUpPreviousBtn);
-			var lay = FindViewById<RelativeLayout>(Resource.Id.signupBottom);
+			var lay = FindViewById<LinearLayout>(Resource.Id.signUpButtons);
 			lay.RemoveView(nxt);
 			lay.RemoveView(bck);
 
@@ -90,16 +92,19 @@ namespace Solitude.Droid
 			else if (e.fragment is SignUpFragmentInterests)
 			{
 				var frag = e.fragment as SignUpFragmentInterests;
-
+				InterestList = frag.Interests;
 			}
 			else if (e.fragment is SignUpFragmentFoodPreferences)
 			{
-				
+			}
+			else if (e.fragment is SignUpFragmentLanguages)
+			{
 			}
 		}
 
 		public void confirmSignup(object sender, EventArgs e)
 		{
+			
 			if (username != "" && password != "" && confirm != "" && name != "" && address != "")
 			{
 				//Generates a dialog showing a spinner

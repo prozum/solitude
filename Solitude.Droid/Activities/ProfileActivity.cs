@@ -23,6 +23,8 @@ using Java.Lang;
 using Android.Text;
 using Android.Support.V7.Widget;
 
+
+
 namespace Solitude.Droid
 {
 	[Activity(Label = "@string/label_profileactivity", Icon = "@drawable/Profile_Icon")]
@@ -32,13 +34,13 @@ namespace Solitude.Droid
 
 		protected List<int>[] Info { get; set; }
 
-        protected bool isEditing { get; set; } = false;
+        protected bool isEditing { get; set; }
         protected LinearLayout profileContent { get; set; }
 
         protected View cardFood { get; set; }
         protected View cardInterest { get; set; }
         protected View cardLanguage { get; set; }
-
+        
         protected override void OnCreate(Bundle savedInstanceState)
 		{
 			///var profile = new ProfileView(this, new User("Jimmi", "Jimmivej 12"));
@@ -66,35 +68,6 @@ namespace Solitude.Droid
 
 		}
 
-		public override bool OnCreateOptionsMenu(IMenu menu)
-		{
-			base.OnCreateOptionsMenu(menu);
-            menu.Add(0, 1, 1, GetString(Resource.String.profile_menu_edit_foodhabit));
-            menu.Add(0, 2, 2, GetString(Resource.String.profile_menu_edit_interests));
-            menu.Add(0, 3, 3, GetString(Resource.String.profile_menu_edit_language));
-			return true;
-		}
-
-		public override bool OnOptionsItemSelected(IMenuItem item)
-		{
-			switch (item.ItemId)
-			{
-				case 1:
-					SetupEditDialog(InfoType.FoodHabit, Info[(int)InfoType.FoodHabit]);
-					break;
-				case 2:
-					SetupEditDialog(InfoType.Interest, Info[(int)InfoType.Interest]);
-					break;
-				case 3:
-					SetupEditDialog(InfoType.Language, Info[(int)InfoType.Language]);
-					break;
-				default:
-					base.OnOptionsItemSelected(item);
-					break;
-			}
-			return true;
-		}
-
         /// <summary>
         /// Sets up the UI, and keeps the OnCreate method clean.
         /// </summary>
@@ -113,7 +86,7 @@ namespace Solitude.Droid
             var edit = profile.FindViewById<FloatingActionButton>(Resource.Id.fab_edit_profile);
 
             cardFood = LayoutInflater.Inflate(Resource.Layout.ProfileInformationCard, null);
-            cardInterest = LayoutInflater.Inflate(Resource.Layout.ProfileInformationCard, null);
+			cardInterest = LayoutInflater.Inflate(Resource.Layout.ProfileInformationCard, null);
             cardLanguage = LayoutInflater.Inflate(Resource.Layout.ProfileInformationCard, null);
 
             profileContent = profile.FindViewById<LinearLayout>(Resource.Id.profile_content);
@@ -168,21 +141,39 @@ namespace Solitude.Droid
                 {
                     if (compares.Contains(item.ToLower())) // Checks if entry is valid
                     {
-                        AddCardEntry(content, item);
+                        AddCardEntry(type, card, content, item);
                     }
                 }
+
+                UpdateInfo(type, GetUpdatedContent(type, card));
             };
 
             cardTitle.Text = MainActivity.InfoTitles[(int)type];
             cardSubtitle.Text = subtitle;
 
-#if DEBUG
-            foreach (var item in new List<string>() { "something", "nothing", "everything" }) // Used while user information cant be changed
-#else
-            foreach (var item in info[(int)type])
-#endif
+            try
             {
-                AddCardEntry(content, item);
+                if (type == null)
+                    throw new System.Exception("type");
+                if (card == null)
+                    throw new System.Exception("card");
+                if (content == null)
+                    throw new System.Exception("content");
+                if (info[(int)type] == null)
+                    throw new System.Exception("info");
+
+                if(info[(int)type].Count > 0)
+                {
+                    foreach (var item in info[(int)type])
+                    {
+                        AddCardEntry(type, card, content, (string)System.Enum.Parse(type.GetType(), item.ToString()));//  item.ToString());
+                    }
+                }
+            }
+            catch (System.Exception e)
+            {
+                e.ToString();
+                throw;
             }
 
             profileContent.AddView(card);
@@ -193,7 +184,7 @@ namespace Solitude.Droid
         /// </summary>
         /// <param name="content">The layout in the card that the entry should be added to.</param>
         /// <param name="s">The name of the entry. This is what will be displayed to the user.</param>
-        private void AddCardEntry(LinearLayout content, string s)
+        private void AddCardEntry(InfoType type, View card, LinearLayout content, string s)
         {
             var contentCard = LayoutInflater.Inflate(Resource.Layout.ProfileInformationCardEntry, null);
 
@@ -203,6 +194,7 @@ namespace Solitude.Droid
             remover.Click += (se, ev) =>
             {
                 ((ViewGroup)contentCard.Parent).RemoveView(contentCard); // Removes entry from card when clicked
+                UpdateInfo(type, GetUpdatedContent(type, card));
             };
 
             entry.Text = s;
@@ -284,10 +276,9 @@ namespace Solitude.Droid
 
 		private void UpdateInfo(InfoType type, List<int> changes)
 		{
-			var info = Info[(int)type];
+            List<int> info = Info[(int)type];
 
-			//foreach (var item in info[(int)type])
-			for (int i = 0; i < info.Count;)
+            for (int i = 0; i < info.Count;)
 			{
 				if (!changes.Contains(info[i]))
 				{
@@ -309,5 +300,23 @@ namespace Solitude.Droid
 				}
 			}
 		}
+
+        List<int> GetUpdatedContent(InfoType type, View card)
+        {
+            List<int> contentList = new List<int>();
+
+            var content = card.FindViewById<LinearLayout>(Resource.Id.profile_card_entry);
+            var childCount = content.ChildCount;
+
+            for (int i = 0; i < childCount; i++)
+            {
+                var entry = content.GetChildAt(i);
+                var text = entry.FindViewById<TextView>(Resource.Id.profile_card_entry_content);
+
+                contentList.Add(Array.FindIndex(MainActivity.InfoNames[(int)type], t => t.IndexOf(text.Text, StringComparison.InvariantCultureIgnoreCase) >= 0));
+            }
+
+            return contentList;
+        }
 	}
 }

@@ -14,19 +14,13 @@ using System.Threading;
 
 namespace Solitude.Droid
 {
-	public class AttendingFragment : Android.Support.V4.App.Fragment
+	public class AttendingFragment : TabFragment
 	{
 		protected List<Event> Events { get; set; }
 
 		public AttendingFragment(List<Event> events)
 		{
 			Events = events;
-		}
-
-		public override void OnCreate(Bundle savedInstanceState)
-		{
-			base.OnCreate(savedInstanceState);
-
 		}
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)

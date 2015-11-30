@@ -16,7 +16,7 @@ using Android.Views.InputMethods;
 
 namespace Solitude.Droid
 {
-	public class EventInfoFragment : Android.Support.V4.App.Fragment, IEditPage
+	public class EventInfoFragment : EditFragment
 	{
 		public TextInputLayout NameLayout { get; set; }
 		public TextInputLayout DescriptionLayout { get; set; }
@@ -61,7 +61,7 @@ namespace Solitude.Droid
 			return layout;
 		}
 
-		public void SaveInfo()
+		public override void SaveInfo()
 		{
 			int res;
 			int.TryParse(MaxSlots.Text, out res);
@@ -72,7 +72,7 @@ namespace Solitude.Droid
 			Activity.Intent.PutExtra("maxslots", res);
 		}
 
-		public bool IsValidData()
+		public override bool IsValidData()
 		{
 			int res;
 			var nameisvalid = !string.IsNullOrEmpty(Name.Text);
