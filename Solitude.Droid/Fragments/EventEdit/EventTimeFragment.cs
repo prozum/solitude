@@ -14,7 +14,7 @@ using Android.Support.Design.Widget;
 
 namespace Solitude.Droid
 {
-	public class EventTimeFragment : Android.Support.V4.App.Fragment, IEditPage
+	public class EventTimeFragment : EditFragment
 	{
 		protected TimePicker Picker { get; set; }
 		protected View Layout { get; set; }
@@ -37,13 +37,13 @@ namespace Solitude.Droid
 			return Layout;
 		}
 
-		public void SaveInfo()
+		public override void SaveInfo()
 		{
 			Activity.Intent.PutExtra("date hour", (int)Picker.CurrentHour);
 			Activity.Intent.PutExtra("date minutte", (int)Picker.CurrentMinute);
 		}
 
-		public bool IsValidData()
+		public override bool IsValidData()
 		{
 			var final = new DateTime(Activity.Intent.GetIntExtra("date year", DateTime.Now.Year),
 									 Activity.Intent.GetIntExtra("date month", DateTime.Now.Month),

@@ -26,7 +26,8 @@ namespace Solitude.Droid
 			var next = layout.FindViewById<Button>(Resource.Id.signUpNextBtn);
 			var back = layout.FindViewById<Button>(Resource.Id.signUpPreviousBtn);
 			var viewpager = layout.FindViewById<ViewPager>(Resource.Id.signUpViewPager);
-			Adapter = new EditEventAdapter(this, viewpager, next, back);
+			var progress = layout.FindViewById<ProgressBar>(Resource.Id.signupProgress);
+			Adapter = new EditEventAdapter(this, viewpager, next, back, progress);
 
 			viewpager.Adapter = Adapter;
 

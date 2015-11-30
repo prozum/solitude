@@ -16,7 +16,7 @@ namespace Solitude.Droid
 	[Activity(Label = "AbstractActivity")]			
 	public abstract class DrawerActivity : AppCompatActivity
 	{
-		protected int Position { get; set; }
+		public int Position { get; set; }
 
 		protected SetupDrawer DrawerSetup { get; set; }
 

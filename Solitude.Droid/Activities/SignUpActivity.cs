@@ -35,7 +35,7 @@ namespace Solitude.Droid
 			//Removes buttons
 			var nxt = FindViewById<Button>(Resource.Id.signUpNextBtn);
 			var bck = FindViewById<Button>(Resource.Id.signUpPreviousBtn);
-			var lay = FindViewById<RelativeLayout>(Resource.Id.signupBottom);
+			var lay = FindViewById<LinearLayout>(Resource.Id.signUpButtons);
 			lay.RemoveView(nxt);
 			lay.RemoveView(bck);
 

@@ -19,7 +19,7 @@ namespace Solitude.Droid
 {
 	class TabAdapter : FragmentPagerAdapter, TabLayout.IOnTabSelectedListener
 	{ 
-		public List<Android.Support.V4.App.Fragment> Items { get; set; }
+		public List<TabFragment> Items { get; set; }
 
 		protected ViewPager Pager { get; set; }
 		protected TabLayout TabLayout { get; set; }
@@ -33,27 +33,30 @@ namespace Solitude.Droid
 		{
 			Pager = pager;
 			TabLayout = tablayout;
-			TabLayout.RemoveAllTabs();
 			Context = activity;
-			Items = new List<Android.Support.V4.App.Fragment>();
+			Items = new List<TabFragment>();
+			TabLayout.RemoveAllTabs();
+			TabLayout.SetOnTabSelectedListener(this);
+			Pager.Adapter = this;
 		}
 
-		public void AddTab(int titleres, Android.Support.V4.App.Fragment frag)
+		public void AddTab(int titleres, TabFragment frag)
 		{
 			var tab = TabLayout.NewTab();
 			tab.SetText(titleres);
 			AddTab(tab, frag);
 		}
-		public void AddTab(string title, Android.Support.V4.App.Fragment frag)
+		public void AddTab(string title, TabFragment frag)
 		{
 			var tab = TabLayout.NewTab();
             tab.SetText(title);
 			AddTab(tab, frag);
         }
-		public void AddTab(TabLayout.Tab tab, Android.Support.V4.App.Fragment frag)
+		public void AddTab(TabLayout.Tab tab, TabFragment frag)
 		{
 			TabLayout.AddTab(tab);
 			Items.Add(frag);
+			frag.Position = tab.Position;
 			NotifyDataSetChanged();
 		}
 
