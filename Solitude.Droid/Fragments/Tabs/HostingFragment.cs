@@ -80,6 +80,8 @@ namespace Solitude.Droid
 		{
 			var intent = new Intent(Activity, typeof(HostEventActivity));
 			intent.PutExtra("type", "new");
+			intent.PutExtra("index", (Activity as DrawerActivity).Position);
+			intent.PutExtra("tab", Position);
 			StartActivity(intent);
 		}
 	}

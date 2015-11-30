@@ -420,7 +420,7 @@ namespace ClientCommunication
 					return new User(name, adr, birthday);
 					*/
 				}
-				catch (Exception e)
+				catch
 				{
 					LatestError = "Could not find user data";
 				}

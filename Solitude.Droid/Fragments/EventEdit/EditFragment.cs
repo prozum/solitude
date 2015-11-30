@@ -14,6 +14,8 @@ namespace Solitude.Droid
 {
 	public abstract class EditFragment : Android.Support.V4.App.Fragment
 	{
+		public bool HidesKeyboard { get; set; }
+
 		public abstract void SaveInfo();
 		public abstract bool IsValidData();
 	}

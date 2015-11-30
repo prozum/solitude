@@ -17,7 +17,7 @@ using Android.Support.V4.View;
 
 namespace Solitude.Droid
 {
-	class TabAdapter : FragmentPagerAdapter, TabLayout.IOnTabSelectedListener
+	class TabAdapter : FragmentPagerAdapter, TabLayout.IOnTabSelectedListener, ViewPager.IOnPageChangeListener
 	{ 
 		public List<TabFragment> Items { get; set; }
 
@@ -38,6 +38,7 @@ namespace Solitude.Droid
 			TabLayout.RemoveAllTabs();
 			TabLayout.SetOnTabSelectedListener(this);
 			Pager.Adapter = this;
+			Pager.AddOnPageChangeListener(this);
 		}
 
 		public void AddTab(int titleres, TabFragment frag)
@@ -65,16 +66,29 @@ namespace Solitude.Droid
 			return Items[position];
         }
 
-		public void OnTabReselected(TabLayout.Tab tab)
-		{
-		}
-
 		public void OnTabSelected(TabLayout.Tab tab)
 		{
 			Pager.SetCurrentItem(tab.Position, true);
 		}
 
 		public void OnTabUnselected(TabLayout.Tab tab)
+		{
+		}
+
+		public void OnTabReselected(TabLayout.Tab tab)
+		{
+		}
+
+		public void OnPageSelected(int position)
+		{
+			TabLayout.GetTabAt(position).Select();
+		}
+
+		public void OnPageScrollStateChanged(int state)
+		{
+		}
+
+		public void OnPageScrolled(int position, float positionOffset, int positionOffsetPixels)
 		{
 		}
 	}

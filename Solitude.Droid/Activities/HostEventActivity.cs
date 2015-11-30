@@ -11,22 +11,23 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.Support.V4.View;
+using Android.Support.V7.App;
 
 namespace Solitude.Droid
 {
 	[Activity(Label = "Host Event")]			
-	public class HostEventActivity : DrawerActivity
+	public class HostEventActivity : AppCompatActivity
 	{
 		protected EditEventAdapter Adapter { get; set; }
 
 		protected override void OnCreate(Bundle bundle)
 		{
 			base.OnCreate(bundle);
-			var layout = LayoutInflater.Inflate(Resource.Layout.SignUp, null);
-			var next = layout.FindViewById<Button>(Resource.Id.signUpNextBtn);
-			var back = layout.FindViewById<Button>(Resource.Id.signUpPreviousBtn);
-			var viewpager = layout.FindViewById<ViewPager>(Resource.Id.signUpViewPager);
-			var progress = layout.FindViewById<ProgressBar>(Resource.Id.signupProgress);
+			SetContentView(Resource.Layout.SignUp);
+			var next = FindViewById<Button>(Resource.Id.signUpNextBtn);
+			var back = FindViewById<Button>(Resource.Id.signUpPreviousBtn);
+			var viewpager = FindViewById<ViewPager>(Resource.Id.signUpViewPager);
+			var progress = FindViewById<ProgressBar>(Resource.Id.signupProgress);
 			Adapter = new EditEventAdapter(this, viewpager, next, back, progress);
 
 			viewpager.Adapter = Adapter;
@@ -34,8 +35,6 @@ namespace Solitude.Droid
 			Adapter.AddPager(new EventInfoFragment());
 			Adapter.AddPager(new EventDateFragment());
 			Adapter.AddPager(new EventTimeFragment());
-
-			Content.AddView(layout);
 		}
 		
 		public override void OnBackPressed()

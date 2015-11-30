@@ -9,8 +9,9 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Android.Support.V7.Widget;
+using Android.Support.V7.App;
 using Android.Support.V4.Widget;
-using Android.Support.V4.App;
 
 namespace Solitude.Droid
 {			
@@ -27,6 +28,7 @@ namespace Solitude.Droid
 		{
 			CurrentActivity = currentActivity;
 			Position = position;
+			
 		}
 
 		public void Configure ()
@@ -46,7 +48,6 @@ namespace Solitude.Droid
 			DrawerToggle = new ActionBarDrawerToggle (
 				CurrentActivity, 
 				Drawer, 
-				Resource.Drawable.ic_view_headline_black_36dp, 
 				Resource.String.open_drawer, 
 				Resource.String.close_drawer);
 

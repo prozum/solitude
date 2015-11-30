@@ -14,6 +14,7 @@ using Android.Widget;
 using System.Runtime.InteropServices;
 using Android.Support.Design.Widget;
 using Android.Support.V4.View;
+using Android.Views.InputMethods;
 
 namespace Solitude.Droid
 {
@@ -42,7 +43,6 @@ namespace Solitude.Droid
 			Previous.Click += (s, e) => PreviousPage();
 
 			Pager.Adapter = this;
-			Progress.Max = Items.Count;
 			Progress.Progress = 1;
 			Previous.Text = Activity.Resources.GetString(Resource.String.cancel_button);
 		}
@@ -50,6 +50,7 @@ namespace Solitude.Droid
 		public void AddPager(EditFragment frag)
 		{
 			Items.Add(frag);
+			Progress.Max = Items.Count;
 			NotifyDataSetChanged();
 		}
 
@@ -70,6 +71,12 @@ namespace Solitude.Droid
 				}
 				else
 				{
+					if (Items[Pager.CurrentItem + 1].HidesKeyboard)
+					{
+						InputMethodManager imm = (InputMethodManager)Activity.GetSystemService(Context.InputMethodService);
+						imm.HideSoftInputFromWindow(Pager.WindowToken, 0);
+					}
+
 					Pager.SetCurrentItem(Pager.CurrentItem + 1, true);
 					Previous.Text = Activity.Resources.GetString(Resource.String.back_button);
 					Progress.Progress++;
@@ -84,27 +91,27 @@ namespace Solitude.Droid
 		{
 			if (Pager.CurrentItem <= 0)
 			{
-                var dialog = new Android.Support.V7.App.AlertDialog.Builder(Activity);
+				var dialog = new Android.Support.V7.App.AlertDialog.Builder(Activity);
 				dialog.SetMessage(Resource.String.event_warning_edit);
-				dialog.SetPositiveButton(Resource.String.yes, (s, earg) =>
-				{
-					var intent = new Intent(Activity, typeof(EventActivity));
-					intent.PutExtra("index", Activity.Intent.GetIntExtra("index", 0));
-					intent.PutExtra("tab", Activity.Intent.GetIntExtra("tab", 0));
-					Activity.StartActivity(intent);
-				});
+				dialog.SetPositiveButton(Resource.String.yes, (s, earg) => Back());
 				dialog.SetNegativeButton(Resource.String.no, (s, earg) => { });
 				dialog.Show();
 			}
 			else
 			{
+				if (Items[Pager.CurrentItem - 1].HidesKeyboard)
+				{
+					InputMethodManager imm = (InputMethodManager)Activity.GetSystemService(Context.InputMethodService);
+					imm.HideSoftInputFromWindow(Pager.WindowToken, 0);
+				}
+
 				Items[Pager.CurrentItem].SaveInfo();
 				Pager.SetCurrentItem(Pager.CurrentItem - 1, true);
 				Next.Text = Activity.Resources.GetString(Resource.String.next_button);
 				Progress.Progress--;
 
 				if (Pager.CurrentItem <= 0)
-					Previous.Text = Activity.Resources.GetString(Resource.String.cancel_button); ;
+					Previous.Text = Activity.Resources.GetString(Resource.String.cancel_button);
 			}
 		}
 
@@ -151,6 +158,11 @@ namespace Solitude.Droid
 				dialog.Show();
 			}
 
+			Back();
+        }
+
+		protected void Back()
+		{
 			var intent = new Intent(Activity, typeof(EventActivity));
 			intent.PutExtra("index", Activity.Intent.GetIntExtra("index", 0));
 			intent.PutExtra("tab", Activity.Intent.GetIntExtra("tab", 0));
