@@ -240,7 +240,7 @@ namespace Solitude.Server.Tests
 			ExecuteRequest();
 
 			var events = JsonConvert.DeserializeObject<IEnumerable<Event>>(Response.Content);
-			Assert.AreEqual (events.Where((ev) => ev.Id == Event.Id).FirstOrDefault(), null);
+			Assert.IsNull(events.Where((ev) => ev.Id == Event.Id).FirstOrDefault());
 		}
 
 		public void GetAttendingEvents()

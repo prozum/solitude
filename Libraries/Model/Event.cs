@@ -1,9 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 
 namespace Model
 {
-	public class Event
+    public class Event
 	{
 		public Guid Id { get; set; }
 
@@ -19,12 +20,14 @@ namespace Model
 		[Required]
 		public string Description { get; set; }
 
-		[Required]
+		[JsonIgnore]
 		public Guid UserId { get; set; }
 
 		[Required]
 		public int SlotsTotal { get; set; }
-		public int SlotsTaken { get; set; }
+
+        [JsonIgnore]
+        public int SlotsTaken { get; set; }
 	}
 }
 

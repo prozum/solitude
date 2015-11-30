@@ -56,8 +56,8 @@ namespace Solitude.Server
             config.Routes.MapHttpRoute (
                 name: "IdApi",
                 routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional },
-                constraints: new { id = @"^[0-9]+$" }
+                defaults: new { id = RouteParameter.Optional }
+//                constraints: new { id = @"^[0-9]+$" }
             );
 
 //            config.Routes.MapHttpRoute (
@@ -107,9 +107,6 @@ namespace Solitude.Server
 
         void InitiateDB()
         {
-            // Create/reset Event Id Counter to 0
-            Dal.SetEventIdCounter(0);
-
             // Create User InfoTypes
             Language.Get().ForEach((Language l) => Dal.AddLanguage(l)); 
             Interest.Get().ForEach((Interest i) => Dal.AddInterest(i)); 

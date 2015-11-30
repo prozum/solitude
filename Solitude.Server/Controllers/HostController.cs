@@ -17,6 +17,11 @@ namespace Solitude.Server
             
         public async Task<IHttpActionResult> Post(Event e)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             e.UserId = new Guid(User.Identity.GetUserId());
 
             await DB.AddEvent(e);

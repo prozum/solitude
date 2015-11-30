@@ -15,7 +15,7 @@ namespace Solitude.Server
 
         public async Task<IHttpActionResult> Delete(Guid id)
         {
-            await DB.CancelRegistration(new Guid(User.Identity.GetUserId()), id);
+            await DB.CancelEventRegistration(new Guid(User.Identity.GetUserId()), id);
             return Ok();
         }
     }
