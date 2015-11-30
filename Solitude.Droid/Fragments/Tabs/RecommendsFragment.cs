@@ -13,7 +13,7 @@ using Android.Widget;
 
 namespace Solitude.Droid
 {
-	public class RecommendsFragment : Android.Support.V4.App.Fragment
+	public class RecommendsFragment : TabFragment
 	{
 		protected List<Offer> Offers { get; set; }
 
@@ -21,14 +21,6 @@ namespace Solitude.Droid
 		{
 			Offers = offers;
         }
-
-		public override void OnCreate(Bundle savedInstanceState)
-		{
-			base.OnCreate(savedInstanceState);
-
-			// Create your fragment here
-			
-		}
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{

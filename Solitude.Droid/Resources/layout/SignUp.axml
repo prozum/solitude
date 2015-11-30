@@ -3,31 +3,36 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <Solitude.Droid.CustomViewPager
-        android:id="@+id/signUpViewPager"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <RelativeLayout
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:id="@+id/signupBottom"
-        android:minWidth="25px"
-        android:minHeight="25px">
-        <ProgressBar
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/signupProgress" />
+        android:id="@+id/signupProgress" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/signUpButtons"
+        android:weightSum="2"
+        android:layout_alignParentTop="true">
         <Button
             android:text="@string/back_button"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:id="@+id/signUpPreviousBtn" />
         <Button
             android:text="@string/next_button"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:id="@+id/signUpNextBtn" />
-    </RelativeLayout>
+    </LinearLayout>
+    <Solitude.Droid.CustomViewPager
+        android:id="@+id/signUpViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signUpButtons"
+        android:layout_above="@id/signupProgress" />
 </RelativeLayout>

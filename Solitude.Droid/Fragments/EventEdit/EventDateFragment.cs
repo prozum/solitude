@@ -14,7 +14,7 @@ using Android.Support.Design.Widget;
 
 namespace Solitude.Droid
 {
-	public class EventDateFragment : Android.Support.V4.App.Fragment, IEditPage
+	public class EventDateFragment : EditFragment
 	{
 		protected DatePicker Picker { get; set; }
 		protected View Layout { get; set; }
@@ -39,14 +39,14 @@ namespace Solitude.Droid
 		}
 		
 
-		public void SaveInfo()
+		public override void SaveInfo()
 		{
 			Activity.Intent.PutExtra("date year", Picker.DateTime.Year);
 			Activity.Intent.PutExtra("date month", Picker.DateTime.Month);
             Activity.Intent.PutExtra("date day", Picker.DateTime.Day);
 		}
 
-		public bool IsValidData()
+		public override bool IsValidData()
 		{
 			var now = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
 			var isvalid = now <= Picker.DateTime;

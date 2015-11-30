@@ -37,6 +37,7 @@
 	<string name="event_place_hint">Location/Address</string>
 	<string name="event_time">Time</string>
   <string name="event_warning_edit">Are you sure you want to go back? All current changes will be lost.</string>
+  <string name="finish_button">Finish</string>
 	<string name="host_new_event">Host New Event</string>
 	<string name="host_save_changes">Save Changes</string>
 	<string name="label_eventactivity">Events</string>

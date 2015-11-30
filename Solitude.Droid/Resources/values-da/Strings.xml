@@ -37,6 +37,7 @@
 	<string name="event_place_hint">Lokation/Adresse</string>
 	<string name="event_time">Tid</string>
   <string name="event_warning_edit">Er du sikker på du vil gå tilbage? Alle dine nuværene ændringer vil blive tabt.</string>
+  <string name="finish_button">Afslut</string>
 	<string name="host_new_event">Afhold ny begivenhed</string>
 	<string name="host_save_changes">Gem ændringer</string>
 	<string name="label_eventactivity">Begivenheder</string>
