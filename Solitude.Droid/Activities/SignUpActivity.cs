@@ -92,10 +92,11 @@ namespace Solitude.Droid
 			else if (e.fragment is SignUpFragmentInterests)
 			{
 				var frag = e.fragment as SignUpFragmentInterests;
-				InterestList = frag.Interests;
+				//InterestList = frag.Interests;
 			}
 			else if (e.fragment is SignUpFragmentFoodPreferences)
 			{
+				int fisk = 4;
 			}
 			else if (e.fragment is SignUpFragmentLanguages)
 			{

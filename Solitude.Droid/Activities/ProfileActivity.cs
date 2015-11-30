@@ -250,30 +250,7 @@ namespace Solitude.Droid
                 }
             }
         }
-
-        void SetupEditDialog(InfoType type, List<int> info)
-		{
-			var dialog = new InfoDialog(this, type, info);
-
-			// adding functionallity to save button
-			dialog.SaveButton.Click += (s, e) =>
-				{
-					UpdateInfo(type, dialog.ItemsChecked());
-
-					// closing dialog
-					dialog.Dismiss();
-				};
-
-			// adding functionallity to cancelbutton
-			dialog.CancelButton.Click += (s, e) =>
-				{
-					// closing dialog
-					dialog.Dismiss();
-				};
-
-			dialog.Show();
-		}
-
+		
 		private void UpdateInfo(InfoType type, List<int> changes)
 		{
             List<int> info = Info[(int)type];
