@@ -34,7 +34,7 @@ namespace Solitude.Droid
 
 		protected List<int>[] Info { get; set; }
 
-        protected bool isEditing { get; set; } = false;
+        protected bool isEditing { get; set; }
         protected LinearLayout profileContent { get; set; }
 
         protected View cardFood { get; set; }
@@ -68,35 +68,6 @@ namespace Solitude.Droid
 
 		}
 
-		public override bool OnCreateOptionsMenu(IMenu menu)
-		{
-			base.OnCreateOptionsMenu(menu);
-            menu.Add(0, 1, 1, GetString(Resource.String.profile_menu_edit_foodhabit));
-            menu.Add(0, 2, 2, GetString(Resource.String.profile_menu_edit_interests));
-            menu.Add(0, 3, 3, GetString(Resource.String.profile_menu_edit_language));
-			return true;
-		}
-
-		public override bool OnOptionsItemSelected(IMenuItem item)
-		{
-			switch (item.ItemId)
-			{
-				case 1:
-					SetupEditDialog(InfoType.FoodHabit, Info[(int)InfoType.FoodHabit]);
-					break;
-				case 2:
-					SetupEditDialog(InfoType.Interest, Info[(int)InfoType.Interest]);
-					break;
-				case 3:
-					SetupEditDialog(InfoType.Language, Info[(int)InfoType.Language]);
-					break;
-				default:
-					base.OnOptionsItemSelected(item);
-					break;
-			}
-			return true;
-		}
-
         /// <summary>
         /// Sets up the UI, and keeps the OnCreate method clean.
         /// </summary>
@@ -115,7 +86,7 @@ namespace Solitude.Droid
             var edit = profile.FindViewById<FloatingActionButton>(Resource.Id.fab_edit_profile);
 
             cardFood = LayoutInflater.Inflate(Resource.Layout.ProfileInformationCard, null);
-            cardInterest = LayoutInflater.Inflate(Resource.Layout.ProfileInformationCard, null);
+			cardInterest = LayoutInflater.Inflate(Resource.Layout.ProfileInformationCard, null);
             cardLanguage = LayoutInflater.Inflate(Resource.Layout.ProfileInformationCard, null);
 
             profileContent = profile.FindViewById<LinearLayout>(Resource.Id.profile_content);

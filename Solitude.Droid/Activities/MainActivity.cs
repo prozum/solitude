@@ -118,6 +118,7 @@ namespace Solitude.Droid
 				LinearLayout layout = FindViewById<LinearLayout>(Resource.Id.loginLinear);
 				layout.AddView(pb);
 
+
 				//Does server communication on separate thread to avoid UI-freeze
 				ThreadPool.QueueUserWorkItem(o =>
 					{
@@ -169,11 +170,6 @@ namespace Solitude.Droid
 
 				loginButton.Clickable = true;
 			}
-		}
-
-		protected override void OnDestroy()
-		{
-			base.OnDestroy();
 		}
 	}
 }
