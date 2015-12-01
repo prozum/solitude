@@ -17,7 +17,7 @@ namespace Solitude.Server.Tests
 		public Offer Offer = new Offer();
 		public Event Event = new Event ()
 		{
-			Address = "Best Street 666",
+			Location = "Best Street 666",
 			Date = DateTimeOffset.UtcNow.AddDays(1),
 			Description = "Literally the greatest event ever",
 			SlotsTaken = 0,
