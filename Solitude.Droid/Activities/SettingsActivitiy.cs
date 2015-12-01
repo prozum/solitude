@@ -211,7 +211,7 @@ namespace Solitude.Droid
 			{
 				if (!changes.Contains(info[i]))
 				{
-					MainActivity.CIF.DeleteInformation(new InfoChange(type, info[i]));
+					MainActivity.CIF.DeleteInformation(new InfoChange(type, info[i], 1));
 					info.Remove(info[i]);
 				}
 				else
@@ -224,7 +224,7 @@ namespace Solitude.Droid
 			{
 				if (!info.Contains(item))
 				{
-					MainActivity.CIF.AddInformation(new InfoChange(type, item));
+					MainActivity.CIF.AddInformation(new InfoChange(type, item, 1));
 					info.Add(item);
 				}
 			}

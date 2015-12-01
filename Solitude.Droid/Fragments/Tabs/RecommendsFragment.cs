@@ -68,11 +68,9 @@ namespace Solitude.Droid
 					view.FindViewById<Button>(Resource.Id.action2).Text = GetString(Resource.String.accept_button);
 				};
 
-				List.Adapter = Adapter;
-
 				Activity.RunOnUiThread(() =>
 				{
-
+					List.Adapter = Adapter;
 					Layout.RemoveAllViews();
 					Layout.AddView(List);
 				});
@@ -95,7 +93,6 @@ namespace Solitude.Droid
 					Activity.RunOnUiThread(() =>
 					{
 						Adapter.SetItems(offers);
-
 						Layout.RemoveAllViews();
 						Layout.AddView(List);
 					});

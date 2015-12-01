@@ -54,11 +54,10 @@ namespace Solitude.Droid
 					view.FindViewById<Button>(Resource.Id.action2).Visibility = ViewStates.Gone;
 				};
 
-				List.Adapter = Adapter;
 
 				Activity.RunOnUiThread(() =>
 				{
-
+					List.Adapter = Adapter;
 					Layout.RemoveAllViews();
 					Layout.AddView(List);
 				});
@@ -81,7 +80,6 @@ namespace Solitude.Droid
 					Activity.RunOnUiThread(() =>
 					{
 						Adapter.SetItems(events);
-
 						Layout.RemoveAllViews();
 						Layout.AddView(List);
 					});

@@ -29,7 +29,7 @@ namespace Solitude.Droid
 			List<InfoChange> foodPreferencesList = new List<InfoChange>();
 			foreach (var info in signUpInfo)
 			{
-				foodPreferencesList.Add(new InfoChange(InfoType.FoodHabit, (int)Enum.Parse(typeof(FoodHabit), info)));
+				foodPreferencesList.Add(new InfoChange(InfoType.FoodHabit, (int)Enum.Parse(typeof(FoodHabit), info), 1));
 			}
 			return foodPreferencesList;
 		}

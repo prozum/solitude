@@ -13,7 +13,7 @@ using Android.Support.Design.Widget;
 
 namespace Solitude.Droid
 {
-	public class AccentSnackBar
+	public static class AccentSnackBar
 	{
 		public static Snackbar Make(View view, Context context, int resource, int time)
 		{

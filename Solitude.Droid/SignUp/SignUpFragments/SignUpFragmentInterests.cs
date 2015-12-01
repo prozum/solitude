@@ -33,7 +33,7 @@ namespace Solitude.Droid
 			List<InfoChange> interestList = new List<InfoChange>();
 			foreach (var info in signUpInfo)
 			{
-				interestList.Add(new InfoChange(InfoType.Interest, (int)Enum.Parse(typeof(Interest), info)));
+				interestList.Add(new InfoChange(InfoType.Interest, (int)Enum.Parse(typeof(Interest), info), 1));
 			}
 			return interestList;
 		}

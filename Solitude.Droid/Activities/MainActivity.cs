@@ -73,17 +73,6 @@ namespace Solitude.Droid
 				var signUpScreenIntent = new Intent(this, typeof(SignUpActivity));
 				StartActivity(signUpScreenIntent);
 			};
-
-			#if DEBUG
-			var skip = new Button(this);
-			skip.Text = "Skip";
-			skip.Click += (sender, e) =>
-			{
-				var toProfile = new Intent(this, typeof(ProfileActivity));
-				StartActivity(toProfile);
-			};
-			layout.AddView(skip);
-			#endif
 		}
 
 		/// <summary>
