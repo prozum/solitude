@@ -28,7 +28,7 @@ namespace Solitude.Droid
 			List<InfoChange> languageList = new List<InfoChange>();
 			foreach (var info in signUpInfo)
 			{
-				languageList.Add(new InfoChange(InfoType.Language, (int)Enum.Parse(typeof(Language), info)));
+				languageList.Add(new InfoChange(InfoType.Language, (int)Enum.Parse(typeof(Language), info), 1));
 			}
 			return languageList;
 		}

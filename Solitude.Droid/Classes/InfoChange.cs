@@ -42,8 +42,9 @@ namespace Solitude.Droid
 	{
 		public InfoType Info { get; private set; }
 		public int Value { get; private set; }
+		public int Weight { get; private set; }
 
-		public InfoChange (InfoType key, int value)
+		public InfoChange (InfoType key, int value, int weight)
 		{
 			Info = key;
 			Value = value;

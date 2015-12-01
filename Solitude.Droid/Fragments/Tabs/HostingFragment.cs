@@ -60,10 +60,10 @@ namespace Solitude.Droid
 				Adapter.OnAction2 = EditEvent;
 				Fab.Click += (s, e) => NewEvent();
 				
-				List.Adapter = Adapter;
 
 				Activity.RunOnUiThread(() =>
 				{
+					List.Adapter = Adapter;
 					Layout.RemoveAllViews();
 					Layout.AddView(List);
 					Layout.AddView(Fab);
@@ -87,7 +87,6 @@ namespace Solitude.Droid
 					Activity.RunOnUiThread(() =>
 					{
 						Adapter.SetItems(events);
-
 						Layout.RemoveAllViews();
 						Layout.AddView(List);
 						Layout.AddView(Fab);

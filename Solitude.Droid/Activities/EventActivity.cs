@@ -32,7 +32,7 @@ namespace Solitude.Droid
 			adapter.AddTab(Resource.String.event_menu_hosted, new HostingFragment());
 
 			tablayout.GetTabAt(Intent.GetIntExtra("tab", 0)).Select();
-
+			SupportActionBar.Elevation = 0;
 			Content.AddView(layout);
 		}
 	}
