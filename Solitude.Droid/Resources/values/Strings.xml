@@ -36,8 +36,8 @@
 	<string name="event_place">Location/Address</string>
 	<string name="event_place_hint">Location/Address</string>
 	<string name="event_time">Time</string>
-  <string name="event_warning_edit">Are you sure you want to go back? All current changes will be lost.</string>
-  <string name="finish_button">Finish</string>
+    <string name="event_warning_edit">Are you sure you want to go back? All current changes will be lost.</string>
+    <string name="finish_button">Finish</string>
 	<string name="host_new_event">Host New Event</string>
 	<string name="host_save_changes">Save Changes</string>
 	<string name="label_eventactivity">Events</string>
@@ -72,6 +72,9 @@
 	<string name="profile_menu_edit_language">Edit languages</string>
 	<string name="sign_up_confirm_password">Confirm Password</string>
 	<string name="sign_up_date_of_birth">Date of birth</string>
+	<string name="sign_up_foodpreferences">Add your food preferences</string>
+	<string name="sign_up_interests">Add your interests</string>
+	<string name="sign_up_languages">Add the languages you speak</string>
 	<string name="sign_up_missing_info">Missing some information, please make sure all fields are filled correctly</string>
 	<string name="sign_up_password_requirements">Password Requirements: Minimum 6 characters, and must include a number</string>
 	<string name="sign_up_set_info">Do you want to set your profile information now?</string>

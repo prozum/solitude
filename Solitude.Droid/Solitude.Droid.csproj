@@ -119,6 +119,7 @@
     <Compile Include="SignUp\SignUpFragments\SignUpFragmentFoodPreferences.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="SignUp\SignUpFragments\SignUpFragmentLanguages.cs" />
+    <Compile Include="SignUp\SignUpFragments\AbstractSignupFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
