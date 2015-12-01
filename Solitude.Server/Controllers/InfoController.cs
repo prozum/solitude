@@ -14,9 +14,6 @@ namespace Solitude.Server
     {
         public async Task<IHttpActionResult> Post(InfoUpdate u)
         {
-            if (u.Weight == 0)
-                u.Weight = 1;
-
             switch (u.Info)
             {
                 case InfoType.LANGUAGE:
