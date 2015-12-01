@@ -61,8 +61,8 @@ namespace Solitude.Droid
 
 			// Set our view from the "main" layout resource
 			SetContentView(Resource.Layout.Main);
-			Button loginButton = FindViewById<Button>(Resource.Id.buttonLogin);
-			Button signUp = FindViewById<Button>(Resource.Id.buttonSignUp);
+			var loginButton = FindViewById<Button>(Resource.Id.buttonLogin);
+			var signUp = FindViewById<TextView>(Resource.Id.textSignUp);
 			var layout = FindViewById<LinearLayout>(Resource.Id.loginLinear);
 
 			//Adds a delegates to and sets layout of the buttons

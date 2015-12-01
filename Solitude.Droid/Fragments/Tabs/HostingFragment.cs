@@ -11,46 +11,86 @@ using Android.Util;
 using Android.Views;
 using Android.Widget;
 using Android.Support.Design.Widget;
+using System.Threading;
 
 namespace Solitude.Droid
 {
 	public class HostingFragment : TabFragment
 	{
-		protected EventAdapter<Event> Adapter { get; set; }
-		protected List<Event> Events { get; set; }
-
-		public HostingFragment(List<Event> events)
-		{
-			Events = events;
-        }
+		public RelativeLayout Layout { get; set; }
+		public ListView List { get; set; }
+		public FloatingActionButton Fab { get; set; }
+		public EventAdapter<Event> Adapter { get; set; }
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
-			var layout = inflater.Inflate(Resource.Layout.HostList, null);
-			var list = layout.FindViewById<ListView>(Resource.Id.list);
-			var @new = layout.FindViewById<FloatingActionButton>(Resource.Id.fab);
+			Layout = inflater.Inflate(Resource.Layout.HostList, null)
+							 .FindViewById<RelativeLayout>(Resource.Id.layout);
+			List = Layout.FindViewById<ListView>(Resource.Id.list);
+			Fab = Layout.FindViewById<FloatingActionButton>(Resource.Id.fab);
+			Layout.RemoveAllViews();
+			Layout.AddView(new ProgressBar(Activity));
 
-			Adapter = new EventAdapter<Event>(Activity, Events);
-
-			Adapter.OnUpdatePosition = (view, evnt, exp) =>
+			ThreadPool.QueueUserWorkItem(o =>
 			{
-				view.FindViewById<TextView>(Resource.Id.expanded_content).Text =
-					string.Format("{0}\n\n{1}: {2}\n{3}: {4}/{5}", 
-								  evnt.Description, Resources.GetString(Resource.String.event_place), 
-								  evnt.Address, Resources.GetString(Resource.String.event_participants), 
-								  evnt.SlotsTaken, evnt.SlotsTotal);
+				Adapter = new EventAdapter<Event>(Activity, MainActivity.CIF.GetHostedEvents(100));
 
-				view.FindViewById<Button>(Resource.Id.action1).Text = "Cancel";
-				view.FindViewById<Button>(Resource.Id.action2).Text = "Edit";
-			};
+				Adapter.OnUpdatePosition = (view, evnt, exp) =>
+				{
+					view.FindViewById<TextView>(Resource.Id.expanded_content).Text =
+						string.Format("{0}\n\n{1}: {2}\n{3}: {4}/{5}", 
+									  evnt.Description, Resources.GetString(Resource.String.event_place), 
+									  evnt.Address, Resources.GetString(Resource.String.event_participants), 
+									  evnt.SlotsTaken, evnt.SlotsTotal);
 
-			Adapter.OnAction1 = (i) => Adapter.RemoveAt(i);
-			Adapter.OnAction2 = EditEvent;
-			@new.Click += (s, e) => NewEvent();
+					view.FindViewById<Button>(Resource.Id.action1).Text = GetString(Resource.String.cancel_button);
+					view.FindViewById<Button>(Resource.Id.action2).Text = GetString(Resource.String.edit_button); ;
+				};
 
-			list.Adapter = Adapter;
+				Adapter.OnAction1 = (i) =>
+				{
+					var @event = Adapter.Items[i];
+                    MainActivity.CIF.DeleteEvent(@event);
+					Adapter.RemoveAt(i);
+					AccentSnackBar.Make(Layout, Activity, Resources.GetString(Resource.String.event_canceled) + @event.Title, 2000).Show();
+				};
+				Adapter.OnAction2 = EditEvent;
+				Fab.Click += (s, e) => NewEvent();
+				
+				List.Adapter = Adapter;
 
-			return layout;
+				Activity.RunOnUiThread(() =>
+				{
+					Layout.RemoveAllViews();
+					Layout.AddView(List);
+					Layout.AddView(Fab);
+                });
+			});
+
+			return Layout;
+		}
+
+		public override void OnSelected()
+		{
+			if (Layout != null)
+			{
+				Layout.RemoveAllViews();
+				Layout.AddView(new ProgressBar(Activity));
+
+				ThreadPool.QueueUserWorkItem(o =>
+				{
+					var events = MainActivity.CIF.GetHostedEvents(100);
+
+					Activity.RunOnUiThread(() =>
+					{
+						Adapter.SetItems(events);
+
+						Layout.RemoveAllViews();
+						Layout.AddView(List);
+						Layout.AddView(Fab);
+					});
+				});
+			}
 		}
 
 		private void EditEvent(int i)

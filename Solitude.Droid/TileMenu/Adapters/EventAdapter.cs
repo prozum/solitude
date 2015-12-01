@@ -32,7 +32,7 @@ namespace Solitude.Droid
 			: base()
 		{
 			if (items == null)
-				throw new NullReferenceException("items was null");
+				throw new ArgumentNullException();
 
 			Context = context;
 			Items = items;
@@ -45,6 +45,17 @@ namespace Solitude.Droid
 
 
 		#region Public Methods
+		public void SetItems(List<T> items)
+		{
+			Items = items;
+			IsExpanded = new List<bool>();
+
+			for (int i = 0; i < Items.Count; i++)
+				IsExpanded.Add(false);
+
+			NotifyDataSetChanged();
+		}
+
 		public override View GetView(int position, View convertView, ViewGroup parent)
 		{
 			var view = (convertView as EventItem<T>);

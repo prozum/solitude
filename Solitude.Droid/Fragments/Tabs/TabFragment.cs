@@ -15,5 +15,6 @@ namespace Solitude.Droid
 	public abstract class TabFragment : Android.Support.V4.App.Fragment
 	{
 		public int Position { get; set; }
+		public abstract void OnSelected();
 	}
 }

@@ -9,6 +9,10 @@
 	<string name="close_drawer">Luk Menu</string>
 	<string name="continue_button">Fortsæt</string>
 	<string name="decline_button">Afslå</string>
+  <string name="event_accepted">Du deltog i&#160;</string>
+  <string name="event_decline">Du afslog&#160;</string>
+  <string name="event_canceled">Du anullerede&#160;</string>
+  <string name="event_left">Du forlod&#160;</string>
 	<string name="edit_button">Rediger</string>
 	<string name="event_date">Dato</string>
 	<string name="event_description">Begivenheds Beskrivelse</string>
@@ -45,8 +49,8 @@
 	<string name="label_profileactivity">Profil</string>
 	<string name="label_signup">Opret bruger</string>
 	<string name="leave_button">Forlad</string>
-	<string name="main_activity_login">Log ind</string>
-	<string name="main_activity_sign_up">Tilmeld dig</string>
+  <string name="main_activity_login">Log ind</string>
+  <string name="main_activity_sign_up"><u>Ikke en bruger endnu? Tilmeld dig!</u></string>
 	<string name="message_cancel_event_confirm">Er du sikker på at du vil aflyse begivenheden? Du vil ikke være i stand til at genskabe begivenheden bagefter.</string>
 	<string name="message_empty_username_password">Ingen tekst indtastet i enten brugernavn eller kodeords felt</string>
 	<string name="message_error_event_update_event">Fejl, kunne ikke opdatere event</string>

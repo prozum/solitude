@@ -51,13 +51,7 @@ namespace Solitude.Droid
 			var isvalid = DateTime.Now <= final;
 
 			if (!isvalid)
-			{
-				var snack = Snackbar.Make(Layout, Resources.GetString(Resource.String.event_error_invalid_date), 2000);
-				snack.View.SetBackgroundColor(Resources.GetColor(Resource.Color.accent));
-				snack.View.FindViewById<TextView>(Resource.Id.snackbar_text)
-					 .SetTextColor(Resources.GetColor(Resource.Color.accent_text));
-				snack.Show();
-			}
+				AccentSnackBar.Make(Layout, Activity, Resource.String.event_error_invalid_date, 2000).Show();
 
 			return isvalid;
 		}

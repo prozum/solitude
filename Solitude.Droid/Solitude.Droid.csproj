@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\SpaceTokenizer.cs" />
+    <Compile Include="Fragments\AccentSnackBar.cs" />
     <Compile Include="Fragments\EventEdit\EditEventAdapter.cs" />
     <Compile Include="Fragments\EventEdit\EditFragment.cs" />
     <Compile Include="Fragments\EventEdit\EventDateFragment.cs" />
