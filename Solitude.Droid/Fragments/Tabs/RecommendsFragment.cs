@@ -50,6 +50,9 @@ namespace Solitude.Droid
 				{
 					var offer = evnt as Offer;
 					string matchs = GetString(Resource.String.event_matchedby) + ":\n";
+					
+					view.FindViewById<TextView>(Resource.Id.title).Text = offer.Title;
+					view.FindViewById<TextView>(Resource.Id.subtitle).Text = offer.Date.ToString("G");
 
 					AddInfo(offer.Match.Interests, InfoType.Interest, matchs);
 					AddInfo(offer.Match.FoodHabits, InfoType.FoodHabit, matchs);

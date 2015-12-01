@@ -41,6 +41,9 @@ namespace Solitude.Droid
 				};
 				Adapter.OnUpdatePosition = (view, evnt, exp) =>
 				{
+					view.FindViewById<TextView>(Resource.Id.title).Text = evnt.Title;
+					view.FindViewById<TextView>(Resource.Id.subtitle).Text = evnt.Date.ToString("G");
+
 					view.FindViewById<TextView>(Resource.Id.expanded_content).Text =
 						string.Format("{0}\n\n{1}: {2}\n{3}: {4}/{5}",
 									  evnt.Description, Resources.GetString(Resource.String.event_place),

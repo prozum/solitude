@@ -17,7 +17,7 @@ namespace Solitude.Droid
 {
 	public class HostingFragment : TabFragment
 	{
-		public RelativeLayout Layout { get; set; }
+		public CoordinatorLayout Layout { get; set; }
 		public ListView List { get; set; }
 		public FloatingActionButton Fab { get; set; }
 		public EventAdapter<Event> Adapter { get; set; }
@@ -25,7 +25,7 @@ namespace Solitude.Droid
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
 			Layout = inflater.Inflate(Resource.Layout.HostList, null)
-							 .FindViewById<RelativeLayout>(Resource.Id.layout);
+							 .FindViewById<CoordinatorLayout>(Resource.Id.layout);
 			List = Layout.FindViewById<ListView>(Resource.Id.list);
 			Fab = Layout.FindViewById<FloatingActionButton>(Resource.Id.fab);
 			Layout.RemoveAllViews();
@@ -37,6 +37,9 @@ namespace Solitude.Droid
 
 				Adapter.OnUpdatePosition = (view, evnt, exp) =>
 				{
+					view.FindViewById<TextView>(Resource.Id.title).Text = evnt.Title;
+					view.FindViewById<TextView>(Resource.Id.subtitle).Text = evnt.Date.ToString("G");
+
 					view.FindViewById<TextView>(Resource.Id.expanded_content).Text =
 						string.Format("{0}\n\n{1}: {2}\n{3}: {4}/{5}", 
 									  evnt.Description, Resources.GetString(Resource.String.event_place), 

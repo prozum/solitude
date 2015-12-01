@@ -42,9 +42,6 @@ namespace Solitude.Droid
 			Position = pos;
 			var @event = Adapter.Items[pos];
 
-			View.FindViewById<TextView>(Resource.Id.title).Text = @event.Title;
-			View.FindViewById<TextView>(Resource.Id.subtitle).Text = @event.Date.ToString();
-
 			if (expanded)
 			{
 				View.FindViewById<ImageView>(Resource.Id.expander).SetImageResource(Resource.Drawable.ic_expand_less_black_48dp);
