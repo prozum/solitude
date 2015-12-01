@@ -153,22 +153,19 @@ namespace Solitude.Droid
 
             try
             {
-                if (type == null)
-                    throw new System.Exception("type");
                 if (card == null)
                     throw new System.Exception("card");
                 if (content == null)
                     throw new System.Exception("content");
                 if (info[(int)type] == null)
                     throw new System.Exception("info");
-
-                if(info[(int)type].Count > 0)
-                {
-                    foreach (var item in info[(int)type])
-                    {
-                        AddCardEntry(type, card, content, (string)System.Enum.Parse(type.GetType(), item.ToString()));//  item.ToString());
-                    }
-                }
+				//Denne kører ikke, når der ikke er interesser...
+				for (int i = 0; i < info[(int) InfoType.FoodHabit].Count; i++)
+					AddCardEntry(InfoType.FoodHabit, card, content, ((FoodHabit) info[(int) InfoType.FoodHabit][i]).ToString()); 
+				for (int i = 0; i < info[(int) InfoType.Interest].Count; i++)
+					AddCardEntry(InfoType.Interest, card, content, ((Interest) info[(int) InfoType.Interest][i]).ToString()); 
+				for (int i = 0; i < info[(int) InfoType.Language].Count; i++)
+					AddCardEntry(InfoType.Language, card, content, ((Language) info[(int) InfoType.Language][i]).ToString()); 
             }
             catch (System.Exception e)
             {

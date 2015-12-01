@@ -32,7 +32,7 @@ namespace Solitude.Droid
 					//if ((interestListView.GetChildAt(i) as CheckBox).Checked)
 						Interests.Add(i);
 
-				return Interests;
+				return _interests;
 			}
 		}*/
 		public override void OnCreate(Bundle savedInstanceState)
@@ -64,6 +64,7 @@ namespace Solitude.Droid
 		{
 			#region Checkbox
 			var userInterests = new List<int>();
+
 			//Inflate view and find content
 			//View view = inflater.Inflate(Resource.Layout.signupFragLayout4, container, false);
 			/*
