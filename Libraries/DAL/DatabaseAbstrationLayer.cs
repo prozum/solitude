@@ -350,7 +350,7 @@ namespace Dal
         /// <param name="uid">The user's id</param>
         /// <param name="ic">The interest which the user should be connected to</param>
         /// <param name="w">The weight of the relationship between the user and interest</param>
-        public async Task ConnectUserInterest (Guid uid, int ic, int w)
+        public async Task ConnectUserInterest (Guid uid, int ic, int weight)
 		{
 			await _client.Cypher
 				//make sure that the interest is related with the right user
@@ -359,8 +359,9 @@ namespace Dal
 				.AndWhere ("interest.Id = {ic}")
 				.WithParam ("ic", ic)
 				//create a unique relation "WANTS" with the weight 'w'
-				.CreateUnique ("user-[:WANTS {weight}]->interest")
-				.WithParam ("weight", new {weight = w})
+				.CreateUnique ("user-[w:WANTS]->interest")
+				.Set("w.Weight = {weight}")
+				.WithParam("weight", weight)
 				.ExecuteWithoutResultsAsync ();
 		}
 
@@ -371,7 +372,7 @@ namespace Dal
         /// <param name="uid">The user's id</param>
         /// <param name="lc">The language which the user should be connected to</param>
         /// <param name="w">The weight of the relationship between the user and language</param>
-        public async Task ConnectUserLanguage(Guid uid, int lc, int w)
+        public async Task ConnectUserLanguage(Guid uid, int lc, int weight)
         {
             await _client.Cypher
                 //make sure that the interest is related with the right user
@@ -380,8 +381,9 @@ namespace Dal
                 .AndWhere("language.Id = {lc}")
                 .WithParam("lc", lc)
                 //create a unique relation "WANTS" with the weight 'w'
-                .CreateUnique(("user-[:WANTS {weight}]->language"))
-                .WithParam("weight", new { weight = w })
+                .CreateUnique(("user-[w:WANTS]->language"))
+				.Set("w.Weight = {weight}")
+				.WithParam("weight", weight)
                 .ExecuteWithoutResultsAsync();
         }
 
@@ -392,7 +394,7 @@ namespace Dal
         /// <param name="uid">The user's id</param>
         /// <param name="fh">The foodhabit which the user should be connected to</param>
         /// <param name="w">The weight of the relationship between the user and foodhabit</param>
-        public async Task ConnectUserFoodHabit(Guid uid, int fh, int w)
+        public async Task ConnectUserFoodHabit(Guid uid, int fh, int weight)
         {
             await _client.Cypher
                 //make sure that the interest is related with the right user
@@ -401,8 +403,9 @@ namespace Dal
                 .AndWhere("foodhabit.Id = {fh}")
                 .WithParam("fh", fh)
                 //create a unique relation "WANTS" with the weight 'w'
-                .CreateUnique(("user-[:WANTS {weight}]->foodhabit"))
-                .WithParam("weight", new { weight = w })
+                .CreateUnique(("user-[w:WANTS]->foodhabit"))
+				.Set("w.Weight = {weight}")
+				.WithParam("weight", weight)
                 .ExecuteWithoutResultsAsync();
         }
 
