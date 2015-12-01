@@ -55,8 +55,8 @@ namespace Solitude.Droid
         }
 		public void AddTab(TabLayout.Tab tab, TabFragment frag)
 		{
-			TabLayout.AddTab(tab);
 			Items.Add(frag);
+			TabLayout.AddTab(tab);
 			frag.Position = tab.Position;
 			NotifyDataSetChanged();
 		}
@@ -68,6 +68,7 @@ namespace Solitude.Droid
 
 		public void OnTabSelected(TabLayout.Tab tab)
 		{
+			Items[tab.Position].OnSelected();
 			Pager.SetCurrentItem(tab.Position, true);
 		}
 
@@ -81,6 +82,7 @@ namespace Solitude.Droid
 
 		public void OnPageSelected(int position)
 		{
+			Items[position].OnSelected();
 			TabLayout.GetTabAt(position).Select();
 		}
 

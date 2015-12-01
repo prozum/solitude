@@ -41,29 +41,19 @@
                 android:hint="@string/password" />
         </android.support.design.widget.TextInputLayout>
         <Button
-            android:text="Login"
+            android:text="@string/main_activity_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/loginButton"
             android:id="@+id/buttonLogin" />
     </LinearLayout>
-    <LinearLayout
-        android:id="@+id/loginSignUpLinear"
-        android:orientation="vertical"
+    <TextView
+        android:text="@string/main_activity_sign_up"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
-        <TextView
-            android:text="Not a user yet?"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textUser" />
-        <Button
-            android:text="Sign Up!"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/signupbutton"
-            android:id="@+id/buttonSignUp" />
-    </LinearLayout>
+        android:gravity="center_horizontal"
+        android:id="@+id/textSignUp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp" />
 </RelativeLayout>

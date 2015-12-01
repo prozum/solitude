@@ -21,35 +21,19 @@ namespace Solitude.Droid
 		{
 			// setting up and drawer
 			base.OnCreate(savedInstanceState);
-			
-			ShowSpinner();
 
 			var layout = LayoutInflater.Inflate(Resource.Layout.TapTest, null);
 			var tablayout = layout.FindViewById<TabLayout>(Resource.Id.tab_layout);
 			var viewpager = layout.FindViewById<CustomViewPager>(Resource.Id.view_pager);
-			viewpager.ScrollingEnabled = false;
+			var adapter = new TabAdapter(this, viewpager, tablayout);
 
-			ThreadPool.QueueUserWorkItem(o =>
-			{
-				var offers = MainActivity.CIF.RequestOffers();
-				var events = MainActivity.CIF.GetJoinedEvents(100);
-				var hosted = MainActivity.CIF.GetHostedEvents(100);
+			adapter.AddTab(Resource.String.event_menu_recommended, new RecommendsFragment());
+			adapter.AddTab(Resource.String.event_menu_joined, new AttendingFragment());
+			adapter.AddTab(Resource.String.event_menu_hosted, new HostingFragment());
 
-				RunOnUiThread(() =>
-				{
-					var adapter = new TabAdapter(this, viewpager, tablayout);
+			tablayout.GetTabAt(Intent.GetIntExtra("tab", 0)).Select();
 
-					adapter.AddTab(Resource.String.event_menu_recommended, new RecommendsFragment(offers));
-					adapter.AddTab(Resource.String.event_menu_joined, new AttendingFragment(events));
-					adapter.AddTab(Resource.String.event_menu_hosted, new HostingFragment(hosted));
-
-					tablayout.GetTabAt(Intent.GetIntExtra("tab", 0)).Select();
-
-					ClearLayout();
-					Content.AddView(layout);
-					SupportActionBar.Elevation = 0;
-				});
-			});
+			Content.AddView(layout);
 		}
 	}
 }

@@ -11,9 +11,9 @@ namespace Solitude.Droid
 	{
 		public enum CurrentlyShown
 		{
-			NameAddress, UsernamePassword, Interests, FoodPreferences, Languages
+			NameAddress, Interests, FoodPreferences, Languages, UsernamePassword
 		};
-
+		private readonly int NUMBER_OF_PAGES = 5;
 		SignUpFragmentNameAddress nameAdd;
 		SignUpFragmentUsernamePassword usPa;
 		SignUpFragmentInterests ints;
@@ -36,7 +36,7 @@ namespace Solitude.Droid
 		public override int Count {
 			get 
 			{
-				return (int) CurrentlyShown.Languages + 1;
+				return NUMBER_OF_PAGES;
 			}
 		}
 
@@ -46,14 +46,14 @@ namespace Solitude.Droid
 			{
 				case CurrentlyShown.NameAddress:
 					return nameAdd;
-				case CurrentlyShown.UsernamePassword:
-					return usPa;
 				case CurrentlyShown.Interests:
 					return ints;
 				case CurrentlyShown.FoodPreferences:
 					return fp;
 				case CurrentlyShown.Languages:
 					return lang;
+				case CurrentlyShown.UsernamePassword:
+					return usPa;
 				default:
 					return null;
 			}

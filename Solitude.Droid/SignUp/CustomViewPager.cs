@@ -24,7 +24,7 @@ namespace Solitude.Droid
 		}
 	}
 
-	public class CustomViewPager : ViewPager
+	public class CustomViewPager : ViewPager, Android.Support.V4.View.ViewPager.IPageTransformer
 	{
 		public bool ScrollingEnabled
 		{
@@ -45,10 +45,29 @@ namespace Solitude.Droid
 
 		protected override void OnPageScrolled(int position, float offset, int offsetPixels)
 		{
-			if (OnPageLeft != null)
+			if (OnPageLeft != null && offset != 0 && offsetPixels != 0)
 				OnPageLeft(this, new FragmentEventArgs((Adapter as CustomFragmentAdapter).GetItem(CurrentItem)));
 			
 			base.OnPageScrolled(position, offset, offsetPixels);
+		}
+
+		public void TransformPage(Android.Views.View page, float position)
+		{
+			if (position < -1)
+			{
+				//The page is on it's way out to the left
+				var kage = 1;
+			}
+			else if (position <= 1)
+			{
+				//The page is centered
+				var kage = 2;
+			}
+			else
+			{
+				//The page is on it's way
+				var kage = 3;
+			}
 		}
 	}
 }

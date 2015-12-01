@@ -470,9 +470,9 @@ namespace ClientCommunication
 		/// <returns>The information.</returns>
 		public List<int>[] GetInformation()
 		{
-			var foodRequest = buildRequest(string.Format("info/{0}", InfoType.FoodHabit.ToString()), Method.GET);
-			var interestRequest = buildRequest(string.Format("info/{0}", InfoType.Interest), Method.GET);
-			var langRequest = buildRequest(string.Format("info/{0}", InfoType.Language), Method.GET);
+			var foodRequest = buildRequest(string.Format("info/{0}", (int) InfoType.FoodHabit), Method.GET);
+			var interestRequest = buildRequest(string.Format("info/{0}", (int) InfoType.Interest), Method.GET);
+			var langRequest = buildRequest(string.Format("info/{0}", (int) InfoType.Language), Method.GET);
 
 			var interestList = new List<int>[Enum.GetValues(typeof(InfoType)).Length];
 

@@ -13,48 +13,25 @@ using Android.Widget;
 
 namespace Solitude.Droid
 {
-	public class SignUpFragmentFoodPreferences : Android.Support.V4.App.Fragment
+	public class SignUpFragmentFoodPreferences : AbstractSignupFragment
 	{
-		ListView foodHabitsListView;
-		List<int> foodPreferencesList = new List<int>();
-		ArrayAdapter<string> ChoiceAdapter;
-		public List<int> FoodPreferences
-		{
-			get
-			{
-				for (int i = 0; i < foodHabitsListView.ChildCount; i++)
-					if ((foodHabitsListView.GetChildAt(i) as CheckBox).Checked)
-						foodPreferencesList.Add(i);
-
-				return foodPreferencesList;
-			}
-		}
-		public override void OnCreate(Bundle savedInstanceState)
-		{
-			base.OnCreate(savedInstanceState);
-			string[] choises = Resources.GetStringArray(Resource.Array.foodhabits);
-
-			ChoiceAdapter = new ArrayAdapter<string>(this.Context,
-				Resource.Layout.CheckedListViewItem, choises);
-			
-		}
+		
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
-			//Inflate and find views
-			View view = inflater.Inflate(Resource.Layout.signupFragLayout4, container, false);
-			foodHabitsListView = view.FindViewById <ListView>(Resource.Id.interestListView);
-			var desc = view.FindViewById<TextView>(Resource.Id.signupListDescription);
+			CreateCard(InfoType.FoodHabit, signUpCard, GetString(Resource.String.sign_up_foodpreferences));
 
-			//Populate the ListView
-			foodHabitsListView.Adapter = ChoiceAdapter;
-			foodHabitsListView.ChoiceMode = ChoiceMode.Multiple;
+			return signUpCard;
+		}
 
-			//Adds the description
-			desc.Text = GetString(Resource.String.profile_menu_edit_foodhabit);
-
-
-
-			return view;
+		//Loads all info in the signUpInfo list into a list of InfoChanges and returns it.
+		public List<InfoChange> SaveInfo()
+		{
+			List<InfoChange> foodPreferencesList = new List<InfoChange>();
+			foreach (var info in signUpInfo)
+			{
+				foodPreferencesList.Add(new InfoChange(InfoType.FoodHabit, (int)Enum.Parse(typeof(FoodHabit), info)));
+			}
+			return foodPreferencesList;
 		}
 	}
 }
