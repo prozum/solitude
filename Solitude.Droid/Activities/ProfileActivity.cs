@@ -150,27 +150,27 @@ namespace Solitude.Droid
 
             cardTitle.Text = MainActivity.InfoTitles[(int)type];
             cardSubtitle.Text = subtitle;
+            switch (type)
+            {
+                case InfoType.FoodHabit:
+                    for (int i = 0; i < info[(int)type].Count; i++)
+                    {
+                        AddCardEntry(type, card, content, ((FoodHabit)info[(int)type][i]).ToString());
+                    }
+                    break;
+                case InfoType.Interest:
+                    for (int i = 0; i < info[(int)type].Count; i++)
+                    {
+                        AddCardEntry(type, card, content, ((Interest)info[(int)type][i]).ToString());
+                    }
+                    break;
 
-            try
-            {
-                if (card == null)
-                    throw new System.Exception("card");
-                if (content == null)
-                    throw new System.Exception("content");
-                if (info[(int)type] == null)
-                    throw new System.Exception("info");
-				//Denne kører ikke, når der ikke er interesser...
-				for (int i = 0; i < info[(int) InfoType.FoodHabit].Count; i++)
-					AddCardEntry(InfoType.FoodHabit, card, content, ((FoodHabit) info[(int) InfoType.FoodHabit][i]).ToString()); 
-				for (int i = 0; i < info[(int) InfoType.Interest].Count; i++)
-					AddCardEntry(InfoType.Interest, card, content, ((Interest) info[(int) InfoType.Interest][i]).ToString()); 
-				for (int i = 0; i < info[(int) InfoType.Language].Count; i++)
-					AddCardEntry(InfoType.Language, card, content, ((Language) info[(int) InfoType.Language][i]).ToString()); 
-            }
-            catch (System.Exception e)
-            {
-                e.ToString();
-                throw;
+                case InfoType.Language:
+                    for (int i = 0; i < info[(int)type].Count; i++)
+                    {
+                        AddCardEntry(type, card, content, ((Language)info[(int)type][i]).ToString());
+                    }
+                    break;
             }
 
             profileContent.AddView(card);
@@ -183,21 +183,30 @@ namespace Solitude.Droid
         /// <param name="s">The name of the entry. This is what will be displayed to the user.</param>
         private void AddCardEntry(InfoType type, View card, LinearLayout content, string s)
         {
-            var contentCard = LayoutInflater.Inflate(Resource.Layout.ProfileInformationCardEntry, null);
-
-            var remover = contentCard.FindViewById<ImageView>(Resource.Id.profile_card_entry_remove);
-            var entry = contentCard.FindViewById<TextView>(Resource.Id.profile_card_entry_content);
-
-            remover.Click += (se, ev) =>
+            try
             {
-                ((ViewGroup)contentCard.Parent).RemoveView(contentCard); // Removes entry from card when clicked
-                UpdateInfo(type, GetUpdatedContent(type, card));
-            };
+                var contentCard = LayoutInflater.Inflate(Resource.Layout.ProfileInformationCardEntry, null);
 
-            entry.Text = s;
-            remover.Visibility = isEditing ? ViewStates.Visible : ViewStates.Invisible; // Checks if the remove burron should be shown when added.
+                var remover = contentCard.FindViewById<ImageView>(Resource.Id.profile_card_entry_remove);
+                var entry = contentCard.FindViewById<TextView>(Resource.Id.profile_card_entry_content);
 
-            content.AddView(contentCard);
+                remover.Click += (se, ev) =>
+                {
+                    ((ViewGroup)contentCard.Parent).RemoveView(contentCard); // Removes entry from card when clicked
+                    UpdateInfo(type, GetUpdatedContent(type, card));
+                };
+
+                entry.Text = s;
+                remover.Visibility = isEditing ? ViewStates.Visible : ViewStates.Invisible; // Checks if the remove burron should be shown when added.
+
+                content.AddView(contentCard);
+            }
+            catch (System.Exception e)
+            {
+                e.ToString();
+                throw;
+            }
+
         }
 
         /// <summary>
