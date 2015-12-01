@@ -20,7 +20,7 @@
 	<string name="event_error_could_not_create">En ny begivenhed kunne ikke oprettes:</string>
 	<string name="event_error_guest_limit">- Din nye gæste begrænsning er under nuværende antal af deltagere</string>
 	<string name="event_error_in_info">Der er fejl i din begivenhed:</string>
-  <string name="event_error_invalid_date">Invalid dato.</string>
+  	<string name="event_error_invalid_date">Invalid dato.</string>
 	<string name="event_error_many_guest">- For mange gæster.</string>
 	<string name="event_error_no_description">- Manglende beskrivelse</string>
 	<string name="event_error_no_guest">- Manglende gæste begrænsning</string>
@@ -36,12 +36,12 @@
 	<string name="event_menu_recommended">Anbefalede</string>
 	<string name="event_name">Begivenheds navn</string>
 	<string name="event_name_hint">Begivenheds navn</string>
-  <string name="event_participants">Deltagere</string>
+  	<string name="event_participants">Deltagere</string>
 	<string name="event_place">Lokation/Adresse</string>
 	<string name="event_place_hint">Lokation/Adresse</string>
 	<string name="event_time">Tid</string>
-  <string name="event_warning_edit">Er du sikker på du vil gå tilbage? Alle dine nuværene ændringer vil blive tabt.</string>
-  <string name="finish_button">Afslut</string>
+  	<string name="event_warning_edit">Er du sikker på du vil gå tilbage? Alle dine nuværene ændringer vil blive tabt.</string>
+  	<string name="finish_button">Afslut</string>
 	<string name="host_new_event">Afhold ny begivenhed</string>
 	<string name="host_save_changes">Gem ændringer</string>
 	<string name="label_eventactivity">Begivenheder</string>
@@ -76,6 +76,9 @@
 	<string name="profile_menu_edit_language">Rediger sprog</string>
 	<string name="sign_up_confirm_password">Bekræft kodeord</string>
 	<string name="sign_up_date_of_birth">Fødselsdato</string>
+	<string name="sign_up_foodpreferences">Tilføj dine madpræferencer</string>
+	<string name="sign_up_interests">Tilføj dine interesser</string>
+	<string name="sign_up_languages">Tilføj de sprog du taler</string>
 	<string name="sign_up_missing_info">Manglende information, eftertjek venligst at alle felter er udfyldt</string>
 	<string name="sign_up_password_requirements">Krav til kodeord: Minimum 6 karakterer, og skal inkludere et tal</string>
 	<string name="sign_up_set_info">Vil du angive din profil information nu?</string>

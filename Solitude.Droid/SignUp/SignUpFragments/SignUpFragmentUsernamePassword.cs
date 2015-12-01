@@ -85,7 +85,7 @@ namespace Solitude.Droid
 				else
 					confirmed.Background.SetColorFilter(Color.Red, PorterDuff.Mode.SrcAtop);
 			};
-
+			view.FindViewById<Button>(Resource.Id.signupAcceptButton).Click += (Activity as SignUpActivity).confirmSignup;
 			return view;
 		}
 	}

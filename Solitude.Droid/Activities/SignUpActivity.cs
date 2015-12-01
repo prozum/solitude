@@ -22,7 +22,7 @@ namespace Solitude.Droid
 		public static CustomViewPager _viewPager;
 		private SignUpFragmentNameAddress nameAdd= new SignUpFragmentNameAddress();
 		private string username, password, confirm, name, address;
-		List<int> InterestList;
+		List<InfoChange> InterestList, FoodPreferenceList, LanguageList;
 		private DateTime birthdate;
 
 		protected override void OnCreate(Bundle savedInstanceState)
@@ -82,30 +82,37 @@ namespace Solitude.Droid
 				address = frag.Address;
 				birthdate = frag.Birthdate;
 			}
-			else if (e.fragment is SignUpFragmentUsernamePassword)
+			/*else if (e.fragment is SignUpFragmentUsernamePassword)
 			{
 				var frag = e.fragment as SignUpFragmentUsernamePassword;
 				username = frag.Username;
 				password = frag.Password;
 				confirm = frag.ConfirmedPassword;
-			}
+			}*/
 			else if (e.fragment is SignUpFragmentInterests)
 			{
 				var frag = e.fragment as SignUpFragmentInterests;
-				//InterestList = frag.Interests;
+				InterestList = frag.SaveInfo();
 			}
 			else if (e.fragment is SignUpFragmentFoodPreferences)
 			{
-				int fisk = 4;
+				var frag = e.fragment as SignUpFragmentFoodPreferences;
+				FoodPreferenceList = frag.SaveInfo();
 			}
 			else if (e.fragment is SignUpFragmentLanguages)
 			{
+				var frag = e.fragment as SignUpFragmentLanguages;
+				LanguageList = frag.SaveInfo();
 			}
 		}
 
 		public void confirmSignup(object sender, EventArgs e)
 		{
-			
+			var frag = ((_viewPager.Adapter as CustomFragmentAdapter).CurrentItem as SignUpFragmentUsernamePassword);
+			username = frag.Username;
+			password = frag.Password;
+			confirm = frag.ConfirmedPassword;
+
 			if (username != "" && password != "" && confirm != "" && name != "" && address != "")
 			{
 				//Generates a dialog showing a spinner
@@ -119,7 +126,20 @@ namespace Solitude.Droid
 						//Tries to create the user on the server
 						if (MainActivity.CIF.CreateUser(name, address, new DateTimeOffset(birthdate, new TimeSpan(0)), username, password, confirm)) 
 						{
-							//Add interests to user and go to profile-screen.
+							MainActivity.CIF.Login(username, password);
+							foreach (var interest in InterestList) {
+								MainActivity.CIF.AddInformation(interest);
+							}
+							foreach (var foodPreference in FoodPreferenceList) {
+								MainActivity.CIF.AddInformation(foodPreference);
+							}
+							foreach (var language in LanguageList) {
+								MainActivity.CIF.AddInformation(language);
+							}
+
+							Intent profileIntent = new Intent(this, typeof(ProfileActivity));
+							StartActivity(profileIntent);
+							Finish();
 						}
 						else
 						{
