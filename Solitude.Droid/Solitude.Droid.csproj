@@ -98,6 +98,7 @@
     <Compile Include="Activities\ProfileActivity.cs" />
     <Compile Include="Activities\SettingsActivitiy.cs" />
     <Compile Include="Activities\DrawerActivity.cs" />
+    <Compile Include="SignUp\SignUpFragments\AbstractSignupFragment.cs" />
     <Compile Include="TileMenu\Adapters\EventAdapter.cs" />
     <Compile Include="Fragments\Tabs\TabAdapter.cs" />
     <Compile Include="TileMenu\Adapters\InfoAdapter.cs" />
@@ -119,7 +120,6 @@
     <Compile Include="SignUp\SignUpFragments\SignUpFragmentFoodPreferences.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="SignUp\SignUpFragments\SignUpFragmentLanguages.cs" />
-    <Compile Include="SignUp\SignUpFragments\AbstractSignupFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -139,7 +139,7 @@
       <SubType>AndroidResource</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\ProfileInformationCard.axml">
-      <SubType>AndroidResource</SubType>
+      <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\ProfileInformationCardEntry.axml">
       <SubType>AndroidResource</SubType>

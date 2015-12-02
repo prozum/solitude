@@ -350,7 +350,7 @@ namespace Dal
         /// <param name="uid">The user's id</param>
         /// <param name="ic">The interest which the user should be connected to</param>
         /// <param name="w">The weight of the relationship between the user and interest</param>
-        public async Task ConnectUserInterest (Guid uid, int ic, int w)
+        public async Task ConnectUserInterest (Guid uid, int ic, int weight)
 		{
 			await _client.Cypher
 				//make sure that the interest is related with the right user
@@ -359,8 +359,9 @@ namespace Dal
 				.AndWhere ("interest.Id = {ic}")
 				.WithParam ("ic", ic)
 				//create a unique relation "WANTS" with the weight 'w'
-				.CreateUnique ("user-[:WANTS {weight}]->interest")
-				.WithParam ("weight", new {weight = w})
+				.CreateUnique ("user-[w:WANTS]->interest")
+				.Set("w.Weight = {weight}")
+				.WithParam("weight", weight)
 				.ExecuteWithoutResultsAsync ();
 		}
 
@@ -371,7 +372,7 @@ namespace Dal
         /// <param name="uid">The user's id</param>
         /// <param name="lc">The language which the user should be connected to</param>
         /// <param name="w">The weight of the relationship between the user and language</param>
-        public async Task ConnectUserLanguage(Guid uid, int lc, int w)
+        public async Task ConnectUserLanguage(Guid uid, int lc, int weight)
         {
             await _client.Cypher
                 //make sure that the interest is related with the right user
@@ -380,8 +381,9 @@ namespace Dal
                 .AndWhere("language.Id = {lc}")
                 .WithParam("lc", lc)
                 //create a unique relation "WANTS" with the weight 'w'
-                .CreateUnique(("user-[:WANTS {weight}]->language"))
-                .WithParam("weight", new { weight = w })
+                .CreateUnique(("user-[w:WANTS]->language"))
+				.Set("w.Weight = {weight}")
+				.WithParam("weight", weight)
                 .ExecuteWithoutResultsAsync();
         }
 
@@ -392,7 +394,7 @@ namespace Dal
         /// <param name="uid">The user's id</param>
         /// <param name="fh">The foodhabit which the user should be connected to</param>
         /// <param name="w">The weight of the relationship between the user and foodhabit</param>
-        public async Task ConnectUserFoodHabit(Guid uid, int fh, int w)
+        public async Task ConnectUserFoodHabit(Guid uid, int fh, int weight)
         {
             await _client.Cypher
                 //make sure that the interest is related with the right user
@@ -401,8 +403,9 @@ namespace Dal
                 .AndWhere("foodhabit.Id = {fh}")
                 .WithParam("fh", fh)
                 //create a unique relation "WANTS" with the weight 'w'
-                .CreateUnique(("user-[:WANTS {weight}]->foodhabit"))
-                .WithParam("weight", new { weight = w })
+                .CreateUnique(("user-[w:WANTS]->foodhabit"))
+				.Set("w.Weight = {weight}")
+				.WithParam("weight", weight)
                 .ExecuteWithoutResultsAsync();
         }
 
@@ -525,8 +528,8 @@ namespace Dal
         /// </summary>
         /// <returns>Task</returns>
         /// <param name="uid">The user's ID</param>
-        /// <param name="LIMIT">The maximum limit of matches created</param>
-        public async Task MatchUser(Guid uid, int LIMIT = 5)
+        /// <param name="limit">The maximum limit of matches created</param>
+        public async Task MatchUser(Guid uid, int limit = 5)
         {
             await CleanMatches(uid);
 
@@ -552,33 +555,15 @@ namespace Dal
                 .AndWhere((Event e) => e.SlotsTotal > e.SlotsTaken)
                 //.AndWhere ((Event e) => e.Date > now)
                 .OptionalMatch("user-[w1:WANTS]->(interest:Interest)<-[w2:WANTS]-rest")
-                .With("user, rest, e, sum(w1.weight) + sum(w2.weight) as wt1, collect(interest.Id) as int")
+                .With("user, rest, e, sum(w1.Weight) + sum(w2.Weight) as wt1, collect(interest.Id) as int")
                 .OptionalMatch("user-[w3:WANTS]->(language:Language)<-[w4:WANTS]-rest")
-                .With("user, rest, e, wt1, sum(w3.weight) + sum(w4.weight) as wt2, int, collect(language.Id) as lang")
+                .With("user, rest, e, wt1, sum(w3.Weight) + sum(w4.Weight) as wt2, int, collect(language.Id) as lang")
                 .OptionalMatch("user-[w5:WANTS]->(foodhabit:FoodHabit)<-[w6:WANTS]-rest")
-                .With("user, e, wt1, wt2, sum(w5.weight) + sum(w6.weight) as wt3, int, lang, collect(foodhabit.Id) as food")
+                .With("user, e, wt1, wt2, sum(w5.Weight) + sum(w6.Weight) as wt3, int, lang, collect(foodhabit.Id) as food")
                 .OrderBy("(wt1+wt2+wt3) DESC")
-                .Limit(LIMIT)
+                .Limit(limit)
                 .CreateUnique("user-[m:MATCHED { Interests:int,Languages:lang,FoodHabits:food}]->e")
                 .ExecuteWithoutResultsAsync();
-
-//			await _client.Cypher
-//				.Match("(user:User), (rest:User)-[:HOSTING]->(e:Event)")
-//				.Where((User user) => user.Id == uid)
-//				.AndWhere((User rest) => rest.Id != uid)
-//				.AndWhere((Event e) => e.SlotsTotal > e.SlotsTaken)
-//				//.AndWhere ((Event e) => e.Date > now)
-//				.AndWhere ("NOT user-[]->e")
-//				.OptionalMatch("user-[w1:WANTS]->(interest:Interest)<-[w2:WANTS]-rest")
-//				.With("user, rest, e, sum(w1.weight) + sum(w2.weight) as wt1, collect(interest.Id) as int")
-//				.OptionalMatch("user-[w3:WANTS]->(language:Language)<-[w4:WANTS]-rest")
-//				.With("user, rest, e, wt1, sum(w3.weight) + sum(w4.weight) as wt2, int, collect(language.Id) as lang")
-//				.OptionalMatch("user-[w5:WANTS]->(foodhabit:FoodHabit)<-[w6:WANTS]-rest")
-//				.With("user, e, wt1, wt2, sum(w5.weight) + sum(w6.weight) as wt3, int, lang, collect(foodhabit.Id) as food")
-//				.OrderBy("(wt1+wt2+wt3) DESC")
-//				.Limit(LIMIT)
-//				.CreateUnique("user-[m:MATCHED { Interests:int,Languages:lang,FoodHabits:food}]->e")
-//				.ExecuteWithoutResultsAsync();
 
 			//if (res.First().matches > 0)
 			//{

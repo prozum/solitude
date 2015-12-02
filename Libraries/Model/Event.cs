@@ -7,12 +7,13 @@ namespace Model
     public class Event
 	{
 		public Guid Id { get; set; }
+		public Guid UserId { get; set; }
 
 		[Required]
 		public DateTimeOffset Date { get; set; }
 
 		[Required]
-		public string Address { get; set; }
+		public string Location { get; set; }
 
 		[Required]
 		public string Title { get; set; }
@@ -20,14 +21,9 @@ namespace Model
 		[Required]
 		public string Description { get; set; }
 
-		[JsonIgnore]
-		public Guid UserId { get; set; }
-
 		[Required]
 		public int SlotsTotal { get; set; }
-
-        [JsonIgnore]
-        public int SlotsTaken { get; set; }
+		public int SlotsTaken { get; set; }
 	}
 }
 
