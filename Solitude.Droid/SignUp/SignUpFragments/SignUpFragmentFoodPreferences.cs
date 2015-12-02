@@ -21,21 +21,7 @@ namespace Solitude.Droid
 			List<InfoChange> foodPreferencesList = new List<InfoChange>();
 
 			foreach (var info in signUpInfo)
-			{
-				foodPreferencesList.Add(new InfoChange(InfoType.FoodHabit, (int)Enum.Parse(typeof(FoodHabit), info), 1));
-			}
-			//foreach (var info in signUpInfo)
-			//{
-			//	foodPreferencesList.Add(new InfoChange(InfoType.FoodHabit, (int)Enum.Parse(typeof(FoodHabit), info)));
-			//}
-			var lang = Context.Resources.Configuration.Locale.Language;
-
-			if (lang == "da")
-				foreach (var info in signUpInfo)
-					foodPreferencesList.Add(new InfoChange(InfoType.FoodHabit, (int)Enum.Parse(typeof(FoodHabitDa), info), 1)); 
-			else
-				foreach (var info in signUpInfo)
-					foodPreferencesList.Add(new InfoChange(InfoType.FoodHabit, (int)Enum.Parse(typeof(FoodHabit), info), 1));
+				foodPreferencesList.Add(new InfoChange(InfoType.FoodHabit, info, 1));
 			
 			return foodPreferencesList;
 		}

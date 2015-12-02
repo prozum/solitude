@@ -12,7 +12,7 @@ namespace Solitude.Droid
 	public class AbstractSignupFragment : Android.Support.V4.App.Fragment
 	{
 		protected View signUpCard { get; set; }	
-		protected List<string> signUpInfo = new List<string>();
+		protected List<int> signUpInfo = new List<int>();
 		protected List<int>[] Info { get; set; }
 
 		public override void OnCreate(Bundle savedInstanceState)
@@ -64,7 +64,7 @@ namespace Solitude.Droid
 					{
 						if (input.Contains(item.ToLower()))
 						{
-							AddCardEntry(card, content, item);
+							AddCardEntry(card, content, item, type);
 						}
 					}
 				};
@@ -72,7 +72,7 @@ namespace Solitude.Droid
 			cardSubtitle.Text = subtitle;
 		}
 
-		void AddCardEntry(View card, LinearLayout content, string s)
+		void AddCardEntry(View card, LinearLayout content, string s, InfoType type)
 		{
 			var contentCard = Activity.LayoutInflater.Inflate(Resource.Layout.ProfileInformationCardEntry, null);
 
@@ -83,8 +83,8 @@ namespace Solitude.Droid
 				((ViewGroup)contentCard.Parent).RemoveView(contentCard);
 
 			entry.Text = s;
-			s = s.Trim(' ');
-			signUpInfo.Add(s);
+			var info = Array.IndexOf(MainActivity.InfoNames[(int)type], s);
+			signUpInfo.Add(info);
 			remover.Visibility = ViewStates.Visible;
 
 			content.AddView(contentCard);
