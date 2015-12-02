@@ -57,7 +57,7 @@ namespace Solitude.Server
                 { 
                     Name = userModel.Name, 
                     UserName = userModel.Username, 
-                    Address = userModel.Address,
+                    Location = userModel.Location,
                     Birthdate = userModel.Birthdate
                 };
 
