@@ -21,7 +21,7 @@
 	<string-array name="foodhabits">
    		<item>Halal</item>
    		<item>Kosher</item>
-      <item>Vegetar</item>
+      	<item>Vegetar</item>
    		<item>Laktose Intolerance</item>
    		<item>Gluten Intolerance</item>
    		<item>Nødde Allergi</item>

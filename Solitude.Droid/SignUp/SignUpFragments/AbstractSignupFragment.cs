@@ -1,5 +1,4 @@
 ﻿using System;
-
 using Android.OS;
 using System.Linq;
 using Android.Views;
@@ -35,7 +34,6 @@ namespace Solitude.Droid
 				{
 					var entry = content.GetChildAt(i);
 					var icon = entry.FindViewById<ImageView>(Resource.Id.profile_card_entry_remove);
-					icon.Visibility = ViewStates.Invisible;
 				}
 			}
 			// Create your fragment here
@@ -85,11 +83,11 @@ namespace Solitude.Droid
 				((ViewGroup)contentCard.Parent).RemoveView(contentCard);
 
 			entry.Text = s;
+			s = s.Trim(' ');
 			signUpInfo.Add(s);
 			remover.Visibility = ViewStates.Visible;
 
 			content.AddView(contentCard);
-
 		}
 	}
 }
