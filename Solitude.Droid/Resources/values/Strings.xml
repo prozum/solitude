@@ -10,11 +10,12 @@
 	<string name="continue_button">Continue</string>
 	<string name="decline_button">Decline</string>
 	<string name="edit_button">Edit</string>
-  <string name="event_accepted">You joined&#160;</string>
-  <string name="event_decline">You declined&#160;</string>
-  <string name="event_canceled">You canceled&#160;</string>
-  <string name="event_left">You left&#160;</string>
+ 	<string name="event_accepted">You joined&#160;</string>
+  	<string name="event_decline">You declined&#160;</string>
+  	<string name="event_canceled">You canceled&#160;</string>
+  	<string name="event_left">You left&#160;</string>
 	<string name="event_date">Date</string>
+	<string name="event_date_of_event">Date of Event</string>
 	<string name="event_description">Event Description</string>
 	<string name="event_description_hint">Description</string>
 	<string name="event_error_could_not_create">Sorry, could not create event:</string>
@@ -40,8 +41,8 @@
 	<string name="event_place">Location/Address</string>
 	<string name="event_place_hint">Location/Address</string>
 	<string name="event_time">Time</string>
-    <string name="event_warning_edit">Are you sure you want to go back? All current changes will be lost.</string>
-    <string name="finish_button">Finish</string>
+  <string name="event_warning_edit">Are you sure you want to go back? All current changes will be lost.</string>
+  <string name="finish_button">Finish</string>
 	<string name="host_new_event">Host New Event</string>
 	<string name="host_save_changes">Save Changes</string>
 	<string name="label_eventactivity">Events</string>
@@ -57,6 +58,7 @@
 	<string name="message_event_nothing_here">There is nothing here. Go to Invites to find new events.</string>
 	<string name="message_host_nothing_hosted">You are hosting no events. To host an event, click the \"Host New Event\" button.</string>
 	<string name="message_logout">Are you sure you want to log out?</string>
+  <string name="message_leave_event_confirm">Are you sure you want to leave the event?</string>
 	<string name="message_offer_no_more">You have no more offers.</string>
 	<string name="message_offer_nothing_here">No offers where found.</string>
 	<string name="name">Name:</string>

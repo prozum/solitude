@@ -1,16 +1,7 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
+﻿using System;
 using Android.OS;
-using Android.Runtime;
-using Android.Util;
 using Android.Views;
-using Android.Widget;
+using System.Collections.Generic;
 
 namespace Solitude.Droid
 {
@@ -26,10 +17,18 @@ namespace Solitude.Droid
 		public List<InfoChange> SaveInfo()
 		{
 			List<InfoChange> languageList = new List<InfoChange>();
-			foreach (var info in signUpInfo)
+			/*foreach (var info in signUpInfo)
 			{
-				languageList.Add(new InfoChange(InfoType.Language, (int)Enum.Parse(typeof(Language), info), 1));
-			}
+				languageList.Add(new InfoChange(InfoType.Language, (int)Enum.Parse(typeof(Language), info)));
+			}*/
+			var lang = Context.Resources.Configuration.Locale.Language;
+			if (lang == "da")
+				foreach (var info in signUpInfo)
+					languageList.Add(new InfoChange(InfoType.Language, (int)Enum.Parse(typeof(LanguageDa), info), 1)); 
+			else
+				foreach (var info in signUpInfo)
+					languageList.Add(new InfoChange(InfoType.Language, (int)Enum.Parse(typeof(Language), info), 1));
+			
 			return languageList;
 		}
 	}

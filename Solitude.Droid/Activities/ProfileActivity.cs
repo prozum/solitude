@@ -95,7 +95,7 @@ namespace Solitude.Droid
             name.TextSize = 20;
             name.Text = User.Name;
 
-            address.Text = User.Address;
+            address.Text = User.Location;
             DateTime today = DateTime.Today;
             int iAge = today.Year - User.Birthdate.Year;
             if (User.Birthdate > today.AddYears(-iAge))
@@ -125,6 +125,8 @@ namespace Solitude.Droid
             
             // Comfigure the autocompleter with a tokenizer and word list
             var autocompleter = card.FindViewById<AppCompatMultiAutoCompleteTextView>(Resource.Id.info_input);
+            autocompleter.Click += (o, e) => autocompleter.ShowDropDown();
+            autocompleter.Threshold = 0;
             autocompleter.SetTokenizer(new Classes.SpaceTokenizer()); // Tells the tokenizer to treat each word as its own entry
             var autocompleteElements = MainActivity.InfoNames[(int)type]; // Gets possible elemnts to autocomplete to
             var adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleDropDownItem1Line, autocompleteElements);
@@ -133,10 +135,19 @@ namespace Solitude.Droid
             var adder = card.FindViewById<ImageView>(Resource.Id.confirm_input);
             adder.Click += (o, e) =>
             {
-                var input = autocompleter.Text.Split(' ');
+                var input = autocompleter.Text.ToLower();
                 autocompleter.Text = string.Empty;
-                var compares = MainActivity.InfoNames[(int)type].Select(s => s.ToLower()).ToArray(); // Gets an array of all possible entries to compare input with
+                var compares = MainActivity.InfoNames[(int)type].ToArray();
+
+                foreach (var item in compares)
+                {
+                    if (input.Contains(item.ToLower()))
+                    {
+                        AddCardEntry(type, card, content, item);
+                    }
+                }
                 
+                /*
                 foreach (var item in input)
                 {
                     if (compares.Contains(item.ToLower())) // Checks if entry is valid
@@ -144,7 +155,7 @@ namespace Solitude.Droid
                         AddCardEntry(type, card, content, item);
                     }
                 }
-
+                */
                 UpdateInfo(type, GetUpdatedContent(type, card));
             };
 

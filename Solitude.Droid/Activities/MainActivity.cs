@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Android.Support.Design.Widget;
 using Android.Graphics;
+using Android.Support.V7.App;
 
 namespace Solitude.Droid
 {
@@ -126,7 +127,7 @@ namespace Solitude.Droid
 						//Shows an error-messaage, if login was not succesful
 						else
 						{
-							var loginFailedDialog = new AlertDialog.Builder(this);
+							var loginFailedDialog = new Android.Support.V7.App.AlertDialog.Builder(this);
 							loginFailedDialog.SetMessage(CIF.LatestError);
 							loginFailedDialog.SetNegativeButton(Resource.String.ok, (s, earg) =>
 								{
@@ -150,7 +151,7 @@ namespace Solitude.Droid
 			//Displays an errormessage, if no username or password is entered
 			else
 			{
-				var noTextAlert = new AlertDialog.Builder(this);
+				var noTextAlert = new Android.Support.V7.App.AlertDialog.Builder(this);
 				noTextAlert.SetMessage(Resources.GetString(Resource.String.message_empty_username_password));
 				noTextAlert.SetNegativeButton(Resource.String.ok, (s, earg) =>
 					{

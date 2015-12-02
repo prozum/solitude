@@ -510,7 +510,7 @@ namespace ClientCommunication
 			var body = new 
 				{ 
 					Date = e.Date, 
-					Address = e.Address,
+					Address = e.Location,
 					Title = e.Title,
 					Description = e.Description,
 					SlotsTaken = 0,
@@ -545,7 +545,7 @@ namespace ClientCommunication
 			request.AddBody(new {
 				Id = e.Id,
 				Date = e.Date, 
-				Address = e.Address,
+				Address = e.Location,
 				Title = e.Title,
 				Description = e.Description,
 				SlotsTaken = e.SlotsTotal - e.SlotsTaken,

@@ -91,7 +91,6 @@
     <Compile Include="Notifications\OfferNotification.cs" />
     <Compile Include="Notifications\ReviewNotification.cs" />
     <Compile Include="Activities\SignUpActivity.cs" />
-    <Compile Include="Activities\HostActivity.cs" />
     <Compile Include="Drawer\SetupDrawer.cs" />
     <Compile Include="Classes\Review.cs" />
     <Compile Include="Activities\EventActivity.cs" />
@@ -99,6 +98,7 @@
     <Compile Include="Activities\ProfileActivity.cs" />
     <Compile Include="Activities\SettingsActivitiy.cs" />
     <Compile Include="Activities\DrawerActivity.cs" />
+    <Compile Include="SignUp\SignUpFragments\AbstractSignupFragment.cs" />
     <Compile Include="TileMenu\Adapters\EventAdapter.cs" />
     <Compile Include="Fragments\Tabs\TabAdapter.cs" />
     <Compile Include="TileMenu\Adapters\InfoAdapter.cs" />
@@ -120,7 +120,6 @@
     <Compile Include="SignUp\SignUpFragments\SignUpFragmentFoodPreferences.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="SignUp\SignUpFragments\SignUpFragmentLanguages.cs" />
-    <Compile Include="SignUp\SignUpFragments\AbstractSignupFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -140,7 +139,7 @@
       <SubType>AndroidResource</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\ProfileInformationCard.axml">
-      <SubType>AndroidResource</SubType>
+      <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\ProfileInformationCardEntry.axml">
       <SubType>AndroidResource</SubType>
@@ -155,7 +154,9 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\Icon.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\Icon.png" />
     <AndroidResource Include="Resources\layout\HeaderLayout.axml" />
-    <AndroidResource Include="Resources\layout\SignUp.axml" />
+    <AndroidResource Include="Resources\layout\SignUp.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
     <AndroidResource Include="Resources\layout\ActivityLayout.axml" />
     <AndroidResource Include="Resources\drawable\ic_navigation_drawer.png" />
     <AndroidResource Include="Resources\layout\SpinnerItem.axml" />
@@ -302,5 +303,65 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_menu_black_18dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_arrow_back_white_18dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_arrow_back_white_18dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_arrow_back_white_18dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-hdpi\ic_arrow_back_white_18dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-mdpi\ic_arrow_back_white_18dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-mdpi\ic_arrow_forward_white_18dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_arrow_forward_white_18dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_arrow_forward_white_18dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_arrow_forward_white_18dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-hdpi\ic_arrow_forward_white_18dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_close_white_18dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_close_white_18dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-hdpi\ic_close_white_18dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-mdpi\ic_close_white_18dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_close_white_18dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_done_white_18dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_done_white_18dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_done_white_18dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-hdpi\ic_done_white_18dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-mdpi\ic_done_white_18dp.png" />
   </ItemGroup>
 </Project>

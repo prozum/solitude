@@ -1,5 +1,4 @@
 ﻿using System;
-
 using Android.OS;
 using System.Linq;
 using Android.Views;
@@ -35,7 +34,6 @@ namespace Solitude.Droid
 				{
 					var entry = content.GetChildAt(i);
 					var icon = entry.FindViewById<ImageView>(Resource.Id.profile_card_entry_remove);
-					icon.Visibility = ViewStates.Invisible;
 				}
 			}
 			// Create your fragment here
@@ -49,7 +47,9 @@ namespace Solitude.Droid
 			var content = card.FindViewById<LinearLayout>(Resource.Id.profile_card_entry);
 
 			var autocompleter = card.FindViewById<AppCompatMultiAutoCompleteTextView>(Resource.Id.info_input);
-			autocompleter.SetTokenizer(new Classes.SpaceTokenizer()); // Tells the tokenizer to treat each word as its own entry
+            autocompleter.Click += (o, e) => autocompleter.ShowDropDown();
+            autocompleter.Threshold = 0;
+            autocompleter.SetTokenizer(new Classes.SpaceTokenizer()); // Tells the tokenizer to treat each word as its own entry
 			var autocompleteElements = MainActivity.InfoNames[(int)type]; // Gets possible elements to autocomplete to
 			var adapter = new ArrayAdapter(Context, Android.Resource.Layout.SimpleDropDownItem1Line, autocompleteElements);
 			autocompleter.Adapter = adapter;
@@ -57,12 +57,12 @@ namespace Solitude.Droid
 			var adder = card.FindViewById<ImageView>(Resource.Id.confirm_input);
 			adder.Click += (o, e) =>
 				{
-					var input = autocompleter.Text.Split(' ');
+					var input = autocompleter.Text.ToLower();
 					autocompleter.Text = string.Empty;
-					var compares = MainActivity.InfoNames[(int)type].Select(s => s.ToLower()).ToArray(); // Gets an array of all possible entries to compare input with
-					foreach (var item in input)
+					var compares = MainActivity.InfoNames[(int)type].ToArray(); // Gets an array of all possible entries to compare input with
+					foreach (var item in compares)
 					{
-						if (compares.Contains(item.ToLower())) // Checks if entry is valid
+						if (input.Contains(item.ToLower()))
 						{
 							AddCardEntry(card, content, item);
 						}
@@ -83,11 +83,11 @@ namespace Solitude.Droid
 				((ViewGroup)contentCard.Parent).RemoveView(contentCard);
 
 			entry.Text = s;
+			s = s.Trim(' ');
 			signUpInfo.Add(s);
 			remover.Visibility = ViewStates.Visible;
 
 			content.AddView(contentCard);
-
 		}
 	}
 }
