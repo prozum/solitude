@@ -57,12 +57,12 @@ namespace Solitude.Droid
 			var adder = card.FindViewById<ImageView>(Resource.Id.confirm_input);
 			adder.Click += (o, e) =>
 				{
-					var input = autocompleter.Text.Split(' ');
+					var input = autocompleter.Text.ToLower();
 					autocompleter.Text = string.Empty;
-					var compares = MainActivity.InfoNames[(int)type].Select(s => s.ToLower()).ToArray(); // Gets an array of all possible entries to compare input with
-					foreach (var item in input)
+					var compares = MainActivity.InfoNames[(int)type].ToArray(); // Gets an array of all possible entries to compare input with
+					foreach (var item in compares)
 					{
-						if (compares.Contains(item.ToLower())) // Checks if entry is valid
+						if (input.Contains(item.ToLower()))
 						{
 							AddCardEntry(card, content, item);
 						}

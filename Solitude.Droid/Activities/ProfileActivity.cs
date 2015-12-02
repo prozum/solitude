@@ -133,10 +133,19 @@ namespace Solitude.Droid
             var adder = card.FindViewById<ImageView>(Resource.Id.confirm_input);
             adder.Click += (o, e) =>
             {
-                var input = autocompleter.Text.Split(' ');
+                var input = autocompleter.Text.ToLower();
                 autocompleter.Text = string.Empty;
-                var compares = MainActivity.InfoNames[(int)type].Select(s => s.ToLower()).ToArray(); // Gets an array of all possible entries to compare input with
+                var compares = MainActivity.InfoNames[(int)type].ToArray();
+
+                foreach (var item in compares)
+                {
+                    if (input.Contains(item.ToLower()))
+                    {
+                        AddCardEntry(type, card, content, item);
+                    }
+                }
                 
+                /*
                 foreach (var item in input)
                 {
                     if (compares.Contains(item.ToLower())) // Checks if entry is valid
@@ -144,7 +153,7 @@ namespace Solitude.Droid
                         AddCardEntry(type, card, content, item);
                     }
                 }
-
+                */
                 UpdateInfo(type, GetUpdatedContent(type, card));
             };
 
