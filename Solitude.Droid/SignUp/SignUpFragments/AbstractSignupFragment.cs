@@ -49,6 +49,8 @@ namespace Solitude.Droid
 			var content = card.FindViewById<LinearLayout>(Resource.Id.profile_card_entry);
 
 			var autocompleter = card.FindViewById<AppCompatMultiAutoCompleteTextView>(Resource.Id.info_input);
+            autocompleter.Click += (o, e) => autocompleter.ShowDropDown();
+            //autocompleter.ItemSelected += (o, e) => autocompleter.ShowDropDown();
 			autocompleter.SetTokenizer(new Classes.SpaceTokenizer()); // Tells the tokenizer to treat each word as its own entry
 			var autocompleteElements = MainActivity.InfoNames[(int)type]; // Gets possible elements to autocomplete to
 			var adapter = new ArrayAdapter(Context, Android.Resource.Layout.SimpleDropDownItem1Line, autocompleteElements);
