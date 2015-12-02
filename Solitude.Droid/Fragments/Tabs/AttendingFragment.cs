@@ -47,7 +47,7 @@ namespace Solitude.Droid
 					view.FindViewById<TextView>(Resource.Id.expanded_content).Text =
 						string.Format("{0}\n\n{1}: {2}\n{3}: {4}/{5}",
 									  evnt.Description, Resources.GetString(Resource.String.event_place),
-									  evnt.Address, Resources.GetString(Resource.String.event_participants),
+									  evnt.Location, Resources.GetString(Resource.String.event_participants),
 									  evnt.SlotsTaken, evnt.SlotsTotal);
 
 					view.FindViewById<Button>(Resource.Id.action1).Text = GetString(Resource.String.leave_button);

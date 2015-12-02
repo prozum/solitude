@@ -132,7 +132,7 @@ namespace Solitude.Droid
 
 			var @event = new Event()
 			{
-				Address = place,
+				Location = place,
 				Date = new DateTimeOffset(year, month, day, hour, minut, 0, new TimeSpan(0)),
 				Description = description,
 				Id = id,
