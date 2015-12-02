@@ -20,12 +20,12 @@ namespace Solitude.Droid
 	}
 	public enum FoodHabit
 	{
-		Halal		= 0,
-		Kosher		= 1,
-		Vegan		= 2,
-		NoLactose	= 3,
-		NoGluten	= 4,
-		NoNuts		= 5
+		Halal				= 0,
+		Kosher				= 1,
+		Vegan				= 2,
+		LactoseIntolerance	= 3,
+		GlutenIntolerance	= 4,
+		NutAllergy			= 5
 	}
 	public enum Interest
 	{
@@ -36,38 +36,6 @@ namespace Solitude.Droid
 		Electronics	= 4,
 		Cooking		= 5,
 		Drawing		= 6
-	}
-
-	public enum LanguageDa
-	{
-		Dansk		= 0,
-		Engelsk		= 1,
-		Tysk		= 2,
-		Fransk		= 3,
-		Spansk		= 4,
-		Kinesisk	= 5,
-		Russisk		= 6
-	}
-
-	public enum FoodHabitDa
-	{
-		Halal				= 0,
-		Kosher				= 1,
-		Vegetar				= 2,
-		LaktoseIntolerance	= 3,
-		GlutenIntolerance	= 4,
-		NøddeAllergi		= 5
-	}
-
-	public enum InterestDa
-	{
-		Natur		= 0,
-		Fitness		= 1,
-		Film		= 2,
-		Gaming		= 3,
-		Elektronik	= 4,
-		Madlavning	= 5,
-		Tegning		= 6
 	}
 
 	public class InfoChange
