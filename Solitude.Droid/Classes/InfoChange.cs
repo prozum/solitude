@@ -34,8 +34,40 @@ namespace Solitude.Droid
 		Movies		= 2,
 		Gaming		= 3,
 		Electronics	= 4,
-		Food		= 5,
+		Cooking		= 5,
 		Drawing		= 6
+	}
+
+	public enum LanguageDa
+	{
+		Dansk		= 0,
+		Engelsk		= 1,
+		Tysk		= 2,
+		Fransk		= 3,
+		Spansk		= 4,
+		Kinesisk	= 5,
+		Russisk		= 6
+	}
+
+	public enum FoodHabitDa
+	{
+		Halal				= 0,
+		Kosher				= 1,
+		Vegetar				= 2,
+		LaktoseIntolerance	= 3,
+		GlutenIntolerance	= 4,
+		NøddeAllergi		= 5
+	}
+
+	public enum InterestDa
+	{
+		Natur		= 0,
+		Fitness		= 1,
+		Film		= 2,
+		Gaming		= 3,
+		Elektronik	= 4,
+		Madlavning	= 5,
+		Tegning		= 6
 	}
 
 	public class InfoChange
@@ -48,6 +80,7 @@ namespace Solitude.Droid
 		{
 			Info = key;
 			Value = value;
+			Weight = weight;
 		}
 	}
 }

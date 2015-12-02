@@ -1,15 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Util;
 using Android.Views;
-using Android.Widget;
+using System.Collections.Generic;
 
 namespace Solitude.Droid
 {
@@ -27,10 +19,24 @@ namespace Solitude.Droid
 		public List<InfoChange> SaveInfo()
 		{
 			List<InfoChange> foodPreferencesList = new List<InfoChange>();
+
 			foreach (var info in signUpInfo)
 			{
 				foodPreferencesList.Add(new InfoChange(InfoType.FoodHabit, (int)Enum.Parse(typeof(FoodHabit), info), 1));
 			}
+			//foreach (var info in signUpInfo)
+			//{
+			//	foodPreferencesList.Add(new InfoChange(InfoType.FoodHabit, (int)Enum.Parse(typeof(FoodHabit), info)));
+			//}
+			var lang = Context.Resources.Configuration.Locale.Language;
+
+			if (lang == "da")
+				foreach (var info in signUpInfo)
+					foodPreferencesList.Add(new InfoChange(InfoType.FoodHabit, (int)Enum.Parse(typeof(FoodHabitDa), info), 1)); 
+			else
+				foreach (var info in signUpInfo)
+					foodPreferencesList.Add(new InfoChange(InfoType.FoodHabit, (int)Enum.Parse(typeof(FoodHabit), info), 1));
+			
 			return foodPreferencesList;
 		}
 	}
