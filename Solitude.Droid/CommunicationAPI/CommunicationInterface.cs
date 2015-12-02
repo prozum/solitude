@@ -98,89 +98,6 @@ namespace ClientCommunication
 				return -1;
 			}
 		}
-
-		/*
-		/// <summary>
-		/// Parses the events from the server response.
-		/// </summary>
-		/// <returns>The events.</returns>
-		/// <param name="serverResponse">Server response.</param>
-		private List<Event> parseEvents(IRestResponse serverResponse){
-			//Tries to convert response to events
-			var events = new List<Event>();
-
-			//Extract every single json to it's own JsonValue
-			Regex reg = new Regex(@"{[^}]*}");
-			var matches = reg.Matches(serverResponse.Content);
-
-			//Generate Events from the JsonValues
-			for(int i = 0; i < matches.Count; i++)
-			{
-				//Generate Events from the JsonValues
-				try 
-				{
-					JsonValue jVal = System.Json.JsonObject.Parse(matches[i].Value);
-					int ID = parseToInt(jVal["Id"]);
-					string title = jVal["Title"];
-					string desc = jVal["Description"];
-					DateTime dt = parseDate(jVal["Date"]);
-					string adress = jVal["Address"];
-					int slotsTotal = parseToInt(jVal["SlotsTotal"]);
-					int slotsTaken = parseToInt(jVal["SlotsTaken"]);
-
-					events.Add(new Event(title, dt, adress, desc, slotsTotal, slotsTaken, ID));
-				}
-				catch
-				{
-					events.Add(new Event ("title", new DateTime(1000, 01, 01), "N/A", "N/A", 0, 0));
-				}
-			}
-
-			return events;
-		}
-		*/
-
-		/*
-		public DateTime parseDate(string s)
-		{
-			try
-			{
-				return DateTime.ParseExact(s, "yyyy/M/dd-hh:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-			}
-			catch
-			{
-				return DateTime.ParseExact(s, "yyyy/MM/dd-hh:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-			}
-		}
-		*/
-
-		/*
-		/// <summary>
-		/// Parses the info response.
-		/// </summary>
-		/// <param name="response">Response from server.</param>
-		/// <param name="infoList">Info list.</param>
-		/// <param name="type">Type of information to parse.</param>
-		private void parseInfoResponse(IRestResponse response, List<int> infoList)
-		{
-			try
-			{
-				//Trim and split result to get single values
-				string trimmed = response.Content.Trim('[', ']');
-				string[] choises = trimmed.Split(',');
-
-				//Parse each and add to information type
-				foreach (var choise in choises)
-					infoList.Add(int.Parse(choise));
-
-			}
-			catch
-			{
-				LatestError = "Could not parse interests";
-			}
-		}
-		*/
-
 		#endregion
 
 		#region IClientCommunication implementation
@@ -411,14 +328,6 @@ namespace ClientCommunication
 				try
 				{
 					return JsonConvert.DeserializeObject<User>(response.Content);
-
-					/*
-					string name = jVal["Name"];
-					string adr = jVal["Address"];
-					DateTime birthday = parseDate(jVal["Birthdate"]);
-
-					return new User(name, adr, birthday);
-					*/
 				}
 				catch
 				{
@@ -509,8 +418,8 @@ namespace ClientCommunication
 			//And the body containing event-informatinon
 			var body = new 
 				{ 
-					Date = e.Date, 
-					Address = e.Location,
+					Date = e.Date,
+					Location = e.Location,
 					Title = e.Title,
 					Description = e.Description,
 					SlotsTaken = 0,
@@ -544,8 +453,8 @@ namespace ClientCommunication
 
 			request.AddBody(new {
 				Id = e.Id,
-				Date = e.Date, 
-				Address = e.Location,
+				Date = e.Date,
+				Location = e.Location,
 				Title = e.Title,
 				Description = e.Description,
 				SlotsTaken = e.SlotsTotal - e.SlotsTaken,

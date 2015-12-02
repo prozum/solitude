@@ -36,6 +36,7 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+    <AndroidSupportedAbis>armeabi-v7a;x86</AndroidSupportedAbis>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -67,7 +68,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\SpaceTokenizer.cs" />
-    <Compile Include="Fragments\AccentSnackBar.cs" />
     <Compile Include="Fragments\EventEdit\EditEventAdapter.cs" />
     <Compile Include="Fragments\EventEdit\EditFragment.cs" />
     <Compile Include="Fragments\EventEdit\EventDateFragment.cs" />
@@ -120,6 +120,7 @@
     <Compile Include="SignUp\SignUpFragments\SignUpFragmentFoodPreferences.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="SignUp\SignUpFragments\SignUpFragmentLanguages.cs" />
+    <Compile Include="Fragments\AccentSnackBar.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

@@ -14,8 +14,8 @@ namespace Model
 		public string Name { set; get; }
 
 		[Required]
-		[Display(Name = "Address")]
-		public string Address { set; get; }
+		[Display(Name = "Location")]
+		public string Location { set; get; }
 
 		[Required]
 		[Display(Name = "Birthdate")]
@@ -36,12 +36,6 @@ namespace Model
 		[Display(Name = "Confirm password")]
 		[Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
 		public string ConfirmPassword { get; set; }
-
-
-		public User DeepCopy()
-		{
-			return (User)MemberwiseClone();
-		}
 	}
 }
 

@@ -9,8 +9,9 @@ namespace Solitude.Server
     public class SolitudeUser : ApplicationUser
     {
         public string Name { set; get; }
-        public string Address { set; get; }
-        private DateTimeOffset _birthdate;
+        public string Location { set; get; }
+
+        DateTimeOffset _birthdate;
         public DateTimeOffset Birthdate 
         { 
             set

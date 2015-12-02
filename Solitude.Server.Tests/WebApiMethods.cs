@@ -27,7 +27,7 @@ namespace Solitude.Server.Tests
 		public User User = new User()
 		{
 			Name = "Sir John Fisher",
-			Address = "1st Fishstreet",
+			Location = "1st Fishstreet",
 			Birthdate = DateTimeOffset.UtcNow,
 			Password = "passw1",
 			ConfirmPassword = "passw1"
@@ -87,7 +87,7 @@ namespace Solitude.Server.Tests
 			{
 				name = User.Name,
 				birthdate = User.Birthdate,
-				address = User.Address,
+				location = User.Location,
 				username = "user-" + Guid.NewGuid(),
 				password = password,
 				confirmPassword = confirmPassword
@@ -105,7 +105,7 @@ namespace Solitude.Server.Tests
 			{
 				name = User.Name,
 				birthdate = "2015",
-				address = User.Address,
+				address = User.Location,
 				username = "user-" + Guid.NewGuid(),
 				password = User.Password,
 				confirmPassword = User.ConfirmPassword
