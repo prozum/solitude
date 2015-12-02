@@ -418,7 +418,7 @@ namespace ClientCommunication
 			//And the body containing event-informatinon
 			var body = new 
 				{ 
-					Date = e.Date, 
+					Date = e.Date,
 					Location = e.Location,
 					Title = e.Title,
 					Description = e.Description,
@@ -453,7 +453,7 @@ namespace ClientCommunication
 
 			request.AddBody(new {
 				Id = e.Id,
-				Date = e.Date, 
+				Date = e.Date,
 				Location = e.Location,
 				Title = e.Title,
 				Description = e.Description,

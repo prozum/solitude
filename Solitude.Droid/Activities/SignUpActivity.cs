@@ -13,6 +13,7 @@ using Android.Views.InputMethods;
 using Android.Graphics;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
+using Android.Support.Design.Widget;
 
 namespace Solitude.Droid
 {
@@ -34,15 +35,7 @@ namespace Solitude.Droid
 			//Finds all widgets on the SignUp-layout
 			View fragView4 = View.Inflate(this, Resource.Layout.signupFragLayout4, null);
 
-			//Removes buttons
-			var nxt = FindViewById<Button>(Resource.Id.signUpNextBtn);
-			var bck = FindViewById<Button>(Resource.Id.signUpPreviousBtn);
-			var lay = FindViewById<LinearLayout>(Resource.Id.signUpButtons);
-			lay.RemoveView(nxt);
-			lay.RemoveView(bck);
-
 			//Initialize ViewPager
-			_viewPager = new CustomViewPager (this);
 			_viewPager = FindViewById <CustomViewPager> (Resource.Id.signUpViewPager);
 			_viewPager.Adapter = new CustomFragmentAdapter (SupportFragmentManager);
 			_viewPager.OnPageLeft += saveFragmentInfo;
@@ -116,7 +109,7 @@ namespace Solitude.Droid
 			if (username != "" && password != "" && confirm != "" && name != "" && address != "")
 			{
 				//Generates a dialog showing a spinner
-				var pb = new AlertDialog.Builder(this).Create();
+				var pb = new Android.Support.V7.App.AlertDialog.Builder(this).Create();
 				pb.SetView(new ProgressBar(pb.Context));
 				pb.SetCancelable(false);
 				RunOnUiThread(() => pb.Show());
@@ -144,7 +137,7 @@ namespace Solitude.Droid
 						else
 						{
 							//Generates a dialog showing an errormessage
-							var errorDialog = new AlertDialog.Builder(this);
+							var errorDialog = new Android.Support.V7.App.AlertDialog.Builder(this);
 							errorDialog.SetMessage(MainActivity.CIF.LatestError);
 
 							//Goes back to the initial signup-screen
@@ -160,10 +153,10 @@ namespace Solitude.Droid
 			else
 			{
 				//Generates an error dialog showing that some information is missing
-				var errorDialog = new AlertDialog.Builder(this);
+				var errorDialog = new Android.Support.V7.App.AlertDialog.Builder(this);
 				errorDialog.SetMessage(Resources.GetString(Resource.String.sign_up_missing_info));
 				errorDialog.SetNegativeButton(Resource.String.ok, (s, earg) => {
-					RunOnUiThread( () => _viewPager.CurrentItem = (int) CustomFragmentAdapter.CurrentlyShown.NameAddress );
+					RunOnUiThread(() => _viewPager.CurrentItem = (int) CustomFragmentAdapter.CurrentlyShown.NameAddress );
 				});
 				errorDialog.Show();
 			}
