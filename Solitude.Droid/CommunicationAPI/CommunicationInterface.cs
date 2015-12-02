@@ -200,7 +200,7 @@ namespace ClientCommunication
 			var response = client.Execute(offerRequest);
 
 			if (response.StatusCode == 0)
-				LatestError = "No internet connection";
+				LatestError = "Could not connect to server.";
 			else if (response.StatusCode != HttpStatusCode.OK)
 				parseErrorMessage(response);
 			else
@@ -261,7 +261,7 @@ namespace ClientCommunication
 
 			if (tokenResponse.StatusCode == 0)
 			{
-				LatestError = "No internet connection, please connect before logging in.";
+				LatestError = "Could not connect to server.";
 				return false;
 			}
 
@@ -347,7 +347,7 @@ namespace ClientCommunication
 
 			//Parses the event if status code is OK else determine the error
 			if (serverResponse.StatusCode == 0)
-				LatestError = "No internet connection";
+				LatestError = "Could not connect to server.";
 			else if (serverResponse.StatusCode != HttpStatusCode.OK)
 				parseErrorMessage(serverResponse);
 			else
@@ -401,7 +401,7 @@ namespace ClientCommunication
 
 			if (response.StatusCode == 0)
 			{
-				LatestError = "No connection to server";
+				LatestError = "Could not connect to server.";
 				return new User("Sample name", "Sample address", DateTimeOffset.UtcNow);
 			}
 			else if (response.StatusCode == HttpStatusCode.OK)
@@ -582,7 +582,7 @@ namespace ClientCommunication
 
 			//Parses the event if status code is OK else determine the error
 			if (serverResponse.StatusCode == 0)
-				LatestError = "No internet connection";
+				LatestError = "Could not connect to server.";
 			else if (serverResponse.StatusCode != HttpStatusCode.OK)
 				parseErrorMessage(serverResponse);
 			else
