@@ -126,6 +126,7 @@ namespace Solitude.Droid
             // Comfigure the autocompleter with a tokenizer and word list
             var autocompleter = card.FindViewById<AppCompatMultiAutoCompleteTextView>(Resource.Id.info_input);
             autocompleter.Click += (o, e) => autocompleter.ShowDropDown();
+            autocompleter.Threshold = 0;
             autocompleter.SetTokenizer(new Classes.SpaceTokenizer()); // Tells the tokenizer to treat each word as its own entry
             var autocompleteElements = MainActivity.InfoNames[(int)type]; // Gets possible elemnts to autocomplete to
             var adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleDropDownItem1Line, autocompleteElements);
