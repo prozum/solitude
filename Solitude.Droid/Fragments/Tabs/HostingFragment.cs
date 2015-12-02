@@ -43,7 +43,7 @@ namespace Solitude.Droid
 					view.FindViewById<TextView>(Resource.Id.expanded_content).Text =
 						string.Format("{0}\n\n{1}: {2}\n{3}: {4}/{5}", 
 									  evnt.Description, Resources.GetString(Resource.String.event_place), 
-									  evnt.Address, Resources.GetString(Resource.String.event_participants), 
+									  evnt.Location, Resources.GetString(Resource.String.event_participants), 
 									  evnt.SlotsTaken, evnt.SlotsTotal);
 
 					view.FindViewById<Button>(Resource.Id.action1).Text = GetString(Resource.String.cancel_button);
@@ -52,10 +52,18 @@ namespace Solitude.Droid
 
 				Adapter.OnAction1 = (i) =>
 				{
-					var @event = Adapter.Items[i];
-                    MainActivity.CIF.DeleteEvent(@event);
-					Adapter.RemoveAt(i);
-					AccentSnackBar.Make(Layout, Activity, Resources.GetString(Resource.String.event_canceled) + @event.Title, 2000).Show();
+					var alertBuilder = new Android.Support.V7.App.AlertDialog.Builder(Activity);
+					alertBuilder.SetTitle(Resources.GetString(Resource.String.cancel_event));
+					alertBuilder.SetMessage(Resources.GetString(Resource.String.message_leave_event_confirm));
+
+					alertBuilder.SetNegativeButton(Resources.GetString(Resource.String.no_abort), (s, e) => { });
+					alertBuilder.SetPositiveButton(Resources.GetString(Resource.String.yes_cancel), (s, e) =>
+					{
+						var @event = Adapter.Items[i];
+						MainActivity.CIF.DeleteEvent(@event);
+						Adapter.RemoveAt(i);
+						AccentSnackBar.Make(Layout, Activity, Resources.GetString(Resource.String.event_canceled) + @event.Title, 2000).Show();
+					});
 				};
 				Adapter.OnAction2 = EditEvent;
 				Fab.Click += (s, e) => NewEvent();
@@ -109,7 +117,7 @@ namespace Solitude.Droid
 			intent.PutExtra("date year", @event.Date.Year);
 			intent.PutExtra("date hour", @event.Date.Hour);
 			intent.PutExtra("date minutte", @event.Date.Minute);
-			intent.PutExtra("place", @event.Address);
+			intent.PutExtra("place", @event.Location);
 			intent.PutExtra("maxslots", @event.SlotsTotal);
 			intent.PutExtra("slotstaken", @event.SlotsTaken);
 			intent.PutExtra("id", @event.Id);

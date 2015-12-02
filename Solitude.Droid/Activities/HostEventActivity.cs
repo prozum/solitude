@@ -12,6 +12,7 @@ using Android.Views;
 using Android.Widget;
 using Android.Support.V4.View;
 using Android.Support.V7.App;
+using Android.Support.Design.Widget;
 
 namespace Solitude.Droid
 {
@@ -24,13 +25,13 @@ namespace Solitude.Droid
 		{
 			base.OnCreate(bundle);
 			SetContentView(Resource.Layout.SignUp);
-			var next = FindViewById<Button>(Resource.Id.signUpNextBtn);
-			var back = FindViewById<Button>(Resource.Id.signUpPreviousBtn);
+			var finish = FindViewById<FloatingActionButton>(Resource.Id.finish);
 			var viewpager = FindViewById<ViewPager>(Resource.Id.signUpViewPager);
 			var progress = FindViewById<ProgressBar>(Resource.Id.signupProgress);
-			Adapter = new EditEventAdapter(this, viewpager, next, back, progress);
+			Adapter = new EditEventAdapter(this, viewpager, finish,  progress);
 
 			viewpager.Adapter = Adapter;
+			viewpager.AddOnPageChangeListener(Adapter);
 
 			Adapter.AddPager(new EventInfoFragment());
 			Adapter.AddPager(new EventDateFragment());

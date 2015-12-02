@@ -18,33 +18,30 @@ using Android.Views.InputMethods;
 
 namespace Solitude.Droid
 {
-	public class EditEventAdapter : FragmentPagerAdapter
+	public class EditEventAdapter : FragmentPagerAdapter, ViewPager.IOnPageChangeListener
 	{
 		protected AppCompatActivity Activity { get; set; }
 		protected ViewPager Pager { get; set; }
-		protected Button Next { get; set; }
-		protected Button Previous { get; set; }
+		protected FloatingActionButton Finish { get; set; }
 		protected ProgressBar Progress { get; set; }
 		protected List<EditFragment> Items { get; set; }
+		protected int Selected { get; set; }
 
 		public override int Count { get { return Items.Count; } }
 		
-		public EditEventAdapter(AppCompatActivity activity, ViewPager pager, Button next, Button prev, ProgressBar progress)
+		public EditEventAdapter(AppCompatActivity activity, ViewPager pager, FloatingActionButton finish, ProgressBar progress)
 			: base(activity.SupportFragmentManager)
 		{
 			Activity = activity;
             Pager = pager;
-			Next = next;
-			Previous = prev;
+			Finish = finish;
 			Progress = progress;
 			Items = new List<EditFragment>();
 
-			Next.Click += (s, e) => NextPage();
-			Previous.Click += (s, e) => PreviousPage();
+			Finish.Click += (s, e) => NextPage();
 
 			Pager.Adapter = this;
 			Progress.Progress = 1;
-			Previous.Text = Activity.Resources.GetString(Resource.String.cancel_button);
 		}
 		
 		public void AddPager(EditFragment frag)
@@ -78,11 +75,10 @@ namespace Solitude.Droid
 					}
 
 					Pager.SetCurrentItem(Pager.CurrentItem + 1, true);
-					Previous.Text = Activity.Resources.GetString(Resource.String.back_button);
 					Progress.Progress++;
 
 					if (Pager.CurrentItem >= Items.Count - 1)
-						Next.Text = Activity.Resources.GetString(Resource.String.finish_button);
+						Finish.Visibility = ViewStates.Visible;
 				}
 			}
 		}
@@ -107,11 +103,9 @@ namespace Solitude.Droid
 
 				Items[Pager.CurrentItem].SaveInfo();
 				Pager.SetCurrentItem(Pager.CurrentItem - 1, true);
-				Next.Text = Activity.Resources.GetString(Resource.String.next_button);
+				Finish.SetImageResource(Resource.Drawable.ic_arrow_forward_white_18dp);
 				Progress.Progress--;
-
-				if (Pager.CurrentItem <= 0)
-					Previous.Text = Activity.Resources.GetString(Resource.String.cancel_button);
+				Finish.Visibility = ViewStates.Gone;
 			}
 		}
 
@@ -132,7 +126,7 @@ namespace Solitude.Droid
 
 			var @event = new Event()
 			{
-				Address = place,
+				Location = place,
 				Date = new DateTimeOffset(year, month, day, hour, minut, 0, new TimeSpan(0)),
 				Description = description,
 				Id = id,
@@ -150,15 +144,17 @@ namespace Solitude.Droid
 			else
 				throw new ArgumentException("type has to be either edit or new");
 
-			if (!completed)
+			if (completed)
+			{
+				Back();
+			}
+			else
 			{
 				var dialog = new Android.Support.V7.App.AlertDialog.Builder(Activity);
 				dialog.SetMessage(Activity.Resources.GetString(Resource.String.message_error_event_update_event) + "\n" + MainActivity.CIF.LatestError);
 				dialog.SetNegativeButton(Resource.String.ok, (s, earg) => { });
 				dialog.Show();
 			}
-
-			Back();
         }
 
 		protected void Back()
@@ -167,6 +163,46 @@ namespace Solitude.Droid
 			intent.PutExtra("index", Activity.Intent.GetIntExtra("index", 0));
 			intent.PutExtra("tab", Activity.Intent.GetIntExtra("tab", 0));
 			Activity.StartActivity(intent);
+		}
+
+		public void OnPageScrollStateChanged(int state)
+		{
+		}
+
+		public void OnPageScrolled(int position, float positionOffset, int positionOffsetPixels)
+		{
+		}
+
+		public void OnPageSelected(int position)
+		{
+			if (position > Selected)
+			{
+				if (Items[Selected].IsValidData())
+				{
+					if (Items[position].HidesKeyboard)
+					{
+						InputMethodManager imm = (InputMethodManager)Activity.GetSystemService(Context.InputMethodService);
+						imm.HideSoftInputFromWindow(Pager.WindowToken, 0);
+					}
+
+					Items[Selected].SaveInfo();
+					Selected = position;
+					Progress.Progress = position + 1;
+					
+					if (Selected >= Items.Count - 1)
+						Finish.Visibility = ViewStates.Visible;
+				}
+				else
+				{
+					Pager.SetCurrentItem(Selected, true);
+				}
+			}
+			else
+			{
+				Selected = position;
+				Progress.Progress = position + 1;
+				Finish.Visibility = ViewStates.Gone;
+			}
 		}
 	}
 }

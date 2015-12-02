@@ -20,7 +20,7 @@
 	<string name="event_error_could_not_create">En ny begivenhed kunne ikke oprettes:</string>
 	<string name="event_error_guest_limit">- Din nye gæste begrænsning er under nuværende antal af deltagere</string>
 	<string name="event_error_in_info">Der er fejl i din begivenhed:</string>
-  	<string name="event_error_invalid_date">Invalid dato.</string>
+  <string name="event_error_invalid_date">Invalid dato.</string>
 	<string name="event_error_many_guest">- For mange gæster.</string>
 	<string name="event_error_no_description">- Manglende beskrivelse</string>
 	<string name="event_error_no_guest">- Manglende gæste begrænsning</string>
@@ -36,12 +36,12 @@
 	<string name="event_menu_recommended">Anbefalede</string>
 	<string name="event_name">Begivenheds navn</string>
 	<string name="event_name_hint">Begivenheds navn</string>
-  	<string name="event_participants">Deltagere</string>
+  <string name="event_participants">Deltagere</string>
 	<string name="event_place">Lokation/Adresse</string>
 	<string name="event_place_hint">Lokation/Adresse</string>
 	<string name="event_time">Tid</string>
-  	<string name="event_warning_edit">Er du sikker på du vil gå tilbage? Alle dine nuværene ændringer vil blive tabt.</string>
-  	<string name="finish_button">Afslut</string>
+  <string name="event_warning_edit">Er du sikker på du vil gå tilbage? Alle dine nuværene ændringer vil blive tabt.</string>
+  <string name="finish_button">Afslut</string>
 	<string name="host_new_event">Afhold ny begivenhed</string>
 	<string name="host_save_changes">Gem ændringer</string>
 	<string name="label_eventactivity">Begivenheder</string>
@@ -57,6 +57,7 @@
 	<string name="message_event_nothing_here">Der er intet her. Gå til invitationer for at finde nye begivenheder</string>
 	<string name="message_host_nothing_hosted">Du er ikke vært for nogen begivenheder. For at oprette en begivenhed tryk på "Afhold ny begivenhed" knappen</string>
 	<string name="message_logout">Er du sikker på at du vil logge af?</string>
+  <string name="message_leave_event_confirm">Er du sikker på at du vil forlade begivenheden?</string>
 	<string name="message_offer_no_more">Du har ikke flere tilbud</string>
 	<string name="message_offer_nothing_here">Ingen tilbud blev fundet</string>
 	<string name="name">Navn:</string>
