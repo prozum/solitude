@@ -54,9 +54,9 @@ namespace Solitude.Droid
 					view.FindViewById<TextView>(Resource.Id.title).Text = offer.Title;
 					view.FindViewById<TextView>(Resource.Id.subtitle).Text = offer.Date.ToString("G");
 
-					AddInfo(offer.Match.Interests, InfoType.Interest, matchs);
-					AddInfo(offer.Match.FoodHabits, InfoType.FoodHabit, matchs);
-					AddInfo(offer.Match.Languages, InfoType.Language, matchs);
+					AddInfo(offer.Match.Interests, InfoType.Interest, ref matchs);
+					AddInfo(offer.Match.FoodHabits, InfoType.FoodHabit, ref matchs);
+					AddInfo(offer.Match.Languages, InfoType.Language, ref matchs);
 
 					view.FindViewById<TextView>(Resource.Id.expanded_content).Text =
 						string.Format("{0}\n\n{1}: {2}\n{3}: {4}/{5}\n\n{6}", 
@@ -100,7 +100,7 @@ namespace Solitude.Droid
 			}
 		}
 
-		private void AddInfo(int[] items, InfoType type, string res)
+		private void AddInfo(int[] items, InfoType type, ref string res)
 		{
 			for (int i = 0; i < items.Length; i++)
 			{

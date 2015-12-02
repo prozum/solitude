@@ -29,8 +29,8 @@ namespace Solitude.Droid
 		{
 			Layout = inflater.Inflate(Resource.Layout.editEventTimeLayout, null);
 			Picker = Layout.FindViewById<TimePicker>(Resource.Id.timepicker);
-			Picker.CurrentHour = (Java.Lang.Integer)Activity.Intent.GetIntExtra("date hour", 0);
-			Picker.CurrentMinute = (Java.Lang.Integer)Activity.Intent.GetIntExtra("date minutte", 0);
+			Picker.CurrentHour = (Java.Lang.Integer)Activity.Intent.GetIntExtra("date hour", DateTime.Now.Hour);
+			Picker.CurrentMinute = (Java.Lang.Integer)Activity.Intent.GetIntExtra("date minutte", DateTime.Now.Minute);
 			
 			return Layout;
 		}

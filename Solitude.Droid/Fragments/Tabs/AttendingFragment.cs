@@ -46,6 +46,7 @@ namespace Solitude.Droid
 						Adapter.RemoveAt(i);
 						AccentSnackBar.Make(Layout, Activity, Resources.GetString(Resource.String.event_left) + @event.Title, 2000).Show();
 					});
+					alertBuilder.Show();
 				};
 				Adapter.OnUpdatePosition = (view, evnt, exp) =>
 				{

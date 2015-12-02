@@ -72,8 +72,8 @@ namespace Solitude.Droid
 		{
 			var dialog = new Android.Support.V7.App.AlertDialog.Builder(this);
 			dialog.SetMessage(Resources.GetString(Resource.String.message_logout));
-			dialog.SetNegativeButton(Resource.String.no, (s, e) => { });
-			dialog.SetNeutralButton(Resource.String.yes, (s, e) => MainActivity.CIF.Logout(this));
+			dialog.SetPositiveButton(Resource.String.no, (s, e) => { });
+			dialog.SetNegativeButton(Resource.String.yes, (s, e) => MainActivity.CIF.Logout(this));
 			dialog.Show();
 		}
 

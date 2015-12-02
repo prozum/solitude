@@ -64,7 +64,8 @@ namespace Solitude.Droid
 						Adapter.RemoveAt(i);
 						AccentSnackBar.Make(Layout, Activity, Resources.GetString(Resource.String.event_canceled) + @event.Title, 2000).Show();
 					});
-				};
+					alertBuilder.Show();
+                };
 				Adapter.OnAction2 = EditEvent;
 				Fab.Click += (s, e) => NewEvent();
 				
