@@ -28,10 +28,10 @@ namespace Solitude.Droid
 		{
 			get
 			{
-				int iYear, iMonth, iDay;
-				if (int.TryParse(year.Text, out iYear) && int.TryParse(month.Text, out iMonth) && int.TryParse(day.Text, out iDay))
-					return new DateTime(iYear, iMonth, iDay);
-				else
+				//int iYear, iMonth, iDay;
+				//if (int.TryParse(year.Text, out iYear) && int.TryParse(month.Text, out iMonth) && int.TryParse(day.Text, out iDay))
+				//	return new DateTime(iYear, iMonth, iDay);
+				//else
 					return DateTime.Today;
 			}
 		}
@@ -68,16 +68,13 @@ namespace Solitude.Droid
 			// Find all views on the fragment
 			address = view.FindViewById<EditText>(Resource.Id.editAddress);
 			name = view.FindViewById<EditText>(Resource.Id.editSignUpName);
-			day = view.FindViewById<EditText>(Resource.Id.signupBirthday);
-			month = view.FindViewById<EditText>(Resource.Id.signupBirthMonth);
-			year = view.FindViewById<EditText>(Resource.Id.signupBirthYear);
 
-			var imm = (InputMethodManager)Activity.GetSystemService(Context.InputMethodService);
-			imm.HideSoftInputFromWindow(address.WindowToken, 0);
-			imm.HideSoftInputFromWindow(name.WindowToken, 0);
-			imm.HideSoftInputFromWindow(day.WindowToken, 0);
-			imm.HideSoftInputFromWindow(month.WindowToken, 0);
-			imm.HideSoftInputFromWindow(year.WindowToken, 0);
+			//var imm = (InputMethodManager)Activity.GetSystemService(Context.InputMethodService);
+			//imm.HideSoftInputFromWindow(address.WindowToken, 0);
+			//imm.HideSoftInputFromWindow(name.WindowToken, 0);
+			//imm.HideSoftInputFromWindow(day.WindowToken, 0);
+			//imm.HideSoftInputFromWindow(month.WindowToken, 0);
+			//imm.HideSoftInputFromWindow(year.WindowToken, 0);
 
 			return view;
 		}

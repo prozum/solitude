@@ -8,6 +8,7 @@
         android:layout_height="match_parent"
         android:divider="@null"
         android:dividerHeight="0dp"
+        android:layout_gravity="bottom|right|left|top"
         android:id="@+id/list" />
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

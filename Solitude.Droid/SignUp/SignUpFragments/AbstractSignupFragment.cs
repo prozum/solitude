@@ -20,28 +20,13 @@ namespace Solitude.Droid
 			base.OnCreate(savedInstanceState);
 
 			signUpCard = Activity.LayoutInflater.Inflate(Resource.Layout.ProfileInformationCard, null);
-			foreach (var item in new List<View>() {signUpCard})
-			{
-				//Sets the input box to visible
-				item.FindViewById<ImageView>(Resource.Id.confirm_input).Visibility = ViewStates.Visible;
-				item.FindViewById<TextInputLayout>(Resource.Id.info_input_container).Visibility = ViewStates.Visible;
-
-				// Get each entry in the card, and toggle the remove button.
-				var content = item.FindViewById<LinearLayout>(Resource.Id.profile_card_entry);
-				var childCount = content.ChildCount;
-
-				for (int i = 0; i < childCount; i++)
-				{
-					var entry = content.GetChildAt(i);
-					var icon = entry.FindViewById<ImageView>(Resource.Id.profile_card_entry_remove);
-				}
-			}
+			signUpCard.FindViewById<ImageView>(Resource.Id.confirm_input).Visibility = ViewStates.Visible;
+			signUpCard.FindViewById<TextInputLayout>(Resource.Id.info_input_container).Visibility = ViewStates.Visible;
 			// Create your fragment here
 		}
 
 		public void CreateCard(InfoType type, View card, string subtitle)
 		{
-
 			var cardTitle = card.FindViewById<TextView>(Resource.Id.profile_card_title);
 			var cardSubtitle = card.FindViewById<TextView>(Resource.Id.profile_card_subtitle);
 			var content = card.FindViewById<LinearLayout>(Resource.Id.profile_card_entry);

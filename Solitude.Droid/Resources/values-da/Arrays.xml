@@ -28,15 +28,12 @@
 	</string-array>
     <string-array name="info_titles">
    		<item>Sprog</item>
-   		<item>Interesseret i</item>
-   		<item>Mad præference</item>
+   		<item>Interesser</item>
+   		<item>Mad præferencer</item>
     </string-array>
     <string-array name="drawer_items">
    		<item>Profil</item>
-   		<!--<item>Invitationer</item>-->
    		<item>Begivenheder</item>
-   		<!--<item>Vært</item>-->
-   		<item>Indstillinger</item>
    		<item>Log ud</item>
     </string-array>
 </resources>

@@ -22,8 +22,7 @@ using Android.Support.Design.Widget;
 using Java.Lang;
 using Android.Text;
 using Android.Support.V7.Widget;
-
-
+using Android.Views.InputMethods;
 
 namespace Solitude.Droid
 {
@@ -40,8 +39,10 @@ namespace Solitude.Droid
         protected View cardFood { get; set; }
         protected View cardInterest { get; set; }
         protected View cardLanguage { get; set; }
-        
-        protected override void OnCreate(Bundle savedInstanceState)
+
+		protected FloatingActionButton Edit { get; set; }
+
+		protected override void OnCreate(Bundle savedInstanceState)
 		{
 			///var profile = new ProfileView(this, new User("Jimmi", "Jimmivej 12"));
 
@@ -68,9 +69,32 @@ namespace Solitude.Droid
 
 		}
 
-        /// <summary>
-        /// Sets up the UI, and keeps the OnCreate method clean.
-        /// </summary>
+		public override bool OnCreateOptionsMenu(IMenu menu)
+		{
+			menu.Add(0, 0, 0, Resource.String.delete_account_button);
+			return true;
+		}
+
+		public override bool OnOptionsItemSelected(IMenuItem item)
+		{
+			switch (item.ItemId)
+			{
+				case 0:
+                    var dialog = new Android.Support.V7.App.AlertDialog.Builder(this);
+					dialog.SetMessage(Resource.String.delete_account);
+					dialog.SetPositiveButton(Resource.String.yes, (s, e) => ConfirmDeletion());
+					dialog.SetNegativeButton(Resource.String.no, (s, e) => { });
+					dialog.Show();
+					break;
+				default:
+					break;
+			}
+			return base.OnOptionsItemSelected(item);
+		}
+
+		/// <summary>
+		/// Sets up the UI, and keeps the OnCreate method clean.
+		/// </summary>
 		private void SetupUI()
 		{
             // add profile to activity
@@ -81,9 +105,8 @@ namespace Solitude.Droid
             var name = profile.FindViewById<TextView>(Resource.Id.Name);
             var address = profile.FindViewById<TextView>(Resource.Id.Address);
             var age = profile.FindViewById<TextView>(Resource.Id.Age);
-            var layout = profile.FindViewById<LinearLayout>(Resource.Id.Layout);
 
-            var edit = profile.FindViewById<FloatingActionButton>(Resource.Id.fab_edit_profile);
+			Edit = profile.FindViewById<FloatingActionButton>(Resource.Id.fab_edit_profile);
 
             cardFood = LayoutInflater.Inflate(Resource.Layout.ProfileInformationCard, null);
 			cardInterest = LayoutInflater.Inflate(Resource.Layout.ProfileInformationCard, null);
@@ -95,14 +118,14 @@ namespace Solitude.Droid
             name.TextSize = 20;
             name.Text = User.Name;
 
-            address.Text = User.Location;
+            address.Text = User.Address;
             DateTime today = DateTime.Today;
-            int iAge = today.Year - User.Birthdate.Year;
+            int iAge = DateTimeOffset.Now.Year - User.Birthdate.Year;
             if (User.Birthdate > today.AddYears(-iAge))
                 iAge--;
             age.Text = iAge + Resources.GetString(Resource.String.year_old);
 
-            edit.Click += EditProfile;
+			Edit.Click += EditProfile;
 
             ProfileCreateCard(InfoType.Language, cardLanguage, "Speaks");
             ProfileCreateCard(InfoType.Interest, cardInterest, "Likes");
@@ -133,33 +156,10 @@ namespace Solitude.Droid
             autocompleter.Adapter = adapter;
 
             var adder = card.FindViewById<ImageView>(Resource.Id.confirm_input);
-            adder.Click += (o, e) =>
-            {
-                var input = autocompleter.Text.ToLower();
-                autocompleter.Text = string.Empty;
-                var compares = MainActivity.InfoNames[(int)type].ToArray();
+            adder.Click += (o, e) => AdderClick(type, card, content, autocompleter);
+			Edit.Click += (o, e) => AdderClick(type, card, content, autocompleter);
 
-                foreach (var item in compares)
-                {
-                    if (input.Contains(item.ToLower()))
-                    {
-                        AddCardEntry(type, card, content, item);
-                    }
-                }
-                
-                /*
-                foreach (var item in input)
-                {
-                    if (compares.Contains(item.ToLower())) // Checks if entry is valid
-                    {
-                        AddCardEntry(type, card, content, item);
-                    }
-                }
-                */
-                UpdateInfo(type, GetUpdatedContent(type, card));
-            };
-
-            cardTitle.Text = MainActivity.InfoTitles[(int)type];
+			cardTitle.Text = MainActivity.InfoTitles[(int)type];
             cardSubtitle.Text = subtitle;
             switch (type)
             {
@@ -187,6 +187,36 @@ namespace Solitude.Droid
             profileContent.AddView(card);
         }
 
+		private void AdderClick(InfoType type, View card, LinearLayout content, AppCompatMultiAutoCompleteTextView autocompleter)
+		{
+			var input = autocompleter.Text.ToLower();
+			autocompleter.Text = string.Empty;
+			var compares = MainActivity.InfoNames[(int)type].ToArray();
+
+			foreach (var item in compares)
+			{
+				if (input.Contains(item.ToLower()) && !CardContains(item, content))
+				{
+					AddCardEntry(type, card, content, item);
+				}
+			}
+			UpdateInfo(type, GetUpdatedContent(type, card));
+
+		}
+
+		private bool CardContains(string s, LinearLayout content)
+		{
+			for (int i = 0; i < content.ChildCount; i++)
+			{
+				if (content.GetChildAt(i).FindViewById<TextView>(Resource.Id.profile_card_entry_content).Text == s)
+				{
+					return true;
+				}
+			}
+
+			return false;
+		}
+
         /// <summary>
         /// Adds a new entry to the specified layout in the card
         /// </summary>
@@ -194,29 +224,22 @@ namespace Solitude.Droid
         /// <param name="s">The name of the entry. This is what will be displayed to the user.</param>
         private void AddCardEntry(InfoType type, View card, LinearLayout content, string s)
         {
-            try
+
+			var contentCard = LayoutInflater.Inflate(Resource.Layout.ProfileInformationCardEntry, null);
+
+            var remover = contentCard.FindViewById<ImageView>(Resource.Id.profile_card_entry_remove);
+            var entry = contentCard.FindViewById<TextView>(Resource.Id.profile_card_entry_content);
+
+            remover.Click += (se, ev) =>
             {
-                var contentCard = LayoutInflater.Inflate(Resource.Layout.ProfileInformationCardEntry, null);
+                ((ViewGroup)contentCard.Parent).RemoveView(contentCard); // Removes entry from card when clicked
+                UpdateInfo(type, GetUpdatedContent(type, card));
+            };
 
-                var remover = contentCard.FindViewById<ImageView>(Resource.Id.profile_card_entry_remove);
-                var entry = contentCard.FindViewById<TextView>(Resource.Id.profile_card_entry_content);
+            entry.Text = s;
+            remover.Visibility = isEditing ? ViewStates.Visible : ViewStates.Invisible; // Checks if the remove burron should be shown when added.
 
-                remover.Click += (se, ev) =>
-                {
-                    ((ViewGroup)contentCard.Parent).RemoveView(contentCard); // Removes entry from card when clicked
-                    UpdateInfo(type, GetUpdatedContent(type, card));
-                };
-
-                entry.Text = s;
-                remover.Visibility = isEditing ? ViewStates.Visible : ViewStates.Invisible; // Checks if the remove burron should be shown when added.
-
-                content.AddView(contentCard);
-            }
-            catch (System.Exception e)
-            {
-                e.ToString();
-                throw;
-            }
+            content.AddView(contentCard);
 
         }
 
@@ -228,8 +251,11 @@ namespace Solitude.Droid
         private void EditProfile(object sender, EventArgs e)
         {
             var edit = FindViewById<FloatingActionButton>(Resource.Id.fab_edit_profile);
+			
+			InputMethodManager imm = (InputMethodManager)GetSystemService(InputMethodService);
+			imm.HideSoftInputFromWindow(Content.WindowToken, 0);
 
-            if (isEditing) // Go from edit to view
+			if (isEditing) // Go from edit to view
             {
                 edit.SetImageResource(Resource.Drawable.ic_mode_edit_white_48dp);
                 SetContentVisible(ViewStates.Invisible);
@@ -312,5 +338,33 @@ namespace Solitude.Droid
 
             return contentList;
         }
+
+		private void ConfirmDeletion()
+		{
+			var dialog = new Android.Support.V7.App.AlertDialog.Builder(this);
+			var field = LayoutInflater.Inflate(Resource.Layout.PasswordLayout, null);
+			dialog.SetMessage(Resource.String.delete_account_confirm);
+			dialog.SetView(field);
+			dialog.SetPositiveButton(Resource.String.confirm, (send, earg) =>
+			{
+				if (MainActivity.CIF.Login(User.UserName, field.FindViewById<EditText>(Resource.Id.edit).Text))
+				{
+					MainActivity.CIF.DeleteUser();
+					StartActivity(new Intent(this, typeof(MainActivity)));
+				}
+				else
+					WrongPassword();
+			});
+			dialog.SetNegativeButton(Resource.String.cancel_button, (send, earg) => { });
+			dialog.Show();
+		}
+
+		private void WrongPassword()
+		{
+			var dialog = new Android.Support.V7.App.AlertDialog.Builder(this);
+			dialog.SetMessage(Resource.String.password_wrong);
+			dialog.SetPositiveButton(Resource.String.ok, (send, earg) => { });
+			dialog.Show();
+		}
 	}
 }

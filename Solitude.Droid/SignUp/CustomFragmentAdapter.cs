@@ -22,7 +22,7 @@ namespace Solitude.Droid
 
 		public Android.Support.V4.App.Fragment CurrentItem 
 		{
-			get { return GetItem(SignUpActivity._viewPager.CurrentItem); }
+			get { return null/*GetItem(SignUpActivity._viewPager.CurrentItem)*/; }
 		}
 		public CustomFragmentAdapter (Android.Support.V4.App.FragmentManager fm) : base (fm)
 		{ 

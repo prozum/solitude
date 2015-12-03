@@ -11,19 +11,20 @@ using Android.Util;
 using Android.Views;
 using Android.Widget;
 using System.Threading;
+using Android.Support.Design.Widget;
 
 namespace Solitude.Droid
 {
 	public class RecommendsFragment : TabFragment
 	{
-		public FrameLayout Layout { get; set; }
+		public CoordinatorLayout Layout { get; set; }
 		public ListView List { get; set; }
 		public EventAdapter<Offer> Adapter { get; set; }
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
 			Layout = inflater.Inflate(Resource.Layout.EventList, container, false)
-							 .FindViewById<FrameLayout>(Resource.Id.layout);
+							 .FindViewById<CoordinatorLayout>(Resource.Id.layout);
 			List = Layout.FindViewById<ListView>(Resource.Id.list);
 			Layout.RemoveAllViews();
 			Layout.AddView(new ProgressBar(Activity));
