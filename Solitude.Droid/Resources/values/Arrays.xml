@@ -36,4 +36,9 @@
    		<item>Events</item>
    		<item>Logout</item>
     </string-array>
+    <array name="info_resources">
+      <item>@array/languages</item>
+      <item>@array/interests</item>
+      <item>@array/foodhabits</item>
+    </array>
 </resources>

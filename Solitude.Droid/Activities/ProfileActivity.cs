@@ -140,8 +140,6 @@ namespace Solitude.Droid
         /// <param name="subtitle">The subtitle of the card, that appears beneath the title, but above the main content of the card.</param>
         private void ProfileCreateCard(InfoType type, View card, string subtitle)
         {
-            var info = MainActivity.CIF.GetInformation();
-            
             var cardTitle = card.FindViewById<TextView>(Resource.Id.profile_card_title);
             var cardSubtitle = card.FindViewById<TextView>(Resource.Id.profile_card_subtitle);
             var content = card.FindViewById<LinearLayout>(Resource.Id.profile_card_entry);
@@ -151,38 +149,21 @@ namespace Solitude.Droid
             autocompleter.Click += (o, e) => autocompleter.ShowDropDown();
             autocompleter.Threshold = 0;
             autocompleter.SetTokenizer(new Classes.SpaceTokenizer()); // Tells the tokenizer to treat each word as its own entry
-            var autocompleteElements = MainActivity.InfoNames[(int)type]; // Gets possible elemnts to autocomplete to
-            var adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleDropDownItem1Line, autocompleteElements);
+			var id = Resources.ObtainTypedArray(Resource.Array.info_resources).GetResourceId((int)type, 0);
+            var elements = Resources.GetStringArray(id); // Gets possible elemnts to autocomplete to
+            var adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleDropDownItem1Line, elements);
             autocompleter.Adapter = adapter;
 
             var adder = card.FindViewById<ImageView>(Resource.Id.confirm_input);
             adder.Click += (o, e) => AdderClick(type, card, content, autocompleter);
 			Edit.Click += (o, e) => AdderClick(type, card, content, autocompleter);
 
-			cardTitle.Text = MainActivity.InfoTitles[(int)type];
+			cardTitle.Text = Resources.GetStringArray(Resource.Array.info_titles)[(int)type];
             cardSubtitle.Text = subtitle;
-            switch (type)
-            {
-                case InfoType.FoodHabit:
-                    for (int i = 0; i < info[(int)type].Count; i++)
-                    {
-                        AddCardEntry(type, card, content, ((FoodHabit)info[(int)type][i]).ToString());
-                    }
-                    break;
-                case InfoType.Interest:
-                    for (int i = 0; i < info[(int)type].Count; i++)
-                    {
-                        AddCardEntry(type, card, content, ((Interest)info[(int)type][i]).ToString());
-                    }
-                    break;
-
-                case InfoType.Language:
-                    for (int i = 0; i < info[(int)type].Count; i++)
-                    {
-                        AddCardEntry(type, card, content, ((Language)info[(int)type][i]).ToString());
-                    }
-                    break;
-            }
+			foreach (var item in Info[(int)type])
+			{
+				AddCardEntry(type, card, content, elements[item]);
+			}
 
             profileContent.AddView(card);
         }
@@ -191,7 +172,8 @@ namespace Solitude.Droid
 		{
 			var input = autocompleter.Text.ToLower();
 			autocompleter.Text = string.Empty;
-			var compares = MainActivity.InfoNames[(int)type].ToArray();
+			var id = Resources.ObtainTypedArray(Resource.Array.info_resources).GetResourceId((int)type, 0);
+			var compares = Resources.GetStringArray(id);
 
 			foreach (var item in compares)
 			{
@@ -333,7 +315,9 @@ namespace Solitude.Droid
                 var entry = content.GetChildAt(i);
                 var text = entry.FindViewById<TextView>(Resource.Id.profile_card_entry_content);
 
-                contentList.Add(Array.FindIndex(MainActivity.InfoNames[(int)type], t => t.IndexOf(text.Text, StringComparison.InvariantCultureIgnoreCase) >= 0));
+				var id = Resources.ObtainTypedArray(Resource.Array.info_resources).GetResourceId((int)type, 0);
+				contentList.Add(Array.FindIndex(Resources.GetStringArray(id), 
+											    t => t.IndexOf(text.Text, StringComparison.InvariantCultureIgnoreCase) >= 0));
             }
 
             return contentList;

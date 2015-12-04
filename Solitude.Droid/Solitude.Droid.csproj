@@ -110,7 +110,6 @@
     <Compile Include="TileMenu\Seperator.cs" />
     <Compile Include="Activities\HostEventActivity.cs" />
     <Compile Include="TileMenu\Adapters\DrawerAdapter.cs" />
-    <Compile Include="TileMenu\InfoDialog.cs" />
     <Compile Include="Classes\InfoChange.cs" />
     <Compile Include="TileMenu\AlertDialog.cs" />
     <Compile Include="Classes\Direction.cs" />

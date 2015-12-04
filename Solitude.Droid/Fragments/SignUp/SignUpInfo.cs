@@ -69,13 +69,14 @@ namespace Solitude.Droid
 			AutoCompleter.Click += (o, e) => AutoCompleter.ShowDropDown();
 			AutoCompleter.Threshold = 0;
 			AutoCompleter.SetTokenizer(new Classes.SpaceTokenizer()); // Tells the tokenizer to treat each word as its own entry
-			var autocompleteElements = MainActivity.InfoNames[(int)Type]; // Gets possible elements to autocomplete to
+			var id = Resources.ObtainTypedArray(Resource.Array.info_resources).GetResourceId((int)Type, 0);
+			var autocompleteElements = Resources.GetStringArray(id); // Gets possible elements to autocomplete to
 			var adapter = new ArrayAdapter(Context, Android.Resource.Layout.SimpleDropDownItem1Line, autocompleteElements);
 			AutoCompleter.Adapter = adapter;
 
 			var adder = Card.FindViewById<ImageView>(Resource.Id.confirm_input);
 			adder.Click += (o, s) => AdderClicked();
-			cardTitle.Text = MainActivity.InfoTitles[(int)Type];
+			cardTitle.Text = Resources.GetStringArray(Resource.Array.info_titles)[(int)Type];
 			cardSubtitle.Text = Subtitle;
 		}
 
@@ -83,7 +84,8 @@ namespace Solitude.Droid
 		{
 			var input = AutoCompleter.Text.ToLower();
 			AutoCompleter.Text = string.Empty;
-			var compares = MainActivity.InfoNames[(int)Type].ToArray(); // Gets an array of all possible entries to compare input with
+			var id = Resources.ObtainTypedArray(Resource.Array.info_resources).GetResourceId((int)Type, 0);
+			var compares = Resources.GetStringArray(id); // Gets an array of all possible entries to compare input with
 			foreach (var item in compares)
 			{
 				if (input.Contains(item.ToLower()))
@@ -95,7 +97,8 @@ namespace Solitude.Droid
 
 		void AddCardEntry(string s)
 		{
-			var info = Array.IndexOf(MainActivity.InfoNames[(int)Type], s);
+			var id = Resources.ObtainTypedArray(Resource.Array.info_resources).GetResourceId((int)Type, 0);
+			var info = Array.IndexOf(Resources.GetStringArray(id), s);
 
 			if (!Info.Contains(info))
 			{
@@ -106,7 +109,7 @@ namespace Solitude.Droid
 
 				remover.Click += (se, ev) =>
 				{
-					var inf = Array.IndexOf(MainActivity.InfoNames[(int)Type], s);
+					var inf = Array.IndexOf(Resources.GetStringArray(id), s);
 
 					if (Info.Remove(inf))
 						((ViewGroup)contentCard.Parent).RemoveView(contentCard);

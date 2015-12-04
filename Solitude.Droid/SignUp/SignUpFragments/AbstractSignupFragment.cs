@@ -30,13 +30,14 @@ namespace Solitude.Droid
 			var cardTitle = card.FindViewById<TextView>(Resource.Id.profile_card_title);
 			var cardSubtitle = card.FindViewById<TextView>(Resource.Id.profile_card_subtitle);
 			var content = card.FindViewById<LinearLayout>(Resource.Id.profile_card_entry);
+			var id = Resources.ObtainTypedArray(Resource.Array.info_resources).GetResourceId((int)type, 0);
+			var elements = Resources.GetStringArray(id); // Gets possible elements to autocomplete to
 
 			var autocompleter = card.FindViewById<AppCompatMultiAutoCompleteTextView>(Resource.Id.info_input);
             autocompleter.Click += (o, e) => autocompleter.ShowDropDown();
             autocompleter.Threshold = 0;
             autocompleter.SetTokenizer(new Classes.SpaceTokenizer()); // Tells the tokenizer to treat each word as its own entry
-			var autocompleteElements = MainActivity.InfoNames[(int)type]; // Gets possible elements to autocomplete to
-			var adapter = new ArrayAdapter(Context, Android.Resource.Layout.SimpleDropDownItem1Line, autocompleteElements);
+			var adapter = new ArrayAdapter(Context, Android.Resource.Layout.SimpleDropDownItem1Line, elements);
 			autocompleter.Adapter = adapter;
 
 			var adder = card.FindViewById<ImageView>(Resource.Id.confirm_input);
@@ -44,7 +45,7 @@ namespace Solitude.Droid
 				{
 					var input = autocompleter.Text.ToLower();
 					autocompleter.Text = string.Empty;
-					var compares = MainActivity.InfoNames[(int)type].ToArray(); // Gets an array of all possible entries to compare input with
+					var compares = elements;// Gets an array of all possible entries to compare input with
 					foreach (var item in compares)
 					{
 						if (input.Contains(item.ToLower()))
@@ -53,7 +54,7 @@ namespace Solitude.Droid
 						}
 					}
 				};
-			cardTitle.Text = MainActivity.InfoTitles[(int)type];
+			cardTitle.Text = Resources.GetStringArray(Resource.Array.info_titles)[(int)type];
 			cardSubtitle.Text = subtitle;
 		}
 
@@ -68,7 +69,8 @@ namespace Solitude.Droid
 				((ViewGroup)contentCard.Parent).RemoveView(contentCard);
 
 			entry.Text = s;
-			var info = Array.IndexOf(MainActivity.InfoNames[(int)type], s);
+			var id = Resources.ObtainTypedArray(Resource.Array.info_resources).GetResourceId((int)type, 0);
+			var info = Array.IndexOf(Resources.GetStringArray(id), s);
 			signUpInfo.Add(info);
 			remover.Visibility = ViewStates.Visible;
 
