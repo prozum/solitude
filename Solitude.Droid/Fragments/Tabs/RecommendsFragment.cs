@@ -105,7 +105,8 @@ namespace Solitude.Droid
 		{
 			for (int i = 0; i < items.Length; i++)
 			{
-				res += MainActivity.InfoNames[(int)type][items[i]];
+				var id = Resources.ObtainTypedArray(Resource.Array.info_resources).GetResourceId((int)type, 0);
+				res += Resources.GetStringArray(id)[items[i]];
 
 				if (i != items.Length - 1)
 					res += ", ";

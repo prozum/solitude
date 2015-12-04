@@ -36,7 +36,8 @@ namespace Solitude.Droid
 			Drawer = CurrentActivity.FindViewById<DrawerLayout> (Resource.Id.drawer_layout);
 			DrawerList = CurrentActivity.FindViewById<ListView> (Resource.Id.left_drawer);
 
-			DrawerList.Adapter = new DrawerAdapter(CurrentActivity, MainActivity.DrawerActivities, MainActivity.DrawerNames);
+			DrawerList.Adapter = new DrawerAdapter(CurrentActivity, MainActivity.DrawerActivities,
+												   CurrentActivity.Resources.GetStringArray(Resource.Array.drawer_items));
 
 			DrawerList.SetItemChecked (Position, true);
 

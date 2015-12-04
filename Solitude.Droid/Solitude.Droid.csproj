@@ -68,13 +68,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\SpaceTokenizer.cs" />
-    <Compile Include="Fragments\EditDataAdapter.cs" />
-    <Compile Include="Fragments\EventEdit\EditEventAdapter.cs" />
+    <Compile Include="Adapters\EditDataAdapter.cs" />
+    <Compile Include="Adapters\EditEventAdapter.cs" />
     <Compile Include="Fragments\EditFragment.cs" />
     <Compile Include="Fragments\EventEdit\EventDateFragment.cs" />
     <Compile Include="Fragments\EventEdit\EventTimeFragment.cs" />
     <Compile Include="Fragments\EventEdit\EventInfoFragment.cs" />
-    <Compile Include="Fragments\SignUp\SignUpAdapter.cs" />
+    <Compile Include="Adapters\SignUpAdapter.cs" />
     <Compile Include="Fragments\SignUp\SignUpBirthDay.cs" />
     <Compile Include="Fragments\SignUp\SignUpInfo.cs" />
     <Compile Include="Fragments\SignUp\SignUpNameAddress.cs" />
@@ -102,28 +102,17 @@
     <Compile Include="Activities\EventActivity.cs" />
     <Compile Include="Activities\ProfileActivity.cs" />
     <Compile Include="Activities\DrawerActivity.cs" />
-    <Compile Include="SignUp\SignUpFragments\AbstractSignupFragment.cs" />
-    <Compile Include="TileMenu\Adapters\EventAdapter.cs" />
-    <Compile Include="Fragments\Tabs\TabAdapter.cs" />
-    <Compile Include="TileMenu\Adapters\InfoAdapter.cs" />
-    <Compile Include="TileMenu\Items\EventItem.cs" />
-    <Compile Include="TileMenu\Seperator.cs" />
+    <Compile Include="Adapters\EventAdapter.cs" />
+    <Compile Include="Adapters\TabAdapter.cs" />
+    <Compile Include="Adapters\InfoAdapter.cs" />
+    <Compile Include="Fragments\Tabs\EventItem.cs" />
     <Compile Include="Activities\HostEventActivity.cs" />
-    <Compile Include="TileMenu\Adapters\DrawerAdapter.cs" />
-    <Compile Include="TileMenu\InfoDialog.cs" />
+    <Compile Include="Adapters\DrawerAdapter.cs" />
     <Compile Include="Classes\InfoChange.cs" />
-    <Compile Include="TileMenu\AlertDialog.cs" />
     <Compile Include="Classes\Direction.cs" />
     <Compile Include="Classes\Offer.cs" />
     <Compile Include="Classes\Match.cs" />
-    <Compile Include="SignUp\CustomFragmentAdapter.cs" />
-    <Compile Include="SignUp\CustomViewPager.cs" />
-    <Compile Include="SignUp\SignUpFragments\SignUpFragmentNameAddress.cs" />
-    <Compile Include="SignUp\SignUpFragments\SignUpFragmentUsernamePassword.cs" />
-    <Compile Include="SignUp\SignUpFragments\SignUpFragmentInterests.cs" />
-    <Compile Include="SignUp\SignUpFragments\SignUpFragmentFoodPreferences.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
-    <Compile Include="SignUp\SignUpFragments\SignUpFragmentLanguages.cs" />
     <Compile Include="Fragments\AccentSnackBar.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -132,8 +121,6 @@
     <None Include="Assets\AboutAssets.txt" />
     <None Include="packages.config" />
     <AndroidResource Include="Resources\layout\HostList.axml" />
-    <AndroidResource Include="Resources\drawable\loginButton.xml" />
-    <AndroidResource Include="Resources\drawable\SignUpButton.xml" />
     <AndroidResource Include="Resources\layout\editEventInfoLayout.axml">
       <SubType>AndroidResource</SubType>
     </AndroidResource>
@@ -164,38 +151,23 @@
     <AndroidResource Include="Resources\drawable-xhdpi\Icon.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\Icon.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\Icon.png" />
-    <AndroidResource Include="Resources\layout\HeaderLayout.axml" />
     <AndroidResource Include="Resources\layout\SignUp.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\ActivityLayout.axml" />
-    <AndroidResource Include="Resources\drawable\ic_navigation_drawer.png" />
-    <AndroidResource Include="Resources\layout\SpinnerItem.axml" />
+    <AndroidResource Include="Resources\layout\DrawerLayout.axml" />
     <AndroidResource Include="Resources\layout\review_layout.axml" />
-    <AndroidResource Include="Resources\layout\deletionDialog.axml" />
-    <AndroidResource Include="Resources\layout\EditText.axml" />
-    <AndroidResource Include="Resources\layout\CheckedListViewItem.axml" />
-    <AndroidResource Include="Resources\layout\EditComparableInfo.axml" />
-    <AndroidResource Include="Resources\layout\EditDetails.axml" />
     <AndroidResource Include="Resources\drawable\orange.xml" />
     <AndroidResource Include="Resources\drawable\drawerselector.xml" />
-    <AndroidResource Include="Resources\drawable\Host_Icon.png" />
     <AndroidResource Include="Resources\drawable\Logout_Icon.png" />
     <AndroidResource Include="Resources\drawable\Main_Icon.png" />
-    <AndroidResource Include="Resources\drawable\Notification_Icon.png" />
     <AndroidResource Include="Resources\drawable\Profile_Icon.png" />
-    <AndroidResource Include="Resources\drawable\Settings_Icon.png" />
     <AndroidResource Include="Resources\drawable\Events_Icon.png" />
     <AndroidResource Include="Resources\layout\DrawerItem.axml" />
-    <AndroidResource Include="Resources\drawable\Event_Inv.png" />
     <AndroidResource Include="Resources\layout\Profile.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\values\styles.xml" />
-    <AndroidResource Include="Resources\drawable\buttonstyle.xml" />
-    <AndroidResource Include="Resources\drawable\ic_view_headline_black_36dp.png" />
     <AndroidResource Include="Resources\values\Arrays.xml" />
-    <AndroidResource Include="Resources\drawable\Invitation_Icon.png" />
     <AndroidResource Include="Resources\layout\TapTest.axml" />
     <AndroidResource Include="Resources\layout\EventCard.axml" />
     <AndroidResource Include="Resources\drawable-hdpi\ic_expand_less_black_48dp.png" />
@@ -456,5 +428,11 @@
     <Folder Include="Resources\drawable-ldrtl-xhdpi\" />
     <Folder Include="Resources\drawable-ldrtl-xxhdpi\" />
     <Folder Include="Resources\drawable-ldrtl-xxxhdpi\" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\Event_Inv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\loginButton.xml" />
   </ItemGroup>
 </Project>

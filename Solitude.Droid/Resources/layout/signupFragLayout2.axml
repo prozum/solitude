@@ -10,6 +10,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:divider="@color/accent"
         android:id="@+id/textView5" />
     <DatePicker
         android:layout_width="match_parent"

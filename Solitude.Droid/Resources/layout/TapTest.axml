@@ -13,7 +13,7 @@
         android:elevation="4dp"
         app:layout_scrollFlags="scroll|enterAlways"
         app:tabIndicatorColor="@color/secondary_text" />
-    <Solitude.Droid.CustomViewPager
+    <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

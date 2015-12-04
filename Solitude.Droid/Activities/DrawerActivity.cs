@@ -27,7 +27,7 @@ namespace Solitude.Droid
 			base.OnCreate(bundle);
 
 
-			SetContentView(Resource.Layout.ActivityLayout);
+			SetContentView(Resource.Layout.DrawerLayout);
 
 			Position = Intent.GetIntExtra("index", 0);
 
