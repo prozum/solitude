@@ -8,6 +8,12 @@ namespace Solitude.Server
 {
     public class ReviewController : SolitudeController
     {
+        public async Task<IHttpActionResult> Get(Guid id)
+        {
+            var events = await DB.GetReviews(id);
+            return Ok(events);
+        }
+
         public async Task<IHttpActionResult> Post(Review review)
         {
             review.UserId = new Guid(User.Identity.GetUserId());
