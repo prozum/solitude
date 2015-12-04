@@ -29,7 +29,10 @@ namespace Solitude.Droid
 			List = Layout.FindViewById<ListView>(Resource.Id.list);
 			Fab = Layout.FindViewById<FloatingActionButton>(Resource.Id.fab);
 			Layout.RemoveAllViews();
-			Layout.AddView(new ProgressBar(Activity));
+
+			var pd = new ProgressBar(Activity);
+            pd.LayoutParameters = new CoordinatorLayout.LayoutParams(-1, -1);
+			Layout.AddView(pd);
 
 			ThreadPool.QueueUserWorkItem(o =>
 			{
@@ -87,7 +90,10 @@ namespace Solitude.Droid
 			if (Layout != null)
 			{
 				Layout.RemoveAllViews();
-				Layout.AddView(new ProgressBar(Activity));
+
+				var pd = new ProgressBar(Activity);
+				pd.LayoutParameters = new CoordinatorLayout.LayoutParams(-1, -1);
+				Layout.AddView(pd);
 
 				ThreadPool.QueueUserWorkItem(o =>
 				{

@@ -37,8 +37,8 @@ namespace Solitude.Droid
             AddressLayout = layout.FindViewById<TextInputLayout>(Resource.Id.signupAddress);
 			Name = layout.FindViewById<EditText>(Resource.Id.editSignUpName);
 			Address = layout.FindViewById<EditText>(Resource.Id.editAddress);
-
-			return layout;
+			
+            return layout;
 		}
 
 		public override void SaveInfo()
