@@ -269,6 +269,17 @@ namespace Dal
 
         #region Review
 
+		public async Task<IEnumerable<Review>> GetReviews(Guid uid)
+		{
+			var reviews = await _client.Cypher
+				.Match("(review:Review)")
+				.Where((Review review) => review.UserId == uid)
+				.Return(() => Return.As<Review>("review"))
+				.ResultsAsync;
+
+			return reviews;
+		}
+
         /// <summary>
         /// Add a review to the database
         /// </summary>
@@ -277,9 +288,10 @@ namespace Dal
         public async Task AddReview(Review review)
 		{
 			await _client.Cypher
-				.Match ("(user:User)")
+				.Match ("(user:User) (e:Event)")
 				.Where((User user) => user.Id == review.UserId)
-				.Create ("user-[:GAVE_REVIEW]->(review:Review {data})")
+				.AndWhere((Event e) => e.Id == review.EventId)
+				.Create ("user-[:GAVE_REVIEW]->(review:Review {data})<-[:HAS_REVIEW]-(e:Event)")
 				.WithParam ("data", review)
 				.ExecuteWithoutResultsAsync ();
 		}
@@ -668,8 +680,8 @@ namespace Dal
         public async Task<bool> TakeSlot(Guid eid)
 		{
 			var res = await _client.Cypher
-				.Match ("(e:Event)")
-				.Where ((Event e) => e.Id == eid)
+				.Match("(e:Event)")
+				.Where((Event e) => e.Id == eid)
 				.AndWhere ((Event e) => e.SlotsTotal > e.SlotsTaken)
 				.Set ("e.SlotsTaken = e.SlotsTaken + 1")
 				.Return ((e) => e.As<Event> ())
