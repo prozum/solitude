@@ -11,19 +11,20 @@ using Android.Util;
 using Android.Views;
 using Android.Widget;
 using System.Threading;
+using Android.Support.Design.Widget;
 
 namespace Solitude.Droid
 {
 	public class AttendingFragment : TabFragment
 	{
-		public FrameLayout Layout { get; set; }
+		public CoordinatorLayout Layout { get; set; }
 		public ListView List { get; set; }
 		public EventAdapter<Event> Adapter { get; set; }
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
 			Layout = inflater.Inflate(Resource.Layout.EventList, null)
-								 .FindViewById<FrameLayout>(Resource.Id.layout);
+								 .FindViewById<CoordinatorLayout>(Resource.Id.layout);
 			List = Layout.FindViewById<ListView>(Resource.Id.list);
 			Layout.RemoveAllViews();
 			Layout.AddView(new ProgressBar(Activity));
@@ -35,17 +36,18 @@ namespace Solitude.Droid
 				Adapter.OnAction1 = (i) =>
 				{
 					var alertBuilder = new Android.Support.V7.App.AlertDialog.Builder(Activity);
-					alertBuilder.SetTitle(Resources.GetString(Resource.String.cancel_event));
+					alertBuilder.SetTitle(Resources.GetString(Resource.String.leave_event));
 					alertBuilder.SetMessage(Resources.GetString(Resource.String.message_leave_event_confirm));
 
-					alertBuilder.SetNegativeButton(Resources.GetString(Resource.String.no_abort), (s, e) => { });
-					alertBuilder.SetPositiveButton(Resources.GetString(Resource.String.yes_cancel), (s, e) =>
+					alertBuilder.SetNegativeButton(Resources.GetString(Resource.String.no), (s, e) => { });
+					alertBuilder.SetPositiveButton(Resources.GetString(Resource.String.yes), (s, e) =>
 					{
 						var @event = Adapter.Items[i];
 						MainActivity.CIF.CancelReg(@event);
 						Adapter.RemoveAt(i);
 						AccentSnackBar.Make(Layout, Activity, Resources.GetString(Resource.String.event_left) + @event.Title, 2000).Show();
 					});
+					alertBuilder.Show();
 				};
 				Adapter.OnUpdatePosition = (view, evnt, exp) =>
 				{

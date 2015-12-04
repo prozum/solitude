@@ -11,19 +11,20 @@ using Android.Util;
 using Android.Views;
 using Android.Widget;
 using System.Threading;
+using Android.Support.Design.Widget;
 
 namespace Solitude.Droid
 {
 	public class RecommendsFragment : TabFragment
 	{
-		public FrameLayout Layout { get; set; }
+		public CoordinatorLayout Layout { get; set; }
 		public ListView List { get; set; }
 		public EventAdapter<Offer> Adapter { get; set; }
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
 			Layout = inflater.Inflate(Resource.Layout.EventList, container, false)
-							 .FindViewById<FrameLayout>(Resource.Id.layout);
+							 .FindViewById<CoordinatorLayout>(Resource.Id.layout);
 			List = Layout.FindViewById<ListView>(Resource.Id.list);
 			Layout.RemoveAllViews();
 			Layout.AddView(new ProgressBar(Activity));
@@ -54,9 +55,9 @@ namespace Solitude.Droid
 					view.FindViewById<TextView>(Resource.Id.title).Text = offer.Title;
 					view.FindViewById<TextView>(Resource.Id.subtitle).Text = offer.Date.ToString("G");
 
-					AddInfo(offer.Match.Interests, InfoType.Interest, matchs);
-					AddInfo(offer.Match.FoodHabits, InfoType.FoodHabit, matchs);
-					AddInfo(offer.Match.Languages, InfoType.Language, matchs);
+					AddInfo(offer.Match.Interests, InfoType.Interest, ref matchs);
+					AddInfo(offer.Match.FoodHabits, InfoType.FoodHabit, ref matchs);
+					AddInfo(offer.Match.Languages, InfoType.Language, ref matchs);
 
 					view.FindViewById<TextView>(Resource.Id.expanded_content).Text =
 						string.Format("{0}\n\n{1}: {2}\n{3}: {4}/{5}\n\n{6}", 
@@ -100,7 +101,7 @@ namespace Solitude.Droid
 			}
 		}
 
-		private void AddInfo(int[] items, InfoType type, string res)
+		private void AddInfo(int[] items, InfoType type, ref string res)
 		{
 			for (int i = 0; i < items.Length; i++)
 			{

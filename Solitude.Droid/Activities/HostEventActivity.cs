@@ -41,7 +41,20 @@ namespace Solitude.Droid
 		public override void OnBackPressed()
 		{
 			Adapter.PreviousPage();
-        }
+		}
+
+		public override bool OnCreateOptionsMenu(IMenu menu)
+		{
+			var prev = menu.Add(0, 0, 0, "Prev").SetIcon(Resource.Drawable.ic_arrow_back_black_24dp);
+			var next = menu.Add(0, 1, 0, "Next").SetIcon(Resource.Drawable.ic_arrow_forward_black_24dp);
+			next.SetShowAsAction(ShowAsAction.IfRoom);
+			prev.SetShowAsAction(ShowAsAction.IfRoom);
+
+			Adapter.SetNextButton(next);
+			Adapter.SetPreviousButton(prev);
+
+			return true;
+		}
 	}
 }
 

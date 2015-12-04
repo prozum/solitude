@@ -31,7 +31,7 @@ namespace Solitude.Droid
 			Picker = Layout.FindViewById<DatePicker>(Resource.Id.datepicker);
 			Picker.DateTime = new DateTime(Activity.Intent.GetIntExtra("date year", DateTime.Now.Year),
 											   Activity.Intent.GetIntExtra("date month", DateTime.Now.Month),
-											   Activity.Intent.GetIntExtra("date day", DateTime.Now.Day));
+											   Activity.Intent.GetIntExtra("date day", DateTime.Now.Day + 1));
 				
 			return Layout;
 		}

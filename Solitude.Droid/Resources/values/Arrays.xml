@@ -28,15 +28,12 @@
 	</string-array>
     <string-array name="info_titles">
    		<item>Languages</item>
-   		<item>Interested in</item>
+   		<item>Interests</item>
    		<item>Food Preferences</item>
     </string-array>
     <string-array name="drawer_items">
    		<item>Profile</item>
-   		<!--<item>Invites</item>-->
    		<item>Events</item>
-   		<!--<item>Host</item>-->
-   		<item>Settings</item>
    		<item>Logout</item>
     </string-array>
 </resources>

@@ -54,7 +54,7 @@ namespace Solitude.Droid
 				{
 					var alertBuilder = new Android.Support.V7.App.AlertDialog.Builder(Activity);
 					alertBuilder.SetTitle(Resources.GetString(Resource.String.cancel_event));
-					alertBuilder.SetMessage(Resources.GetString(Resource.String.message_leave_event_confirm));
+					alertBuilder.SetMessage(Resources.GetString(Resource.String.message_cancel_event_confirm));
 
 					alertBuilder.SetNegativeButton(Resources.GetString(Resource.String.no_abort), (s, e) => { });
 					alertBuilder.SetPositiveButton(Resources.GetString(Resource.String.yes_cancel), (s, e) =>
@@ -64,7 +64,8 @@ namespace Solitude.Droid
 						Adapter.RemoveAt(i);
 						AccentSnackBar.Make(Layout, Activity, Resources.GetString(Resource.String.event_canceled) + @event.Title, 2000).Show();
 					});
-				};
+					alertBuilder.Show();
+                };
 				Adapter.OnAction2 = EditEvent;
 				Fab.Click += (s, e) => NewEvent();
 				

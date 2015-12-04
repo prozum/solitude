@@ -36,6 +36,7 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+    <AndroidSupportedAbis>armeabi-v7a;x86</AndroidSupportedAbis>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -67,12 +68,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\SpaceTokenizer.cs" />
-    <Compile Include="Fragments\AccentSnackBar.cs" />
+    <Compile Include="Fragments\EditDataAdapter.cs" />
     <Compile Include="Fragments\EventEdit\EditEventAdapter.cs" />
-    <Compile Include="Fragments\EventEdit\EditFragment.cs" />
+    <Compile Include="Fragments\EditFragment.cs" />
     <Compile Include="Fragments\EventEdit\EventDateFragment.cs" />
     <Compile Include="Fragments\EventEdit\EventTimeFragment.cs" />
     <Compile Include="Fragments\EventEdit\EventInfoFragment.cs" />
+    <Compile Include="Fragments\SignUp\SignUpAdapter.cs" />
+    <Compile Include="Fragments\SignUp\SignUpBirthDay.cs" />
+    <Compile Include="Fragments\SignUp\SignUpInfo.cs" />
+    <Compile Include="Fragments\SignUp\SignUpNameAddress.cs" />
+    <Compile Include="Fragments\SignUp\SignUpUsernamePassword.cs" />
     <Compile Include="Fragments\Tabs\HostingFragment.cs" />
     <Compile Include="Fragments\Tabs\AttendingFragment.cs" />
     <Compile Include="Fragments\Tabs\RecommendsFragment.cs" />
@@ -94,9 +100,7 @@
     <Compile Include="Drawer\SetupDrawer.cs" />
     <Compile Include="Classes\Review.cs" />
     <Compile Include="Activities\EventActivity.cs" />
-    <Compile Include="Activities\OfferActivity.cs" />
     <Compile Include="Activities\ProfileActivity.cs" />
-    <Compile Include="Activities\SettingsActivitiy.cs" />
     <Compile Include="Activities\DrawerActivity.cs" />
     <Compile Include="SignUp\SignUpFragments\AbstractSignupFragment.cs" />
     <Compile Include="TileMenu\Adapters\EventAdapter.cs" />
@@ -120,6 +124,7 @@
     <Compile Include="SignUp\SignUpFragments\SignUpFragmentFoodPreferences.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="SignUp\SignUpFragments\SignUpFragmentLanguages.cs" />
+    <Compile Include="Fragments\AccentSnackBar.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -142,6 +147,12 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\ProfileInformationCardEntry.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\PasswordLayout.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\signupFragLayout2.axml">
       <SubType>AndroidResource</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -363,5 +374,87 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-mdpi\ic_done_white_18dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-mdpi\ic_add_black_18dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_add_black_18dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_add_black_18dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_add_black_18dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-hdpi\ic_add_black_18dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-mdpi\ic_clear_black_18dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_clear_black_18dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_clear_black_18dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_clear_black_18dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-hdpi\ic_clear_black_18dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_add_black_36dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_add_black_36dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_add_black_36dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-hdpi\ic_add_black_36dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-mdpi\ic_add_black_36dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-mdpi\ic_arrow_back_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_arrow_back_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_arrow_back_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_arrow_back_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-hdpi\ic_arrow_back_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-mdpi\ic_arrow_forward_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_arrow_forward_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_arrow_forward_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_arrow_forward_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-hdpi\ic_arrow_forward_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\drawable-ldrtl-hdpi\" />
+    <Folder Include="Resources\drawable-ldrtl-mdpi\" />
+    <Folder Include="Resources\drawable-ldrtl-xhdpi\" />
+    <Folder Include="Resources\drawable-ldrtl-xxhdpi\" />
+    <Folder Include="Resources\drawable-ldrtl-xxxhdpi\" />
   </ItemGroup>
 </Project>

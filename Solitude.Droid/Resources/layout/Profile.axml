@@ -1,77 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="match_parent"
-  android:layout_height="wrap_content" >
-  <LinearLayout
-      android:orientation="vertical"
-      android:layout_width="fill_parent"
-      android:layout_height="fill_parent"
-      android:minWidth="25px"
-      android:minHeight="25px"
-      android:id="@+id/Layout">
-    <ImageView
-      android:id="@+id/profile_picture"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content" />
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:id="@+id/Layout">
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-      <RelativeLayout
-          android:id="@+id/basic_profile_layout"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_alignParentTop="true">
-        <ImageView
-            android:src="@drawable/profile_icon"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:id="@+id/Image" />
-        <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:minWidth="25px"
+        android:minHeight="25px">
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/basic_profile_layout"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@android:color/darker_gray"
-            android:id="@+id/sep"
-            android:layout_below="@id/Image" />
-        <TextView
-            android:text="Name: "
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/Image"
-            android:id="@+id/Name" />
-        <TextView
-            android:text="Address: "
-            android:layout_width="wrap_content"
+            android:background="@color/accent_text">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:src="@drawable/profile_icon"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:id="@+id/Image" />
+                <TextView
+                    android:text="Name: "
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/Image"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
+                    android:textSize="24sp"
+                    android:id="@+id/Name" />
+                <TextView
+                    android:text="Address: "
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/Name"
+                    android:layout_toRightOf="@id/Image"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
+                    android:textSize="14sp"
+                    android:id="@+id/Address" />
+                <TextView
+                    android:text="Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/Address"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
+                    android:textSize="14sp"
+                    android:id="@+id/Age"
+                    android:layout_toRightOf="@id/Image" />
+            </RelativeLayout>
+        </android.support.design.widget.AppBarLayout>
+        <ScrollView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/Name"
-            android:layout_toRightOf="@id/Image"
-            android:id="@+id/Address" />
-        <TextView
-            android:text="Text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/Address"
-            android:id="@+id/Age"
-            android:layout_toRightOf="@id/Image" />
-      </RelativeLayout>
-
-      <LinearLayout
-      android:id="@+id/profile_content"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_below="@id/basic_profile_layout"
-      android:orientation="vertical"
-      android:minHeight="32dp"/>
-
-      <android.support.design.widget.FloatingActionButton
-      android:id="@+id/fab_edit_profile"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_alignParentRight="true"
-      android:layout_alignBottom="@id/basic_profile_layout"
-      android:layout_marginBottom="-24dp"
-        android:layout_marginRight="20dp"
-      android:clickable="true"
-      android:src="@drawable/ic_mode_edit_white_48dp" />
+            android:layout_below="@id/basic_profile_layout">
+            <LinearLayout
+                android:id="@+id/profile_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:minHeight="32dp" />
+        </ScrollView>
     </RelativeLayout>
-  </LinearLayout>
-</ScrollView>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_edit_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:layout_anchor="@id/basic_profile_layout"
+        app:layout_anchorGravity="bottom|right|end"
+        android:clickable="true"
+        android:src="@drawable/ic_mode_edit_white_48dp" />
+</android.support.design.widget.CoordinatorLayout>

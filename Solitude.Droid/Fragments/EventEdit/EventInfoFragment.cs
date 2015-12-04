@@ -47,12 +47,6 @@ namespace Solitude.Droid
 			Location = layout.FindViewById<EditText>(Resource.Id.edit_location);
 			MaxSlots = layout.FindViewById<EditText>(Resource.Id.edit_guests);
 
-			var imm = (InputMethodManager)Activity.GetSystemService(Context.InputMethodService);
-			imm.HideSoftInputFromWindow(Name.WindowToken, 0);
-			imm.HideSoftInputFromWindow(Description.WindowToken, 0);
-			imm.HideSoftInputFromWindow(Location.WindowToken, 0);
-			imm.HideSoftInputFromWindow(MaxSlots.WindowToken, 0);
-
 			Name.Text = Activity.Intent.GetStringExtra("title");
 			Description.Text = Activity.Intent.GetStringExtra("description");
 			Location.Text = Activity.Intent.GetStringExtra("place");
@@ -78,7 +72,7 @@ namespace Solitude.Droid
 			var nameisvalid = !string.IsNullOrEmpty(Name.Text);
             var descisvalid = !string.IsNullOrEmpty(Description.Text);
 			var localisvalid = !string.IsNullOrEmpty(Location.Text);
-			var maxisvalid = int.TryParse(MaxSlots.Text, out res);
+			var maxisvalid = int.TryParse(MaxSlots.Text, out res) && res > 0;
 
             UpdateLayout(NameLayout, Name, Resource.String.event_error_no_title, nameisvalid);
             UpdateLayout(DescriptionLayout, Description, Resource.String.event_error_no_description, descisvalid);
@@ -88,23 +82,18 @@ namespace Solitude.Droid
 			return nameisvalid && descisvalid && localisvalid && maxisvalid;
         }
 
-		public void LoadInfo()
-		{
-		}
-
 		private void UpdateLayout(TextInputLayout layout, EditText text, int message, bool noerror)
 		{
-            //layout.ErrorEnabled = !noerror;
+            layout.ErrorEnabled = !noerror;
+
 			if (noerror)
 			{
                 layout.Error = string.Empty;
-                layout.ErrorEnabled = false;
                 text.Background.SetColorFilter(Color.Green, PorterDuff.Mode.SrcAtop);
 			}
 			else
 			{
                 layout.Error = Resources.GetString(message);
-                layout.ErrorEnabled = true;
                 text.Background.SetColorFilter(Color.Red, PorterDuff.Mode.SrcAtop);
 			}
 		}

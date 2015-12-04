@@ -18,98 +18,12 @@ using Android.Views.InputMethods;
 
 namespace Solitude.Droid
 {
-	public class EditEventAdapter : FragmentPagerAdapter, ViewPager.IOnPageChangeListener
+	public class EditEventAdapter : EditDataAdapter
 	{
-		protected AppCompatActivity Activity { get; set; }
-		protected ViewPager Pager { get; set; }
-		protected FloatingActionButton Finish { get; set; }
-		protected ProgressBar Progress { get; set; }
-		protected List<EditFragment> Items { get; set; }
-		protected int Selected { get; set; }
-
-		public override int Count { get { return Items.Count; } }
-		
 		public EditEventAdapter(AppCompatActivity activity, ViewPager pager, FloatingActionButton finish, ProgressBar progress)
-			: base(activity.SupportFragmentManager)
-		{
-			Activity = activity;
-            Pager = pager;
-			Finish = finish;
-			Progress = progress;
-			Items = new List<EditFragment>();
-
-			Finish.Click += (s, e) => NextPage();
-
-			Pager.Adapter = this;
-			Progress.Progress = 1;
-		}
+			: base(activity, pager, finish, progress) { }
 		
-		public void AddPager(EditFragment frag)
-		{
-			Items.Add(frag);
-			Progress.Max = Items.Count;
-			NotifyDataSetChanged();
-		}
-
-		public override Android.Support.V4.App.Fragment GetItem(int position)
-		{
-			return Items[position];
-		}
-
-		public void NextPage()
-		{
-			if (Items[Pager.CurrentItem].IsValidData())
-			{
-				Items[Pager.CurrentItem].SaveInfo();
-
-				if (Pager.CurrentItem >= Items.Count - 1)
-				{
-					UpdateEvent();
-				}
-				else
-				{
-					if (Items[Pager.CurrentItem + 1].HidesKeyboard)
-					{
-						InputMethodManager imm = (InputMethodManager)Activity.GetSystemService(Context.InputMethodService);
-						imm.HideSoftInputFromWindow(Pager.WindowToken, 0);
-					}
-
-					Pager.SetCurrentItem(Pager.CurrentItem + 1, true);
-					Progress.Progress++;
-
-					if (Pager.CurrentItem >= Items.Count - 1)
-						Finish.Visibility = ViewStates.Visible;
-				}
-			}
-		}
-
-		public void PreviousPage()
-		{
-			if (Pager.CurrentItem <= 0)
-			{
-				var dialog = new Android.Support.V7.App.AlertDialog.Builder(Activity);
-				dialog.SetMessage(Resource.String.event_warning_edit);
-				dialog.SetPositiveButton(Resource.String.yes, (s, earg) => Back());
-				dialog.SetNegativeButton(Resource.String.no, (s, earg) => { });
-				dialog.Show();
-			}
-			else
-			{
-				if (Items[Pager.CurrentItem - 1].HidesKeyboard)
-				{
-					InputMethodManager imm = (InputMethodManager)Activity.GetSystemService(Context.InputMethodService);
-					imm.HideSoftInputFromWindow(Pager.WindowToken, 0);
-				}
-
-				Items[Pager.CurrentItem].SaveInfo();
-				Pager.SetCurrentItem(Pager.CurrentItem - 1, true);
-				Finish.SetImageResource(Resource.Drawable.ic_arrow_forward_white_18dp);
-				Progress.Progress--;
-				Finish.Visibility = ViewStates.Gone;
-			}
-		}
-
-		protected void UpdateEvent()
+		protected override void UpdateData()
 		{
 			var type = Activity.Intent.GetStringExtra("type");
 			var title = Activity.Intent.GetStringExtra("title");
@@ -157,7 +71,7 @@ namespace Solitude.Droid
 			}
         }
 
-		protected void Back()
+		protected override void Back()
 		{
 			var intent = new Intent(Activity, typeof(EventActivity));
 			intent.PutExtra("index", Activity.Intent.GetIntExtra("index", 0));
@@ -165,44 +79,13 @@ namespace Solitude.Droid
 			Activity.StartActivity(intent);
 		}
 
-		public void OnPageScrollStateChanged(int state)
+		protected override void BackWarning()
 		{
-		}
-
-		public void OnPageScrolled(int position, float positionOffset, int positionOffsetPixels)
-		{
-		}
-
-		public void OnPageSelected(int position)
-		{
-			if (position > Selected)
-			{
-				if (Items[Selected].IsValidData())
-				{
-					if (Items[position].HidesKeyboard)
-					{
-						InputMethodManager imm = (InputMethodManager)Activity.GetSystemService(Context.InputMethodService);
-						imm.HideSoftInputFromWindow(Pager.WindowToken, 0);
-					}
-
-					Items[Selected].SaveInfo();
-					Selected = position;
-					Progress.Progress = position + 1;
-					
-					if (Selected >= Items.Count - 1)
-						Finish.Visibility = ViewStates.Visible;
-				}
-				else
-				{
-					Pager.SetCurrentItem(Selected, true);
-				}
-			}
-			else
-			{
-				Selected = position;
-				Progress.Progress = position + 1;
-				Finish.Visibility = ViewStates.Gone;
-			}
+			var dialog = new Android.Support.V7.App.AlertDialog.Builder(Activity);
+			dialog.SetMessage(Resource.String.event_warning_edit);
+			dialog.SetPositiveButton(Resource.String.yes, (s, earg) => Back());
+			dialog.SetNegativeButton(Resource.String.no, (s, earg) => { });
+			dialog.Show();
 		}
 	}
 }

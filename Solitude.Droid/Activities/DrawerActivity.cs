@@ -36,8 +36,6 @@ namespace Solitude.Droid
 			DrawerSetup.Configure();
 			DrawerSetup.DrawerToggleSetup();
 			Content = FindViewById<FrameLayout>(Resource.Id.content_frame);
-
-			SupportActionBar.SetIcon(Resource.Drawable.ic_view_headline_black_36dp);
 		}
 
 		protected override void OnPostCreate(Bundle savedInstanceState)
@@ -45,36 +43,22 @@ namespace Solitude.Droid
 			base.OnPostCreate(savedInstanceState);
 			DrawerSetup.DrawerToggle.SyncState();
 		}
-		public override bool OnCreateOptionsMenu(IMenu menu)
-		{
-			menu.Add(0,0,0,"Global Menu Item");
-			return true;
-		}
-		public override bool OnOptionsItemSelected(IMenuItem item)
-		{
-			if (DrawerSetup.DrawerToggle.OnOptionsItemSelected(item))
-				return true;
-			switch (item.ItemId)
-			{
-				case 0:
-					var dialog = new Android.Support.V7.App.AlertDialog.Builder(this);
-					dialog.SetMessage("This does not do anything");
-					dialog.SetNeutralButton(Resource.String.ok, (s, e) => { });
-					dialog.Show();
-					break;
-				default:
-					break;
-			}
-			return base.OnOptionsItemSelected(item);
-		}
 
 		public override void OnBackPressed()
 		{
 			var dialog = new Android.Support.V7.App.AlertDialog.Builder(this);
 			dialog.SetMessage(Resources.GetString(Resource.String.message_logout));
 			dialog.SetNegativeButton(Resource.String.no, (s, e) => { });
-			dialog.SetNeutralButton(Resource.String.yes, (s, e) => MainActivity.CIF.Logout(this));
+			dialog.SetPositiveButton(Resource.String.yes, (s, e) => MainActivity.CIF.Logout(this));
 			dialog.Show();
+		}
+		
+		public override bool OnOptionsItemSelected(IMenuItem item)
+		{
+			if (DrawerSetup.DrawerToggle.OnOptionsItemSelected(item))
+				return true;
+
+			return base.OnOptionsItemSelected(item);
 		}
 
 		/// <summary>
