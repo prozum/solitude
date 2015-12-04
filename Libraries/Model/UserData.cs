@@ -10,7 +10,7 @@ namespace Model
 
 		public string Name { set; get; }
 
-		public string Address { set; get; }
+		public string Location { set; get; }
 
 		public string Birthdate { set; get; }
 	}
