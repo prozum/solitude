@@ -112,8 +112,6 @@ namespace ClientCommunication
 		{
 			var offerRequest = buildRequest("offer", Method.GET);
 
-			offerRequest.AddBody(new { userToken = userToken });
-
 			var response = client.Execute(offerRequest);
 
 			if (response.StatusCode == 0)
@@ -124,7 +122,8 @@ namespace ClientCommunication
 			{
 				try
 				{
-					return JsonConvert.DeserializeObject<List<Offer>>(response.Content);
+					var offers = JsonConvert.DeserializeObject<List<Offer>>(response.Content);
+                    return offers;
 				}
 				catch
 				{
@@ -143,10 +142,6 @@ namespace ClientCommunication
 		public void DeleteUser()
 		{
 			var deleteRequest = buildRequest("user", Method.DELETE);
-
-			//Adds body to the request
-			var body = new { userToken = userToken };
-			deleteRequest.AddBody(body);
 
 			executeAndParseResponse(deleteRequest);
 		}
@@ -232,14 +227,17 @@ namespace ClientCommunication
 		/// <param name="e">Event which is being replied to.</param>
 		public void ReplyOffer(bool answer, Event e)
 		{
-			var request = buildRequest("offer", Method.POST);
+			RestRequest request;
+			var str = string.Format("offer/{0}", e.Id);
 
-			var offerReply = new { 
-				EventId = e.Id, 
-				Value = answer 
-			};
-
-			request.AddBody(offerReply);
+			if (answer)
+			{
+				request = buildRequest(str, Method.POST);
+			}
+			else
+			{
+				request = buildRequest(str, Method.DELETE);
+			}
 
 			executeAndParseResponse(request);
 		}
@@ -290,13 +288,13 @@ namespace ClientCommunication
 		/// Creates a new user on the server.
 		/// </summary>
 		/// <param name="u">User to create.</param>
-		public bool CreateUser(string Name, string address, DateTimeOffset birthday, string Username, string Password, string ConfirmedPassword)
+		public bool CreateUser(string Name, string location, DateTimeOffset birthday, string Username, string Password, string ConfirmedPassword)
 		{
 			//Build request and user
 			var request = new RestRequest("user", Method.POST);
 			var user = new {
 				name = Name,
-				address = address,
+				location = location,
 				birthdate = birthday, //string.Format("{0}/{1}/{2}-12:00:00", birthday.Year, birthday.Month, birthday.Day), 
 				UserName = Username, 
 				Password = Password, 

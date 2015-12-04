@@ -76,7 +76,7 @@ namespace Solitude.Droid
 					Layout.RemoveAllViews();
 					Layout.AddView(List);
 					Layout.AddView(Fab);
-                });
+				});
 			});
 
 			return Layout;

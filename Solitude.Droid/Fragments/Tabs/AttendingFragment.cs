@@ -24,7 +24,7 @@ namespace Solitude.Droid
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
 			Layout = inflater.Inflate(Resource.Layout.EventList, null)
-								 .FindViewById<CoordinatorLayout>(Resource.Id.layout);
+						     .FindViewById<CoordinatorLayout>(Resource.Id.layout);
 			List = Layout.FindViewById<ListView>(Resource.Id.list);
 			Layout.RemoveAllViews();
 			Layout.AddView(new ProgressBar(Activity));

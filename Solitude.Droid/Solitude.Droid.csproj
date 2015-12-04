@@ -422,13 +422,7 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-hdpi\ic_arrow_forward_black_24dp.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\drawable-ldrtl-hdpi\" />
-    <Folder Include="Resources\drawable-ldrtl-mdpi\" />
-    <Folder Include="Resources\drawable-ldrtl-xhdpi\" />
-    <Folder Include="Resources\drawable-ldrtl-xxhdpi\" />
-    <Folder Include="Resources\drawable-ldrtl-xxxhdpi\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\Event_Inv.png" />
   </ItemGroup>

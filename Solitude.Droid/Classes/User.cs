@@ -6,7 +6,7 @@ namespace Solitude.Droid
 	{
 		public string Id { get; set; }
 		public string Name { get; set; }
-		public string Address { get; set; }
+		public string Location { get; set; }
 		public DateTimeOffset Birthdate { get; set; }
 
 		public string UserName { get; set; }
@@ -26,7 +26,7 @@ namespace Solitude.Droid
 		public User (string name, string address)
 		{
 			Name = name;
-			Address = address;
+			Location = address;
 		}
 
 		public User (string name, string address, string username, string password)

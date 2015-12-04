@@ -118,7 +118,7 @@ namespace Solitude.Droid
             name.TextSize = 20;
             name.Text = User.Name;
 
-            address.Text = User.Address;
+            address.Text = User.Location;
             DateTime today = DateTime.Today;
             int iAge = DateTimeOffset.Now.Year - User.Birthdate.Year;
             if (User.Birthdate > today.AddYears(-iAge))
