@@ -24,7 +24,7 @@ namespace Solitude.Droid
 
 			var layout = LayoutInflater.Inflate(Resource.Layout.TapTest, null);
 			var tablayout = layout.FindViewById<TabLayout>(Resource.Id.tab_layout);
-			var viewpager = layout.FindViewById<CustomViewPager>(Resource.Id.view_pager);
+			var viewpager = layout.FindViewById<ViewPager>(Resource.Id.view_pager);
 			var adapter = new TabAdapter(this, viewpager, tablayout);
 
 			adapter.AddTab(Resource.String.event_menu_recommended, new RecommendsFragment());

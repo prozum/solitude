@@ -12,7 +12,7 @@ using Android.Widget;
 
 namespace Solitude.Droid
 {
-	[Activity (Label = "Notifications", Icon = "@drawable/Notification_Icon")]			
+	[Activity (Label = "Notifications")]			
 	public class NotificationActivity : DrawerActivity
 	{
 		ObservableCollection<Notification> notificationList = new ObservableCollection<Notification>();
