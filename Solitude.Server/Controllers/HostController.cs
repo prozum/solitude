@@ -11,7 +11,7 @@ namespace Solitude.Server
     {
         public async Task<IHttpActionResult> Get()
         {
-            var events = await DB.GetHostingEvents(new Guid(User.Identity.GetUserId()));
+            var events = await DB.GetHostingEvents(UserId);
             return Ok(events);
         }
             
@@ -22,7 +22,7 @@ namespace Solitude.Server
                 return BadRequest(ModelState);
             }
 
-            e.UserId = new Guid(User.Identity.GetUserId());
+            e.UserId = UserId;
 
             await DB.AddEvent(e);
 
@@ -38,7 +38,7 @@ namespace Solitude.Server
             
         public async Task<IHttpActionResult> Put(Event e)
         {
-            await DB.UpdateEvent(e, new Guid(User.Identity.GetUserId()));
+            await DB.UpdateEvent(e, UserId);
 
             return Ok();
         }

@@ -11,12 +11,13 @@ namespace Solitude.Server
         public async Task<IHttpActionResult> Get(Guid id)
         {
             var events = await DB.GetReviews(id);
+
             return Ok(events);
         }
 
         public async Task<IHttpActionResult> Post(Review review)
         {
-            review.UserId = new Guid(User.Identity.GetUserId());
+            review.UserId = UserId;
             
             await DB.AddReview(review);
 

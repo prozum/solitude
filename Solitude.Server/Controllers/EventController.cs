@@ -9,13 +9,13 @@ namespace Solitude.Server
     {
         public async Task<IHttpActionResult> Get()
         {
-            var events = await DB.GetAttendingEvents(new Guid(User.Identity.GetUserId()));
+            var events = await DB.GetAttendingEvents(UserId);
             return Ok(events);
         }
 
         public async Task<IHttpActionResult> Delete(Guid id)
         {
-            await DB.CancelEventRegistration(new Guid(User.Identity.GetUserId()), id);
+            await DB.CancelEventRegistration(UserId, id);
             return Ok();
         }
     }

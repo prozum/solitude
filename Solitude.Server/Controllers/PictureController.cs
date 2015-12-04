@@ -9,7 +9,7 @@ namespace Solitude.Server
     {
         public async Task<IHttpActionResult> Get()
         {
-            var pictures = await DB.GetPictures(new Guid(User.Identity.GetUserId()));
+            var pictures = await DB.GetPictures(UserId);
 
             return Ok(pictures);
         }
@@ -18,7 +18,7 @@ namespace Solitude.Server
         {
             var picture = await Request.Content.ReadAsByteArrayAsync();
 
-            await DB.AddPicture(new Guid(User.Identity.GetUserId()), picture);
+            await DB.AddPicture(UserId, picture);
 
             return Ok();
         }
@@ -26,7 +26,7 @@ namespace Solitude.Server
         [Route("api/picture/profile")]
         public async Task<IHttpActionResult> GetProfile()
         {
-            var picture = await DB.GetProfilePicture(new Guid(User.Identity.GetUserId()));
+            var picture = await DB.GetProfilePicture(UserId);
 
             return Ok(picture);
         }
@@ -36,7 +36,7 @@ namespace Solitude.Server
         {
             var picture = await Request.Content.ReadAsByteArrayAsync();
 
-            await DB.AddProfilePicture(new Guid(User.Identity.GetUserId()), picture);
+            await DB.AddProfilePicture(UserId, picture);
 
             return Ok();
         }

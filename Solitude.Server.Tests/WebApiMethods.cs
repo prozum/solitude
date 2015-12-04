@@ -113,8 +113,7 @@ namespace Solitude.Server.Tests
 			BuildRequest("user", Method.POST, user);
 			ExecuteRequest(HttpStatusCode.BadRequest);
 
-			string errorMessage = parseDateTimeErrorMessage (Response);
-			Assert.IsTrue (errorMessage.Contains(correctErrorMessage), errorMessage);
+			Assert.IsTrue (Response.Content.Contains(correctErrorMessage), Response.Content);
 		}
 
 		public void AddReview ()
@@ -179,14 +178,15 @@ namespace Solitude.Server.Tests
 			Assert.AreNotEqual("", Offer.Id, "An error has occured, it is likely no offers were returned: " + Response.Content);
 		}
 
-		public void ReplyOffer(bool answer)
+		public void AcceptOffer()
 		{
-			var reply = new 
-			{
-				Value = answer,
-				EventId = Offer.Id
-			};
-			BuildRequest ("offer", Method.POST, reply);
+			BuildRequest ("offer/" + Offer.Id, Method.POST);
+			ExecuteRequest();
+		}
+
+		public void DeclineOffer()
+		{
+			BuildRequest ("offer/" + Offer.Id, Method.DELETE);
 			ExecuteRequest();
 		}
 

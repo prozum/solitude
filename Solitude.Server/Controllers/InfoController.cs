@@ -12,18 +12,33 @@ namespace Solitude.Server
 {
     public class InfoController : SolitudeController
     {
+        public async Task<IHttpActionResult> Get(InfoType id)
+        {
+            switch (id)
+            {
+                case InfoType.LANGUAGE:
+                    return Ok(await DB.GetUserLanguage(UserId));
+                case InfoType.INTEREST:
+                    return Ok(await DB.GetUserInterest(UserId));
+                case InfoType.FOODHABIT:
+                    return Ok(await DB.GetUserFoodHabit(UserId));
+                default:
+                    return BadRequest("Invalid information type.");
+            }
+        }
+
         public async Task<IHttpActionResult> Post(InfoUpdate u)
         {
             switch (u.Info)
             {
                 case InfoType.LANGUAGE:
-                    await DB.ConnectUserLanguage(new Guid(User.Identity.GetUserId()), u.Value, u.Weight);
+                    await DB.ConnectUserLanguage(UserId, u.Value, u.Weight);
                     break;
                 case InfoType.INTEREST:
-                    await DB.ConnectUserInterest(new Guid(User.Identity.GetUserId()), u.Value, u.Weight);
+                    await DB.ConnectUserInterest(UserId, u.Value, u.Weight);
                     break;
                 case InfoType.FOODHABIT:
-                    await DB.ConnectUserFoodHabit(new Guid(User.Identity.GetUserId()), u.Value, u.Weight);
+                    await DB.ConnectUserFoodHabit(UserId, u.Value, u.Weight);
                     break;
                 default:
                     return BadRequest("Invalid information type.");
@@ -37,34 +52,19 @@ namespace Solitude.Server
             switch (u.Info)
             {
                 case InfoType.LANGUAGE:
-                    await DB.DisconnectUserLanguage(new Guid(User.Identity.GetUserId()), u.Value);
+                    await DB.DisconnectUserLanguage(UserId, u.Value);
                     break;
                 case InfoType.INTEREST: 
-                    await DB.DisconnectUserInterest(new Guid(User.Identity.GetUserId()), u.Value);
+                    await DB.DisconnectUserInterest(UserId, u.Value);
                     break;
                 case InfoType.FOODHABIT:
-                    await DB.DisconnectUserFoodHabit(new Guid(User.Identity.GetUserId()), u.Value);
+                    await DB.DisconnectUserFoodHabit(UserId, u.Value);
                     break;
                 default:
                     return BadRequest("Invalid information type.");
             }
 
             return Ok();
-        }
-            
-        public async Task<IHttpActionResult> Get(InfoType id)
-        {
-            switch (id)
-            {
-                case InfoType.LANGUAGE:
-                    return Ok(await DB.GetUserLanguage(new Guid(User.Identity.GetUserId())));
-                case InfoType.INTEREST:
-                    return Ok(await DB.GetUserInterest(new Guid(User.Identity.GetUserId())));
-                case InfoType.FOODHABIT:
-                    return Ok(await DB.GetUserFoodHabit(new Guid(User.Identity.GetUserId())));
-                default:
-                    return BadRequest("Invalid information type.");
-            }
         }
     }
 }

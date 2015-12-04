@@ -98,7 +98,7 @@ namespace Dal
             await _client.Cypher
                 .Match("(user:User)")
                 .Where((User user) => user.Id == uid)
-                .Create("user<-[:NOTIFIES]-(n:Notification {data})")
+                .Create("(user)<-[:NOTIFIES]-(n:Notification {data})")
                 .WithParam("data", n)
                 .ExecuteWithoutResultsAsync();
         }
@@ -155,7 +155,7 @@ namespace Dal
 				.Match ("(user:User)")
 				.Where((User user) => user.Id == e.UserId)
 				//creates a relation "HOSTING" between the created event 
-				.Create ("user-[:HOSTING]->(event:Event {data})")
+				.Create ("(user)-[:HOSTING]->(event:Event {data})")
 				.WithParam ("data", e)
 				.ExecuteWithoutResultsAsync ();
 		}
@@ -288,10 +288,9 @@ namespace Dal
         public async Task AddReview(Review review)
 		{
 			await _client.Cypher
-				.Match ("(user:User) (e:Event)")
-				.Where((User user) => user.Id == review.UserId)
-				.AndWhere((Event e) => e.Id == review.EventId)
-				.Create ("user-[:GAVE_REVIEW]->(review:Review {data})<-[:HAS_REVIEW]-(e:Event)")
+				.Match ("(e:Event)")
+				.Where((Event e) => e.Id == review.EventId)
+				.Create ("(e)-[:HAS_REVIEW]->(review:Review {data})")
 				.WithParam ("data", review)
 				.ExecuteWithoutResultsAsync ();
 		}
@@ -371,7 +370,7 @@ namespace Dal
 				.AndWhere ("interest.Id = {ic}")
 				.WithParam ("ic", ic)
 				//create a unique relation "WANTS" with the weight 'w'
-				.CreateUnique ("user-[w:WANTS]->interest")
+				.CreateUnique ("(user)-[w:WANTS]->(interest)")
 				.Set("w.Weight = {weight}")
 				.WithParam("weight", weight)
 				.ExecuteWithoutResultsAsync ();
@@ -393,7 +392,7 @@ namespace Dal
                 .AndWhere("language.Id = {lc}")
                 .WithParam("lc", lc)
                 //create a unique relation "WANTS" with the weight 'w'
-                .CreateUnique(("user-[w:WANTS]->language"))
+                .CreateUnique(("(user)-[w:WANTS]->(language)"))
 				.Set("w.Weight = {weight}")
 				.WithParam("weight", weight)
                 .ExecuteWithoutResultsAsync();
@@ -415,7 +414,7 @@ namespace Dal
                 .AndWhere("foodhabit.Id = {fh}")
                 .WithParam("fh", fh)
                 //create a unique relation "WANTS" with the weight 'w'
-                .CreateUnique(("user-[w:WANTS]->foodhabit"))
+                .CreateUnique(("(user)-[w:WANTS]->(foodhabit)"))
 				.Set("w.Weight = {weight}")
 				.WithParam("weight", weight)
                 .ExecuteWithoutResultsAsync();
@@ -563,18 +562,18 @@ namespace Dal
             await _client.Cypher
                 .Match("(user:User), (rest:User)-[:HOSTING]->(e:Event)")
                 .Where((User user) => user.Id == uid)
-                .AndWhere ("NOT user-[]->e")
+                .AndWhere ("NOT (user)-[]->(e)")
                 .AndWhere((Event e) => e.SlotsTotal > e.SlotsTaken)
                 //.AndWhere ((Event e) => e.Date > now)
-                .OptionalMatch("user-[w1:WANTS]->(interest:Interest)<-[w2:WANTS]-rest")
+                .OptionalMatch("(user)-[w1:WANTS]->(interest:Interest)<-[w2:WANTS]-(rest)")
                 .With("user, rest, e, sum(w1.Weight) + sum(w2.Weight) as wt1, collect(interest.Id) as int")
-                .OptionalMatch("user-[w3:WANTS]->(language:Language)<-[w4:WANTS]-rest")
+                .OptionalMatch("(user)-[w3:WANTS]->(language:Language)<-[w4:WANTS]-(rest)")
                 .With("user, rest, e, wt1, sum(w3.Weight) + sum(w4.Weight) as wt2, int, collect(language.Id) as lang")
-                .OptionalMatch("user-[w5:WANTS]->(foodhabit:FoodHabit)<-[w6:WANTS]-rest")
+                .OptionalMatch("(user)-[w5:WANTS]->(foodhabit:FoodHabit)<-[w6:WANTS]-(rest)")
                 .With("user, e, wt1, wt2, sum(w5.Weight) + sum(w6.Weight) as wt3, int, lang, collect(foodhabit.Id) as food")
                 .OrderBy("(wt1+wt2+wt3) DESC")
                 .Limit(limit)
-                .CreateUnique("user-[m:MATCHED { Interests:int,Languages:lang,FoodHabits:food}]->e")
+                .CreateUnique("(user)-[m:MATCHED { Interests:int,Languages:lang,FoodHabits:food}]->(e)")
                 .ExecuteWithoutResultsAsync();
 
 			//if (res.First().matches > 0)
@@ -630,43 +629,43 @@ namespace Dal
 		}
 
         /// <summary>
-        /// Reply to an offer
+        /// Accept offer
         /// </summary>
         /// <returns>Returns a Task<bool> for whether it succeeds or not</returns>
         /// <param name="uid">The user's id</param>
-        /// <param name="answer">true if the user wants to attend the event and false if vice versa</param>
         /// <param name="eid">The event's id</param>
-        public async Task<bool> ReplyOffer(Guid uid, Guid eid, bool answer)
+        public async Task<bool> AcceptOffer(Guid uid, Guid eid)
         {
-            if (answer)
-            {
-                var freeSlots = await TakeSlot(eid);
+            var freeSlots = await TakeSlot(eid);
 
-                if (!freeSlots)
-                    return false;
+            if (!freeSlots)
+                return false;
 
-                await _client.Cypher
-                    .Match("(user:User)-[m:MATCHED]->(e:Event)")
-                    .Where((User user) => user.Id == uid)
-                    .AndWhere((Event e) => e.Id == eid)
-                    .Delete("m")
-                    .CreateUnique("user-[:ATTENDS]->e")
-                    .ExecuteWithoutResultsAsync();
+            await _client.Cypher
+                .Match("(user:User)-[m:MATCHED]->(e:Event)")
+                .Where((User user) => user.Id == uid)
+                .AndWhere((Event e) => e.Id == eid)
+                .Delete("m")
+				.CreateUnique("(user)-[:ATTENDS]->(e)")
+                .ExecuteWithoutResultsAsync();
 
-                return true;
-            }
-            else
-            {
-                await _client.Cypher
-                    .Match("(user:User)-[m:MATCHED]->(e:Event)")
-                    .Where((User user) => user.Id == uid)
-                    .AndWhere((Event e) => e.Id == eid)
-                    .Delete("m")
-                    .ExecuteWithoutResultsAsync();
-
-                return true;
-            }
+            return true;
         }
+
+		/// <summary>
+		/// Decline offer
+		/// </summary>
+		/// <param name="uid">The user's id</param>
+		/// <param name="eid">The event's id</param>
+		public async Task DeclineOffer(Guid uid, Guid eid)
+		{
+			await _client.Cypher
+				.Match("(user:User)-[m:MATCHED]->(e:Event)")
+				.Where((User user) => user.Id == uid)
+				.AndWhere((Event e) => e.Id == eid)
+				.Delete("m")
+				.ExecuteWithoutResultsAsync();
+		}
 
         #endregion
 

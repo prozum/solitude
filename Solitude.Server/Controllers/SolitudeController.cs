@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity;
 using System.Net.Http;
 using Microsoft.AspNet.Identity.Owin;
 using Dal;
+using System;
 
 namespace Solitude.Server
 {
@@ -13,6 +14,14 @@ namespace Solitude.Server
             get
             {
                 return Request.GetOwinContext().Get<DatabaseAbstrationLayer>();
+            }
+        }
+
+        public Guid UserId
+        {
+            get
+            {
+                return new Guid(User.Identity.GetUserId());
             }
         }
 

@@ -10,21 +10,26 @@ namespace Solitude.Server
     {
         public async Task<IHttpActionResult> Get()
         {
-            var uid = new Guid(User.Identity.GetUserId());
+            await DB.MatchUser(UserId);
 
-            await DB.MatchUser(uid);
-
-            var offers = await DB.GetOffers(uid);
+            var offers = await DB.GetOffers(UserId);
 
             return Ok(offers);
         }
             
-        public async Task<IHttpActionResult> Post(Reply reply)
+        public async Task<IHttpActionResult> Post(Guid id)
         {
-            var success = await DB.ReplyOffer(new Guid(User.Identity.GetUserId()), reply.EventId, reply.Value);
+            var success = await DB.AcceptOffer(UserId, id);
 
             if (!success)
                 return BadRequest();
+
+            return Ok();
+        }
+
+        public async Task<IHttpActionResult> Delete(Guid id)
+        {
+            await DB.DeclineOffer(UserId, id);
 
             return Ok();
         }

@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace Model
 {
-    public class Event
+	public class Event
 	{
 		public Guid Id { get; set; }
 		public Guid UserId { get; set; }

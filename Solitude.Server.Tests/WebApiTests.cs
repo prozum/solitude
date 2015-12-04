@@ -153,7 +153,7 @@ namespace Solitude.Server.Tests
 			RegisterUser ();
 			Login ();
 			GetOffers ();
-			ReplyOffer (true);
+			AcceptOffer ();
 		}
 
 		[Test()]
@@ -167,7 +167,7 @@ namespace Solitude.Server.Tests
 			RegisterUser ();
 			Login ();
 			GetOffers ();
-			ReplyOffer (false);
+			DeclineOffer ();
 		}
 
 		[Test()]
@@ -190,7 +190,7 @@ namespace Solitude.Server.Tests
 			RegisterUser ();
 			Login ();
 			GetOffers ();
-			ReplyOffer (true);
+			AcceptOffer();
 			GetAttendingEvents ();
 		}
 
@@ -249,7 +249,7 @@ namespace Solitude.Server.Tests
 			RegisterUser ();
 			Login ();
 			GetOffers ();
-			ReplyOffer (true);
+			AcceptOffer ();
 			CancelRegistration ();
 		}
 
@@ -274,7 +274,7 @@ namespace Solitude.Server.Tests
 		[Test ()]
 		public void TestCaseErrorMessageDateTimeError ()
 		{
-			RegisterUserWrongDateTime ("Could not convert string to DateTimeOffset");
+			RegisterUserWrongDateTime ("birthdate");
 		}
 
 //		[Test ()]

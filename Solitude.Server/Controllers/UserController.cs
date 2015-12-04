@@ -32,7 +32,7 @@ namespace Solitude.Server
 
         public async Task<IHttpActionResult> Get()
         {
-            var data = await DB.GetUserData(new Guid(User.Identity.GetUserId()));
+            var data = await DB.GetUserData(UserId);
 
             return Ok(data);
         }
