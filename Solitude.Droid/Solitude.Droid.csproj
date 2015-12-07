@@ -108,7 +108,6 @@
     <Compile Include="Activities\HostEventActivity.cs" />
     <Compile Include="Adapters\DrawerAdapter.cs" />
     <Compile Include="Classes\InfoChange.cs" />
-    <Compile Include="Classes\Direction.cs" />
     <Compile Include="Classes\Offer.cs" />
     <Compile Include="Classes\Match.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
