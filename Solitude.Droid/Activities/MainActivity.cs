@@ -1,32 +1,27 @@
 ﻿using System;
 using Android.App;
 using Android.Content;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
 using Android.OS;
-using System.Collections.Generic;
 using System.Threading;
-using Android.Support.Design.Widget;
-using Android.Graphics;
-using Android.Support.V7.App;
 
 namespace Solitude.Droid
 {
+    /// <summary>
+    /// The MainActivity acts as the entry point for the application, and is also the login screen.
+    /// </summary>
 	[Activity(Label = "Let's hangout", MainLauncher = true)]
 	public class MainActivity : Activity
 	{
+        /// <summary>
+        /// The accesspoint for the communication interface. All communication with the server should go through this instance of the interface.
+        /// </summary>
 		public static ClientCommunication.CommunicationInterface CIF{ get; private set; }
 
-		//public static int[] InfoResources { get; private set; }
-
-		//public static string[][] InfoNames { get; private set; }
-
-		//public static string[] InfoTitles { get; private set; }
-
+        /// <summary>
+        /// A tuple containing all the activities located in the drawer.
+        /// </summary>
 		public static Tuple<int, Type>[] DrawerActivities { get; private set; }
-
-		//public static string[] DrawerNames { get; private set; }
 
 		protected override void OnCreate(Bundle bundle)
 		{
@@ -34,26 +29,6 @@ namespace Solitude.Droid
 
 			//Start up necesarry classes and services
 			CIF = new ClientCommunication.CommunicationInterface();
-
-			//Some documentation here
-			//if (InfoNames == null)
-			//	InfoNames = new string[][]
-			//	{
-			//		Resources.GetStringArray(Resource.Array.languages),
-			//		Resources.GetStringArray(Resource.Array.interests),
-			//		Resources.GetStringArray(Resource.Array.foodhabits)
-			//	};
-
-			//if (InfoResources == null)
-			//	InfoResources = new int[]
-			//	{
-			//		Resource.Array.languages,
-			//		Resource.Array.interests,
-			//		Resource.Array.foodhabits
-			//	};
-
-			//if (InfoTitles == null)
-			//	InfoTitles = Resources.GetStringArray(Resource.Array.info_titles);
 			
 			//Sets up icons and actions in the drawer
 			if (DrawerActivities == null)
@@ -64,16 +39,13 @@ namespace Solitude.Droid
 					new Tuple<int, Type>(Resource.Drawable.Logout_Icon, typeof(MainActivity))
 				};
 
-			//if (DrawerNames == null)
-			//	DrawerNames = Resources.GetStringArray(Resource.Array.drawer_items);
-
 			// Set our view from the "main" layout resource
 			SetContentView(Resource.Layout.Main);
 			var loginButton = FindViewById<Button>(Resource.Id.buttonLogin);
 			var signUp = FindViewById<TextView>(Resource.Id.textSignUp);
 			var layout = FindViewById<LinearLayout>(Resource.Id.loginLinear);
 
-			//Adds a delegates to and sets layout of the buttons
+			//Adds delegates to and sets layout of the buttons
 			loginButton.Click += loginButtonClicked;
 
 			signUp.Click += (sender, e) =>
@@ -95,8 +67,10 @@ namespace Solitude.Droid
 			var username = FindViewById<EditText>(Resource.Id.editUsername);
 			var password = FindViewById<EditText>(Resource.Id.editPassword);
 
+            // Prevents the user from clicking the login button after being clicked, while communicating with the server.
 			loginButton.Clickable = false;
 
+            // Debug only, allows for easy login on the server if no input is given.
 			#if DEBUG
 			if (String.IsNullOrEmpty(username.Text) && String.IsNullOrEmpty(password.Text))
 			{

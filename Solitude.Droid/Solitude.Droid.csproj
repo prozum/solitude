@@ -87,7 +87,6 @@
     <Compile Include="CommunicationAPI\CommunicationInterface.cs" />
     <Compile Include="CommunicationAPI\HttpStrings.cs" />
     <Compile Include="CommunicationAPI\ErrorCodes.cs" />
-    <Compile Include="Activities\NotificationActivity.cs" />
     <Compile Include="Activities\MainActivity.cs" />
     <Compile Include="Classes\Event.cs" />
     <Compile Include="Classes\User.cs" />

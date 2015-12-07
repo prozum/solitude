@@ -1,32 +1,19 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
-using System.Linq;
-
-using Android;
 using Android.App;
 using Android.Content;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
-using Android.Media;
 using Android.Graphics;
-using Android.Content.PM;
-using Android.Provider;
-using Java.IO;
-using Environment = Android.OS.Environment;
-using Uri = Android.Net.Uri;
 using Android.Support.Design.Widget;
-using Java.Lang;
-using Android.Text;
 using Android.Support.V7.Widget;
 using Android.Views.InputMethods;
 
 namespace Solitude.Droid
 {
-	[Activity(Label = "@string/label_profileactivity", Icon = "@drawable/Profile_Icon")]
+    [Activity(Label = "@string/label_profileactivity", Icon = "@drawable/Profile_Icon")]
 	public class ProfileActivity : DrawerActivity
 	{
 		protected User User { get; set; }
