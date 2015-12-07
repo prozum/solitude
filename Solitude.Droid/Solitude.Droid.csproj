@@ -90,14 +90,8 @@
     <Compile Include="Activities\MainActivity.cs" />
     <Compile Include="Classes\Event.cs" />
     <Compile Include="Classes\User.cs" />
-    <Compile Include="Notifications\EventReminderNotification.cs" />
-    <Compile Include="Notifications\EventUpdateNotification.cs" />
-    <Compile Include="Notifications\Notification.cs" />
-    <Compile Include="Notifications\OfferNotification.cs" />
-    <Compile Include="Notifications\ReviewNotification.cs" />
     <Compile Include="Activities\SignUpActivity.cs" />
     <Compile Include="Drawer\SetupDrawer.cs" />
-    <Compile Include="Classes\Review.cs" />
     <Compile Include="Activities\EventActivity.cs" />
     <Compile Include="Activities\ProfileActivity.cs" />
     <Compile Include="Activities\DrawerActivity.cs" />
