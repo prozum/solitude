@@ -1,25 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Android.App;
+﻿using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Android.Support.V4.Widget;
 using Android.Support.V7.App;
 
 namespace Solitude.Droid
 {
-	[Activity(Label = "AbstractActivity")]			
+    [Activity(Label = "AbstractActivity")]			
 	public abstract class DrawerActivity : AppCompatActivity
 	{
+        /// <summary>
+        /// The position of the element currently selected in the drawer.
+        /// </summary>
 		public int Position { get; set; }
 
+        /// <summary>
+        /// The setup of the drawer, filling it with content.
+        /// </summary>
 		protected SetupDrawer DrawerSetup { get; set; }
 
+        /// <summary>
+        /// Content of the drawer. All activities that inherit from this should add their layout to this layout.
+        /// </summary>
 		protected FrameLayout Content { get; set; }
 
 		protected override void OnCreate(Bundle bundle)
@@ -29,7 +32,7 @@ namespace Solitude.Droid
 
 			SetContentView(Resource.Layout.DrawerLayout);
 
-			Position = Intent.GetIntExtra("index", 0);
+			Position = Intent.GetIntExtra("index", 0); // Gets the current position
 
 			DrawerSetup = new SetupDrawer(Position, this);
 
@@ -44,6 +47,9 @@ namespace Solitude.Droid
 			DrawerSetup.DrawerToggle.SyncState();
 		}
 
+        /// <summary>
+        /// Shows the user an alert of they try to log out by pressing the hardware back button.   
+        /// </summary>
 		public override void OnBackPressed()
 		{
 			var dialog = new Android.Support.V7.App.AlertDialog.Builder(this);
@@ -53,6 +59,11 @@ namespace Solitude.Droid
 			dialog.Show();
 		}
 		
+        /// <summary>
+        /// Handles pressing an item on the drawer.
+        /// </summary>
+        /// <param name="item">The item selected in the drawer.</param>
+        /// <returns></returns>
 		public override bool OnOptionsItemSelected(IMenuItem item)
 		{
 			if (DrawerSetup.DrawerToggle.OnOptionsItemSelected(item))

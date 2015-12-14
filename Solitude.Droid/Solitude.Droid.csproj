@@ -87,18 +87,11 @@
     <Compile Include="CommunicationAPI\CommunicationInterface.cs" />
     <Compile Include="CommunicationAPI\HttpStrings.cs" />
     <Compile Include="CommunicationAPI\ErrorCodes.cs" />
-    <Compile Include="Activities\NotificationActivity.cs" />
     <Compile Include="Activities\MainActivity.cs" />
     <Compile Include="Classes\Event.cs" />
     <Compile Include="Classes\User.cs" />
-    <Compile Include="Notifications\EventReminderNotification.cs" />
-    <Compile Include="Notifications\EventUpdateNotification.cs" />
-    <Compile Include="Notifications\Notification.cs" />
-    <Compile Include="Notifications\OfferNotification.cs" />
-    <Compile Include="Notifications\ReviewNotification.cs" />
     <Compile Include="Activities\SignUpActivity.cs" />
     <Compile Include="Drawer\SetupDrawer.cs" />
-    <Compile Include="Classes\Review.cs" />
     <Compile Include="Activities\EventActivity.cs" />
     <Compile Include="Activities\ProfileActivity.cs" />
     <Compile Include="Activities\DrawerActivity.cs" />
@@ -109,7 +102,6 @@
     <Compile Include="Activities\HostEventActivity.cs" />
     <Compile Include="Adapters\DrawerAdapter.cs" />
     <Compile Include="Classes\InfoChange.cs" />
-    <Compile Include="Classes\Direction.cs" />
     <Compile Include="Classes\Offer.cs" />
     <Compile Include="Classes\Match.cs" />
     <Compile Include="Resources\Resource.designer.cs" />

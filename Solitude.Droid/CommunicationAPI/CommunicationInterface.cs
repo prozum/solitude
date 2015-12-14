@@ -527,24 +527,6 @@ namespace ClientCommunication
 		}
 
 		#endregion
-
-		/// <summary>
-		/// Posts the review to the server.
-		/// </summary>
-		/// <param name="r">The review to post.</param>
-		public void PostReview(Review r)
-		{
-			var request = buildRequest("review/add", Method.POST);
-
-			//Adds a body to the request containing the reciew
-			var review = new { rating = r.Rating,
-				text = r.ReviewText,
-				eventId = r.Event.Id };
-			request.AddBody(review);
-
-			executeAndParseResponse(request);
-		}
-
 		#endregion
 	}
 }
