@@ -13,7 +13,7 @@ using Android.Support.V7.App;
 
 namespace Solitude.Droid
 {
-	[Activity(Label = "Let's hangout", MainLauncher = true)]
+	[Activity(Label = "FriendLine", MainLauncher = true)]
 	public class MainActivity : Activity
 	{
 		public static ClientCommunication.CommunicationInterface CIF{ get; private set; }

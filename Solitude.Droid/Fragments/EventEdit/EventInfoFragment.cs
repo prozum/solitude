@@ -16,6 +16,9 @@ using Android.Views.InputMethods;
 
 namespace Solitude.Droid
 {
+	/// <summary>
+	/// The fragment that contains the name, location, description and maxslot editing textfields.
+	/// </summary>
 	public class EventInfoFragment : EditFragment
 	{
 		public TextInputLayout NameLayout { get; set; }
@@ -27,16 +30,9 @@ namespace Solitude.Droid
 		public EditText Location { get; set; }
 		public EditText MaxSlots { get; set; }
 
-		public override void OnCreate(Bundle savedInstanceState)
-		{
-			base.OnCreate(savedInstanceState);
-
-			// Create your fragment here
-
-		}
-
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
+			// Gets the layout, and all the relevant views it contains.
 			var layout = inflater.Inflate(Resource.Layout.editEventInfoLayout, null);
 			NameLayout = layout.FindViewById<TextInputLayout>(Resource.Id.edit_title_layout);
 			DescriptionLayout = layout.FindViewById<TextInputLayout>(Resource.Id.edit_description_layout);
@@ -47,6 +43,7 @@ namespace Solitude.Droid
 			Location = layout.FindViewById<EditText>(Resource.Id.edit_location);
 			MaxSlots = layout.FindViewById<EditText>(Resource.Id.edit_guests);
 
+			// Sets all the textfields information to be the infomation stored in the Activities Intent.
 			Name.Text = Activity.Intent.GetStringExtra("title");
 			Description.Text = Activity.Intent.GetStringExtra("description");
 			Location.Text = Activity.Intent.GetStringExtra("place");
@@ -55,26 +52,39 @@ namespace Solitude.Droid
 			return layout;
 		}
 
+		/// <summary>
+		/// Saves the data contained in the textfields.
+		/// </summary>
 		public override void SaveInfo()
 		{
 			int res;
 			int.TryParse(MaxSlots.Text, out res);
 
+			// Put title, description, place and maxslots in the Intent of the activity 
+			// which contains this fragment.
 			Activity.Intent.PutExtra("title", Name.Text);
 			Activity.Intent.PutExtra("description", Description.Text);
 			Activity.Intent.PutExtra("place", Location.Text);
 			Activity.Intent.PutExtra("maxslots", res);
 		}
 
+		/// <summary>
+		/// Checks whether the textfields contains valid data.
+		/// MaxSlots must be a number over 0, and the textfields just have to
+		/// contains some information.
+		/// </summary>
+		/// <returns>true, if the information is valid, else false</returns>
 		public override bool IsValidData()
 		{
 			int res;
+			// Validdating info.
 			var nameisvalid = !string.IsNullOrEmpty(Name.Text);
             var descisvalid = !string.IsNullOrEmpty(Description.Text);
 			var localisvalid = !string.IsNullOrEmpty(Location.Text);
 			var maxisvalid = int.TryParse(MaxSlots.Text, out res) && res > 0;
 
-            UpdateLayout(NameLayout, Name, Resource.String.event_error_no_title, nameisvalid);
+			// Updating all the TextInputLayouts with all the nonevalid infomation errors.
+			UpdateLayout(NameLayout, Name, Resource.String.event_error_no_title, nameisvalid);
             UpdateLayout(DescriptionLayout, Description, Resource.String.event_error_no_description, descisvalid);
 			UpdateLayout(LocationLayout, Location, Resource.String.event_error_no_place, localisvalid);
 			UpdateLayout(MaxSlotsLayout, MaxSlots, Resource.String.event_error_no_guest, maxisvalid);
@@ -82,18 +92,27 @@ namespace Solitude.Droid
 			return nameisvalid && descisvalid && localisvalid && maxisvalid;
         }
 
+		/// <summary>
+		/// A helpermethod for updating the TextInputLayouts error messages and color.
+		/// </summary>
+		/// <param name="layout">The layout to update.</param>
+		/// <param name="text">The textfield the layout contains.</param>
+		/// <param name="message">The error message.</param>
+		/// <param name="noerror">The validation bool. true means, the information is valid, false means not.</param>
 		private void UpdateLayout(TextInputLayout layout, EditText text, int message, bool noerror)
 		{
             layout.ErrorEnabled = !noerror;
 
 			if (noerror)
 			{
+				// There should be no message, when no error occured, and the color should be green.
                 layout.Error = string.Empty;
                 text.Background.SetColorFilter(Color.Green, PorterDuff.Mode.SrcAtop);
 			}
 			else
 			{
-                layout.Error = Resources.GetString(message);
+				// There should be a message, when an error occured, and the color should be red.
+				layout.Error = Resources.GetString(message);
                 text.Background.SetColorFilter(Color.Red, PorterDuff.Mode.SrcAtop);
 			}
 		}
