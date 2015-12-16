@@ -14,12 +14,19 @@ using Android.Text;
 
 namespace Solitude.Droid.Classes
 {
-    public class SpaceTokenizer : Java.Lang.Object, MultiAutoCompleteTextView.ITokenizer
+	/// <summary>
+	/// A calls for autocompleting word in a MultiAutoCompleteTextView
+	/// </summary>
+	public class SpaceTokenizer : Java.Lang.Object, MultiAutoCompleteTextView.ITokenizer
     {
+		/// <summary>
+		/// Find the start of the Token
+		/// </summary>
         public int FindTokenStart(ICharSequence text, int cursor)
         {
             int i = cursor;
 
+			// Moved i, untill it hits a space, first going back, the going forward
             while (i > 0 && text.CharAt(i - 1) != ' ')
             {
                 i--;
@@ -32,13 +39,17 @@ namespace Solitude.Droid.Classes
             return i;
         }
 
-        public int FindTokenEnd(ICharSequence text, int cursor)
+		/// <summary>
+		/// Find the end of the Token
+		/// </summary>
+		public int FindTokenEnd(ICharSequence text, int cursor)
         {
             int i = cursor;
             int len = text.Length();
 
             while (i < len)
             {
+				// If a space is hit, then the token has ended
                 if (text.CharAt(i) == ' ')
                 {
                     return i;
@@ -51,7 +62,7 @@ namespace Solitude.Droid.Classes
 
             return len;
         }
-
+		
         public ICharSequence TerminateToken(ICharSequence text)
         {
             return InnerToken(text);
@@ -62,15 +73,19 @@ namespace Solitude.Droid.Classes
             return InnerToken(text);
         }
 
+		/// <summary>
+		/// A method for getting tokens containing mutible words
+		/// </summary>
         private ICharSequence InnerToken(ICharSequence text)
         {
             int i = text.Length();
 
+			// Find the first space in the Token, going backwards
             while (i > 0 && text.CharAt(i - 1) == ' ')
             {
                 i--;
             }
-
+			
             if (i > 0 && text.CharAt(i - 1) == ' ')
             {
                 return text;

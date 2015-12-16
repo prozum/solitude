@@ -11,9 +11,15 @@ using Android.OS;
 
 namespace Solitude.Droid
 {
+	/// <summary>
+	/// The adapter used to draw the Drawer.
+	/// </summary>
 	public class DrawerAdapter : BaseAdapter
 	{
 		#region Fields
+		/// <summary>
+		/// The activity the Drawer is a part of.
+		/// </summary>
 		protected Activity Context { get; private set; }
 
 		/// <summary>
@@ -42,7 +48,7 @@ namespace Solitude.Droid
 			Context = context;
 			Activities = activities;
 			Names = names;
-
+			
 			if (Activities.Length != Names.Length)
 				throw new ArgumentException("Names and Activites must be of sames length");
 		}

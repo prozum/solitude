@@ -23,28 +23,44 @@ namespace Solitude.Droid
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
+			// Gets the layout, and all the relevant views it contains.
 			Layout = inflater.Inflate(Resource.Layout.EventList, null)
 							 .FindViewById<FrameLayout>(Resource.Id.layout);
 			List = Layout.FindViewById<ListView>(Resource.Id.list);
+
+			// Show spinner
 			Layout.RemoveAllViews();
 			Layout.AddView(new ProgressBar(Activity));
 
 			ThreadPool.QueueUserWorkItem(o =>
 			{
+				// Get recommended events and create adapter.
 				Adapter = new EventAdapter<Offer>(Activity, MainActivity.CIF.RequestOffers());
-
+				
+				// On decline click
 				Adapter.OnAction1 = (i) =>
 				{
+					// get event
 					var @event = Adapter.Items[i];
+
+					// reply and remove event
 					MainActivity.CIF.ReplyOffer(false, @event);
 					Adapter.RemoveAt(i);
+
+					// Show update snackbar
 					AccentSnackBar.Make(Layout, Activity, Resources.GetString(Resource.String.event_decline) + @event.Title, 2000).Show();
 				};
+				// On accept click
 				Adapter.OnAction2 = (i) =>
 				{
+					// get event
 					var @event = Adapter.Items[i];
+
+					// reply and remove event
 					MainActivity.CIF.ReplyOffer(true, @event);
 					Adapter.RemoveAt(i);
+
+					// Show update snackbar
 					AccentSnackBar.Make(Layout, Activity, Resources.GetString(Resource.String.event_accepted) + @event.Title, 2000).Show();
 				};
 				Adapter.OnUpdatePosition = (view, evnt, exp) =>
@@ -59,6 +75,7 @@ namespace Solitude.Droid
 					AddInfo(offer.Match.FoodHabits, InfoType.FoodHabit, ref matchs);
 					AddInfo(offer.Match.Languages, InfoType.Language, ref matchs);
 
+					// Content of card contains description, location, slotstaken, slotstotal and matches.
 					view.FindViewById<TextView>(Resource.Id.expanded_content).Text =
 						string.Format("{0}\n\n{1}: {2}\n{3}: {4}/{5}\n\n{6}", 
 									  offer.Description, Resources.GetString(Resource.String.event_place), 
@@ -71,7 +88,10 @@ namespace Solitude.Droid
 
 				Activity.RunOnUiThread(() =>
 				{
+					// Set listview adapter
 					List.Adapter = Adapter;
+					
+					// Remove spinner, and add listview
 					Layout.RemoveAllViews();
 					Layout.AddView(List);
 				});
@@ -80,10 +100,14 @@ namespace Solitude.Droid
 			return Layout;
 		}
 
+		/// <summary>
+		/// This method is called when this fragment is seleted.
+		/// </summary>
 		public override void OnSelected()
 		{
 			if (Layout != null)
 			{
+				// Show spinner
 				Layout.RemoveAllViews();
 				Layout.AddView(new ProgressBar(Activity));
 
@@ -93,7 +117,10 @@ namespace Solitude.Droid
 
 					Activity.RunOnUiThread(() =>
 					{
+						// Set listview adapters items
 						Adapter.SetItems(offers);
+						
+						// Remove spinner, and add listview
 						Layout.RemoveAllViews();
 						Layout.AddView(List);
 					});
@@ -101,6 +128,9 @@ namespace Solitude.Droid
 			}
 		}
 
+		/// <summary>
+		/// A method for adding the matched by information to a string
+		/// </summary>
 		private void AddInfo(int[] items, InfoType type, ref string res)
 		{
 			for (int i = 0; i < items.Length; i++)

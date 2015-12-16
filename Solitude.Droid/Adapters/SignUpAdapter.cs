@@ -85,12 +85,18 @@ namespace Solitude.Droid
 			});
 		}
 
+		/// <summary>
+		/// A method for going to the profile activity.
+		/// </summary>
 		protected override void Back()
 		{
 			var intent = new Intent(Activity, typeof(ProfileActivity));
 			Activity.StartActivity(intent);
 		}
 
+		/// <summary>
+		/// A method for going to the activty that this ViewPager should lead to.
+		/// </summary>
 		protected override void BackWarning()
 		{
 			var intent = new Intent(Activity, typeof(MainActivity));

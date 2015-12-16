@@ -22,9 +22,13 @@ namespace Solitude.Droid
 	{
 		public EditEventAdapter(AppCompatActivity activity, ViewPager pager, FloatingActionButton finish, ProgressBar progress)
 			: base(activity, pager, finish, progress) { }
-		
+
+		/// <summary>
+		/// A method for updating data when the finish button is pressed.
+		/// </summary>
 		protected override void UpdateData()
 		{
+			// Get all the info saved in the activity.
 			var type = Activity.Intent.GetStringExtra("type");
 			var title = Activity.Intent.GetStringExtra("title");
 			var description = Activity.Intent.GetStringExtra("description");
@@ -38,6 +42,7 @@ namespace Solitude.Droid
 			var taken = Activity.Intent.GetIntExtra("slotstaken", 0);
 			var id = Activity.Intent.GetStringExtra("id");
 
+			// Creat the event based on the information.
 			var @event = new Event()
 			{
 				Location = place,
@@ -51,6 +56,7 @@ namespace Solitude.Droid
 
 			bool completed = false;
 
+			// Check whether this is editing an allready existing event, or making a new one.
 			if (type == "edit")
 				completed = MainActivity.CIF.UpdateEvent(@event);
 			else if (type == "new")
@@ -58,12 +64,14 @@ namespace Solitude.Droid
 			else
 				throw new ArgumentException("type has to be either edit or new");
 
+
 			if (completed)
 			{
 				Back();
 			}
 			else
 			{
+				// If an error occured, show message.
 				var dialog = new Android.Support.V7.App.AlertDialog.Builder(Activity);
 				dialog.SetMessage(Activity.Resources.GetString(Resource.String.message_error_event_update_event) + "\n" + MainActivity.CIF.LatestError);
 				dialog.SetNegativeButton(Resource.String.ok, (s, earg) => { });
@@ -71,6 +79,9 @@ namespace Solitude.Droid
 			}
         }
 
+		/// <summary>
+		/// A method for going back to the event activity
+		/// </summary>
 		protected override void Back()
 		{
 			var intent = new Intent(Activity, typeof(EventActivity));
@@ -79,6 +90,9 @@ namespace Solitude.Droid
 			Activity.StartActivity(intent);
 		}
 
+		/// <summary>
+		/// A method for going to the activty that this ViewPager should lead to.
+		/// </summary>
 		protected override void BackWarning()
 		{
 			var dialog = new Android.Support.V7.App.AlertDialog.Builder(Activity);

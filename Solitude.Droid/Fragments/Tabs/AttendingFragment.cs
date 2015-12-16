@@ -34,7 +34,7 @@ namespace Solitude.Droid
 
 			ThreadPool.QueueUserWorkItem(o =>
 			{
-				// Get joined events and creat adapter.
+				// Get joined events and create adapter.
 				Adapter = new EventAdapter<Event>(Activity, MainActivity.CIF.GetJoinedEvents(100));
 
 				// On leave click
