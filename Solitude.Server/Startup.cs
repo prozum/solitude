@@ -28,60 +28,6 @@ namespace Solitude.Server
             ConfigureJobManager(app);
         }
 
-        private void ConfigureJobManager(IAppBuilder app)
-        {
-            var jobs = new IJob[]
-            {
-                new BirthdateJob("BirthdateJob", TimeSpan.FromSeconds(1), Dal),
-                new EventEndedJob("EventEndedJob", TimeSpan.FromSeconds(1), Dal)
-            };
-
-            var manager = new JobManager(jobs, new SingleServerJobCoordinator());
-            manager.Start();
-
-            app.CreatePerOwinContext(() => manager);
-        }
-
-        private void ConfigureWebApi (IAppBuilder app)
-        {
-            var config = new HttpConfiguration ();
-
-            config.MapHttpAttributeRoutes ();
-
-            config.Routes.MapHttpRoute (
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/"
-            );
-
-            config.Routes.MapHttpRoute (
-                name: "IdApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
-//                constraints: new { id = @"^[0-9]+$" }
-            );
-
-//            config.Routes.MapHttpRoute (
-//                name: "UsernameApi",
-//                routeTemplate: "api/{controller}/{action}/{username}",
-//                defaults: new { username = RouteParameter.Optional },
-//                constraints: new { action = "check"}
-//            );
-
-//            config.Routes.MapHttpRoute (
-//                name: "ActionApi",
-//                routeTemplate: "api/{controller}/{action}"
-//            );
-
-            // Use json
-            config.Formatters.Clear ();
-            config.Formatters.Add (new JsonMediaTypeFormatter ());
-
-            // Authorize by default
-            config.Filters.Add(new AuthorizeAttribute());
-
-            app.UseWebApi(config);
-        }
-
         private void ConfigureNeo4j(IAppBuilder app)
         {
             // Create and connect GraphClient for use in dal and identity framework
@@ -99,7 +45,7 @@ namespace Solitude.Server
             app.CreatePerOwinContext(() => {
                 return new GraphClientWrapper(Client);
             });
-                
+
             // Create Solitude UserManager and SignInManager to control users
             app.CreatePerOwinContext<SolitudeUserManager>(SolitudeUserManager.Create);
             app.CreatePerOwinContext<SolitudeSignInManager>(SolitudeSignInManager.Create);
@@ -132,6 +78,50 @@ namespace Solitude.Server
 
             app.UseOAuthAuthorizationServer(OAuthServerOptions);
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
+        }
+
+        private void ConfigureWebApi (IAppBuilder app)
+        {
+            var config = new HttpConfiguration ();
+
+            // Enable routing using attributes
+            config.MapHttpAttributeRoutes ();
+
+            // Route to ressources without URL arguments
+            config.Routes.MapHttpRoute (
+                name: "DefaultApi",
+                routeTemplate: "api/{controller}/"
+            );
+
+            // Route to ressources with id argument
+            config.Routes.MapHttpRoute (
+                name: "IdApi",
+                routeTemplate: "api/{controller}/{id}",
+                defaults: new { id = RouteParameter.Optional }
+            );
+
+            // Use json
+            config.Formatters.Clear ();
+            config.Formatters.Add (new JsonMediaTypeFormatter ());
+
+            // Authorize by default
+            config.Filters.Add(new AuthorizeAttribute());
+
+            app.UseWebApi(config);
+        }
+
+        private void ConfigureJobManager(IAppBuilder app)
+        {
+            var jobs = new IJob[]
+                {
+                    new BirthdateJob("BirthdateJob", TimeSpan.FromSeconds(1), Dal),
+                    new EventEndedJob("EventEndedJob", TimeSpan.FromSeconds(1), Dal)
+                };
+
+            var manager = new JobManager(jobs, new SingleServerJobCoordinator());
+            manager.Start();
+
+            app.CreatePerOwinContext(() => manager);
         }
     }
 }
