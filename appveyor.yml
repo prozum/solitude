@@ -67,12 +67,12 @@ build_script:
 
 shallow_clone: true
 
-before_test:
- - ps: Start-Process Solitude.Server\bin\Debug\Solitude.Server.exe -nonewwindow
+#before_test:
+# - ps: Start-Process Solitude.Server\bin\Debug\Solitude.Server.exe -nonewwindow
 
-test:
-  assemblies:
-   - '**\*.Tests.dll'
+#test:
+#  assemblies:
+#   - '**\*.Tests.dll'
 
 cache: packages
 
