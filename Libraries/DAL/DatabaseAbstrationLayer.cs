@@ -4,8 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Neo4jClient;
 using Neo4jClient.Cypher;
-using Model;
 using System.IO;
+using BBBClasses;
 
 namespace Dal
 {
@@ -27,6 +27,21 @@ namespace Dal
 		public void Dispose()
 		{
 			GC.SuppressFinalize(this);
+		}
+
+		public async Task CleanUnusedFields()
+		{
+			await _client.Cypher
+				.OptionalMatch("()-[r]->(beer:Beer)")
+				.Where((Relationship r) => r == null)
+				.Delete("beer")
+				.ExecuteWithoutResultsAsync();
+
+			await _client.Cypher
+				.OptionalMatch("()->[r]->(recipe:Recipe)")
+				.Where((Relationship r) => r == null)
+				.Delete("recipe")
+				.ExecuteWithoutResultsAsync();
 		}
 
         #region User
@@ -63,26 +78,22 @@ namespace Dal
         /// <param name="uid">The user's id</param>
         public async Task DeleteUserData(Guid uid)
         {
-            // Delete Events hosted by User
-            var hosts = await _client.Cypher
-                .Match("(user:User)-[:HOSTING]-(event:Event)")
+            // Delete all beers and recipes
+           await _client.Cypher
+                .Match("(user:User)-[r:BREWS]->(Beer)")
                 .Where((User user) => user.Id == uid)
-                .Return((@event) => @event.As<Event>().Id)
-                .ResultsAsync;
-            foreach (var host in hosts)
-                await DeleteEvent(host);
+                .Delete("r")
+                .ExecuteWithoutResultsAsync();
 
-            // Cancel all attending Event
-            var events = await _client.Cypher
-                .Match("(user:User)-[:ATTENDS]-(event:Event)")
-                .Where((User user) => user.Id == uid)
-                .Return((@event) => @event.As<Event>().Id)
-                .ResultsAsync;
-            foreach (var eid in events)
-                await CancelEventRegistration(uid, eid);
+			await _client.Cypher
+				.Match("(user:User)-[r:KNOWS]->(Recipe)")
+				.Where((User user) => user.Id == uid)
+				.Delete("r")
+				.ExecuteWithoutResultsAsync();
 
-            // Delete the remaining releations
-            await _client.Cypher
+
+			// Delete the remaining releations
+			await _client.Cypher
                 .OptionalMatch("(user:User)-[r]->()")
                 .Where((User user) => user.Id == uid)
                 .Delete("r")
@@ -138,59 +149,118 @@ namespace Dal
                 .ExecuteWithoutResultsAsync();
         }
 
-        #endregion
+		#endregion
 
-        #region Event
+		#region Recipe
 
-        /// <summary>
-        /// Add an event to the database
-        /// </summary>
-        /// <returns>Task</returns>
-        /// <param name="event">The event that should be added</param>
-        public async Task AddEvent (Event e)
+		/// <summary>
+		/// Adds a recipe to the database and setup relations with the brewer
+		/// </summary>
+		/// <param name="r">The new recipe to be added to the database</param>
+		/// <returns></returns>
+		public async Task AddRecipe(Recipe recipe)
 		{
-			e.Id = Guid.NewGuid();
+			recipe.RecipeId = Guid.NewGuid();
+
+			await _client.Cypher
+				.Match("user:User")
+				.Where((User user) => user.Id == recipe.BrewerId)
+				.CreateUnique("(user)-[KNOWS]->(recipe:Recipe {details})")
+				.WithParam("details", recipe)
+				.ExecuteWithoutResultsAsync();
+		}
+
+		public async Task DeleteRecipe(Guid rid)
+		{
+			await _client.Cypher
+				.OptionalMatch("(r:Recipe)<-[rel]-()")
+				.Where((Recipe r) => r.RecipeId == rid)
+				.Delete("r, rel")
+				.ExecuteWithoutResultsAsync();
+		}
+
+		public async Task UpdateRecipe(Recipe @recipe)
+		{
+			await _client.Cypher
+				.Match("(User)-[:KNOWS]->(r:Recipe)")
+				.Where((Recipe r) => r.RecipeId == @recipe.RecipeId)
+				.Set("r = {newinfo}")
+				.WithParam("newinfo", @recipe)
+				.ExecuteWithoutResultsAsync();
+		}
+
+		public async Task<IEnumerable<Recipe>> GetAllRecipes (Guid uid)
+		{
+			var res = await _client.Cypher
+				.Match("(user:User)-[:KNOWS]->(recipe:Recipe)")
+				.Where((User user) => user.Id == uid)
+				.Return(() => Return.As<Recipe>("recipe"))
+				.ResultsAsync;
+
+			return res;
+		}
+
+		public async Task<Guid> GetBrewerFromRecipe(Guid rid)
+		{
+			var res = await _client.Cypher
+				.Match("(user:User)-[KNOWS]->(recipe:Recipe)")
+				.Where((Recipe recipe) => recipe.RecipeId == rid)
+				.Return(() => Return.As<UserData>("user"))
+				.ResultsAsync;
+
+			return (res as UserData).Id;
+		}
+
+		#endregion
+
+		#region Beer
+
+		/// <summary>
+		/// Add a beer to the database
+		/// </summary>
+		/// <returns>Task</returns>
+		/// <param name="beer">The beer that should be added</param>
+		public async Task AddBeer (Beer b)
+		{
+			b.Id = Guid.NewGuid();
 
 			await _client.Cypher
 				.Match ("(user:User)")
-				.Where((User user) => user.Id == e.UserId)
+				.Where((User user) => user.Id == b.UserId)
 				//creates a relation "HOSTING" between the created event 
-				.Create ("(user)-[:HOSTING]->(event:Event {data})")
-				.WithParam ("data", e)
+				.Create ("(user)-[:BREWS]->(beer:Beer {data})")
+				.WithParam ("data", b)
 				.ExecuteWithoutResultsAsync ();
 		}
 
         /// <summary>
-        /// Updates an event
+        /// Updates a beer
         /// </summary>
         /// <returns>Task</returns>
-        /// <param name="event">The event which replaces the old event</param>
-        public async Task UpdateEvent(Event @event, Guid uid)
+        /// <param name="beer">The beer which replaces the old event</param>
+        public async Task UpdateBeer(Beer @beer, Guid uid)
         {
             await _client.Cypher
-                .Match("(user:User)-[:HOSTING]->(e:Event)")
-                .Where((Event e) => e.Id == @event.Id)
+                .Match("(user:User)-[:BREWS]->(b:Beer)")
+                .Where((Beer b) => b.Id == @beer.Id)
                 .AndWhere((User user) => user.Id == uid)
-                .Set("e = {newinfo}")
-                .WithParam("newinfo", @event)
+                .Set("b = {newinfo}")
+                .WithParam("newinfo", @beer)
                 .ExecuteWithoutResultsAsync();
         }
 
         /// <summary>
-        /// Deletes an event
+        /// Deletes a beer
         /// </summary>
         /// <returns>Task</returns>
-        /// <param name="eid">The event's id</param>
-        public async Task DeleteEvent(Guid eid)
+        /// <param name="eid">The beer's id</param>
+        public async Task DeleteBeer(Guid bid)
         {
-            // Delete Event Tasks
-            //await DeleteEventTasks(eid);
-
             // Delete the Event and remaining relations
             await _client.Cypher
-                .OptionalMatch("(e:Event)<-[r]-()")
-                .Where((Event e) => e.Id == eid)
-                .Delete("e, r")
+                .OptionalMatch("(b:Beer)<-[r]-()")
+                .Where((Beer b) => b.Id == bid)
+                .Delete("b, r")
                 .ExecuteWithoutResultsAsync();
         }
 
@@ -199,81 +269,53 @@ namespace Dal
         /// </summary>
         /// <returns>Task<IEnumerable<Event>> with the events the user is hosting</returns>
         /// <param name="uid">The user's id</param>
-        public async Task<IEnumerable<Event>> GetHostingEvents(Guid uid)
+        public async Task<IEnumerable<Beer>> GetBrewedBeers(Guid uid)
         {
             var hosting = await _client.Cypher
-                .Match("(user:User)-[:HOSTING]->(event:Event)")
+                .Match("(user:User)-[:BREWS]->(beer:Beer)")
                 .Where((User user) => user.Id == uid)
-                .Return(() => Return.As<Event>("event"))
+                .Return(() => Return.As<Beer>("beer"))
                 .ResultsAsync;
 
             return hosting;
         }
 
-        /// <summary>
-        /// Gets the events that a user is attending
-        /// </summary>
-        /// <returns>Task<IEnumerable<Event>> with the events the user is attending</returns>
-        /// <param name="uid">The user's id</param>
-        public async Task<IEnumerable<Event>> GetAttendingEvents(Guid uid)
-        {
-            var events = await _client.Cypher
-                .Match("(user:User)-[:ATTENDS]->(event:Event)")
-                .Where((User user) => user.Id == uid)
-                .Return(() => Return.As<Event>("event"))
-                .ResultsAsync;
+		public async Task<Guid> GetBrewerFromBeer(Guid bid)
+		{
+			var res = await _client.Cypher
+				.Match("(user:User)-[BREWS]->(beer:Beer)")
+				.Where((Beer beer) => beer.Id == bid)
+				.Return(() => Return.As<UserData>("user"))
+				.ResultsAsync;
 
-            return events;
-        }
+			return (res as UserData).Id;
+		}
 
+		public async Task<Beer> GetBeer(Guid bid)
+		{
+			var res = await _client.Cypher
+				.Match("(beer:Beer)")
+				.Where((Beer beer) => beer.Id == bid)
+				.Return(() => Return.As<Beer>("beer"))
+				.ResultsAsync;
 
-        public void DeleteHeldEvents(DateTimeOffset now)
-        {
-            _client.Cypher
-                .Match("(e:Event)<-[r:ATTENDS]-(user:User)")
-                .Where((Event e) => now > e.Date)
-                .Create("(user:User)<-[NOTIFIES]-(n:Notification {Type:{type}, EventId:e.Id})")
-                .WithParam("type", NotificationType.REVIEW)
-                .Delete("r")
-                .ExecuteWithoutResultsAsync();
+			return res.First();
+		}
 
+		#endregion
 
-            _client.Cypher
-                .OptionalMatch("(e:Event)-[r]-()")
-                .Where((Event e) => now > e.Date)
-                .Delete("r, e")
-                .ExecuteWithoutResultsAsync();
-        }
+		#region Review
 
-
-        /// <summary>
-        /// Cancels the registration for a user to an event
-        /// </summary>
-        /// <param name="uid">The user's id</param>
-        /// <param name="eid">The event's id</param>
-        public async Task CancelEventRegistration(Guid uid, Guid eid)
-        {
-            await _client.Cypher
-                .Match("(user:User)-[a:ATTENDS]->(e:Event)")
-                .Where((User user) => user.Id == uid)
-                .AndWhere((Event e) => e.Id == eid)
-                .Delete("a")
-                .ExecuteWithoutResultsAsync();
-
-            await ReleaseSlot(eid);
-
-            //await AddNotification (@event.UserID, "A person has cancelled his/her registration for your event.");
-        }
-
-        #endregion
-
-        #region Review
-
-		public async Task<IEnumerable<Review>> GetReviews(Guid uid)
+		/// <summary>
+		/// Gets the revies of a specified Beer
+		/// </summary>
+		/// <param name="uid">The id of the reviewed beer</param>
+		/// <returns>An Enumerable with all reviews of the given beer</returns>
+		public async Task<IEnumerable<Review>> GetBeerReviews(Guid bid)
 		{
 			var reviews = await _client.Cypher
 				.Match("(review:Review)")
-				.Where((Review review) => review.UserId == uid)
+				.Where((Review review) => review.BeerId == bid)
 				.Return(() => Return.As<Review>("review"))
 				.ResultsAsync;
 
@@ -285,423 +327,191 @@ namespace Dal
         /// </summary>
         /// <returns>Task</returns>
         /// <param name="review">The review that should be added</param>
-        public async Task AddReview(Review review)
+        public async Task AddBeerReview(Review review)
 		{
 			await _client.Cypher
-				.Match ("(e:Event)")
-				.Where((Event e) => e.Id == review.EventId)
-				.Create ("(e)-[:HAS_REVIEW]->(review:Review {data})")
+				.Match ("(b:Beer)")
+				.Where((Beer b) => b.Id == review.BeerId)
+				.Create ("b)-[:HAS_REVIEW]->(review:Review {data})")
 				.WithParam ("data", review)
 				.ExecuteWithoutResultsAsync ();
 		}
 
-        #endregion
+		#endregion
 
-        #region Add InfoTypes
+		#region Match
 
-        /// <summary>
-        /// Adds an interest to the database
-        /// </summary>
-        /// <returns>Task</returns>
-        /// <param name="i">The interest to add</param>
-        public async Task AddInterest(Interest i)
-        {
-            await _client.Cypher
-                .Merge("(i:Interest { Id:{id}, Name:{name}})")
-                .WithParams(new
-                {
-                    id = i.Id,
-                    name = i.Name
-                })
-                .ExecuteWithoutResultsAsync();
-        }
-
-        /// <summary>
-        /// Adds a language to the database
-        /// </summary>
-        /// <returns>Task</returns>
-        /// <param name="lang">The language to add</param>
-        public async Task AddLanguage(Language lang)
-        {
-            await _client.Cypher
-                .Merge("(lang:Language { Id:{id}, Name:{name}})")
-                .WithParams(new
-                {
-                    id = lang.Id,
-                    name = lang.Name
-                })
-                .ExecuteWithoutResultsAsync();
-        }
-
-        /// <summary>
-        /// Adds a foodhabit to the database
-        /// </summary>
-        /// <returns>Task</returns>
-        /// <param name="fh">The foodhabit to add</param>
-        public async Task AddFoodHabit(FoodHabit fh)
-        {
-            await _client.Cypher
-                .Merge("(fb:FoodHabit { Id:{id}, Name:{name}})")
-                .WithParams(new
-                {
-                    id = fh.Id,
-                    name = fh.Name
-                })
-                .ExecuteWithoutResultsAsync();
-        }
-
-        #endregion
-
-        #region Connect InfoTypes
-
-        /// <summary>
-        /// Connects the user to an interest
-        /// </summary>
-        /// <returns>Task</returns>
-        /// <param name="uid">The user's id</param>
-        /// <param name="ic">The interest which the user should be connected to</param>
-        /// <param name="w">The weight of the relationship between the user and interest</param>
-        public async Task ConnectUserInterest (Guid uid, int ic, int weight)
-		{
-			await _client.Cypher
-				//make sure that the interest is related with the right user
-				.Match ("(user:User), (interest:Interest)")
-				.Where((User user) => user.Id == uid)
-				.AndWhere ("interest.Id = {ic}")
-				.WithParam ("ic", ic)
-				//create a unique relation "WANTS" with the weight 'w'
-				.CreateUnique ("(user)-[w:WANTS]->(interest)")
-				.Set("w.Weight = {weight}")
-				.WithParam("weight", weight)
-				.ExecuteWithoutResultsAsync ();
-		}
-
-        /// <summary>
-        /// Connects the user to a language
-        /// </summary>
-        /// <returns>Task</returns>
-        /// <param name="uid">The user's id</param>
-        /// <param name="lc">The language which the user should be connected to</param>
-        /// <param name="w">The weight of the relationship between the user and language</param>
-        public async Task ConnectUserLanguage(Guid uid, int lc, int weight)
-        {
-            await _client.Cypher
-                //make sure that the interest is related with the right user
-                .Match("(user:User), (language:Language)")
-                .Where((User user) => user.Id == uid)
-                .AndWhere("language.Id = {lc}")
-                .WithParam("lc", lc)
-                //create a unique relation "WANTS" with the weight 'w'
-                .CreateUnique(("(user)-[w:WANTS]->(language)"))
-				.Set("w.Weight = {weight}")
-				.WithParam("weight", weight)
-                .ExecuteWithoutResultsAsync();
-        }
-
-        /// <summary>
-        /// Connects the user to a foodhabit
-        /// </summary>
-        /// <returns>Task</returns>
-        /// <param name="uid">The user's id</param>
-        /// <param name="fh">The foodhabit which the user should be connected to</param>
-        /// <param name="w">The weight of the relationship between the user and foodhabit</param>
-        public async Task ConnectUserFoodHabit(Guid uid, int fh, int weight)
-        {
-            await _client.Cypher
-                //make sure that the interest is related with the right user
-                .Match("(user:User), (foodhabit:FoodHabit)")
-                .Where((User user) => user.Id == uid)
-                .AndWhere("foodhabit.Id = {fh}")
-                .WithParam("fh", fh)
-                //create a unique relation "WANTS" with the weight 'w'
-                .CreateUnique(("(user)-[w:WANTS]->(foodhabit)"))
-				.Set("w.Weight = {weight}")
-				.WithParam("weight", weight)
-                .ExecuteWithoutResultsAsync();
-        }
-
-        #endregion
-
-        #region Disconnect InfoTypes
-
-        /// <summary>
-        /// Disconnects the user from an interest
-        /// </summary>
-        /// <returns>Task</returns>
-        /// <param name="uid">The user's id</param>
-        /// <param name="ic">The interest that the user should be disconnected from</param>
-        public async Task DisconnectUserInterest (Guid uid, int ic)
-		{
-			await _client.Cypher
-				//make sure that the interest is related with the right user
-				.Match ("(user:User)-[w:WANTS]->(interest:Interest)")
-				.Where((User user) => user.Id == uid)
-				.AndWhere ("interest.Id = {ic}")
-				.WithParam ("ic", ic)
-				.Delete("w")
-				.ExecuteWithoutResultsAsync ();
-		}
-
-        /// <summary>
-        /// Disconnects the user from a language
-        /// </summary>
-        /// <returns>Task</returns>
-        /// <param name="uid">The user's id</param>
-        /// <param name="lc">The language that the user should be disconnected from</param>
-        public async Task DisconnectUserLanguage(Guid uid, int lc)
-        {
-            await _client.Cypher
-                //make sure that the interest is related with the right user
-                .Match("(user:User)-[w:WANTS]->(language:Language)")
-                .Where((User user) => user.Id == uid)
-                .AndWhere("language.Id = {lc}")
-                .WithParam("lc", lc)
-                .Delete("w")
-                .ExecuteWithoutResultsAsync();
-        }
-
-        /// <summary>
-        /// Disconnects the user from a foodhabit
-        /// </summary>
-        /// <returns>Task</returns>
-        /// <param name="uid">The user's id</param>
-        /// <param name="fh">The foodhabit that the user should be disconnected from</param>
-        public async Task DisconnectUserFoodHabit(Guid uid, int fh)
-        {
-            await _client.Cypher
-                //make sure that the interest is related with the right user
-                .Match("(user:User)-[w:WANTS]->(foodhabit:FoodHabit)")
-                .Where((User user) => user.Id == uid)
-                .AndWhere("foodhabit.Id = {fh}")
-                .WithParam("fh", fh)
-                .Delete("w")
-                .ExecuteWithoutResultsAsync();
-        }
-
-        #endregion
-
-        #region Get InfoTypes
-
-        /// <summary>
-        /// Gets the user's interests
-        /// </summary>
-        /// <returns>Task<IEnumerable<int>> with the interest values the user has </returns>
-        /// <param name="uid">The user's id</param>
-        public async Task<IEnumerable<int>> GetUserInterest (Guid uid)
-		{
-			var res = await _client.Cypher
-				.Match ("(user:User)-[:WANTS]->(interest:Interest)")
-				.Where ((User user) => user.Id == uid)
-				.Return (() => Return.As<int> ("interest.Id"))
-				.ResultsAsync;
-
-			return res;
-		}
-
-        /// <summary>
-        /// Gets the user's languages
-        /// </summary>
-        /// <returns>Task<IEnumerable<int>> with the language values the user has </returns>
-        /// <param name="uid">The user's id</param>
-        public async Task<IEnumerable<int>> GetUserLanguage(Guid uid)
-        {
-            var res = await _client.Cypher
-                .Match("(user:User)-[:WANTS]->(language:Language)")
-                .Where((User user) => user.Id == uid)
-                .Return(() => Return.As<int>("language.Id"))
-                .ResultsAsync;
-
-            return res;
-        }
-
-        /// <summary>
-        /// Gets the user's foodhabits
-        /// </summary>
-        /// <returns>Task<IEnumerable<int>> with the foodhabit values the user has </returns>
-        /// <param name="uid">The user's id</param>
-        public async Task<IEnumerable<int>> GetUserFoodHabit(Guid uid)
-        {
-            var res = await _client.Cypher
-                .Match("(user:User)-[:WANTS]->(foodhabit:FoodHabit)")
-                .Where((User user) => user.Id == uid)
-                .Return(() => Return.As<int>("foodhabit.Id"))
-                .ResultsAsync;
-
-            return res;
-        }
-
-        #endregion
-
-        #region Match
-
-        /// <summary>
-        /// Matchs the user against all users that are hosting an event
-        /// </summary>
-        /// <returns>Task</returns>
-        /// <param name="uid">The user's ID</param>
-        /// <param name="limit">The maximum limit of matches created</param>
-        public async Task MatchUser(Guid uid, int limit = 5)
+		/// <summary>
+		/// Matchs the user against all users that are hosting an event
+		/// </summary>
+		/// <returns>Task</returns>
+		/// <param name="uid">The user's ID</param>
+		/// <param name="limit">The maximum limit of matches created</param>
+		/*public async Task MatchUser(Guid uid, int limit = 5)
         {
             await CleanMatches(uid);
+			*/
+		/*
+		 * 1: select all users (user) and users who host an event
+		 * 2: filter out all users in user, except the one the uid is for
+		 * 3: make sure the user isn't compared with itself (user shouldn't be in rest)
+		 * 4: filter out all the events that don't have slots left
+		 * 5: replace the 'uid' with the uid arg
+		 * 6: add param uid
+		 * 7,8,9,10,11,12: calculate weights for rest against user and send the results further along
+		 * 13: order the rest by how great they are matched, descending order
+		 * 14: only take the top (LIMIT) of the rest
+		 * 15: create 'relationship' "MATCHED" from user to all the events that fits
+		 */
 
-            /*
-			 * 1: select all users (user) and users who host an event
-			 * 2: filter out all users in user, except the one the uid is for
-			 * 3: make sure the user isn't compared with itself (user shouldn't be in rest)
-			 * 4: filter out all the events that don't have slots left
-			 * 5: replace the 'uid' with the uid arg
-			 * 6: add param uid
-			 * 7,8,9,10,11,12: calculate weights for rest against user and send the results further along
-			 * 13: order the rest by how great they are matched, descending order
-			 * 14: only take the top (LIMIT) of the rest
-			 * 15: create 'relationship' "MATCHED" from user to all the events that fits
-			 */
+		/*var now = DateTimeOffset.UtcNow.AddHours(2);
 
-            var now = DateTimeOffset.UtcNow.AddHours(2);
+		await _client.Cypher
+			.Match("(user:User), (rest:User)-[:HOSTING]->(e:Event)")
+			.Where((User user) => user.Id == uid)
+			.AndWhere ("NOT (user)-[]->(e)")
+			.AndWhere((Event e) => e.SlotsTotal > e.SlotsTaken)
+			//.AndWhere ((Event e) => e.Date > now)
+			.OptionalMatch("(user)-[w1:WANTS]->(interest:Interest)<-[w2:WANTS]-(rest)")
+			.With("user, rest, e, sum(w1.Weight) + sum(w2.Weight) as wt1, collect(interest.Id) as int")
+			.OptionalMatch("(user)-[w3:WANTS]->(language:Language)<-[w4:WANTS]-(rest)")
+			.With("user, rest, e, wt1, sum(w3.Weight) + sum(w4.Weight) as wt2, int, collect(language.Id) as lang")
+			.OptionalMatch("(user)-[w5:WANTS]->(foodhabit:FoodHabit)<-[w6:WANTS]-(rest)")
+			.With("user, e, wt1, wt2, sum(w5.Weight) + sum(w6.Weight) as wt3, int, lang, collect(foodhabit.Id) as food")
+			.OrderBy("(wt1+wt2+wt3) DESC")
+			.Limit(limit)
+			.CreateUnique("(user)-[m:MATCHED { Interests:int,Languages:lang,FoodHabits:food}]->(e)")
+			.ExecuteWithoutResultsAsync();
 
-            await _client.Cypher
-                .Match("(user:User), (rest:User)-[:HOSTING]->(e:Event)")
-                .Where((User user) => user.Id == uid)
-                .AndWhere ("NOT (user)-[]->(e)")
-                .AndWhere((Event e) => e.SlotsTotal > e.SlotsTaken)
-                //.AndWhere ((Event e) => e.Date > now)
-                .OptionalMatch("(user)-[w1:WANTS]->(interest:Interest)<-[w2:WANTS]-(rest)")
-                .With("user, rest, e, sum(w1.Weight) + sum(w2.Weight) as wt1, collect(interest.Id) as int")
-                .OptionalMatch("(user)-[w3:WANTS]->(language:Language)<-[w4:WANTS]-(rest)")
-                .With("user, rest, e, wt1, sum(w3.Weight) + sum(w4.Weight) as wt2, int, collect(language.Id) as lang")
-                .OptionalMatch("(user)-[w5:WANTS]->(foodhabit:FoodHabit)<-[w6:WANTS]-(rest)")
-                .With("user, e, wt1, wt2, sum(w5.Weight) + sum(w6.Weight) as wt3, int, lang, collect(foodhabit.Id) as food")
-                .OrderBy("(wt1+wt2+wt3) DESC")
-                .Limit(limit)
-                .CreateUnique("(user)-[m:MATCHED { Interests:int,Languages:lang,FoodHabits:food}]->(e)")
-                .ExecuteWithoutResultsAsync();
+		//if (res.First().matches > 0)
+		//{
+		//	await AddNotification (uid, "You have new offers pending");
+		//}
+	}*/
 
-			//if (res.First().matches > 0)
-			//{
-			//	await AddNotification (uid, "You have new offers pending");
-			//}
-        }
-
-        /// <summary>
-        /// Cleans all matches for a given user
-        /// </summary>
-        /// <returns>Task</returns>
-        /// <param name="uid">The user's id</param>
-        async Task CleanMatches (Guid uid)
+		/// <summary>
+		/// Cleans all matches for a given user
+		/// </summary>
+		/// <returns>Task</returns>
+		/// <param name="uid">The user's id</param>
+		/*async Task CleanMatches (Guid uid)
 		{
 			await _client.Cypher
 				.Match ("(user:User)-[m:MATCHED]->(event:Event)")
 				.Where((User user) => user.Id == uid)
 				.Delete ("m")
 				.ExecuteWithoutResultsAsync ();
+		}*/
+
+		#endregion*/
+
+		#region Trade
+
+		/*Proprose a new trade between two users*/
+		public async Task ProposeRecipeTrade(Guid r_uid, RecipeTrade t)
+		{
+			t.TradeId = Guid.NewGuid();
+
+			await _client.Cypher
+				.Match("(r_user:User)")
+				.Where((User r_user) => r_user.Id == r_uid)
+				.Match("(s_user:User)")
+				.Where((User s_user) => s_user.Id == t.SenderUser)
+				.CreateUnique("(s_user)-[t:TRADE {trade}]->(r_user)")
+				.WithParam("trade", t)
+				.ExecuteWithoutResultsAsync();
+				
 		}
 
-        #endregion
-
-        #region Offer
-
-        /// <summary>
-        /// Gets the events a user has been offered
-        /// </summary>
-        /// <returns>Task<IEnumerable<Event>> with the offers(events)</returns>
-        /// <param name="uid">The user's id</param>
-        public async Task<IEnumerable<Offer>> GetOffers(Guid uid)
+		/// <summary>
+		/// Gets the recipe-trades a user has been offered
+		/// </summary>
+		/// <returns>Task<IEnumerable<RecipeTrade>> with the offers(trades)</returns>
+		/// <param name="uid">The user's id</param>
+		public async Task<IEnumerable<RecipeTrade>> GetPendingTrades(Guid uid)
 		{
 			var res = await _client.Cypher
-				.Match ("(user:User)-[m:MATCHED]->(e:Event)")
-				.Where((User user) => user.Id == uid)
-				.Return((e, m) => new
-					{
-						Offer = e.As<Offer>(),
-						Match = m.As<Match>()
-					})
+				.Match("(s_user:User)-[t:TRADE]->(r_user:User)")
+				.Where((User r_user) => r_user.Id == uid)
+				.Return((t, s_user) => new
+				{
+					UserId = s_user.As<Guid>(),
+					RecipeTrade = t.As<RecipeTrade>()
+				})
 				.ResultsAsync;
 
-			// Combine Match and Offer
-			var offers = new List<Offer> ();
+			// Add the senders to the RecipeTrade's field, so that receiver may see who send the offer
+			var offers = new List<RecipeTrade> ();
 			foreach (var pair in res) 
 			{
-				pair.Offer.Match = pair.Match;
-				offers.Add(pair.Offer);
+				pair.RecipeTrade.SenderUser = pair.UserId;
+				offers.Add(pair.RecipeTrade);
 			}
 				
 			return offers;
 		}
 
         /// <summary>
-        /// Accept offer
+        /// Accept a trade offer
         /// </summary>
-        /// <returns>Returns a Task<bool> for whether it succeeds or not</returns>
-        /// <param name="uid">The user's id</param>
-        /// <param name="eid">The event's id</param>
-        public async Task<bool> AcceptOffer(Guid uid, Guid eid)
+        /// <returns></returns>
+        /// <param name="tid">The user's id</param>
+        public async Task AcceptOffer(Guid tid)
         {
-            var freeSlots = await TakeSlot(eid);
+			//Find the trade that the receiver wants to accept, store in "res"
+            var res = await _client.Cypher
+                .Match("(s_user:User)-[t:TRADE]->(r_user:User)")
+                .Where((RecipeTrade t) => t.TradeId == tid)
+				.Return(() => Return.As<RecipeTrade>("t"))
+                .ResultsAsync;
 
-            if (!freeSlots)
-                return false;
+			//Create edge between the traded beer-recipes and the users
+			// and delete the trade-edge in the process
+			var rt = res as RecipeTrade;
+			await _client.Cypher
+				.Match("(user:User)")
+				.Where((User user) => user.Id == rt.ReceiverUser)
+				.Match("(recipe:Recipe)")
+				.Where((Recipe recipe) => recipe.RecipeId == rt.SenderBeer)
+				.CreateUnique("(user)-[KNOWS]->(recipe)")
+				.ExecuteWithoutResultsAsync();
+			await _client.Cypher
+				.Match("(user:User)")
+				.Where((User user) => user.Id == rt.SenderUser)
+				.Match("(recipe:Recipe)")
+				.Where((Recipe recipe) => recipe.RecipeId == rt.ReceiverBeer)
+				.CreateUnique("(user)-[KNOWS]->(recipe)")
+				.ExecuteWithoutResultsAsync();
 
-            await _client.Cypher
-                .Match("(user:User)-[m:MATCHED]->(e:Event)")
-                .Where((User user) => user.Id == uid)
-                .AndWhere((Event e) => e.Id == eid)
-                .Delete("m")
-				.CreateUnique("(user)-[:ATTENDS]->(e)")
-                .ExecuteWithoutResultsAsync();
-
-            return true;
+			await _client.Cypher
+				.Match("(User)-[t:TRADE]->(User)")
+				.Where((RecipeTrade t) => t.TradeId == tid)
+				.Delete("t")
+				.ExecuteWithoutResultsAsync();
         }
 
 		/// <summary>
-		/// Decline offer
+		/// Decline the specified trade-offer
 		/// </summary>
-		/// <param name="uid">The user's id</param>
-		/// <param name="eid">The event's id</param>
-		public async Task DeclineOffer(Guid uid, Guid eid)
+		/// <param name="tid">The trade's id</param>
+		public async Task DeclineOffer(Guid tid)
 		{
 			await _client.Cypher
-				.Match("(user:User)-[m:MATCHED]->(e:Event)")
-				.Where((User user) => user.Id == uid)
-				.AndWhere((Event e) => e.Id == eid)
-				.Delete("m")
+				.Match("(:User)-[t:TRADE]->(:User)")
+				.Where((RecipeTrade t) => t.TradeId == tid)
+				.Delete("t")
 				.ExecuteWithoutResultsAsync();
 		}
 
-        #endregion
-
-        #region Slot
-
-        /// <summary>
-        /// Take a slot in an event
-        /// </summary>
-        /// <returns>Task<bool> whether or not it's possible to take the slot </returns>
-        /// <param name="eid">The event's id</param>
-        public async Task<bool> TakeSlot(Guid eid)
+		public async Task<RecipeTrade> GetTrade (Guid tid)
 		{
 			var res = await _client.Cypher
-				.Match("(e:Event)")
-				.Where((Event e) => e.Id == eid)
-				.AndWhere ((Event e) => e.SlotsTotal > e.SlotsTaken)
-				.Set ("e.SlotsTaken = e.SlotsTaken + 1")
-				.Return ((e) => e.As<Event> ())
+				.Match("-[t:TRADE]->")
+				.Where((RecipeTrade t) => t.TradeId == tid)
+				.Return(() => Return.As<RecipeTrade>("t"))
 				.ResultsAsync;
 
-			return res.Any();
-		}
-
-		/// <summary>
-		/// Release a slot in an event
-		/// </summary>
-		/// <returns>Task</returns>
-		/// <param name="eid">The event's id</param>
-		public async Task ReleaseSlot(Guid eid)
-		{
-			await _client.Cypher
-				.Match("(e:Event)")
-				.Where((Event e) => e.Id == eid)
-				.AndWhere((Event e) => e.SlotsTaken > 0)
-				.Set("e.SlotsTaken = e.SlotsTaken - 1")
-				.ExecuteWithoutResultsAsync();
+			return res.First();
 		}
 
         #endregion

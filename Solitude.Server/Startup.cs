@@ -1,5 +1,4 @@
 ﻿using Dal;
-using Model;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -36,7 +35,6 @@ namespace Solitude.Server
 
             // Create dal and initiate DB
             Dal = new DatabaseAbstrationLayer(Client, ConfigurationManager.AppSettings.Get("DataDir"));
-            InitiateDB();
 
             // Create reference to dal in OwinContext, so it can be accessed by Controllers 
             app.CreatePerOwinContext(() => Dal);
@@ -49,17 +47,6 @@ namespace Solitude.Server
             // Create Solitude UserManager and SignInManager to control users
             app.CreatePerOwinContext<SolitudeUserManager>(SolitudeUserManager.Create);
             app.CreatePerOwinContext<SolitudeSignInManager>(SolitudeSignInManager.Create);
-        }
-
-        void InitiateDB()
-        {
-            // Create User InfoTypes
-            Language.Get().ForEach((Language l) => Dal.AddLanguage(l)); 
-            Interest.Get().ForEach((Interest i) => Dal.AddInterest(i)); 
-            FoodHabit.Get().ForEach((FoodHabit f) => Dal.AddFoodHabit(f));
-
-            // Clean Events
-            Dal.DeleteHeldEvents(DateTimeOffset.UtcNow);
         }
 
         public void ConfigureOAuth(IAppBuilder app)
@@ -110,12 +97,16 @@ namespace Solitude.Server
             app.UseWebApi(config);
         }
 
+		/// <summary>
+		/// Configures the jobs running on the server.
+		/// </summary>
+		/// <param name="app">A reference to the server-instance</param>
         private void ConfigureJobManager(IAppBuilder app)
         {
             var jobs = new IJob[]
                 {
                     new BirthdateJob("BirthdateJob", TimeSpan.FromSeconds(1), Dal),
-                    new EventEndedJob("EventEndedJob", TimeSpan.FromSeconds(1), Dal)
+					new CleanJob("CleanJob", TimeSpan.FromDays(1), Dal)
                 };
 
             var manager = new JobManager(jobs, new SingleServerJobCoordinator());

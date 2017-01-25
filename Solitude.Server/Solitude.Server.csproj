@@ -102,6 +102,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NotificationManagement\BBBNotificationStrings.cs" />
+    <Compile Include="Jobs\CleanJob.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -112,14 +114,12 @@
     <Compile Include="Identity\SolitudeUserManager.cs" />
     <Compile Include="Identity\SolitudeSignInManager.cs" />
     <Compile Include="Identity\SolitudeAuthorizationServerProvider.cs" />
-    <Compile Include="Controllers\OfferController.cs" />
-    <Compile Include="Controllers\SolitudeController.cs" />
-    <Compile Include="Controllers\InfoController.cs" />
-    <Compile Include="Controllers\HostController.cs" />
-    <Compile Include="Controllers\EventController.cs" />
+    <Compile Include="Controllers\TradeController.cs" />
+    <Compile Include="Controllers\BBBController.cs" />
+    <Compile Include="Controllers\RecipeController.cs" />
+    <Compile Include="Controllers\BeerController.cs" />
     <Compile Include="Identity\SolitudeUser.cs" />
     <Compile Include="Jobs\BirthdateJob.cs" />
-    <Compile Include="Jobs\EventEndedJob.cs" />
     <Compile Include="Controllers\PictureController.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
@@ -141,17 +141,14 @@
     </MonoDevelop>
   </ProjectExtensions>
   <ItemGroup>
+    <ProjectReference Include="..\Libraries\BBBClasses\BBBClasses.csproj">
+      <Project>{e27f9737-7ef5-4388-a2f1-c7dcee1cf423}</Project>
+      <Name>BBBClasses</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Libraries\DAL\Dal.csproj">
       <Project>{82693574-9042-403E-82E3-FFB594559CB6}</Project>
       <Name>Dal</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Libraries\Model\Model.csproj">
-      <Project>{BB5645E2-A303-4B98-9D0F-662EC6B94DDB}</Project>
-      <Name>Model</Name>
-    </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Identity\" />
-    <Folder Include="Jobs\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

@@ -54,35 +54,12 @@ namespace Solitude.Server.Tests
 			AddReview ();
 		}
 
-		[Test ()]
-		public void TestCaseAddLanguage ()
-		{
-			RegisterUser ();
-			Login ();
-			AddCharacteristica (0, 5);
-		}
-
-		[Test ()]
-		public void TestCaseAddInterest ()
-		{
-			RegisterUser ();
-			Login ();
-			AddCharacteristica (1, 5);
-		}
-		[Test ()]
-		public void TestCaseAddFoodHabit ()
-		{
-			RegisterUser ();
-			Login ();
-			AddCharacteristica (2, 5);
-		}
-
 		[Test()]
-		public void TestCaseAddEvent()
+		public void TestCaseAddBeer()
 		{
 			RegisterUser ();
 			Login ();
-			AddEvent ();
+			AddBeer ();
 		}
 
 		[Test ()]
@@ -94,39 +71,12 @@ namespace Solitude.Server.Tests
 		}
 			
 		[Test()]
-		public void TestCaseGetHostingEvent()
+		public void TestCaseGetOwnBeers()
 		{
 			RegisterUser ();
 			Login ();
-			AddEvent ();
-			GetEvent ();
-		}
-
-		[Test ()]
-		public void TestCaseGetFoodHabit ()
-		{
-			RegisterUser ();
-			Login ();
-			AddCharacteristica (0, 5);
-			GetCharacteristica (0, 5);
-		}
-
-		[Test ()]
-		public void TestCaseGetInterest ()
-		{
-			RegisterUser ();
-			Login ();
-			AddCharacteristica (1, 5);
-			GetCharacteristica (1, 5);
-		}
-
-		[Test ()]
-		public void TestCaseGetLanguage ()
-		{
-			RegisterUser ();
-			Login ();
-			AddCharacteristica (2, 5);
-			GetCharacteristica (2, 5);
+			AddBeer ();
+			GetBeer ();
 		}
 
 		[Test ()]
@@ -135,7 +85,7 @@ namespace Solitude.Server.Tests
 			// Make sure a event exists
 			RegisterUser ();
 			Login ();
-			AddEvent ();
+			AddBeer ();
 
 			RegisterUser ();
 			Login ();
@@ -148,7 +98,7 @@ namespace Solitude.Server.Tests
 			// Make sure a event exists
 			RegisterUser ();
 			Login ();
-			AddEvent ();
+			//AddEvent ();
 
 			RegisterUser ();
 			Login ();
@@ -162,7 +112,7 @@ namespace Solitude.Server.Tests
 			// Make sure a event exists
 			RegisterUser ();
 			Login ();
-			AddEvent ();
+			//AddEvent ();
 
 			RegisterUser ();
 			Login ();
@@ -175,8 +125,8 @@ namespace Solitude.Server.Tests
 		{
 			RegisterUser ();
 			Login ();
-			AddEvent ();
-			UpdateEventChangeTitle ();
+			//AddEvent ();
+			//UpdateEventChangeTitle ();
 		} 
 
 		[Test()]
@@ -185,13 +135,13 @@ namespace Solitude.Server.Tests
 			// Make sure a event exists
 			RegisterUser ();
 			Login ();
-			AddEvent ();
+			//AddEvent ();
 
 			RegisterUser ();
 			Login ();
 			GetOffers ();
 			AcceptOffer();
-			GetAttendingEvents ();
+			//GetAttendingEvents ();
 		}
 
 		[Test ()]
@@ -199,8 +149,8 @@ namespace Solitude.Server.Tests
 		{
 			RegisterUser ();
 			Login ();
-			AddCharacteristica (0, 5);
-			DeleteCharacteristica (0, 5);
+			//AddCharacteristica (0, 5);
+			//DeleteCharacteristica (0, 5);
 		}
 
 		[Test ()]
@@ -208,8 +158,8 @@ namespace Solitude.Server.Tests
 		{
 			RegisterUser ();
 			Login ();
-			AddCharacteristica (1, 5);
-			DeleteCharacteristica (1, 5);
+			//AddCharacteristica (1, 5);
+			//DeleteCharacteristica (1, 5);
 		}
 
 		[Test ()]
@@ -217,8 +167,8 @@ namespace Solitude.Server.Tests
 		{
 			RegisterUser ();
 			Login ();
-			AddCharacteristica (2, 5);
-			DeleteCharacteristica (2, 5);
+			//AddCharacteristica (2, 5);
+			//DeleteCharacteristica (2, 5);
 		}
 
 		[Test()]
@@ -226,8 +176,8 @@ namespace Solitude.Server.Tests
 		{
 			RegisterUser ();
 			Login ();
-			AddEvent ();
-			DeleteEvent ();
+			//AddEvent ();
+			//DeleteEvent ();
 		}
 			
 		[Test ()]
@@ -244,13 +194,13 @@ namespace Solitude.Server.Tests
 			// Make sure a event exists
 			RegisterUser ();
 			Login ();
-			AddEvent ();
+			//AddEvent ();
 
 			RegisterUser ();
 			Login ();
 			GetOffers ();
 			AcceptOffer ();
-			CancelRegistration ();
+			//CancelRegistration ();
 		}
 
 		[Test ()]

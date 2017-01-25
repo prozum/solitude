@@ -1,5 +1,5 @@
 ﻿using System;
-using Model;
+using BBBClasses;
 using System.Collections.Generic;
 using RestSharp;
 using Newtonsoft.Json;
@@ -14,27 +14,67 @@ namespace Solitude.Server.Tests
 	{
 		public RestRequest Request;
 		public IRestResponse Response;
-		public Offer Offer = new Offer();
-		public Event Event = new Event ()
+		public Beer IPA = new Beer()
 		{
-			Location = "Best Street 666",
-			Date = DateTimeOffset.UtcNow.AddDays(1),
-			Description = "Literally the greatest event ever",
-			SlotsTaken = 0,
-			SlotsTotal = 50,
-			Title = "Best"
+			Name = "Test IPA",
+			ABV = 5.6f,
+			EBC = 35,
+			IBU = 70,
 		};
+		public Beer Stout = new Beer()
+		{
+			Name = "Test Stout",
+			ABV = 11.2f,
+			EBC = 300,
+			IBU = 25
+		};
+		public Recipe Recipe = new Recipe()
+		{
+			Quantity = 25,
+			MashLiquor = 21,
+			MashTime = TimeSpan.FromMinutes(60),
+			MashTemperatureCelsius = 65,
+			MashIngredients = new MashIngredient[3]
+			{
+				new MashIngredient(Malt.Pale, 8100),
+				new MashIngredient(Malt.LightCrystal, 100),
+				new MashIngredient(Malt.Chocolate, 80)
+			},
+
+			BoilLiquor = 27,
+			BoilTime = TimeSpan.FromMinutes(70),
+			BoilIngredients = new BoilIngredient[]
+			{
+				new BoilIngredient(Hop.Citra, 56, 70),
+				new BoilIngredient(Hop.Nelson, 28, 10),
+				new BoilIngredient(Hop.Citra, 100, 0)
+			},
+
+			FermentationTemperatureCelsius = 27,
+			FermentationTime = TimeSpan.FromDays(12 * 7),
+			DryIngredients = new DryIngredient[]
+			{
+				new DryIngredient(Hop.Galaxy, 50, 0),
+				new DryIngredient(Hop.Galaxy, 50, 7 * 24)
+			},
+			Yeast = Yeast.WLP001
+		};
+		public RecipeTrade Trade = new RecipeTrade()
+		{
+			Message = "Let us trade two excelent beers!"
+		};
+
 		public User User = new User()
 		{
-			Name = "Sir John Fisher",
-			Location = "1st Fishstreet",
+			Name = "Dad & son brewing",
+			Location = "1st brewstreet",
 			Birthdate = DateTimeOffset.UtcNow,
 			Password = "passw1",
 			ConfirmPassword = "passw1"
 		};
 		public string Token;
 
-		public WebApiMethods() : base(ConfigurationManager.ConnectionStrings["solitude"].ConnectionString)
+		public WebApiMethods() : base(ConfigurationManager.ConnectionStrings["BeerBrewBuddy"].ConnectionString)
 		{
 		}
 
@@ -56,7 +96,6 @@ namespace Solitude.Server.Tests
 
 		public void RegisterUser ()
 		{
-			User.Username = "user-" + Guid.NewGuid();
 			BuildRequest("user", Method.POST, User);
 			ExecuteRequest();
 		}
@@ -118,53 +157,37 @@ namespace Solitude.Server.Tests
 
 		public void AddReview ()
 		{
-			var review = new 
+			var review = new Review()
 			{
-				rating = 5,
-				reviewTect = "Han er bare så hot"
+				AromaRating = 5,
+				BeerId = this.IPA.Id,
+				LookRating = 5,
+				MouthfeelRating = 5,
+				TasteRating = 5,
+				Text = "Probably the best beer ever brewed!",
+				UserId = User.Id
 			};
+
 			BuildRequest("review", Method.POST, review);
 			ExecuteRequest();
 		}
 
-		public void AddEvent()
+		public void AddBeer()
 		{
-			Event.Title = "event-" + Guid.NewGuid();
-			BuildRequest("host", Method.POST, Event);
+			BuildRequest("beer", Method.POST, IPA);
 			ExecuteRequest();
 
-            Event.Id = JsonConvert.DeserializeObject<Event>(Response.Content).Id;
+            IPA.Id = JsonConvert.DeserializeObject<Beer>(Response.Content).Id;
 		}
 
-		public void AddCharacteristica (int Characteristica, int Value)
+		public void GetBeer()
 		{
-			var info = new
-			{
-				Info = Characteristica,
-				Value = Value
-			};
-			BuildRequest("info", Method.POST, info);
-			ExecuteRequest();
-		}
-
-		public void GetEvent()
-		{
-			BuildRequest ("host", Method.GET);
+			BuildRequest ("beer", Method.GET);
 			ExecuteRequest();
 
-			var events = JsonConvert.DeserializeObject<IEnumerable<Event>>(Response.Content);
-			var receivedEvent = events.Where ((ev) => ev.Id == Event.Id).First();
-			Assert.AreEqual (Event.Id, receivedEvent.Id, "The received event was not equal to the one created", receivedEvent);
-		}
-
-		public void GetCharacteristica (int Characteristica, int Value)
-		{
-			BuildRequest ("info/" + Characteristica, Method.GET);
-			ExecuteRequest();
-
-			//Testing if the received characteristica is the same as the one added earlier
-			dynamic receivedCharacteristica = JsonConvert.DeserializeObject (Response.Content);
-			Assert.AreEqual(Value.ToString(), receivedCharacteristica.ToString().Trim('[', '\r', '\n', ']').Trim(), "Something went wrong " + receivedCharacteristica);
+			var beers = JsonConvert.DeserializeObject<IEnumerable<Beer>>(Response.Content);
+			var receivedBeer = beers.Where ((b) => b.Id == IPA.Id).First();
+			Assert.AreEqual (IPA.Id, receivedBeer.Id, "The received event was not equal to the one created", receivedBeer);
 		}
 			
 		public void GetOffers ()
@@ -173,83 +196,49 @@ namespace Solitude.Server.Tests
 			ExecuteRequest();
 
 			//Testing if the returned event has an Id.
-			var events = JsonConvert.DeserializeObject<IEnumerable<Event>>(Response.Content);
-			Offer.Id = events.Last().Id;
-			Assert.AreNotEqual("", Offer.Id, "An error has occured, it is likely no offers were returned: " + Response.Content);
+			var trades = JsonConvert.DeserializeObject<IEnumerable<RecipeTrade>>(Response.Content);
+			Trade.TradeId = trades.Last().TradeId;
+			Assert.AreNotEqual("", Trade.TradeId, "An error has occured, it is likely no offers were returned: " + Response.Content);
 		}
 
 		public void AcceptOffer()
 		{
-			BuildRequest ("offer/" + Offer.Id, Method.POST);
+			BuildRequest ("offer/" + Trade.TradeId, Method.POST, true);
 			ExecuteRequest();
 		}
 
 		public void DeclineOffer()
 		{
-			BuildRequest ("offer/" + Offer.Id, Method.DELETE);
+			BuildRequest ("offer/" + Trade.TradeId, Method.DELETE, false);
 			ExecuteRequest();
 		}
 
-		public void UpdateEventChangeTitle()
+		public void UpdateBeerChangeName()
 		{
-			Event.Title = "Modified Test Event";
-			BuildRequest ("host", Method.PUT, Event);
+			IPA.Name = "Updated IPA";
+			BuildRequest ("host", Method.PUT, IPA);
 			ExecuteRequest();
 
 			//Getting the event from the server again:
 			BuildRequest ("host", Method.GET);
 			ExecuteRequest();
 
-			var events = JsonConvert.DeserializeObject<IEnumerable<Event>>(Response.Content);
-			var receivedEvent = events.Where((ev) => ev.Id == Event.Id).First();
-			Assert.AreEqual(Event.Title, receivedEvent.Title, "The recieved event did not have the updated title.");
-		} 
-
-		public void UpdateEventSlotsTaken()
-		{
-			Event.SlotsTaken = 1234;
-			BuildRequest ("host", Method.PUT, Event);
-			ExecuteRequest();
-		} 
-
-		public void DeleteCharacteristica (int Characteristica, int Value) 
-		{
-			var info = new 
-			{
-				Info = Characteristica,
-				Value = Value
-			};
-			BuildRequest ("info", Method.DELETE, info);
-			ExecuteRequest();
-
-			//Testing if the characteristica is still present
-			BuildRequest ("info/" + Characteristica, Method.GET);
-			ExecuteRequest();
-
-			dynamic receivedCharacteristica = JsonConvert.DeserializeObject (Response.Content);
-			Assert.AreNotEqual(Value.ToString(), receivedCharacteristica.ToString().Trim('[', '\r', '\n', ']').Trim(), "Characteristica was not deleted correctly " + receivedCharacteristica);
+			var beers = JsonConvert.DeserializeObject<IEnumerable<Beer>>(Response.Content);
+			var receivedBeer = beers.Where((b) => b.Id == IPA.Id).First();
+			Assert.AreEqual(IPA.Name, receivedBeer.Name, "The recieved event did not have the updated title.");
 		}
 
-		public void DeleteEvent()
+		public void DeleteBeer()
 		{
-			BuildRequest ("host/" + Event.Id, Method.DELETE);
+			BuildRequest ("beer/" + IPA.Id, Method.DELETE);
 			ExecuteRequest();
 
 			//Now try to get event:
-			BuildRequest("host", Method.GET);
+			BuildRequest("beer", Method.GET);
 			ExecuteRequest();
 
-			var events = JsonConvert.DeserializeObject<IEnumerable<Event>>(Response.Content);
-			Assert.IsNull(events.Where((ev) => ev.Id == Event.Id).FirstOrDefault());
-		}
-
-		public void GetAttendingEvents()
-		{
-			BuildRequest("event", Method.GET);
-			ExecuteRequest();
-
-			var events = JsonConvert.DeserializeObject<IEnumerable<Event>>(Response.Content);
-			Assert.AreNotEqual("", events.First().Id, "Something went wrong, it is likely no events were returned: " + Response.Content);
+			var beers = JsonConvert.DeserializeObject<IEnumerable<Beer>>(Response.Content);
+			Assert.IsNull(beers.Where((b) => b.Id == IPA.Id).FirstOrDefault());
 		}
 
 		public void DeleteUser ()
@@ -262,18 +251,6 @@ namespace Solitude.Server.Tests
 			Request.AddParameter("password", User.Password);
 			Request.AddParameter("grant_type", "password");
 			ExecuteRequest(HttpStatusCode.BadRequest);
-		}
-
-		public void CancelRegistration ()
-		{
-			BuildRequest("event/" + Offer.Id, Method.DELETE);
-			ExecuteRequest();
-
-			BuildRequest ("event", Method.GET);
-			ExecuteRequest();
-
-			var events = JsonConvert.DeserializeObject<IEnumerable<Event>>(Response.Content);
-			Assert.IsFalse(events.Where ((ev) => ev.Id == Event.Id).Any<Event>(), "The Registration was not cancelled correctly: " + Response.Content);
 		}
 
 		public void GetUserData()

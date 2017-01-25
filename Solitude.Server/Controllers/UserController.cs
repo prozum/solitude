@@ -3,12 +3,11 @@ using Microsoft.AspNet.Identity.Owin;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Model;
-using System;
+using BBBClasses;
 
 namespace Solitude.Server
 {
-    public class UserController : SolitudeController
+    public class UserController : BBBController
     {
         private SolitudeUserManager _manager;
 

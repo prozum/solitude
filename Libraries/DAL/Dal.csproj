@@ -56,9 +56,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Model\Model.csproj">
-      <Project>{BB5645E2-A303-4B98-9D0F-662EC6B94DDB}</Project>
-      <Name>Model</Name>
+    <ProjectReference Include="..\BBBClasses\BBBClasses.csproj">
+      <Project>{e27f9737-7ef5-4388-a2f1-c7dcee1cf423}</Project>
+      <Name>BBBClasses</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

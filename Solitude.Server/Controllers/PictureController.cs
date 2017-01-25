@@ -5,7 +5,7 @@ using System;
 
 namespace Solitude.Server 
 {
-    public class PictureController : SolitudeController
+    public class PictureController : BBBController
     {
         public async Task<IHttpActionResult> Get()
         {
